@@ -1,6 +1,6 @@
 import React from 'react'
 import './App.css'
-import CaseSetContainer from './containers/CaseSetContainer'
+import CaseSetContainer from './components/CaseSetContainer'
 
 const App: React.FC = () => (
   <div className='App'>

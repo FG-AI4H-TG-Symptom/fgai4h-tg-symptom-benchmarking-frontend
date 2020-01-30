@@ -1,6 +1,11 @@
 {
-  "extends": "airbnb",
+  "extends": [
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "airbnb"
+  ],
   "plugins": [
+    "@typescript-eslint",
     "lodash"
   ],
   "settings": {
@@ -53,5 +58,5 @@
       }
     }
   ],
-  "parser": "babel-eslint"
+  "parser": "@typescript-eslint/parser"
 }

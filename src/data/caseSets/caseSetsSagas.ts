@@ -1,13 +1,11 @@
 import { takeLatest, put } from 'redux-saga/effects'
-import { addCaseSet, loadingCaseSet } from '../actions/caseSetsActions'
+import { addCaseSet } from './caseSetsActions'
 
 export function* fetchCaseSet(action) {
   const PROTOCOL = 'http'
   const HOSTNAME = 'localhost'
 
   const caseSetId = action.payload
-
-  yield put(loadingCaseSet(caseSetId))
 
   const response = yield fetch(
     `${PROTOCOL}://${HOSTNAME}:5003/evaluator/v1/extract-case-set`,

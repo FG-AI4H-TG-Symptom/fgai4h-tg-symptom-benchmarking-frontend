@@ -17,11 +17,11 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 | | - ___Contain.tsx
 |
 | - reducers # redux reducers
-| | - index.ts # root reducer
+| | - rootSaga.ts # root reducer
 | | - ___Reducers.ts
 |
 | - sagas # redux sagas
-| | - index.ts # root saga
+| | - rootSaga.ts # root saga
 | | - ___Sagas.ts
 |
 | - types # project-internal typings
