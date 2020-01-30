@@ -1,26 +1,16 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import './App.css'
+import CaseSetContainer from './containers/CaseSetContainer'
 
-const App: React.FC = () => {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
-
-export default App;
+const App: React.FC = () => (
+  <div className='App'>
+    <header className='App-header'>
+      {/* todo: copy header with AI4H / ITU / WHO information */}
+      <h1>&quot;Symptom assessment&quot; FG MMVB for AI4H (WHO/ITU)</h1>
+    </header>
+    <main>
+      <CaseSetContainer />
+    </main>
+  </div>
+)
+export default App

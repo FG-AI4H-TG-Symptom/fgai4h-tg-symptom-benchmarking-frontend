@@ -1,0 +1,57 @@
+{
+  "extends": "airbnb",
+  "plugins": [
+    "lodash"
+  ],
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  },
+  "globals": {
+    "window": true,
+    "navigator": true,
+    "document": true,
+    "fetch": true,
+    "XMLHttpRequest": true,
+    "FileReader": true,
+    "ServiceWorkerRegistration": true
+  },
+  "rules": {
+    "semi": ["error", "never"],
+    "semi-style": ["error", "first"],
+    "no-unexpected-multiline": "error",
+    "no-console": ["warn", { "allow": ["warn", "error"] }],
+    "comma-dangle": "off",
+    "arrow-parens": "off",
+    "no-confusing-arrow": "off",
+    "operator-linebreak": ["error", "after", { "overrides": { "?": "before", ":": "before" } }],
+    "object-property-newline": ["error", {"allowAllPropertiesOnSameLine": true}],
+    "object-curly-newline": ["error", {"multiline": true, "consistent": true}],
+    "implicit-arrow-linebreak": "off",
+    "react/jsx-filename-extension": "off",
+    "react/jsx-wrap-multilines": "off",
+    "react/jsx-one-expression-per-line": "off",
+    "react/jsx-closing-tag-location": "off",
+    "react/destructuring-assignment": "off",
+    "react/state-in-constructor": ["error", "never"],
+    "import/no-extraneous-dependencies": "off",
+    "react/prop-types": "off",
+    "max-len": ["error", 160],
+    "jsx-quotes": ["error", "prefer-single"],
+    "lodash/import-scope": ["error", "method"],
+    "jsx-a11y/anchor-is-valid": "off",
+    "no-alert": "off"
+  },
+  "overrides": [
+    {
+      "files": ["**/*.test.*"],
+      "env": {
+        "jest": true
+      }
+    }
+  ],
+  "parser": "babel-eslint"
+}

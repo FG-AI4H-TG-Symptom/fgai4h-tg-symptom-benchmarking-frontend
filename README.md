@@ -1,5 +1,34 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Project Structure
+```txt
+- src
+| - actions # redux action creators
+| | - ___Actions.tsx # action creators for one entity
+|
+| - components # (pure) react components, always unaware of redux
+| | - ___Component.tsx
+| | - ___Component.test.tsx
+|
+| - constants # enums 
+| | - actionTypes.ts
+|
+| - containers # (pure) react components, always connected to redux -- as little UI as possible
+| | - ___Contain.tsx
+|
+| - reducers # redux reducers
+| | - index.ts # root reducer
+| | - ___Reducers.ts
+|
+| - sagas # redux sagas
+| | - index.ts # root saga
+| | - ___Sagas.ts
+|
+| - types # project-internal typings
+| | - ___.ts
+|
+```
+
 ## Available Scripts
 
 In the project directory, you can run:
