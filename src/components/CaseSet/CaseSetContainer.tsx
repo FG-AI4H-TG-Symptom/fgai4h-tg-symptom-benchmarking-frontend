@@ -3,12 +3,12 @@ import { connect } from 'react-redux'
 
 import { CircularProgress } from '@material-ui/core'
 
-import { fetchCaseSet as fetchCaseSetAction } from '../data/caseSets/caseSetsActions'
+import { fetchCaseSet as fetchCaseSetAction } from '../../data/caseSets/caseSetsActions'
 import CaseSetComponent from './CaseSetComponent'
 // import { CaseDataType } from '../util/CaseDataType'
 // import { Loading } from '../util/UtilTypes'
-import { RootState } from '../data/rootReducer'
-import { CaseSetsState } from '../data/caseSets/caseSetsReducers'
+import { RootState } from '../../data/rootReducer'
+import { CaseSetsState } from '../../data/caseSets/caseSetsReducers'
 
 type CaseSetContainerDataProps = {
   caseSets: CaseSetsState // Loading<{ cases: CaseDataType[] }>
