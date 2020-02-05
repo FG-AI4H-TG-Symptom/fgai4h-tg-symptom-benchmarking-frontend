@@ -15,7 +15,7 @@ export function* fetchCaseSet(action) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(caseSetId),
-    }
+    },
   )
 
   if (!response.ok) {
@@ -28,6 +28,4 @@ export function* fetchCaseSet(action) {
   yield put(addCaseSet({ caseSetId, cases: data.cases }))
 }
 
-export const caseSetsSagas = [
-  takeLatest('FETCH_CASE_SET', fetchCaseSet)
-]
+export const caseSetsSagas = [takeLatest('FETCH_CASE_SET', fetchCaseSet)]

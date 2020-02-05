@@ -48,7 +48,11 @@
     "jsx-quotes": ["error", "prefer-single"],
     "lodash/import-scope": ["error", "method"],
     "jsx-a11y/anchor-is-valid": "off",
-    "no-alert": "off"
+    "no-alert": "off",
+    "@typescript-eslint/member-delimiter-style": ["error", {
+      "multiline": { "delimiter": "none" },
+      "singleline": { "delimiter": "semi" }
+    }]
   },
   "overrides": [
     {

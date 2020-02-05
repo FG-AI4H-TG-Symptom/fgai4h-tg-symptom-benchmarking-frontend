@@ -13,10 +13,7 @@ export default function configureStore(): Store {
     middlewares.push(logger)
   }
 
-  const store = createStore(
-    reducers,
-    applyMiddleware(...middlewares)
-  )
+  const store = createStore(reducers, applyMiddleware(...middlewares))
   sagaMiddleware.run(rootSaga)
 
   return store

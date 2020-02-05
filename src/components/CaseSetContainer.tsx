@@ -11,13 +11,15 @@ import { RootState } from '../data/rootReducer'
 import { CaseSetsState } from '../data/caseSets/caseSetsReducers'
 
 type CaseSetContainerDataProps = {
-  caseSets: CaseSetsState; // Loading<{ cases: CaseDataType[] }>
+  caseSets: CaseSetsState // Loading<{ cases: CaseDataType[] }>
 }
 type CaseSetContainerFunctionProps = {
-  fetchCaseSet: (caseSetId: string) => void;
+  fetchCaseSet: (caseSetId: string) => void
 }
 
-class CaseSetContainer extends React.Component<CaseSetContainerDataProps & CaseSetContainerFunctionProps> {
+class CaseSetContainer extends React.Component<
+  CaseSetContainerDataProps & CaseSetContainerFunctionProps
+> {
   caseSetId = 'london_model2019_cases_v1'
 
   componentDidMount(): void {
@@ -30,11 +32,11 @@ class CaseSetContainer extends React.Component<CaseSetContainerDataProps & CaseS
     return (
       <>
         <h2>Cases</h2>
-        {
-          !caseSet || caseSet.loading === true
-            ? <CircularProgress />
-            : <CaseSetComponent caseSet={caseSet.cases} />
-        }
+        {!caseSet || caseSet.loading === true ? (
+          <CircularProgress />
+        ) : (
+          <CaseSetComponent caseSet={caseSet.cases} />
+        )}
       </>
     )
   }
@@ -43,15 +45,12 @@ class CaseSetContainer extends React.Component<CaseSetContainerDataProps & CaseS
 function mapStateToProps(state: RootState): CaseSetContainerDataProps {
   const { caseSets } = state
   return {
-    caseSets
+    caseSets,
   }
 }
 
 const mapDispatchToProps: CaseSetContainerFunctionProps = {
-  fetchCaseSet
+  fetchCaseSet,
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CaseSetContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(CaseSetContainer)

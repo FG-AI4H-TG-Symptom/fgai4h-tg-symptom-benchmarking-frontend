@@ -33,7 +33,9 @@
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "1.7",
     "eslint-plugin-redux-saga": "^0.10.0",
-    "husky": "^4.2.1"
+    "husky": "^4.2.1",
+    "lint-staged": "^10.0.6",
+    "prettier": "^1.19.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -43,8 +45,14 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "eslint --fix"
+      "pre-commit": "lint-staged"
     }
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "prettier --write",
+      "eslint --fix"
+    ]
   },
   "browserslist": {
     "production": [
