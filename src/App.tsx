@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Switch, Route, useHistory, useLocation } from 'react-router-dom'
+import { Switch, Route, useLocation } from 'react-router-dom'
 import {
   AppBar,
   Drawer,
@@ -12,11 +12,16 @@ import { Menu as MenuIcon } from '@material-ui/icons'
 
 import * as Styled from './App.style'
 import { routes } from './routes'
+import LinkWrapper from './components/util/LinkWrapper'
 
 const App: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false)
-  const history = useHistory()
   const location = useLocation()
+
+  const title = routes.filter(route =>
+    route.path.includes(':')
+      ? location.pathname.startsWith(route.path.split(':')[0])
+      : route.path === location.pathname,)[0].displayName
 
   return (
     <div>
@@ -30,28 +35,26 @@ const App: React.FC = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Styled.Title id='app-title'>
-            {
-              routes.filter(route => route.path === location.pathname)[0]
-                .displayName
-            }
-          </Styled.Title>
+          <Styled.Title id='app-title'>{title}</Styled.Title>
           &quot;Symptom assessment&quot; FG MMVB for AI4H (WHO/ITU)
         </Toolbar>
       </AppBar>
       <Drawer open={menuOpen} onClose={(): void => setMenuOpen(false)}>
         <Styled.SideMenuList>
-          {routes.map(({ displayName, path }) => (
-            <ListItem
-              button
-              onClick={(): void => {
-                history.push(path)
-                setMenuOpen(false)
-              }}
-            >
-              <ListItemText>{displayName}</ListItemText>
-            </ListItem>
-          ))}
+          {routes
+            .filter(({ visibleInMenu }) => visibleInMenu)
+            .map(({ id, displayName, path }) => (
+              <LinkWrapper key={id} to={path}>
+                <ListItem
+                  button
+                  onClick={(): void => {
+                    setMenuOpen(false)
+                  }}
+                >
+                  <ListItemText>{displayName}</ListItemText>
+                </ListItem>
+              </LinkWrapper>
+            ))}
         </Styled.SideMenuList>
       </Drawer>
       <Styled.Main>

@@ -33,9 +33,11 @@ const PresenceIcon: React.FC<{ presence: Presence }> = ({ presence }) => (
   </Tooltip>
 )
 
-const CaseSetComponent: React.FC<{ caseSet: CaseDataType[] }> = ({
-  caseSet,
-}) => (
+export interface CaseSetComponentProps {
+  caseSet: CaseDataType[]
+}
+
+const CaseSetComponent: React.FC<CaseSetComponentProps> = ({ caseSet }) => (
   <>
     <TableContainer component={Paper}>
       <Table>

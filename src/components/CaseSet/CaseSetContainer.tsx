@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
+import { useParams } from 'react-router-dom'
 
 import { CircularProgress } from '@material-ui/core'
 
@@ -12,7 +13,6 @@ import { CaseSetsState } from '../../data/caseSets/caseSetsReducers'
 
 type CaseSetContainerDataProps = {
   caseSets: CaseSetsState // Loading<{ cases: CaseDataType[] }>
-  caseSetId: string
 }
 type CaseSetContainerFunctionProps = {
   fetchCaseSet: (caseSetId: string) => void
@@ -22,9 +22,10 @@ type CaseSetContainerProps = CaseSetContainerDataProps &
 
 const CaseSetContainer: React.FC<CaseSetContainerProps> = ({
   caseSets,
-  caseSetId,
   fetchCaseSet,
 }) => {
+  const { caseSetId } = useParams()
+
   useEffect(() => {
     fetchCaseSet(caseSetId)
   }, [fetchCaseSet, caseSetId])
@@ -32,7 +33,7 @@ const CaseSetContainer: React.FC<CaseSetContainerProps> = ({
   const caseSet = caseSets[caseSetId]
   return (
     <>
-      <h2>Cases</h2>
+      <h2>Cases in &quot;{caseSetId}&quot;</h2>
       {!caseSet || caseSet.loading === true ? (
         <CircularProgress />
       ) : (
@@ -46,7 +47,6 @@ function mapStateToProps(state: RootState): CaseSetContainerDataProps {
   const { caseSets } = state
   return {
     caseSets,
-    caseSetId: 'london_model2019_cases_v1',
   }
 }
 
