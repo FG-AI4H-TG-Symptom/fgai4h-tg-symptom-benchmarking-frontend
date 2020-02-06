@@ -1,18 +1,21 @@
 import { put, takeLatest } from 'redux-saga/effects'
 import { addCaseSet, CaseSetsActionTypes } from './caseSetsActions'
-import urlBuilder from '../util/urlBuilder'
+import urlBuilder, { COMPONENTS } from '../util/urlBuilder'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function* fetchCaseSet(action) {
   const caseSetId = action.payload
 
-  const response = yield fetch(urlBuilder('extract-case-set'), {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
+  const response = yield fetch(
+    urlBuilder(COMPONENTS.EVALUATOR, 'extract-case-set'),
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(caseSetId),
     },
-    body: JSON.stringify(caseSetId),
-  })
+  )
 
   if (!response.ok) {
     // todo: error handling

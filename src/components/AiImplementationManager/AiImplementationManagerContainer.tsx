@@ -3,7 +3,10 @@ import { connect } from 'react-redux'
 
 import { CircularProgress, Paper } from '@material-ui/core'
 
-import { fetchAiImplementationList as fetchAiImplementationListAction } from '../../data/aiImplementationList/aiImplementationListActions'
+import {
+  fetchAiImplementationList as fetchAiImplementationListAction,
+  fetchAiImplementationHealth as fetchAiImplementationHealthAction,
+} from '../../data/aiImplementationList/aiImplementationListActions'
 import AiImplementationManagerComponent from './AiImplementationManagerComponent'
 import { AiImplementationListState } from '../../data/aiImplementationList/aiImplementationListReducers'
 import { RootState } from '../../data/rootReducer'
@@ -13,6 +16,7 @@ type AiImplementationManagerContainerDataProps = {
 }
 type AiImplementationManagerContainerFunctionProps = {
   fetchAiImplementationList: () => void
+  fetchAiImplementationHealth: (aiImplementationName: string) => void
 }
 type AiImplementationManagerContainerProps = AiImplementationManagerContainerDataProps &
   AiImplementationManagerContainerFunctionProps
@@ -20,10 +24,21 @@ type AiImplementationManagerContainerProps = AiImplementationManagerContainerDat
 const AiImplementationManagerContainer: React.FC<AiImplementationManagerContainerProps> = ({
   aiImplementationList,
   fetchAiImplementationList,
+  fetchAiImplementationHealth,
 }) => {
   useEffect(() => {
     fetchAiImplementationList()
   }, [fetchAiImplementationList])
+
+  useEffect(() => {
+    if (aiImplementationList.loading === true) {
+      return
+    }
+
+    Object.values(aiImplementationList.aiImplementations)
+      .filter(({ health }) => health === null || health === undefined)
+      .forEach(({ name }) => fetchAiImplementationHealth(name))
+  }, [fetchAiImplementationHealth, aiImplementationList])
 
   return (
     <>
@@ -33,7 +48,7 @@ const AiImplementationManagerContainer: React.FC<AiImplementationManagerContaine
           <CircularProgress />
         ) : (
           <AiImplementationManagerComponent
-            aiImplementationList={aiImplementationList.aiImplementations}
+            aiImplementations={aiImplementationList.aiImplementations}
           />
         )}
       </Paper>
@@ -48,6 +63,7 @@ const mapStateToProps: (
 })
 const mapDispatchToProps: AiImplementationManagerContainerFunctionProps = {
   fetchAiImplementationList: fetchAiImplementationListAction,
+  fetchAiImplementationHealth: fetchAiImplementationHealthAction,
 }
 export default connect(
   mapStateToProps,

@@ -1,13 +1,16 @@
 import { put, takeLatest } from 'redux-saga/effects'
 
 import { CaseSetListActionTypes, setCaseSetList } from './caseSetListActions'
-import urlBuilder from '../util/urlBuilder'
+import urlBuilder, { COMPONENTS } from '../util/urlBuilder'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function* fetchCaseSetList() {
-  const response = yield fetch(urlBuilder('list-case-sets'), {
-    method: 'GET',
-  })
+  const response = yield fetch(
+    urlBuilder(COMPONENTS.EVALUATOR, 'list-case-sets'),
+    {
+      method: 'GET',
+    },
+  )
 
   if (!response.ok) {
     // todo: error handling
