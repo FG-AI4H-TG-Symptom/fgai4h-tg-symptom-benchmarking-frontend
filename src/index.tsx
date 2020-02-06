@@ -4,12 +4,13 @@ import { BrowserRouter as Router } from 'react-router-dom'
 
 import { Provider } from 'react-redux'
 
-import { StylesProvider } from '@material-ui/core/styles'
+import { StylesProvider, ThemeProvider } from '@material-ui/core/styles'
 
 import './index.css'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
 import configureStore from './configureStore'
+import theme from './theme'
 
 const store = configureStore()
 
@@ -17,7 +18,9 @@ ReactDOM.render(
   <Provider store={store}>
     <Router>
       <StylesProvider injectFirst>
-        <App />
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
       </StylesProvider>
     </Router>
   </Provider>,

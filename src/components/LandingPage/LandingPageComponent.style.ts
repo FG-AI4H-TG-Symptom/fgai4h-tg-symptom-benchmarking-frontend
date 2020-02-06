@@ -7,5 +7,6 @@ export const DefinitionCard = styled(Card)`
   display: inline-block;
   max-width: 20rem;
   margin-right: 1rem;
+  margin-bottom: 1rem;
   vertical-align: top;
 `
