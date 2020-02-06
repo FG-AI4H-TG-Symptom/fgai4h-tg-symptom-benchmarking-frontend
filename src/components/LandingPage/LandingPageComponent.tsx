@@ -7,39 +7,27 @@ import {
   CardHeader,
 } from '@material-ui/core'
 
-import * as Styled from './LandingPageComponent.style'
+import TextPageWrapper from '../util/TextPageWrapper'
 
 const LandingPageComponent: React.FC<{}> = () => (
-  <>
-    <Box marginBottom={1}>
-      <Typography variant='h1'>
-        &quot;Symptom assessment&quot; FG MMVB for AI4H (WHO/ITU)
+  <TextPageWrapper>
+    <Typography variant='h1'>
+      &quot;Symptom assessment&quot; FG MMVB for AI4H (WHO/ITU)
+    </Typography>
+    <Box marginTop={2} marginBottom={4}>
+      <Typography gutterBottom>
+        Minimal minimal viable benchmark for &quot;Symptom assessment&quot;
+        sub-group of &quot;AI for Health&quot; Focus Group
+      </Typography>
+      <Typography gutterBottom>
+        The sub-group of the focus group of the International Telecommunication
+        Union
+      </Typography>
+      <Typography>
+        The focus group is organised in collaboration with the World Health
+        Organisation
       </Typography>
     </Box>
-    <Styled.DefinitionCard>
-      <CardContent>
-        <Typography>
-          Minimal minimal viable benchmark for &quot;Symptom assessment&quot;
-          sub-group of &quot;AI for Health&quot; Focus Group
-        </Typography>
-      </CardContent>
-    </Styled.DefinitionCard>
-    <Styled.DefinitionCard>
-      <CardContent>
-        <Typography>
-          The sub-group of the focus group of the International
-          Telecommunication Union
-        </Typography>
-      </CardContent>
-    </Styled.DefinitionCard>
-    <Styled.DefinitionCard>
-      <CardContent>
-        <Typography>
-          The focus group is organised in collaboration with the World Health
-          Organisation
-        </Typography>
-      </CardContent>
-    </Styled.DefinitionCard>
     <Box marginBottom={2}>
       <Card>
         <CardHeader title='Note' />
@@ -105,7 +93,7 @@ const LandingPageComponent: React.FC<{}> = () => (
         </Box>
       </CardContent>
     </Card>
-  </>
+  </TextPageWrapper>
 )
 
 export default LandingPageComponent

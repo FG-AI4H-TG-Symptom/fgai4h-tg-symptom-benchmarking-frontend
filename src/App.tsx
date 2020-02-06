@@ -13,15 +13,17 @@ import { Menu as MenuIcon } from '@material-ui/icons'
 import * as Styled from './App.style'
 import { routes } from './routes'
 import LinkWrapper from './components/util/LinkWrapper'
+import NotFound from './components/util/NotFound'
 
 const App: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false)
   const location = useLocation()
 
-  const title = routes.filter(route =>
+  const currentRoute = routes.filter(route =>
     route.path.includes(':')
       ? location.pathname.startsWith(route.path.split(':')[0])
-      : route.path === location.pathname,)[0].displayName
+      : route.path === location.pathname,)[0]
+  const title = currentRoute ? currentRoute.displayName : ''
 
   return (
     <div>
@@ -62,6 +64,7 @@ const App: React.FC = () => {
           {routes.map(({ id, path, component, exact }) => (
             <Route key={id} path={path} component={component} exact={exact} />
           ))}
+          <Route component={NotFound} />
         </Switch>
       </Styled.Main>
     </div>
