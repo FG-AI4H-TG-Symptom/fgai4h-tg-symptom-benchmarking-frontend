@@ -1,18 +1,62 @@
 import React from 'react'
-import { Button } from '@material-ui/core'
+import {
+  Chip,
+  IconButton,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from '@material-ui/core'
+import { Launch as LaunchIcon } from '@material-ui/icons'
 
 import LinkWrapper from '../util/LinkWrapper'
 import { paths } from '../../routes'
+import { CaseSetInfo } from '../../data/caseSetList/caseSetDataType'
 
 const LONDON_CASE_SET_ID = 'london_model2019_cases_v1'
 
-const CaseSetManagerComponent: React.FC<{}> = () => (
+interface CaseSetManagerComponentProps {
+  caseSetList: CaseSetInfo[]
+}
+
+const CaseSetManagerComponent: React.FC<CaseSetManagerComponentProps> = ({
+  caseSetList,
+}) => (
   <>
-    <LinkWrapper to={`${paths.cases(LONDON_CASE_SET_ID)}`}>
-      <Button variant='contained' color='primary'>
-        Cases from doctors
-      </Button>
-    </LinkWrapper>
+    <TableContainer component={Paper}>
+      <Table>
+        <caption>{caseSetList.length} case sets</caption>
+        <TableHead>
+          <TableRow>
+            <TableCell>Case set ID</TableCell>
+            <TableCell>Labels</TableCell>
+            <TableCell>Actions</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {caseSetList.map(({ id }) => (
+            <TableRow key={id}>
+              <TableCell>{id}</TableCell>
+              <TableCell>
+                {id === LONDON_CASE_SET_ID ? (
+                  <Chip label='Cases from doctors' color='primary' />
+                ) : null}
+              </TableCell>
+              <TableCell>
+                <LinkWrapper to={paths.cases(id)}>
+                  <IconButton aria-label='view'>
+                    <LaunchIcon />
+                  </IconButton>
+                </LinkWrapper>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   </>
 )
 

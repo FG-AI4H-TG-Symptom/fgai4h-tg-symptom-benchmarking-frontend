@@ -14,7 +14,7 @@ const actionHandlers: {
     ...state,
     [action.payload]: { loading: true },
   }),
-  [CaseSetsActionTypes.RECEIVED_CASE_SET]: (state, action) => ({
+  [CaseSetsActionTypes.ADD_CASE_SET]: (state, action) => ({
     ...state,
     [action.payload.caseSetId]: { cases: action.payload.cases, loading: false },
   }),

@@ -1,22 +1,18 @@
-import { takeLatest, put } from 'redux-saga/effects'
-import { addCaseSet } from './caseSetsActions'
+import { put, takeLatest } from 'redux-saga/effects'
+import { addCaseSet, CaseSetsActionTypes } from './caseSetsActions'
+import urlBuilder from '../util/urlBuilder'
 
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function* fetchCaseSet(action) {
-  const PROTOCOL = 'http'
-  const HOSTNAME = 'localhost'
-
   const caseSetId = action.payload
 
-  const response = yield fetch(
-    `${PROTOCOL}://${HOSTNAME}:5003/evaluator/v1/extract-case-set`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(caseSetId),
+  const response = yield fetch(urlBuilder('extract-case-set'), {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
     },
-  )
+    body: JSON.stringify(caseSetId),
+  })
 
   if (!response.ok) {
     // todo: error handling
@@ -28,4 +24,7 @@ export function* fetchCaseSet(action) {
   yield put(addCaseSet({ caseSetId, cases: data.cases }))
 }
 
-export const caseSetsSagas = [takeLatest('FETCH_CASE_SET', fetchCaseSet)]
+const caseSetsSagas = [
+  takeLatest(CaseSetsActionTypes.FETCH_CASE_SET, fetchCaseSet),
+]
+export default caseSetsSagas

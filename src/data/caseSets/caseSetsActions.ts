@@ -4,7 +4,7 @@ import { CaseDataType } from './caseDataType'
 
 export enum CaseSetsActionTypes {
   FETCH_CASE_SET = 'FETCH_CASE_SET',
-  RECEIVED_CASE_SET = 'ADD_CASE_SET',
+  ADD_CASE_SET = 'ADD_CASE_SET',
 }
 
 export const fetchCaseSet = createAction<string>(
@@ -13,4 +13,4 @@ export const fetchCaseSet = createAction<string>(
 export const addCaseSet = createAction<{
   caseSetId: string
   cases: CaseDataType[]
-}>(CaseSetsActionTypes.RECEIVED_CASE_SET)
+}>(CaseSetsActionTypes.ADD_CASE_SET)
