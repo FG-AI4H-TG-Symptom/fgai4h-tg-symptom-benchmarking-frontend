@@ -11,5 +11,5 @@ export const Main = styled.main`
 `
 
 export const SideMenuList = styled(List)`
-  min-width: 15rem;
+  min-width: 20rem;
 `

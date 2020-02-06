@@ -1,11 +1,13 @@
 import LandingPage from './components/LandingPage'
 import CaseSetManager from './components/CaseSetManager'
 import CaseSet from './components/CaseSet'
+import AiImplementationManager from './components/AiImplementationManager'
 
 export const paths = {
   home: (): string => '/',
   caseSetManager: (): string => '/cases',
   cases: (caseSetId: string): string => `/cases/${caseSetId}`, // /cases/:caseSetId
+  aiImplementationManager: (): string => '/ai-implementations',
 }
 
 export const routes = [
@@ -31,5 +33,13 @@ export const routes = [
     path: paths.cases(':caseSetId'),
     component: CaseSet,
     exact: false,
+  },
+  {
+    id: 'aiImplementationManager',
+    displayName: 'AI implementation manager',
+    path: paths.aiImplementationManager(),
+    component: AiImplementationManager,
+    exact: true,
+    visibleInMenu: true,
   },
 ]
