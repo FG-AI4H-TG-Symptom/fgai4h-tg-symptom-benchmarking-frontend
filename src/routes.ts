@@ -2,12 +2,14 @@ import LandingPage from './components/LandingPage'
 import CaseSetManager from './components/CaseSetManager'
 import CaseSet from './components/CaseSet'
 import AiImplementationManager from './components/AiImplementationManager'
+import BenchmarkRunner from './components/BenchmarkRunner'
 
 export const paths = {
   home: (): string => '/',
   caseSetManager: (): string => '/cases',
   cases: (caseSetId: string): string => `/cases/${caseSetId}`, // /cases/:caseSetId
   aiImplementationManager: (): string => '/ai-implementations',
+  benchmarkRun: (caseSetId: string): string => `/benchmarks/run/${caseSetId}`, // /benchmarks/run/:caseSetId
 }
 
 export const routes = [
@@ -41,5 +43,12 @@ export const routes = [
     component: AiImplementationManager,
     exact: true,
     visibleInMenu: true,
+  },
+  {
+    id: 'benchmark-runner',
+    displayName: 'Benchmark runner',
+    path: paths.benchmarkRun(':caseSetId'),
+    component: BenchmarkRunner,
+    exact: false,
   },
 ]

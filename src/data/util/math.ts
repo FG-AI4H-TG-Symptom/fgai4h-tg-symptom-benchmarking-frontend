@@ -1,0 +1,11 @@
+export function range(end: number): number[]
+export function range(start: number, end: number): number[]
+export function range(...args): number[] {
+  const start = args.length === 2 ? args[0] : 0
+  const end = args.length === 2 ? args[1] : args[0]
+  return [...Array(end - start)].map((empty, index) => index + start)
+}
+
+export function sum(numbers: number[]): number {
+  return numbers.reduce((a, b) => a + b, 0)
+}

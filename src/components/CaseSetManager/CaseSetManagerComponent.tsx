@@ -10,7 +10,10 @@ import {
   TableHead,
   TableRow,
 } from '@material-ui/core'
-import { Launch as LaunchIcon } from '@material-ui/icons'
+import {
+  Launch as OpenIcon,
+  PlayCircleOutline as StartBenchmarkIcon,
+} from '@material-ui/icons'
 
 import LinkWrapper from '../util/LinkWrapper'
 import { paths } from '../../routes'
@@ -48,7 +51,12 @@ const CaseSetManagerComponent: React.FC<CaseSetManagerComponentProps> = ({
               <TableCell>
                 <LinkWrapper to={paths.cases(id)}>
                   <IconButton aria-label='view'>
-                    <LaunchIcon />
+                    <OpenIcon />
+                  </IconButton>
+                </LinkWrapper>
+                <LinkWrapper to={paths.benchmarkRun(id)}>
+                  <IconButton aria-label='run-benchmark'>
+                    <StartBenchmarkIcon />
                   </IconButton>
                 </LinkWrapper>
               </TableCell>

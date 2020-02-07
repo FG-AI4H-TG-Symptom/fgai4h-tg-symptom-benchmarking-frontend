@@ -1,1 +1,17 @@
+/* eslint-disable import/prefer-default-export */
 export type Loading<T> = { loading: true } | ({ loading: false } & T)
+
+export enum DataState {
+  INITIAL = 'INITIAL',
+  LOADING = 'LOADING',
+  READY = 'READY',
+  ERRORED = 'ERRORED',
+}
+export type DataStateType = keyof typeof DataState
+export type Loadable<T> =
+  | { state: DataState.INITIAL }
+  | { state: DataState.LOADING }
+  | { state: DataState.ERRORED; error: string }
+  | { state: DataState.READY; data: T }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const Initial: Loadable<any> = { state: DataState.INITIAL }
