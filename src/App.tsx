@@ -22,7 +22,8 @@ const App: React.FC = () => {
   const currentRoute = routes.filter(route =>
     route.path.includes(':')
       ? location.pathname.startsWith(route.path.split(':')[0])
-      : route.path === location.pathname,)[0]
+      : route.path === location.pathname,
+  )[0]
   const title = currentRoute ? currentRoute.displayName : ''
 
   return (

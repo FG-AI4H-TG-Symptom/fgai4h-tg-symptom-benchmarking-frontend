@@ -71,16 +71,16 @@ const BenchmarkCreatorContainer: React.FC<AiImplementationManagerContainerProps>
       !caseSetList ||
       caseSetList.loading === true ? (
         <CircularProgress />
-        ) : (
-          <BenchmarkCreatorComponent
-            aiImplementations={aiImplementationList.aiImplementations}
-            caseSetList={caseSetList.caseSets}
-            defaultCaseSetId={searchParams.caseSetId}
-            onCreateBenchmark={(benchmarkParameters): void => {
-              createBenchmarkManager(benchmarkParameters)
-            }}
-          />
-        )}
+      ) : (
+        <BenchmarkCreatorComponent
+          aiImplementations={aiImplementationList.aiImplementations}
+          caseSetList={caseSetList.caseSets}
+          defaultCaseSetId={searchParams.caseSetId}
+          onCreateBenchmark={(benchmarkParameters): void => {
+            createBenchmarkManager(benchmarkParameters)
+          }}
+        />
+      )}
     </>
   )
 }

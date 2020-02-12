@@ -2,11 +2,14 @@
   "extends": [
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
-    "airbnb"
+    "airbnb",
+    "prettier",
+    "prettier/react"
   ],
   "plugins": [
     "@typescript-eslint",
-    "lodash"
+    "lodash",
+    "prettier"
   ],
   "settings": {
     "import/resolver": {
@@ -52,7 +55,8 @@
     "@typescript-eslint/member-delimiter-style": ["error", {
       "multiline": { "delimiter": "none" },
       "singleline": { "delimiter": "semi" }
-    }]
+    }],
+    "prettier/prettier": ["error"]
   },
   "overrides": [
     {
