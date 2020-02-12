@@ -54,7 +54,7 @@ const CaseSetManagerComponent: React.FC<CaseSetManagerComponentProps> = ({
                     <OpenIcon />
                   </IconButton>
                 </LinkWrapper>
-                <LinkWrapper to={paths.benchmarkRun(id)}>
+                <LinkWrapper to={paths.benchmarkCreate(id)}>
                   <IconButton aria-label='run-benchmark'>
                     <StartBenchmarkIcon />
                   </IconButton>

@@ -18,7 +18,7 @@ const actionHandlers: {
     action,
   ) => BenchmarkState
 } = {
-  [BenchmarkActionTypes.REQUEST_BENCHMARK_MANAGER]: state => ({
+  [BenchmarkActionTypes.CREATE_BENCHMARK_MANAGER]: state => ({
     ...state,
     benchmarkManager: { state: DataState.LOADING },
   }),
@@ -26,8 +26,8 @@ const actionHandlers: {
     ...state,
     benchmarkManager: { state: DataState.READY, data: action.payload },
   }),
-  [BenchmarkActionTypes.RUN_BENCHMARK_ON_CASE_SET]: state => state,
-  [BenchmarkActionTypes.SET_CURRENT_BENCHMARK_INFO]: (state, action) => ({
+  [BenchmarkActionTypes.OBSERVE_RUNNING_BENCHMARK]: state => state,
+  [BenchmarkActionTypes.SET_RUNNING_BENCHMARK_INFO]: (state, action) => ({
     ...state,
     currentBenchmarkingSession: action.payload,
   }),

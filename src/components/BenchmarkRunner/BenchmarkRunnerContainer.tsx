@@ -6,10 +6,7 @@ import { Paper } from '@material-ui/core'
 import { RootState } from '../../data/rootReducer'
 import { BenchmarkManager } from '../../data/benchmarks/benchmarkManagerDataType'
 import { DataState, Loadable } from '../util/UtilTypes'
-import {
-  requestBenchmarkManager as requestBenchmarkManagerAction,
-  runBenchmarkOnCaseSet as runBenchmarkOnCaseSetAction,
-} from '../../data/benchmarks/benchmarkActions'
+import { observeRunningBenchmark as observeRunningBenchmarkAction } from '../../data/benchmarks/benchmarkActions'
 import DataStateManager from '../util/DataStateManager'
 import BenchmarkRunnerComponent from './BenchmarkRunnerComponent'
 import { BenchmarkInfo } from '../../data/benchmarks/benchmarkInfoDataType'
@@ -19,39 +16,22 @@ type BenchmarkRunnerContainerDataProps = {
   currentBenchmarkingSession: BenchmarkInfo
 }
 type BenchmarkRunnerContainerFunctionProps = {
-  requestBenchmarkManager: () => void
-  runBenchmarkOnCaseSet: (benchmarkRequest: {
-    caseSetId: string
-    benchmarkManagerId: string
-    aiImplementationNames: string[]
-  }) => void
+  observeRunningBenchmark: (benchmarkManagerId: string) => void
 }
 type BenchmarkRunnerContainerProps = BenchmarkRunnerContainerDataProps &
   BenchmarkRunnerContainerFunctionProps
 
 const BenchmarkRunnerContainer: React.FC<BenchmarkRunnerContainerProps> = ({
-  requestBenchmarkManager,
-  runBenchmarkOnCaseSet,
+  observeRunningBenchmark,
   benchmarkManager,
   currentBenchmarkingSession,
 }) => {
-  const { caseSetId } = useParams()
-  useEffect(() => {
-    requestBenchmarkManager()
-  }, [requestBenchmarkManager])
+  const { benchmarkId } = useParams()
   useEffect(() => {
     if (benchmarkManager.state === DataState.READY) {
-      runBenchmarkOnCaseSet({
-        benchmarkManagerId: benchmarkManager.data.benchmarkManagerId,
-        caseSetId,
-        aiImplementationNames: [
-          'toy_ai_random_uniform',
-          'babylon_toy_ai',
-          'toy_ai_faulty_random_uniform',
-        ],
-      })
+      observeRunningBenchmark(benchmarkId)
     }
-  }, [runBenchmarkOnCaseSet, benchmarkManager, caseSetId])
+  }, [observeRunningBenchmark, benchmarkId])
 
   return (
     <>
@@ -82,8 +62,7 @@ const mapStateToProps: (
   currentBenchmarkingSession: state.benchmark.currentBenchmarkingSession,
 })
 const mapDispatchToProps: BenchmarkRunnerContainerFunctionProps = {
-  requestBenchmarkManager: requestBenchmarkManagerAction,
-  runBenchmarkOnCaseSet: runBenchmarkOnCaseSetAction,
+  observeRunningBenchmark: observeRunningBenchmarkAction,
 }
 export default connect(
   mapStateToProps,
