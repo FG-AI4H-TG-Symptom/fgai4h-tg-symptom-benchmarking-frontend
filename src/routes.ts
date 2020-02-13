@@ -4,6 +4,7 @@ import CaseSet from './components/CaseSet'
 import AiImplementationManager from './components/AiImplementationManager'
 import BenchmarkRunner from './components/BenchmarkRunner'
 import BenchmarkCreator from './components/BenchmarkCreator'
+import BenchmarkEvaluator from './components/BenchmarkEvaluator'
 
 export const paths = {
   home: (): string => '/',
@@ -14,6 +15,7 @@ export const paths = {
     `/benchmarks/run/${benchmarkId}`, // /benchmarks/run/:benchmarkId
   benchmarkCreate: (caseSetId?: string): string =>
     `/benchmarks/create${caseSetId ? `?caseSetId=${caseSetId}` : ''}`, // /benchmarks/create?caseSetId={caseSetId}
+  benchmarkEvaluate: (): string => `/benchmarks/evaluate`,
 }
 
 export const routes = [
@@ -39,6 +41,7 @@ export const routes = [
     path: paths.cases(':caseSetId'),
     component: CaseSet,
     exact: false,
+    visibleInMenu: false,
   },
   {
     id: 'aiImplementationManager',
@@ -53,14 +56,23 @@ export const routes = [
     displayName: 'Benchmark runner',
     path: paths.benchmarkRun(':benchmarkId'),
     component: BenchmarkRunner,
-    exact: false,
+    exact: true,
+    visibleInMenu: false,
   },
   {
     id: 'benchmark-creator',
     displayName: 'Create benchmark',
     path: paths.benchmarkCreate(),
     component: BenchmarkCreator,
-    exact: false,
+    exact: true,
     visibleInMenu: true,
+  },
+  {
+    id: 'benchmark-evaluator',
+    displayName: 'Benchmark evaluator',
+    path: paths.benchmarkEvaluate(),
+    component: BenchmarkEvaluator,
+    exact: true,
+    visibleInMenu: false,
   },
 ]

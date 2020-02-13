@@ -14,4 +14,6 @@ export type Loadable<T> =
   | { state: DataState.ERRORED; error: string }
   | { state: DataState.READY; data: T }
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const Initial: Loadable<any> = { state: DataState.INITIAL }
+export const InitialState: Loadable<any> = { state: DataState.INITIAL }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const LoadingState: Loadable<any> = { state: DataState.LOADING }

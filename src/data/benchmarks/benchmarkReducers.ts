@@ -1,15 +1,23 @@
 import { BenchmarkManager } from './benchmarkManagerDataType'
-import { DataState, Initial, Loadable } from '../../components/util/UtilTypes'
+import {
+  DataState,
+  InitialState,
+  Loadable,
+  LoadingState,
+} from '../../components/util/UtilTypes'
 import { BenchmarkActionTypes } from './benchmarkActions'
 import { BenchmarkInfo } from './benchmarkInfoDataType'
+import { BenchmarkEvaluation } from './benchmarkEvaluationDataType'
 
 export interface BenchmarkState {
   benchmarkManager: Loadable<BenchmarkManager>
   currentBenchmarkingSession?: BenchmarkInfo
+  lastEvaluation: Loadable<BenchmarkEvaluation>
 }
 
 const benchmarkInitialState: BenchmarkState = {
-  benchmarkManager: Initial,
+  benchmarkManager: InitialState,
+  lastEvaluation: InitialState,
 }
 
 const actionHandlers: {
@@ -28,12 +36,20 @@ const actionHandlers: {
   }),
   [BenchmarkActionTypes.CLEAR_BENCHMARK_MANAGER]: state => ({
     ...state,
-    benchmarkManager: Initial,
+    benchmarkManager: InitialState,
   }),
   [BenchmarkActionTypes.OBSERVE_RUNNING_BENCHMARK]: state => state,
   [BenchmarkActionTypes.SET_RUNNING_BENCHMARK_INFO]: (state, action) => ({
     ...state,
     currentBenchmarkingSession: action.payload,
+  }),
+  [BenchmarkActionTypes.FETCH_LAST_BENCHMARK_EVALUATION]: state => ({
+    ...state,
+    lastEvaluation: LoadingState,
+  }),
+  [BenchmarkActionTypes.SET_LAST_BENCHMARK_EVALUATION]: (state, action) => ({
+    ...state,
+    lastEvaluation: { state: DataState.READY, data: action.payload },
   }),
 }
 

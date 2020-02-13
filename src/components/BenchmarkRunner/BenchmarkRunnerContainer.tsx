@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 
 import { Box, Button, CircularProgress, Paper } from '@material-ui/core'
 import { ArrowForward as ContinueIcon } from '@material-ui/icons'
@@ -41,9 +41,10 @@ const BenchmarkRunnerContainer: React.FC<BenchmarkRunnerContainerProps> = ({
     }
   }, [observeRunningBenchmark, benchmarkId])
 
+  const history = useHistory()
   const handleViewReport = (): void => {
     clearBenchmarkManager()
-    // todo: navigate to report page
+    history.push(paths.benchmarkEvaluate())
   }
 
   if (benchmarkManager.state === DataState.INITIAL) {

@@ -1,12 +1,6 @@
 import styled from 'styled-components'
 import { TableCell } from '@material-ui/core'
 
-export const RawView = styled.pre`
-  width: 100%;
-  max-height: 50vh;
-  overflow-y: auto;
-`
-
 const TextOverflowCell = styled(TableCell)`
   text-overflow: ellipsis;
   overflow-x: hidden;

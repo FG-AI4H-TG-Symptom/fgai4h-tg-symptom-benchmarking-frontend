@@ -1,8 +1,5 @@
 import React from 'react'
 import {
-  ExpansionPanel,
-  ExpansionPanelDetails,
-  ExpansionPanelSummary,
   Paper,
   Table,
   TableBody,
@@ -12,11 +9,7 @@ import {
   TableRow,
   Tooltip,
 } from '@material-ui/core'
-import {
-  ExpandMore as ExpandMoreIcon,
-  Check as CheckIcon,
-  Clear as ClearIcon,
-} from '@material-ui/icons'
+import { Check as CheckIcon, Clear as ClearIcon } from '@material-ui/icons'
 
 import {
   CaseDataType,
@@ -26,6 +19,7 @@ import {
 
 import * as Styled from './CaseSetComponent.style'
 import TextWithTooltipSelf from '../util/TextWithTooltipSelf'
+import ViewRaw from '../util/ViewRaw'
 
 const PresenceIcon: React.FC<{ presence: Presence }> = ({ presence }) => (
   <Tooltip title={presence}>
@@ -94,18 +88,7 @@ const CaseSetComponent: React.FC<CaseSetComponentProps> = ({ caseSet }) => (
         </TableBody>
       </Table>
     </TableContainer>
-    <ExpansionPanel>
-      <ExpansionPanelSummary
-        expandIcon={<ExpandMoreIcon />}
-        aria-controls='cases-source-content'
-        id='cases-source-header'
-      >
-        View Raw
-      </ExpansionPanelSummary>
-      <ExpansionPanelDetails id='cases-source-content'>
-        <Styled.RawView>{JSON.stringify(caseSet, null, 2)}</Styled.RawView>
-      </ExpansionPanelDetails>
-    </ExpansionPanel>
+    <ViewRaw data={caseSet} ariaPrefix='cases-source' />
   </>
 )
 

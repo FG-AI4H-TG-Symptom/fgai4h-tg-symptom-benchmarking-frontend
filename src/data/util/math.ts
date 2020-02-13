@@ -9,3 +9,7 @@ export function range(...args): number[] {
 export function sum(numbers: number[]): number {
   return numbers.reduce((a, b) => a + b, 0)
 }
+
+export function mean(numbers: number[]): number {
+  return sum(numbers) / numbers.length
+}

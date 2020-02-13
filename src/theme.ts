@@ -12,6 +12,7 @@ const themeCustomizations = createMuiTheme({
 })
 
 themeCustomizations.typography.h1.fontSize = '2rem'
+themeCustomizations.typography.h2.fontSize = '1.8rem'
 themeCustomizations.typography.h3.fontSize = '1.5rem'
 
 const theme = responsiveFontSizes(themeCustomizations)
