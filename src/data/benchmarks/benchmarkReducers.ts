@@ -26,6 +26,10 @@ const actionHandlers: {
     ...state,
     benchmarkManager: { state: DataState.READY, data: action.payload },
   }),
+  [BenchmarkActionTypes.CLEAR_BENCHMARK_MANAGER]: state => ({
+    ...state,
+    benchmarkManager: Initial,
+  }),
   [BenchmarkActionTypes.OBSERVE_RUNNING_BENCHMARK]: state => state,
   [BenchmarkActionTypes.SET_RUNNING_BENCHMARK_INFO]: (state, action) => ({
     ...state,

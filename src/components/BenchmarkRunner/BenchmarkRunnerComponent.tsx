@@ -92,6 +92,7 @@ const BenchmarkRunnerComponent: React.FC<AiImplementationManagerComponentProps> 
               <Styled.CaseTableCell key={`caseHeader_${caseIndex}`}>
                 <Box
                   fontWeight={
+                    !benchmark.finished &&
                     caseIndex === benchmark.current_case_index - 1
                       ? 'fontWeightBold'
                       : 'inherit'

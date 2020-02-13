@@ -7,6 +7,7 @@ import {
 import urlBuilder, { COMPONENTS } from '../util/urlBuilder'
 import sleep from '../util/sleep'
 import { BenchmarkManager } from './benchmarkManagerDataType'
+import { BenchmarkInfo } from './benchmarkInfoDataType'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function* createBenchmarkManager(action) {
@@ -79,11 +80,14 @@ export function* observeRunningBenchmark(action) {
       throw new Error('Errored while running benchmark on case set.')
     }
 
-    const data = yield response.json()
+    const benchmarkInfo: BenchmarkInfo = yield response.json()
+    benchmarkInfo.finished = benchmarkInfo.logs.some(log =>
+      log.includes('Finished'),
+    )
 
-    yield put(setRunningBenchmarkInfo(data))
+    yield put(setRunningBenchmarkInfo(benchmarkInfo))
 
-    if (data.logs.some(log => log.includes('Finished'))) {
+    if (benchmarkInfo.finished) {
       // todo: notify components about benchmark run state
       break
     }

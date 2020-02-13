@@ -24,5 +24,6 @@ export interface BenchmarkInfo {
       timeouts: number
     }>
   }
+  finished: boolean
 }
 /* eslint-enable camelcase */
