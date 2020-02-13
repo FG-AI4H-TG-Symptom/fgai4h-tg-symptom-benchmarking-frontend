@@ -12,8 +12,8 @@ export const paths = {
   aiImplementationManager: (): string => '/ai-implementations',
   benchmarkRun: (benchmarkId: string): string =>
     `/benchmarks/run/${benchmarkId}`, // /benchmarks/run/:benchmarkId
-  benchmarkCreate: (caseSetId: string): string =>
-    `/benchmarks/create?caseSetId=${caseSetId}`, // /benchmarks/create?caseSetId={caseSetId}
+  benchmarkCreate: (caseSetId?: string): string =>
+    `/benchmarks/create${caseSetId ? `?caseSetId=${caseSetId}` : ''}`, // /benchmarks/create?caseSetId={caseSetId}
 }
 
 export const routes = [
@@ -58,7 +58,7 @@ export const routes = [
   {
     id: 'benchmark-creator',
     displayName: 'Create benchmark',
-    path: paths.benchmarkCreate('').split('?')[0],
+    path: paths.benchmarkCreate(),
     component: BenchmarkCreator,
     exact: false,
     visibleInMenu: true,

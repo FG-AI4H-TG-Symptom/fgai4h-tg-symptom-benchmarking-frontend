@@ -5,6 +5,6 @@ export const FlexContainer = styled.div`
   justify-content: center;
 `
 
-export const Centered = styled.div`
-  max-width: 50rem;
+export const Centered = styled.div<{ narrow: boolean }>`
+  max-width: ${({ narrow }): number => (narrow ? 30 : 50)}rem;
 `

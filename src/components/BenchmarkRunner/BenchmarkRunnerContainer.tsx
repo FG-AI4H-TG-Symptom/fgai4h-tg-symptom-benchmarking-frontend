@@ -14,6 +14,8 @@ import {
 import DataStateManager from '../util/DataStateManager'
 import BenchmarkRunnerComponent from './BenchmarkRunnerComponent'
 import { BenchmarkInfo } from '../../data/benchmarks/benchmarkInfoDataType'
+import Warning from '../util/Warning'
+import { paths } from '../../routes'
 
 type BenchmarkRunnerContainerDataProps = {
   benchmarkManager: Loadable<BenchmarkManager>
@@ -42,6 +44,21 @@ const BenchmarkRunnerContainer: React.FC<BenchmarkRunnerContainerProps> = ({
   const handleViewReport = (): void => {
     clearBenchmarkManager()
     // todo: navigate to report page
+  }
+
+  if (benchmarkManager.state === DataState.INITIAL) {
+    return (
+      <Warning
+        title='No such benchmark'
+        actions={[
+          { text: 'Create benchmark', targetUrl: paths.benchmarkCreate() },
+        ]}
+      >
+        The benchmark manager currently can&apos;t display benchmarks after they
+        have finished or if you have reloaded the browser. Do you want to create
+        a new benchmark?
+      </Warning>
+    )
   }
 
   return (

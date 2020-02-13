@@ -1,28 +1,21 @@
 import React from 'react'
-import { Box, Button, Typography } from '@material-ui/core'
-import LinkWrapper from './LinkWrapper'
-import TextPageWrapper from './TextPageWrapper'
+import { Box } from '@material-ui/core'
+import Warning from './Warning'
+import { paths } from '../../routes'
 
 const NotFound: React.FC<{ location: { pathname: string } }> = ({
   location: { pathname },
 }) => (
-  <TextPageWrapper>
-    <Typography variant='h1' gutterBottom>
-      Nothing found
-    </Typography>
-    <Typography>
-      No route matching{' '}
-      <Box fontWeight='fontWeightBold' display='inline'>
-        {pathname}
-      </Box>{' '}
-      could be found.
-    </Typography>
-    <Box display='flex' justifyContent='flex-end' marginTop={2}>
-      <LinkWrapper to='/'>
-        <Button variant='contained'>Back to start page</Button>
-      </LinkWrapper>
-    </Box>
-  </TextPageWrapper>
+  <Warning
+    title='Nothing found'
+    actions={[{ text: 'Back to start page', targetUrl: paths.home() }]}
+  >
+    No route matching{' '}
+    <Box fontWeight='fontWeightBold' display='inline'>
+      {pathname}
+    </Box>{' '}
+    could be found.
+  </Warning>
 )
 
 export default NotFound
