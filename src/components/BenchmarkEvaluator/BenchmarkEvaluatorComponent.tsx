@@ -13,7 +13,7 @@ import { BenchmarkEvaluation } from '../../data/benchmarks/benchmarkEvaluationDa
 import ViewRaw from '../util/ViewRaw'
 import { mean } from '../../data/util/math'
 
-import * as Styled from './BenchmarkEvaluatorComponent.style'
+import * as CommonStyled from '../util/CommonStyles'
 
 interface AiImplementationManagerComponentProps {
   evaluation: BenchmarkEvaluation
@@ -51,9 +51,9 @@ const BenchmarkEvaluatorComponent: React.FC<AiImplementationManagerComponentProp
             <TableRow>
               <TableCell>AI implementation name</TableCell>
               {metricNames.map(metricName => (
-                <Styled.CenteredTableCell key={metricName}>
+                <CommonStyled.CenteredTableCell key={metricName}>
                   {metricName}
-                </Styled.CenteredTableCell>
+                </CommonStyled.CenteredTableCell>
               ))}
             </TableRow>
           </TableHead>
@@ -62,9 +62,9 @@ const BenchmarkEvaluatorComponent: React.FC<AiImplementationManagerComponentProp
               <TableRow key={aiImplementationName}>
                 <TableCell>{aiImplementationName}</TableCell>
                 {metricNames.map(metricName => (
-                  <Styled.CenteredTableCell key={metricName}>
+                  <CommonStyled.CenteredTableCell key={metricName}>
                     {metrics[metricName]}
-                  </Styled.CenteredTableCell>
+                  </CommonStyled.CenteredTableCell>
                 ))}
               </TableRow>
             ))}

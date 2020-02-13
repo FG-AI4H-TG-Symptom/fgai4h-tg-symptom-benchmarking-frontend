@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 
-import { Loading } from '../../components/util/UtilTypes'
+import { Loadable } from '../../components/util/UtilTypes'
 
 export enum AiImplementationHealth {
   OK = 'OK',
@@ -9,5 +9,5 @@ export enum AiImplementationHealth {
 
 export type AiImplementationInfo = {
   name: string
-  health: Loading<{ status: AiImplementationHealth }>
+  health: Loadable<AiImplementationHealth>
 }

@@ -1,10 +1,15 @@
 import { CaseSetInfo } from './caseSetDataType'
-import { Loading } from '../../components/util/UtilTypes'
+import {
+  DataState,
+  InitialState,
+  Loadable,
+  LoadingState,
+} from '../../components/util/UtilTypes'
 import { CaseSetListActionTypes } from './caseSetListActions'
 
-export type CaseSetListState = Loading<{ caseSets: CaseSetInfo[] }>
+export type CaseSetListState = Loadable<CaseSetInfo[]>
 
-const caseSetsInitialState: CaseSetListState = { loading: false, caseSets: [] }
+const caseSetsInitialState: CaseSetListState = InitialState
 
 const actionHandlers: {
   [key in CaseSetListActionTypes]: (
@@ -12,14 +17,10 @@ const actionHandlers: {
     action,
   ) => CaseSetListState
 } = {
-  [CaseSetListActionTypes.FETCH_CASE_SET_LIST]: state => ({
-    ...state,
-    loading: true,
-  }),
+  [CaseSetListActionTypes.FETCH_CASE_SET_LIST]: () => LoadingState,
   [CaseSetListActionTypes.SET_CASE_SET_LIST]: (state, action) => ({
-    ...state,
-    caseSets: action.payload,
-    loading: false,
+    data: action.payload,
+    state: DataState.READY,
   }),
 }
 

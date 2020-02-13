@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 
-import { CircularProgress, Paper } from '@material-ui/core'
+import { Typography } from '@material-ui/core'
 
 import { fetchCaseSetList as fetchCaseSetListAction } from '../../data/caseSetList/caseSetListActions'
 import CaseSetManagerComponent from './CaseSetManagerComponent'
 import { CaseSetListState } from '../../data/caseSetList/caseSetListReducers'
 import { RootState } from '../../data/rootReducer'
+import DataStateManager from '../util/DataStateManager'
 
 type CaseSetManagerContainerDataProps = {
   caseSetList: CaseSetListState
@@ -27,14 +28,15 @@ const CaseSetManagerContainer: React.FC<CaseSetManagerContainerProps> = ({
 
   return (
     <>
-      <h2>Case sets</h2>
-      <Paper>
-        {!caseSetList || caseSetList.loading === true ? (
-          <CircularProgress />
-        ) : (
-          <CaseSetManagerComponent caseSetList={caseSetList.caseSets} />
+      <Typography variant='h2' gutterBottom>
+        Case sets
+      </Typography>
+      <DataStateManager
+        data={caseSetList}
+        componentFunction={(caseSetListData): JSX.Element => (
+          <CaseSetManagerComponent caseSetList={caseSetListData} />
         )}
-      </Paper>
+      />
     </>
   )
 }

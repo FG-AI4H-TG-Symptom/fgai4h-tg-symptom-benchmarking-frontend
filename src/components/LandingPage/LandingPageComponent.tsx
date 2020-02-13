@@ -32,21 +32,19 @@ const LandingPageComponent: React.FC<{}> = () => (
       <Card>
         <CardHeader title='Note' />
         <CardContent>
-          <Box marginBottom={1}>
-            <Typography>
-              This is the minimal minimal viable benchmark designed and
-              developed by the members of the sub-group (topic group) “Symptom
-              assessment”, which is the part of the ITU focus group “Artificial
-              Intelligence for Health”.
-              <br />
-              The minimal minimal viable benchmark is a prototype and does not
-              reflect in any possible way real methods, techniques, approaches,
-              etc. that the members (including commercial companies) use in
-              their products.
-            </Typography>
-          </Box>
+          <Typography gutterBottom>
+            This is the minimal minimal viable benchmark designed and developed
+            by the members of the sub-group (topic group) “Symptom assessment”,
+            which is the part of the ITU focus group “Artificial Intelligence
+            for Health”.
+          </Typography>
+          <Typography gutterBottom>
+            The minimal minimal viable benchmark is a prototype and does not
+            reflect in any possible way real methods, techniques, approaches,
+            etc. that the members (including commercial companies) use in their
+            products.
+          </Typography>
           <Typography>
-            {' '}
             As mentioned on the focus group website: “The ITU/WHO Focus Group on
             artificial intelligence for health (FG-AI4H) works in partnership
             with the World Health Organization (WHO) to establish a standardized
@@ -60,37 +58,29 @@ const LandingPageComponent: React.FC<{}> = () => (
     <Card>
       <CardHeader title='Copyright and Licence' />
       <CardContent>
-        <Box marginBottom={1}>
-          <Typography>
-            Copyright, 2019, created jointly by the members of the ITU sub-group
-            (topic group) &quot;Symptom assessment&quot; of the International
-            Telecommunication Union focus group “Artificial Intelligence for
-            Health”, which works in partnership with the World Health
-            Organization.
-          </Typography>
-        </Box>
-        <Box marginBottom={1}>
-          <Typography>
-            All parts of this benchmark are free software: you can redistribute
-            them and/or modify them under the terms of the GNU General Public
-            License as published by the Free Software Foundation, either version
-            3 of the License, or (at your option) any later version.
-          </Typography>
-        </Box>
-        <Box marginBottom={1}>
-          <Typography>
-            They are distributed in the hope that it will be useful, but WITHOUT
-            ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-            or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public
-            License for more details.
-          </Typography>
-        </Box>
-        <Box>
-          <Typography>
-            You should have received a copy of the GNU General Public License
-            along with this program. If not, see https://www.gnu.org/licenses/.
-          </Typography>
-        </Box>
+        <Typography gutterBottom>
+          Copyright, 2019, created jointly by the members of the ITU sub-group
+          (topic group) &quot;Symptom assessment&quot; of the International
+          Telecommunication Union focus group “Artificial Intelligence for
+          Health”, which works in partnership with the World Health
+          Organization.
+        </Typography>
+        <Typography gutterBottom>
+          All parts of this benchmark are free software: you can redistribute
+          them and/or modify them under the terms of the GNU General Public
+          License as published by the Free Software Foundation, either version 3
+          of the License, or (at your option) any later version.
+        </Typography>
+        <Typography gutterBottom>
+          They are distributed in the hope that it will be useful, but WITHOUT
+          ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+          FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+          for more details.
+        </Typography>
+        <Typography>
+          You should have received a copy of the GNU General Public License
+          along with this program. If not, see https://www.gnu.org/licenses/.
+        </Typography>
       </CardContent>
     </Card>
   </TextPageWrapper>

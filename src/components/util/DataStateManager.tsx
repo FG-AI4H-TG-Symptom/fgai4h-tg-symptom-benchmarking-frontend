@@ -14,7 +14,7 @@ function DataStateManager<T>({
   componentFunction,
   loading,
 }: DataStateManagerProps<T>): ReactElement {
-  if (data.state === DataState.LOADING || loading) {
+  if (loading || data.state === DataState.LOADING) {
     return <CircularProgress />
   }
   if (data.state === DataState.ERRORED) {

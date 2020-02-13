@@ -2,17 +2,16 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { useParams } from 'react-router-dom'
 
-import { CircularProgress } from '@material-ui/core'
+import { Typography } from '@material-ui/core'
 
 import { fetchCaseSet as fetchCaseSetAction } from '../../data/caseSets/caseSetsActions'
 import CaseSetComponent from './CaseSetComponent'
-// import { CaseDataType } from '../util/CaseDataType'
-// import { Loading } from '../util/UtilTypes'
 import { RootState } from '../../data/rootReducer'
 import { CaseSetsState } from '../../data/caseSets/caseSetsReducers'
+import DataStateManager from '../util/DataStateManager'
 
 type CaseSetContainerDataProps = {
-  caseSets: CaseSetsState // Loading<{ cases: CaseDataType[] }>
+  caseSets: CaseSetsState
 }
 type CaseSetContainerFunctionProps = {
   fetchCaseSet: (caseSetId: string) => void
@@ -33,12 +32,16 @@ const CaseSetContainer: React.FC<CaseSetContainerProps> = ({
   const caseSet = caseSets[caseSetId]
   return (
     <>
-      <h2>Cases in &quot;{caseSetId}&quot;</h2>
-      {!caseSet || caseSet.loading === true ? (
-        <CircularProgress />
-      ) : (
-        <CaseSetComponent caseSet={caseSet.cases} />
-      )}
+      <Typography variant='h2' gutterBottom>
+        Cases in &quot;{caseSetId}&quot;
+      </Typography>
+      <DataStateManager
+        loading={!caseSet}
+        data={caseSet}
+        componentFunction={(caseSetData): JSX.Element => (
+          <CaseSetComponent caseSet={caseSetData} />
+        )}
+      />
     </>
   )
 }

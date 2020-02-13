@@ -1,6 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-export type Loading<T> = { loading: true } | ({ loading: false } & T)
-
 export enum DataState {
   INITIAL = 'INITIAL',
   LOADING = 'LOADING',

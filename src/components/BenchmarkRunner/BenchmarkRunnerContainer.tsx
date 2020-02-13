@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { useParams, useHistory } from 'react-router-dom'
 
-import { Box, Button, CircularProgress, Paper } from '@material-ui/core'
+import { Box, Button, CircularProgress, Typography } from '@material-ui/core'
 import { ArrowForward as ContinueIcon } from '@material-ui/icons'
 import { RootState } from '../../data/rootReducer'
 import { BenchmarkManager } from '../../data/benchmarks/benchmarkManagerDataType'
@@ -39,7 +39,7 @@ const BenchmarkRunnerContainer: React.FC<BenchmarkRunnerContainerProps> = ({
     if (benchmarkManager.state === DataState.READY) {
       observeRunningBenchmark(benchmarkId)
     }
-  }, [observeRunningBenchmark, benchmarkId])
+  }, [observeRunningBenchmark, benchmarkId, benchmarkManager.state])
 
   const history = useHistory()
   const handleViewReport = (): void => {
@@ -65,13 +65,13 @@ const BenchmarkRunnerContainer: React.FC<BenchmarkRunnerContainerProps> = ({
   return (
     <>
       <Box display='flex' justifyContent='space-between' alignItems='center'>
-        <h2>
+        <Typography variant='h2' gutterBottom>
           Running benchmark{' '}
           <DataStateManager<BenchmarkManager>
             data={benchmarkManager}
             componentFunction={(data): string => data.benchmarkManagerId}
           />
-        </h2>
+        </Typography>
         {currentBenchmarkingSession && currentBenchmarkingSession.finished ? (
           <Button
             variant='contained'
@@ -85,15 +85,13 @@ const BenchmarkRunnerContainer: React.FC<BenchmarkRunnerContainerProps> = ({
           <CircularProgress />
         )}
       </Box>
-      <Paper>
-        <DataStateManager
-          data={benchmarkManager}
-          componentFunction={(): JSX.Element => (
-            <BenchmarkRunnerComponent benchmark={currentBenchmarkingSession} />
-          )}
-          loading={!currentBenchmarkingSession}
-        />
-      </Paper>
+      <DataStateManager
+        data={benchmarkManager}
+        componentFunction={(): JSX.Element => (
+          <BenchmarkRunnerComponent benchmark={currentBenchmarkingSession} />
+        )}
+        loading={!currentBenchmarkingSession}
+      />
     </>
   )
 }

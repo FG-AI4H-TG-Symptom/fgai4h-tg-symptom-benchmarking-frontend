@@ -19,6 +19,9 @@ import LinkWrapper from '../util/LinkWrapper'
 import { paths } from '../../routes'
 import { CaseSetInfo } from '../../data/caseSetList/caseSetDataType'
 
+import * as Styled from './CaseSetManagerComponent.style'
+import * as CommonStyled from '../util/CommonStyles'
+
 const LONDON_CASE_SET_ID = 'london_model2019_cases_v1'
 
 interface CaseSetManagerComponentProps {
@@ -36,7 +39,7 @@ const CaseSetManagerComponent: React.FC<CaseSetManagerComponentProps> = ({
           <TableRow>
             <TableCell>Case set ID</TableCell>
             <TableCell>Labels</TableCell>
-            <TableCell>Actions</TableCell>
+            <Styled.ActionHeaderTableCell>Actions</Styled.ActionHeaderTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -48,7 +51,7 @@ const CaseSetManagerComponent: React.FC<CaseSetManagerComponentProps> = ({
                   <Chip label='Cases from doctors' color='primary' />
                 ) : null}
               </TableCell>
-              <TableCell>
+              <CommonStyled.CenteredTableCell>
                 <LinkWrapper to={paths.cases(id)}>
                   <IconButton aria-label='view'>
                     <OpenIcon />
@@ -59,7 +62,7 @@ const CaseSetManagerComponent: React.FC<CaseSetManagerComponentProps> = ({
                     <StartBenchmarkIcon />
                   </IconButton>
                 </LinkWrapper>
-              </TableCell>
+              </CommonStyled.CenteredTableCell>
             </TableRow>
           ))}
         </TableBody>

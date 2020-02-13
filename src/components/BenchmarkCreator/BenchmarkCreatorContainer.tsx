@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { useHistory, useLocation } from 'react-router-dom'
 import queryString from 'qs'
 
-import { CircularProgress } from '@material-ui/core'
+import { CircularProgress, Typography } from '@material-ui/core'
 
 import { fetchAiImplementationList as fetchAiImplementationListAction } from '../../data/aiImplementationList/aiImplementationListActions'
 import BenchmarkCreatorComponent from './BenchmarkCreatorComponent'
@@ -53,28 +53,35 @@ const BenchmarkCreatorContainer: React.FC<AiImplementationManagerContainerProps>
     if (benchmarkManager.state === DataState.READY) {
       history.push(paths.benchmarkRun(benchmarkManager.data.benchmarkManagerId))
     }
-  }, [benchmarkManager])
+  }, [benchmarkManager, history]) // eslint-disable-this-line react-hooks/exhaustive-deps
 
   const searchParams = queryString.parse(useLocation().search, {
     ignoreQueryPrefix: true,
   })
 
   if (benchmarkManager.state === DataState.LOADING) {
-    return <h2>Creating benchmark...</h2>
+    return (
+      <>
+        <Typography variant='h2' gutterBottom>
+          Creating benchmark...
+        </Typography>
+        <CircularProgress />
+      </>
+    )
   }
 
   return (
     <>
-      <h2>Select settings for a new benchmark</h2>
-      {!aiImplementationList ||
-      aiImplementationList.loading === true ||
-      !caseSetList ||
-      caseSetList.loading === true ? (
+      <Typography variant='h2' gutterBottom>
+        Select settings for a new benchmark
+      </Typography>
+      {aiImplementationList.state !== DataState.READY ||
+      caseSetList.state !== DataState.READY ? (
         <CircularProgress />
       ) : (
         <BenchmarkCreatorComponent
-          aiImplementations={aiImplementationList.aiImplementations}
-          caseSetList={caseSetList.caseSets}
+          aiImplementations={aiImplementationList.data}
+          caseSetList={caseSetList.data}
           defaultCaseSetId={searchParams.caseSetId}
           onCreateBenchmark={(benchmarkParameters): void => {
             createBenchmarkManager(benchmarkParameters)

@@ -1,15 +1,17 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 
-import { CircularProgress, Paper } from '@material-ui/core'
+import { Typography } from '@material-ui/core'
 
 import {
-  fetchAiImplementationList as fetchAiImplementationListAction,
   fetchAiImplementationHealth as fetchAiImplementationHealthAction,
+  fetchAiImplementationList as fetchAiImplementationListAction,
 } from '../../data/aiImplementationList/aiImplementationListActions'
 import AiImplementationManagerComponent from './AiImplementationManagerComponent'
 import { AiImplementationListState } from '../../data/aiImplementationList/aiImplementationListReducers'
 import { RootState } from '../../data/rootReducer'
+import { DataState } from '../util/UtilTypes'
+import DataStateManager from '../util/DataStateManager'
 
 type AiImplementationManagerContainerDataProps = {
   aiImplementationList: AiImplementationListState
@@ -31,27 +33,28 @@ const AiImplementationManagerContainer: React.FC<AiImplementationManagerContaine
   }, [fetchAiImplementationList])
 
   useEffect(() => {
-    if (aiImplementationList.loading === true) {
+    if (aiImplementationList.state !== DataState.READY) {
       return
     }
 
-    Object.values(aiImplementationList.aiImplementations)
+    Object.values(aiImplementationList.data)
       .filter(({ health }) => health === null || health === undefined)
       .forEach(({ name }) => fetchAiImplementationHealth(name))
   }, [fetchAiImplementationHealth, aiImplementationList])
 
   return (
     <>
-      <h2>AI implementations</h2>
-      <Paper>
-        {!aiImplementationList || aiImplementationList.loading === true ? (
-          <CircularProgress />
-        ) : (
+      <Typography variant='h2' gutterBottom>
+        AI implementations
+      </Typography>
+      <DataStateManager
+        data={aiImplementationList}
+        componentFunction={(aiImplementationListData): JSX.Element => (
           <AiImplementationManagerComponent
-            aiImplementations={aiImplementationList.aiImplementations}
+            aiImplementations={aiImplementationListData}
           />
         )}
-      </Paper>
+      />
     </>
   )
 }

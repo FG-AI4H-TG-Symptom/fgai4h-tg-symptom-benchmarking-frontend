@@ -1,17 +1,17 @@
 import { AiImplementationInfo } from './aiImplementationDataType'
-import { Loading } from '../../components/util/UtilTypes'
+import {
+  DataState,
+  InitialState,
+  Loadable,
+  LoadingState,
+} from '../../components/util/UtilTypes'
 import { AiImplementationListActionTypes } from './aiImplementationListActions'
 
-export type AiImplementationListState = Loading<{
-  aiImplementations: {
-    [name: string]: AiImplementationInfo
-  }
+export type AiImplementationListState = Loadable<{
+  [name: string]: AiImplementationInfo
 }>
 
-const aiImplementationListInitialState: AiImplementationListState = {
-  loading: false,
-  aiImplementations: {},
-}
+const aiImplementationListInitialState: AiImplementationListState = InitialState
 
 const actionHandlers: {
   [key in AiImplementationListActionTypes]: (
@@ -19,10 +19,8 @@ const actionHandlers: {
     action,
   ) => AiImplementationListState
 } = {
-  [AiImplementationListActionTypes.FETCH_AI_IMPLEMENTATION_LIST]: state => ({
-    ...state,
-    loading: true,
-  }),
+  [AiImplementationListActionTypes.FETCH_AI_IMPLEMENTATION_LIST]: () =>
+    LoadingState,
   [AiImplementationListActionTypes.SET_AI_IMPLEMENTATION_LIST]: (
     state,
     action,
@@ -34,25 +32,24 @@ const actionHandlers: {
     })
 
     return {
-      ...state,
-      aiImplementations,
-      loading: false,
+      data: aiImplementations,
+      state: DataState.READY,
     }
   },
   [AiImplementationListActionTypes.FETCH_AI_IMPLEMENTATION_HEALTH]: (
     state,
     action,
   ) => {
-    if (state.loading === true) {
+    if (state.state !== DataState.READY) {
       throw Error('Trying to load AI health before AI list is loaded')
     }
     return {
       ...state,
-      aiImplementations: {
-        ...state.aiImplementations,
+      data: {
+        ...state.data,
         [action.payload]: {
-          ...state.aiImplementations[action.payload],
-          health: { loading: true },
+          ...state.data[action.payload],
+          health: DataState.LOADING,
         },
       },
     }
@@ -61,16 +58,16 @@ const actionHandlers: {
     state,
     action,
   ) => {
-    if (state.loading === true) {
-      throw Error('Trying to load AI health before AI list is loaded')
+    if (state.state !== DataState.READY) {
+      throw Error('Trying to store AI health before AI list is loaded')
     }
     return {
       ...state,
-      aiImplementations: {
-        ...state.aiImplementations,
+      data: {
+        ...state.data,
         [action.payload.name]: {
-          ...state.aiImplementations[action.payload.name],
-          health: { loading: false, status: action.payload.health },
+          ...state.data[action.payload.name],
+          health: { state: DataState.READY, data: action.payload.health },
         },
       },
     }
