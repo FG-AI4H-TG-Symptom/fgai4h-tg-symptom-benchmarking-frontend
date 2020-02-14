@@ -4,18 +4,19 @@ import { BenchmarkActionTypes } from '../benchmarkActions'
 import createBenchmarkManager from './createBenchmarkManager'
 import observeRunningBenchmark from './observeRunningBenchmark'
 import fetchLastBenchmarkEvaluation from './fetchLastBenchmarkEvaluation'
+import dataStateActionSagaWrapperLoadOnly from '../../util/dataState/dataStateActionSagaWrapperLoadOnly'
 
 const benchmarkSagas = [
-  takeLatest(
-    BenchmarkActionTypes.CREATE_BENCHMARK_MANAGER,
+  dataStateActionSagaWrapperLoadOnly(
+    BenchmarkActionTypes.BENCHMARK_MANAGER_DATA_ACTION,
     createBenchmarkManager,
   ),
   takeLatest(
     BenchmarkActionTypes.OBSERVE_RUNNING_BENCHMARK,
     observeRunningBenchmark,
   ),
-  takeLatest(
-    BenchmarkActionTypes.FETCH_LAST_BENCHMARK_EVALUATION,
+  dataStateActionSagaWrapperLoadOnly(
+    BenchmarkActionTypes.LAST_BENCHMARK_EVALUATION_DATA_ACTION,
     fetchLastBenchmarkEvaluation,
   ),
 ]

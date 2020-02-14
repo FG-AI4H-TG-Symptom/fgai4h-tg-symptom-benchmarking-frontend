@@ -2,11 +2,16 @@ import { put } from 'redux-saga/effects'
 
 import urlBuilder, { COMPONENTS } from '../../util/urlBuilder'
 import { BenchmarkManager } from '../benchmarkManagerDataType'
-import { setBenchmarkManager } from '../benchmarkActions'
+import {
+  benchmarkManagerDataAction,
+  CreateBenchmarkManagerParameters,
+} from '../benchmarkActions'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export default function* createBenchmarkManager(action) {
-  const { caseSetId, aiImplementationNames } = action.payload
+export default function* createBenchmarkManager(
+  parameters: CreateBenchmarkManagerParameters,
+) {
+  const { caseSetId, aiImplementationNames } = parameters
 
   const response = yield fetch(
     urlBuilder(COMPONENTS.EVALUATOR, 'create-benchmark-manager'),
@@ -22,7 +27,7 @@ export default function* createBenchmarkManager(action) {
 
   const benchmarkManager: BenchmarkManager = yield response.json()
 
-  yield put(setBenchmarkManager(benchmarkManager))
+  yield put(benchmarkManagerDataAction.store(benchmarkManager))
 
   const startBenchmarkingResponse = yield fetch(
     urlBuilder(COMPONENTS.EVALUATOR, 'run-case-set-against-all-ais'),

@@ -23,7 +23,7 @@ const actionHandlers: {
     AiImplementationListState,
     AiImplementationInfo[],
     { [name: string]: AiImplementationInfo }
-  >(aiImplementations => {
+  >(null, aiImplementations => {
     const aiImplementationsMap = {}
 
     aiImplementations.forEach(aiImplementation => {

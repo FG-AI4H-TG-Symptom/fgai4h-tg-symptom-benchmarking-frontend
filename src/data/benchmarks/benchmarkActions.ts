@@ -3,30 +3,23 @@ import { createAction } from 'redux-actions'
 import { BenchmarkManager } from './benchmarkManagerDataType'
 import { BenchmarkInfo } from './benchmarkInfoDataType'
 import { BenchmarkEvaluation } from './benchmarkEvaluationDataType'
+import generateDataStateActions from '../util/dataState/generateDataStateActions'
 
 export enum BenchmarkActionTypes {
-  CREATE_BENCHMARK_MANAGER = 'CREATE_BENCHMARK_MANAGER',
-  SET_BENCHMARK_MANAGER = 'SET_BENCHMARK_MANAGER',
-  CLEAR_BENCHMARK_MANAGER = 'CLEAR_BENCHMARK_MANAGER',
+  BENCHMARK_MANAGER_DATA_ACTION = 'BENCHMARK_MANAGER_DATA_ACTION',
   OBSERVE_RUNNING_BENCHMARK = 'OBSERVE_RUNNING_BENCHMARK',
   SET_RUNNING_BENCHMARK_INFO = 'SET_RUNNING_BENCHMARK_INFO',
-  FETCH_LAST_BENCHMARK_EVALUATION = 'FETCH_LAST_BENCHMARK_EVALUATION',
-  SET_LAST_BENCHMARK_EVALUATION = 'SET_LAST_BENCHMARK_EVALUATION',
+  LAST_BENCHMARK_EVALUATION_DATA_ACTION = 'LAST_BENCHMARK_EVALUATION_DATA_ACTION',
 }
 
 export type CreateBenchmarkManagerParameters = {
   caseSetId: string
   aiImplementationNames: string[]
 }
-export const createBenchmarkManager = createAction<
+export const benchmarkManagerDataAction = generateDataStateActions<
+  BenchmarkManager,
   CreateBenchmarkManagerParameters
->(BenchmarkActionTypes.CREATE_BENCHMARK_MANAGER)
-export const setBenchmarkManager = createAction<BenchmarkManager>(
-  BenchmarkActionTypes.SET_BENCHMARK_MANAGER,
-)
-export const clearBenchmarkManager = createAction<void>(
-  BenchmarkActionTypes.CLEAR_BENCHMARK_MANAGER,
-)
+>(BenchmarkActionTypes.BENCHMARK_MANAGER_DATA_ACTION)
 
 export const observeRunningBenchmark = createAction<string>(
   BenchmarkActionTypes.OBSERVE_RUNNING_BENCHMARK,
@@ -35,9 +28,6 @@ export const setRunningBenchmarkInfo = createAction<BenchmarkInfo>(
   BenchmarkActionTypes.SET_RUNNING_BENCHMARK_INFO,
 )
 
-export const fetchLastBenchmarkEvaluation = createAction<void>(
-  BenchmarkActionTypes.FETCH_LAST_BENCHMARK_EVALUATION,
-)
-export const setLastBenchmarkEvaluation = createAction<BenchmarkEvaluation>(
-  BenchmarkActionTypes.SET_LAST_BENCHMARK_EVALUATION,
-)
+export const lastBenchmarkEvaluationDataAction = generateDataStateActions<
+  BenchmarkEvaluation
+>(BenchmarkActionTypes.LAST_BENCHMARK_EVALUATION_DATA_ACTION)

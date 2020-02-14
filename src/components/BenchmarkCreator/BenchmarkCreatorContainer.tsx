@@ -15,7 +15,7 @@ import { RootState } from '../../data/rootReducer'
 import { CaseSetListState } from '../../data/caseSetList/caseSetListReducers'
 import { caseSetListDataActions } from '../../data/caseSetList/caseSetListActions'
 import {
-  createBenchmarkManager as createBenchmarkManagerAction,
+  benchmarkManagerDataAction,
   CreateBenchmarkManagerParameters,
 } from '../../data/benchmarks/benchmarkActions'
 import { DataState, Loadable } from '../../data/util/dataState/dataStateTypes'
@@ -120,7 +120,7 @@ const mapDispatchToProps: AiImplementationManagerContainerFunctionProps = {
   // todo: blocked on https://github.com/microsoft/TypeScript/issues/29131
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   fetchCaseSetList: (caseSetListDataActions.load as any) as () => void,
-  createBenchmarkManager: createBenchmarkManagerAction,
+  createBenchmarkManager: benchmarkManagerDataAction.load,
 }
 export default connect(
   mapStateToProps,

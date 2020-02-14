@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Typography } from '@material-ui/core'
 import { RootState } from '../../data/rootReducer'
 import { Loadable } from '../../data/util/dataState/dataStateTypes'
-import { fetchLastBenchmarkEvaluation as fetchLastBenchmarkEvaluationAction } from '../../data/benchmarks/benchmarkActions'
+import { lastBenchmarkEvaluationDataAction } from '../../data/benchmarks/benchmarkActions'
 import DataStateManager from '../Common/DataStateManager'
 import BenchmarkEvaluatorComponent from './BenchmarkEvaluatorComponent'
 import { BenchmarkInfo } from '../../data/benchmarks/benchmarkInfoDataType'
@@ -68,7 +68,9 @@ const mapStateToProps: (
   lastBenchmarkEvaluation: state.benchmark.lastEvaluation,
 })
 const mapDispatchToProps: BenchmarkRunnerContainerFunctionProps = {
-  fetchLastBenchmarkEvaluation: fetchLastBenchmarkEvaluationAction,
+  // todo: blocked on https://github.com/microsoft/TypeScript/issues/29131
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  fetchLastBenchmarkEvaluation: (lastBenchmarkEvaluationDataAction.load as any) as () => void,
 }
 export default connect(
   mapStateToProps,

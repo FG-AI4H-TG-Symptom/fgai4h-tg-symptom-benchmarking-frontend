@@ -8,7 +8,7 @@ import { RootState } from '../../data/rootReducer'
 import { BenchmarkManager } from '../../data/benchmarks/benchmarkManagerDataType'
 import { DataState, Loadable } from '../../data/util/dataState/dataStateTypes'
 import {
-  clearBenchmarkManager as clearBenchmarkManagerAction,
+  benchmarkManagerDataAction,
   observeRunningBenchmark as observeRunningBenchmarkAction,
 } from '../../data/benchmarks/benchmarkActions'
 import DataStateManager from '../Common/DataStateManager'
@@ -104,7 +104,7 @@ const mapStateToProps: (
 })
 const mapDispatchToProps: BenchmarkRunnerContainerFunctionProps = {
   observeRunningBenchmark: observeRunningBenchmarkAction,
-  clearBenchmarkManager: clearBenchmarkManagerAction,
+  clearBenchmarkManager: benchmarkManagerDataAction.reset,
 }
 export default connect(
   mapStateToProps,

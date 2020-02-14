@@ -5,7 +5,7 @@ import { fetchCaseSet as fetchCaseSetSaga } from '../../caseSets/caseSetsSagas'
 import { fetchCaseSet as fetchCaseSetAction } from '../../caseSets/caseSetsActions'
 import { BenchmarkEvaluation } from '../benchmarkEvaluationDataType'
 import urlBuilder, { COMPONENTS } from '../../util/urlBuilder'
-import { setLastBenchmarkEvaluation } from '../benchmarkActions'
+import { lastBenchmarkEvaluationDataAction } from '../benchmarkActions'
 import { DataState } from '../../util/dataState/dataStateTypes'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -64,5 +64,5 @@ export default function* fetchLastBenchmarkEvaluation() {
     benchmarkEvaluation[aiName] = calculatedMetrics
   }
 
-  yield put(setLastBenchmarkEvaluation(benchmarkEvaluation))
+  yield put(lastBenchmarkEvaluationDataAction.store(benchmarkEvaluation))
 }
