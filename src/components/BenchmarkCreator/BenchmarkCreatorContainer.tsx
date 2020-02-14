@@ -5,19 +5,23 @@ import queryString from 'qs'
 
 import { CircularProgress, Typography } from '@material-ui/core'
 
-import { fetchAiImplementationList as fetchAiImplementationListAction } from '../../data/aiImplementationList/aiImplementationListActions'
+import {
+  aiImplementationListDataActions,
+  aiImplementationListLoadParameters,
+} from '../../data/aiImplementationList/aiImplementationListActions'
 import BenchmarkCreatorComponent from './BenchmarkCreatorComponent'
 import { AiImplementationListState } from '../../data/aiImplementationList/aiImplementationListReducers'
 import { RootState } from '../../data/rootReducer'
 import { CaseSetListState } from '../../data/caseSetList/caseSetListReducers'
-import { fetchCaseSetList as fetchCaseSetListAction } from '../../data/caseSetList/caseSetListActions'
+import { caseSetListDataActions } from '../../data/caseSetList/caseSetListActions'
 import {
   createBenchmarkManager as createBenchmarkManagerAction,
   CreateBenchmarkManagerParameters,
 } from '../../data/benchmarks/benchmarkActions'
-import { DataState, Loadable } from '../util/UtilTypes'
+import { DataState, Loadable } from '../../data/util/dataState/dataStateTypes'
 import { BenchmarkManager } from '../../data/benchmarks/benchmarkManagerDataType'
 import { paths } from '../../routes'
+import Error from '../Common/Error'
 
 type AiImplementationManagerContainerDataProps = {
   aiImplementationList: AiImplementationListState
@@ -25,7 +29,9 @@ type AiImplementationManagerContainerDataProps = {
   caseSetList: CaseSetListState
 }
 type AiImplementationManagerContainerFunctionProps = {
-  fetchAiImplementationList: () => void
+  fetchAiImplementationList: (
+    parameters: aiImplementationListLoadParameters,
+  ) => void
   fetchCaseSetList: () => void
   createBenchmarkManager: (
     benchmarkParameters: CreateBenchmarkManagerParameters,
@@ -53,7 +59,7 @@ const BenchmarkCreatorContainer: React.FC<AiImplementationManagerContainerProps>
     if (benchmarkManager.state === DataState.READY) {
       history.push(paths.benchmarkRun(benchmarkManager.data.benchmarkManagerId))
     }
-  }, [benchmarkManager, history]) // eslint-disable-this-line react-hooks/exhaustive-deps
+  }, [benchmarkManager, history])
 
   const searchParams = queryString.parse(useLocation().search, {
     ignoreQueryPrefix: true,
@@ -70,24 +76,34 @@ const BenchmarkCreatorContainer: React.FC<AiImplementationManagerContainerProps>
     )
   }
 
+  let content = <CircularProgress />
+
+  if (aiImplementationList.state === DataState.ERRORED) {
+    content = <Error error={aiImplementationList.error} />
+  } else if (caseSetList.state === DataState.ERRORED) {
+    content = <Error error={caseSetList.error} />
+  } else if (
+    aiImplementationList.state === DataState.READY &&
+    caseSetList.state === DataState.READY
+  ) {
+    content = (
+      <BenchmarkCreatorComponent
+        aiImplementations={aiImplementationList.data}
+        caseSetList={caseSetList.data}
+        defaultCaseSetId={searchParams.caseSetId}
+        onCreateBenchmark={(benchmarkParameters): void => {
+          createBenchmarkManager(benchmarkParameters)
+        }}
+      />
+    )
+  }
+
   return (
     <>
       <Typography variant='h2' gutterBottom>
         Select settings for a new benchmark
       </Typography>
-      {aiImplementationList.state !== DataState.READY ||
-      caseSetList.state !== DataState.READY ? (
-        <CircularProgress />
-      ) : (
-        <BenchmarkCreatorComponent
-          aiImplementations={aiImplementationList.data}
-          caseSetList={caseSetList.data}
-          defaultCaseSetId={searchParams.caseSetId}
-          onCreateBenchmark={(benchmarkParameters): void => {
-            createBenchmarkManager(benchmarkParameters)
-          }}
-        />
-      )}
+      {content}
     </>
   )
 }
@@ -100,8 +116,10 @@ const mapStateToProps: (
   caseSetList: state.caseSetList,
 })
 const mapDispatchToProps: AiImplementationManagerContainerFunctionProps = {
-  fetchAiImplementationList: fetchAiImplementationListAction,
-  fetchCaseSetList: fetchCaseSetListAction,
+  fetchAiImplementationList: aiImplementationListDataActions.load,
+  // todo: blocked on https://github.com/microsoft/TypeScript/issues/29131
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  fetchCaseSetList: (caseSetListDataActions.load as any) as () => void,
   createBenchmarkManager: createBenchmarkManagerAction,
 }
 export default connect(

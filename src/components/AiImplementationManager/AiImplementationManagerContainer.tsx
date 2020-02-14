@@ -4,21 +4,21 @@ import { connect } from 'react-redux'
 import { Typography } from '@material-ui/core'
 
 import {
-  fetchAiImplementationHealth as fetchAiImplementationHealthAction,
-  fetchAiImplementationList as fetchAiImplementationListAction,
+  aiImplementationListDataActions,
+  aiImplementationListLoadParameters,
 } from '../../data/aiImplementationList/aiImplementationListActions'
 import AiImplementationManagerComponent from './AiImplementationManagerComponent'
 import { AiImplementationListState } from '../../data/aiImplementationList/aiImplementationListReducers'
 import { RootState } from '../../data/rootReducer'
-import { DataState } from '../util/UtilTypes'
-import DataStateManager from '../util/DataStateManager'
+import DataStateManager from '../Common/DataStateManager'
 
 type AiImplementationManagerContainerDataProps = {
   aiImplementationList: AiImplementationListState
 }
 type AiImplementationManagerContainerFunctionProps = {
-  fetchAiImplementationList: () => void
-  fetchAiImplementationHealth: (aiImplementationName: string) => void
+  fetchAiImplementationList: (
+    parameters: aiImplementationListLoadParameters,
+  ) => void
 }
 type AiImplementationManagerContainerProps = AiImplementationManagerContainerDataProps &
   AiImplementationManagerContainerFunctionProps
@@ -26,21 +26,10 @@ type AiImplementationManagerContainerProps = AiImplementationManagerContainerDat
 const AiImplementationManagerContainer: React.FC<AiImplementationManagerContainerProps> = ({
   aiImplementationList,
   fetchAiImplementationList,
-  fetchAiImplementationHealth,
 }) => {
   useEffect(() => {
-    fetchAiImplementationList()
+    fetchAiImplementationList({ withHealth: true })
   }, [fetchAiImplementationList])
-
-  useEffect(() => {
-    if (aiImplementationList.state !== DataState.READY) {
-      return
-    }
-
-    Object.values(aiImplementationList.data)
-      .filter(({ health }) => health === null || health === undefined)
-      .forEach(({ name }) => fetchAiImplementationHealth(name))
-  }, [fetchAiImplementationHealth, aiImplementationList])
 
   return (
     <>
@@ -65,8 +54,7 @@ const mapStateToProps: (
   aiImplementationList: state.aiImplementationList,
 })
 const mapDispatchToProps: AiImplementationManagerContainerFunctionProps = {
-  fetchAiImplementationList: fetchAiImplementationListAction,
-  fetchAiImplementationHealth: fetchAiImplementationHealthAction,
+  fetchAiImplementationList: aiImplementationListDataActions.load,
 }
 export default connect(
   mapStateToProps,

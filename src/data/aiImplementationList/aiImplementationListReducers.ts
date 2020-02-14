@@ -3,9 +3,9 @@ import {
   DataState,
   InitialState,
   Loadable,
-  LoadingState,
-} from '../../components/util/UtilTypes'
+} from '../util/dataState/dataStateTypes'
 import { AiImplementationListActionTypes } from './aiImplementationListActions'
+import dataStateGenericReducer from '../util/dataState/dataStateGenericReducer'
 
 export type AiImplementationListState = Loadable<{
   [name: string]: AiImplementationInfo
@@ -19,23 +19,19 @@ const actionHandlers: {
     action,
   ) => AiImplementationListState
 } = {
-  [AiImplementationListActionTypes.FETCH_AI_IMPLEMENTATION_LIST]: () =>
-    LoadingState,
-  [AiImplementationListActionTypes.SET_AI_IMPLEMENTATION_LIST]: (
-    state,
-    action,
-  ) => {
-    const aiImplementations = {}
+  [AiImplementationListActionTypes.AI_IMPLEMENTATION_LIST_DATA]: dataStateGenericReducer<
+    AiImplementationListState,
+    AiImplementationInfo[],
+    { [name: string]: AiImplementationInfo }
+  >(aiImplementations => {
+    const aiImplementationsMap = {}
 
-    action.payload.forEach(aiImplementation => {
-      aiImplementations[aiImplementation.name] = aiImplementation
+    aiImplementations.forEach(aiImplementation => {
+      aiImplementationsMap[aiImplementation.name] = aiImplementation
     })
 
-    return {
-      data: aiImplementations,
-      state: DataState.READY,
-    }
-  },
+    return aiImplementationsMap
+  }),
   [AiImplementationListActionTypes.FETCH_AI_IMPLEMENTATION_HEALTH]: (
     state,
     action,

@@ -1,11 +1,7 @@
 import { CaseSetInfo } from './caseSetDataType'
-import {
-  DataState,
-  InitialState,
-  Loadable,
-  LoadingState,
-} from '../../components/util/UtilTypes'
+import { InitialState, Loadable } from '../util/dataState/dataStateTypes'
 import { CaseSetListActionTypes } from './caseSetListActions'
+import dataStateGenericReducer from '../util/dataState/dataStateGenericReducer'
 
 export type CaseSetListState = Loadable<CaseSetInfo[]>
 
@@ -17,11 +13,7 @@ const actionHandlers: {
     action,
   ) => CaseSetListState
 } = {
-  [CaseSetListActionTypes.FETCH_CASE_SET_LIST]: () => LoadingState,
-  [CaseSetListActionTypes.SET_CASE_SET_LIST]: (state, action) => ({
-    data: action.payload,
-    state: DataState.READY,
-  }),
+  [CaseSetListActionTypes.CASE_SET_LIST_DATA]: dataStateGenericReducer(),
 }
 
 const caseSetListReducer = (

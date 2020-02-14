@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 
-import { Loadable } from '../../components/util/UtilTypes'
+import { Loadable } from '../util/dataState/dataStateTypes'
 
 export enum AiImplementationHealth {
   OK = 'OK',

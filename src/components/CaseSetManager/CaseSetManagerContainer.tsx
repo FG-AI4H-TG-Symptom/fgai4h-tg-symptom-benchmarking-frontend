@@ -3,11 +3,11 @@ import { connect } from 'react-redux'
 
 import { Typography } from '@material-ui/core'
 
-import { fetchCaseSetList as fetchCaseSetListAction } from '../../data/caseSetList/caseSetListActions'
+import { caseSetListDataActions } from '../../data/caseSetList/caseSetListActions'
 import CaseSetManagerComponent from './CaseSetManagerComponent'
 import { CaseSetListState } from '../../data/caseSetList/caseSetListReducers'
 import { RootState } from '../../data/rootReducer'
-import DataStateManager from '../util/DataStateManager'
+import DataStateManager from '../Common/DataStateManager'
 
 type CaseSetManagerContainerDataProps = {
   caseSetList: CaseSetListState
@@ -47,7 +47,9 @@ const mapStateToProps: (
   caseSetList: state.caseSetList,
 })
 const mapDispatchToProps: CaseSetManagerContainerFunctionProps = {
-  fetchCaseSetList: fetchCaseSetListAction,
+  // todo: blocked on https://github.com/microsoft/TypeScript/issues/29131
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  fetchCaseSetList: (caseSetListDataActions.load as any) as () => void,
 }
 export default connect(
   mapStateToProps,

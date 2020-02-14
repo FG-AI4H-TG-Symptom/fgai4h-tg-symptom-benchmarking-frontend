@@ -6,8 +6,8 @@ import {
 } from '@material-ui/icons'
 
 import { AiImplementationHealth } from '../../data/aiImplementationList/aiImplementationDataType'
-import { Loadable } from '../util/UtilTypes'
-import DataStateManager from '../util/DataStateManager'
+import { Loadable } from '../../data/util/dataState/dataStateTypes'
+import DataStateManager from '../Common/DataStateManager'
 
 const AiImplementationHealthComponent: React.FC<{
   health: Loadable<AiImplementationHealth>

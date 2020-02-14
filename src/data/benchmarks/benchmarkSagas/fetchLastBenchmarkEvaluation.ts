@@ -6,7 +6,7 @@ import { fetchCaseSet as fetchCaseSetAction } from '../../caseSets/caseSetsActio
 import { BenchmarkEvaluation } from '../benchmarkEvaluationDataType'
 import urlBuilder, { COMPONENTS } from '../../util/urlBuilder'
 import { setLastBenchmarkEvaluation } from '../benchmarkActions'
-import { DataState } from '../../../components/util/UtilTypes'
+import { DataState } from '../../util/dataState/dataStateTypes'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export default function* fetchLastBenchmarkEvaluation() {

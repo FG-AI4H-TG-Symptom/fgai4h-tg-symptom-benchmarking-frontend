@@ -1,7 +1,9 @@
 import React, { ReactElement, ReactNode } from 'react'
 import { CircularProgress } from '@material-ui/core'
 
-import { DataState, Loadable } from './UtilTypes'
+import { DataState, Loadable } from '../../data/util/dataState/dataStateTypes'
+
+import Error from './Error'
 
 type DataStateManagerProps<T> = {
   data: Loadable<T>
@@ -18,7 +20,8 @@ function DataStateManager<T>({
     return <CircularProgress />
   }
   if (data.state === DataState.ERRORED) {
-    return <b>ERROR: {data.error}</b>
+    // todo: allow more customizations of size / location / ...
+    return <Error error={data.error} />
   }
   if (data.state === DataState.INITIAL) {
     return <i>Uninitialized</i>

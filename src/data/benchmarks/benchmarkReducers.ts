@@ -4,7 +4,7 @@ import {
   InitialState,
   Loadable,
   LoadingState,
-} from '../../components/util/UtilTypes'
+} from '../util/dataState/dataStateTypes'
 import { BenchmarkActionTypes } from './benchmarkActions'
 import { BenchmarkInfo } from './benchmarkInfoDataType'
 import { BenchmarkEvaluation } from './benchmarkEvaluationDataType'

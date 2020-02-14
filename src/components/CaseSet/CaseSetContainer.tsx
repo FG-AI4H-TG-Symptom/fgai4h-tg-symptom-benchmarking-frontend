@@ -8,7 +8,7 @@ import { fetchCaseSet as fetchCaseSetAction } from '../../data/caseSets/caseSets
 import CaseSetComponent from './CaseSetComponent'
 import { RootState } from '../../data/rootReducer'
 import { CaseSetsState } from '../../data/caseSets/caseSetsReducers'
-import DataStateManager from '../util/DataStateManager'
+import DataStateManager from '../Common/DataStateManager'
 
 type CaseSetContainerDataProps = {
   caseSets: CaseSetsState

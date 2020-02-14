@@ -4,7 +4,7 @@ import { Button, Card, CardContent, CardHeader } from '@material-ui/core'
 import TextPageWrapper from './TextPageWrapper'
 import LinkWrapper from './LinkWrapper'
 
-import * as Styled from './Warning.style'
+import * as CommonStyled from './CommonStyles'
 
 const Warning: React.FC<{
   title: string
@@ -14,7 +14,7 @@ const Warning: React.FC<{
     <Card>
       <CardHeader title={title} />
       <CardContent>{children}</CardContent>
-      <Styled.CardActionsEnd>
+      <CommonStyled.CardActionsEnd>
         {actions.map(({ text, targetUrl }) => (
           <LinkWrapper key={text} to={targetUrl}>
             {' '}
@@ -23,7 +23,7 @@ const Warning: React.FC<{
             </Button>
           </LinkWrapper>
         ))}
-      </Styled.CardActionsEnd>
+      </CommonStyled.CardActionsEnd>
     </Card>
   </TextPageWrapper>
 )

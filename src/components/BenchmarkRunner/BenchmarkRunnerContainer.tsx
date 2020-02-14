@@ -6,12 +6,12 @@ import { Box, Button, CircularProgress, Typography } from '@material-ui/core'
 import { ArrowForward as ContinueIcon } from '@material-ui/icons'
 import { RootState } from '../../data/rootReducer'
 import { BenchmarkManager } from '../../data/benchmarks/benchmarkManagerDataType'
-import { DataState, Loadable } from '../util/UtilTypes'
+import { DataState, Loadable } from '../../data/util/dataState/dataStateTypes'
 import {
   clearBenchmarkManager as clearBenchmarkManagerAction,
   observeRunningBenchmark as observeRunningBenchmarkAction,
 } from '../../data/benchmarks/benchmarkActions'
-import DataStateManager from '../util/DataStateManager'
+import DataStateManager from '../Common/DataStateManager'
 import BenchmarkRunnerComponent from './BenchmarkRunnerComponent'
 import { BenchmarkInfo } from '../../data/benchmarks/benchmarkInfoDataType'
 import Warning from '../util/Warning'

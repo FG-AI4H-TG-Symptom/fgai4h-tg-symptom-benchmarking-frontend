@@ -3,7 +3,7 @@ import {
   DataState,
   Loadable,
   LoadingState,
-} from '../../components/util/UtilTypes'
+} from '../util/dataState/dataStateTypes'
 import { CaseSetsActionTypes } from './caseSetsActions'
 
 export interface CaseSetsState {
