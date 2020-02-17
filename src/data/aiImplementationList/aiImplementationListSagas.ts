@@ -1,11 +1,10 @@
-import { put, takeEvery } from 'redux-saga/effects'
+import { put } from 'redux-saga/effects'
 
 import {
   AiImplementationListActionTypes,
-  setAiImplementationHealth,
   aiImplementationListDataActions,
+  aiImplementationHealthDataActions,
   aiImplementationListLoadParameters,
-  fetchAiImplementationHealth as fetchAiImplementationHealthAction,
 } from './aiImplementationListActions'
 import urlBuilder, { COMPONENTS } from '../util/urlBuilder'
 import dataStateActionSagaWrapperLoadOnly from '../util/dataState/dataStateActionSagaWrapperLoadOnly'
@@ -42,7 +41,12 @@ export function* fetchAiImplementationList(
     if (parameters && parameters.withHealth) {
       // eslint-disable-next-line no-restricted-syntax
       for (const aiImplementation of aiImplementations) {
-        yield put(fetchAiImplementationHealthAction(aiImplementation.name))
+        yield put(
+          aiImplementationHealthDataActions.load(
+            aiImplementation.name,
+            aiImplementation.name,
+          ),
+        )
       }
     }
   } catch (error) {
@@ -55,36 +59,46 @@ export function* fetchAiImplementationList(
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function* fetchAiImplementationHealth(action) {
-  const aiImplementation = action.payload
+export function* fetchAiImplementationHealth(aiImplementationName: string) {
+  try {
+    const response = yield fetch(
+      urlBuilder(COMPONENTS.TOY_AIS, 'health-check'),
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ aiImplementation: aiImplementationName }),
+      },
+    )
 
-  const response = yield fetch(urlBuilder(COMPONENTS.TOY_AIS, 'health-check'), {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ aiImplementation }),
-  })
+    if (!response.ok) {
+      // todo: error handling
+      throw new Error('Failed to fetch AI implementation list.')
+    }
 
-  if (!response.ok) {
-    // todo: error handling
-    throw new Error('Failed to fetch AI implementation list.')
+    const data = yield response.json()
+
+    yield put(
+      aiImplementationHealthDataActions.store(
+        data.status,
+        aiImplementationName,
+      ),
+    )
+  } catch (error) {
+    yield put(
+      aiImplementationHealthDataActions.errored(error, aiImplementationName),
+    )
   }
-
-  const data = yield response.json()
-
-  yield put(
-    setAiImplementationHealth({ name: aiImplementation, health: data.status }),
-  )
 }
 
 const aiImplementationListSagas = [
   dataStateActionSagaWrapperLoadOnly(
-    AiImplementationListActionTypes.AI_IMPLEMENTATION_LIST_DATA,
+    AiImplementationListActionTypes.AI_IMPLEMENTATION_LIST_DATA_ACTION,
     fetchAiImplementationList,
   ),
-  takeEvery(
-    AiImplementationListActionTypes.FETCH_AI_IMPLEMENTATION_HEALTH,
+  dataStateActionSagaWrapperLoadOnly(
+    AiImplementationListActionTypes.AI_IMPLEMENTATION_HEALTH_DATA_ACTION,
     fetchAiImplementationHealth,
   ),
 ]

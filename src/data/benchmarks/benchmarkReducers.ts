@@ -25,7 +25,7 @@ const actionHandlers: {
   [BenchmarkActionTypes.BENCHMARK_MANAGER_DATA_ACTION]: dataStateGenericReducer<
     BenchmarkState,
     BenchmarkManager
-  >('benchmarkManager'),
+  >({ path: 'benchmarkManager' }),
   [BenchmarkActionTypes.OBSERVE_RUNNING_BENCHMARK]: state => state,
   [BenchmarkActionTypes.SET_RUNNING_BENCHMARK_INFO]: (state, action) => ({
     ...state,
@@ -34,7 +34,7 @@ const actionHandlers: {
   [BenchmarkActionTypes.LAST_BENCHMARK_EVALUATION_DATA_ACTION]: dataStateGenericReducer<
     BenchmarkState,
     BenchmarkEvaluation
-  >('lastEvaluation'),
+  >({ path: 'lastEvaluation' }),
 }
 
 const benchmarkReducers = (

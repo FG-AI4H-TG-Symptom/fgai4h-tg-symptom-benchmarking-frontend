@@ -16,7 +16,7 @@ const actionHandlers: {
     CaseDataType[],
     undefined,
     string
-  >(action => action.payload.metadata),
+  >({ path: action => action.payload.metadata }),
 }
 
 const caseSetsReducers = (

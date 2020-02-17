@@ -1,4 +1,7 @@
-import { AiImplementationInfo } from './aiImplementationDataType'
+import {
+  AiImplementationHealth,
+  AiImplementationInfo,
+} from './aiImplementationDataType'
 import {
   DataState,
   InitialState,
@@ -19,55 +22,34 @@ const actionHandlers: {
     action,
   ) => AiImplementationListState
 } = {
-  [AiImplementationListActionTypes.AI_IMPLEMENTATION_LIST_DATA]: dataStateGenericReducer<
+  [AiImplementationListActionTypes.AI_IMPLEMENTATION_LIST_DATA_ACTION]: dataStateGenericReducer<
     AiImplementationListState,
     AiImplementationInfo[],
     { [name: string]: AiImplementationInfo }
-  >(null, aiImplementations => {
-    const aiImplementationsMap = {}
+  >({
+    dataTransform: aiImplementations => {
+      const aiImplementationsMap = {}
 
-    aiImplementations.forEach(aiImplementation => {
-      aiImplementationsMap[aiImplementation.name] = aiImplementation
-    })
+      aiImplementations.forEach(aiImplementation => {
+        aiImplementationsMap[aiImplementation.name] = aiImplementation
+      })
 
-    return aiImplementationsMap
+      return aiImplementationsMap
+    },
   }),
-  [AiImplementationListActionTypes.FETCH_AI_IMPLEMENTATION_HEALTH]: (
-    state,
-    action,
-  ) => {
-    if (state.state !== DataState.READY) {
-      throw Error('Trying to load AI health before AI list is loaded')
-    }
-    return {
-      ...state,
-      data: {
-        ...state.data,
-        [action.payload]: {
-          ...state.data[action.payload],
-          health: DataState.LOADING,
-        },
-      },
-    }
-  },
-  [AiImplementationListActionTypes.SET_AI_IMPLEMENTATION_HEALTH]: (
-    state,
-    action,
-  ) => {
-    if (state.state !== DataState.READY) {
-      throw Error('Trying to store AI health before AI list is loaded')
-    }
-    return {
-      ...state,
-      data: {
-        ...state.data,
-        [action.payload.name]: {
-          ...state.data[action.payload.name],
-          health: { state: DataState.READY, data: action.payload.health },
-        },
-      },
-    }
-  },
+  [AiImplementationListActionTypes.AI_IMPLEMENTATION_HEALTH_DATA_ACTION]: dataStateGenericReducer<
+    AiImplementationListState,
+    AiImplementationHealth,
+    string
+  >({
+    preflight: state => {
+      if (state.state !== DataState.READY) {
+        throw Error('Trying to load AI health before AI list is loaded')
+      }
+      return true
+    },
+    path: action => `${action.payload.metadata}.health`,
+  }),
 }
 
 const aiImplementationListReducer = (

@@ -1,5 +1,3 @@
-import { createAction } from 'redux-actions'
-
 import generateDataStateActions from '../util/dataState/generateDataStateActions'
 
 import {
@@ -8,9 +6,8 @@ import {
 } from './aiImplementationDataType'
 
 export enum AiImplementationListActionTypes {
-  AI_IMPLEMENTATION_LIST_DATA = 'AI_IMPLEMENTATION_LIST_DATA',
-  FETCH_AI_IMPLEMENTATION_HEALTH = 'FETCH_AI_IMPLEMENTATION_HEALTH',
-  SET_AI_IMPLEMENTATION_HEALTH = 'SET_AI_IMPLEMENTATION_HEALTH',
+  AI_IMPLEMENTATION_LIST_DATA_ACTION = 'AI_IMPLEMENTATION_LIST_DATA_ACTION',
+  AI_IMPLEMENTATION_HEALTH_DATA_ACTION = 'AI_IMPLEMENTATION_HEALTH_DATA_ACTION',
 }
 
 export type aiImplementationListLoadParameters = { withHealth: boolean } | void
@@ -18,12 +15,10 @@ export type aiImplementationListLoadParameters = { withHealth: boolean } | void
 export const aiImplementationListDataActions = generateDataStateActions<
   AiImplementationInfo[],
   aiImplementationListLoadParameters
->(AiImplementationListActionTypes.AI_IMPLEMENTATION_LIST_DATA)
+>(AiImplementationListActionTypes.AI_IMPLEMENTATION_LIST_DATA_ACTION)
 
-export const fetchAiImplementationHealth = createAction<string>(
-  AiImplementationListActionTypes.FETCH_AI_IMPLEMENTATION_HEALTH,
-)
-export const setAiImplementationHealth = createAction<{
-  name: string
-  health: AiImplementationHealth
-}>(AiImplementationListActionTypes.SET_AI_IMPLEMENTATION_HEALTH)
+export const aiImplementationHealthDataActions = generateDataStateActions<
+  AiImplementationHealth,
+  string,
+  string
+>(AiImplementationListActionTypes.AI_IMPLEMENTATION_HEALTH_DATA_ACTION)
