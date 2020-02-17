@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import styled from 'styled-components'
 import { ExpansionPanelDetails, TableCell, TableRow } from '@material-ui/core'
 

@@ -2,6 +2,7 @@
   "extends": [
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
+    "plugin:eslint-comments/recommended",
     "airbnb",
     "prettier",
     "prettier/react"
@@ -56,7 +57,9 @@
       "multiline": { "delimiter": "none" },
       "singleline": { "delimiter": "semi" }
     }],
-    "prettier/prettier": ["error"]
+    "prettier/prettier": ["error"],
+    "eslint-comments/no-unused-disable": ["error"],
+    "eslint-comments/disable-enable-pair": ["error", {"allowWholeFile": true}]
   },
   "overrides": [
     {
