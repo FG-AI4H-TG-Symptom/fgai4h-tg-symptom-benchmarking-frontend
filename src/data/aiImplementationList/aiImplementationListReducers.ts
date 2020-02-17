@@ -48,7 +48,7 @@ const actionHandlers: {
       }
       return true
     },
-    path: action => `${action.payload.metadata}.health`,
+    path: action => `data.${action.payload.metadata}.health`,
   }),
 }
 
