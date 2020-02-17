@@ -13,3 +13,8 @@ export const Main = styled.main`
 export const SideMenuList = styled(List)`
   min-width: 20rem;
 `
+
+export const Logo = styled.img`
+  height: 2em;
+  padding-left: 1em;
+`

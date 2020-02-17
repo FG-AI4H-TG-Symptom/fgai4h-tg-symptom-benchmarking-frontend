@@ -8,9 +8,15 @@ import {
 } from '@material-ui/core'
 
 import TextPageWrapper from '../Common/TextPageWrapper'
+import logo from '../../logo.svg'
+import * as Styled from './LandingPageComponent.style'
 
 const LandingPageComponent: React.FC<{}> = () => (
   <TextPageWrapper>
+    <Styled.LogoWrapper>
+      <Styled.Logo src={logo} alt='FG AI4H logo' />
+    </Styled.LogoWrapper>
+
     <Typography variant='h1'>
       &quot;Symptom assessment&quot; FG MMVB for AI4H (WHO/ITU)
     </Typography>

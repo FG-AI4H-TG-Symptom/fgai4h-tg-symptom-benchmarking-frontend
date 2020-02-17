@@ -14,6 +14,7 @@ import * as Styled from './App.style'
 import { routes } from './routes'
 import LinkWrapper from './components/Common/LinkWrapper'
 import NotFound from './components/Common/NotFound'
+import logo from './logo.svg'
 
 const App: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -40,6 +41,7 @@ const App: React.FC = () => {
           </IconButton>
           <Styled.Title id='app-title'>{title}</Styled.Title>
           &quot;Symptom assessment&quot; FG MMVB for AI4H (WHO/ITU)
+          <Styled.Logo src={logo} alt='FG AI4H logo' />
         </Toolbar>
       </AppBar>
       <Drawer open={menuOpen} onClose={(): void => setMenuOpen(false)}>
