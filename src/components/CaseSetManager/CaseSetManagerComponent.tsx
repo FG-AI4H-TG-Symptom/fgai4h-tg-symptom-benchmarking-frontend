@@ -11,7 +11,7 @@ import {
   TableRow,
 } from '@material-ui/core'
 import {
-  Launch as OpenIcon,
+  ViewList as OpenIcon,
   PlayCircleOutline as StartBenchmarkIcon,
 } from '@material-ui/icons'
 
