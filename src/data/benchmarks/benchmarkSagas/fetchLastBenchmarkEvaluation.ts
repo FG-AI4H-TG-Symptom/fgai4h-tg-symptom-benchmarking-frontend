@@ -2,7 +2,6 @@ import { call, put, select } from 'redux-saga/effects'
 
 import { RootState } from '../../rootReducer'
 import { fetchCaseSet as fetchCaseSetSaga } from '../../caseSets/caseSetsSagas'
-import { fetchCaseSet as fetchCaseSetAction } from '../../caseSets/caseSetsActions'
 import { BenchmarkEvaluation } from '../benchmarkEvaluationDataType'
 import urlBuilder, { COMPONENTS } from '../../util/urlBuilder'
 import { lastBenchmarkEvaluationDataAction } from '../benchmarkActions'
@@ -13,7 +12,7 @@ export default function* fetchLastBenchmarkEvaluation() {
   let state: RootState = yield select()
   const benchmarkInfo = state.benchmark.currentBenchmarkingSession
   if (!state.caseSets[benchmarkInfo.case_set_id]) {
-    yield call(fetchCaseSetSaga, fetchCaseSetAction(benchmarkInfo.case_set_id))
+    yield call(fetchCaseSetSaga, benchmarkInfo.case_set_id)
     state = yield select()
   }
 

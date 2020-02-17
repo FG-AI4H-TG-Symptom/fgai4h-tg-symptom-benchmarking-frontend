@@ -6,10 +6,23 @@ import { DataState, LoadingState } from './dataStateTypes'
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const identity = <V>(x): V => (x as any) as V
 
-const dataStateGenericReducer = <T, U, V = U>(
-  path: string | null = null,
-  dataTransform: (data: U) => V = identity,
-) => (state: T, action: DataAction<U>): T => {
+const dataStateGenericReducer = <
+  StateType,
+  DataActionDataType,
+  TransformedDataType = DataActionDataType,
+  DataActionMetadataType = void
+>(
+  path:
+    | ((
+        action: DataAction<DataActionDataType, void, DataActionMetadataType>,
+      ) => string)
+    | string
+    | null = null,
+  dataTransform: (data: DataActionDataType) => TransformedDataType = identity,
+) => (
+  state: StateType,
+  action: DataAction<DataActionDataType, void, DataActionMetadataType>,
+): StateType => {
   let newValue
   if (action.payload.intent === DataActionTypes.LOAD) {
     newValue = LoadingState
@@ -25,7 +38,13 @@ const dataStateGenericReducer = <T, U, V = U>(
   }
 
   if (path !== null) {
-    return dotProp.set(state, path, newValue)
+    let evaluatedPath
+    if (typeof path === 'function') {
+      evaluatedPath = path(action)
+    } else {
+      evaluatedPath = path
+    }
+    return dotProp.set(state, evaluatedPath, newValue)
   }
   return newValue
 }

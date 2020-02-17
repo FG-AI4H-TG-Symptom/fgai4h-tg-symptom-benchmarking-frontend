@@ -6,31 +6,47 @@ import {
   DataActionTypes,
 } from './dataActionTypes'
 
-type DataStateActions<T, U> = {
-  load: (parameters: U) => DataActionLoad<T, U>
-  store: (data: T) => DataActionStore<T>
-  errored: (error: string) => DataActionErrored<T>
-  reset: () => DataActionReset<T>
+type DataStateActions<DataType, ParameterType = void, MetadataType = void> = {
+  load: (
+    parameters: ParameterType,
+    metadata: MetadataType,
+  ) => DataActionLoad<ParameterType, MetadataType>
+  store: (
+    data: DataType,
+    metadata: MetadataType,
+  ) => DataActionStore<DataType, MetadataType>
+  errored: (
+    error: string,
+    metadata: MetadataType,
+  ) => DataActionErrored<MetadataType>
+  reset: (metadata: MetadataType) => DataActionReset<MetadataType>
 }
 
-const generateDataStateActions = <T, U = void>(
+const generateDataStateActions = <
+  DataType,
+  ParameterType = void,
+  MetadataType = void
+>(
   type: string,
-): DataStateActions<T, U> => ({
-  load: (parameters): DataActionLoad<T, U> => ({
+): DataStateActions<DataType, ParameterType, MetadataType> => ({
+  load: (
+    parameters,
+    metadata,
+  ): DataActionLoad<ParameterType, MetadataType> => ({
     type,
-    payload: { intent: DataActionTypes.LOAD, parameters },
+    payload: { intent: DataActionTypes.LOAD, parameters, metadata },
   }),
-  store: (data: T): DataActionStore<T> => ({
+  store: (data, metadata): DataActionStore<DataType, MetadataType> => ({
     type,
-    payload: { intent: DataActionTypes.STORE, data },
+    payload: { intent: DataActionTypes.STORE, data, metadata },
   }),
-  errored: (error: string): DataActionErrored<T> => ({
+  errored: (error, metadata): DataActionErrored<MetadataType> => ({
     type,
-    payload: { intent: DataActionTypes.ERROR, error },
+    payload: { intent: DataActionTypes.ERROR, error, metadata },
   }),
-  reset: (): DataActionReset<T> => ({
+  reset: (metadata): DataActionReset<MetadataType> => ({
     type,
-    payload: { intent: DataActionTypes.RESET },
+    payload: { intent: DataActionTypes.RESET, metadata },
   }),
 })
 

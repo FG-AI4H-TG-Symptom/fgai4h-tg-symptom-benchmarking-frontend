@@ -1,16 +1,12 @@
-import { createAction } from 'redux-actions'
-
 import { CaseDataType } from './caseDataType'
+import generateDataStateActions from '../util/dataState/generateDataStateActions'
 
 export enum CaseSetsActionTypes {
-  FETCH_CASE_SET = 'FETCH_CASE_SET',
-  ADD_CASE_SET = 'ADD_CASE_SET',
+  CASE_SET_DATA_ACTION = 'CASE_SET_DATA_ACTION',
 }
 
-export const fetchCaseSet = createAction<string>(
-  CaseSetsActionTypes.FETCH_CASE_SET,
-)
-export const addCaseSet = createAction<{
-  caseSetId: string
-  cases: CaseDataType[]
-}>(CaseSetsActionTypes.ADD_CASE_SET)
+export const caseSetDataAction = generateDataStateActions<
+  CaseDataType[],
+  string,
+  string
+>(CaseSetsActionTypes.CASE_SET_DATA_ACTION)

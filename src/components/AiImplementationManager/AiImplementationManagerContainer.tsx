@@ -54,7 +54,11 @@ const mapStateToProps: (
   aiImplementationList: state.aiImplementationList,
 })
 const mapDispatchToProps: AiImplementationManagerContainerFunctionProps = {
-  fetchAiImplementationList: aiImplementationListDataActions.load,
+  // todo: blocked on https://github.com/microsoft/TypeScript/issues/29131
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  fetchAiImplementationList: (aiImplementationListDataActions.load as any) as (
+    parameters: aiImplementationListLoadParameters,
+  ) => void,
 }
 export default connect(
   mapStateToProps,

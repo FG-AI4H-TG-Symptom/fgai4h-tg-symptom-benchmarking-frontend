@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react'
+import { Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import { useParams } from 'react-router-dom'
 
 import { Typography } from '@material-ui/core'
 
-import { fetchCaseSet as fetchCaseSetAction } from '../../data/caseSets/caseSetsActions'
+import { caseSetDataAction } from '../../data/caseSets/caseSetsActions'
 import CaseSetComponent from './CaseSetComponent'
 import { RootState } from '../../data/rootReducer'
 import { CaseSetsState } from '../../data/caseSets/caseSetsReducers'
@@ -53,8 +54,12 @@ function mapStateToProps(state: RootState): CaseSetContainerDataProps {
   }
 }
 
-const mapDispatchToProps: CaseSetContainerFunctionProps = {
-  fetchCaseSet: fetchCaseSetAction,
-}
+const mapDispatchToProps: (
+  dispatch: Dispatch,
+) => CaseSetContainerFunctionProps = dispatch => ({
+  fetchCaseSet: (caseSetId: string): void => {
+    dispatch(caseSetDataAction.load(caseSetId, caseSetId))
+  },
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(CaseSetContainer)

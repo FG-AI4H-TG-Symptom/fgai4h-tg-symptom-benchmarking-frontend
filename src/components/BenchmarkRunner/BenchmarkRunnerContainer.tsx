@@ -104,7 +104,9 @@ const mapStateToProps: (
 })
 const mapDispatchToProps: BenchmarkRunnerContainerFunctionProps = {
   observeRunningBenchmark: observeRunningBenchmarkAction,
-  clearBenchmarkManager: benchmarkManagerDataAction.reset,
+  // todo: blocked on https://github.com/microsoft/TypeScript/issues/29131
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  clearBenchmarkManager: (benchmarkManagerDataAction.reset as any) as () => void,
 }
 export default connect(
   mapStateToProps,

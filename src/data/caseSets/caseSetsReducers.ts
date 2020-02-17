@@ -1,10 +1,7 @@
 import { CaseDataType } from './caseDataType'
-import {
-  DataState,
-  Loadable,
-  LoadingState,
-} from '../util/dataState/dataStateTypes'
+import { Loadable } from '../util/dataState/dataStateTypes'
 import { CaseSetsActionTypes } from './caseSetsActions'
+import dataStateGenericReducer from '../util/dataState/dataStateGenericReducer'
 
 export interface CaseSetsState {
   [caseSetId: string]: Loadable<CaseDataType[]>
@@ -14,17 +11,12 @@ const caseSetsInitialState: CaseSetsState = {}
 const actionHandlers: {
   [key in CaseSetsActionTypes]: (state: CaseSetsState, action) => CaseSetsState
 } = {
-  [CaseSetsActionTypes.FETCH_CASE_SET]: (state, action) => ({
-    ...state,
-    [action.payload]: LoadingState,
-  }),
-  [CaseSetsActionTypes.ADD_CASE_SET]: (state, action) => ({
-    ...state,
-    [action.payload.caseSetId]: {
-      data: action.payload.cases,
-      state: DataState.READY,
-    },
-  }),
+  [CaseSetsActionTypes.CASE_SET_DATA_ACTION]: dataStateGenericReducer<
+    CaseSetsState,
+    CaseDataType[],
+    undefined,
+    string
+  >(action => action.payload.metadata),
 }
 
 const caseSetsReducers = (

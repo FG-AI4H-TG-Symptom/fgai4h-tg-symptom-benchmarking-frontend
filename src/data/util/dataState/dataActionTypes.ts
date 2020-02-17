@@ -6,24 +6,40 @@ export enum DataActionTypes {
   ERROR = 'ERROR',
 }
 
-export type DataActionLoad<T, U> = {
+export type DataActionLoad<ParameterType, MetadataType> = {
   type: string
-  payload: { intent: DataActionTypes.LOAD; parameters: U }
+  payload: {
+    intent: DataActionTypes.LOAD
+    parameters: ParameterType
+    metadata: MetadataType
+  }
 }
-export type DataActionStore<T> = {
+export type DataActionStore<DataType, MetadataType> = {
   type: string
-  payload: { intent: DataActionTypes.STORE; data: T }
+  payload: {
+    intent: DataActionTypes.STORE
+    data: DataType
+    metadata: MetadataType
+  }
 }
-export type DataActionErrored<T> = {
+export type DataActionErrored<MetadataType> = {
   type: string
-  payload: { intent: DataActionTypes.ERROR; error: string }
+  payload: {
+    intent: DataActionTypes.ERROR
+    error: string
+    metadata: MetadataType
+  }
 }
-export type DataActionReset<T> = {
+export type DataActionReset<MetadataType> = {
   type: string
-  payload: { intent: DataActionTypes.RESET }
+  payload: { intent: DataActionTypes.RESET; metadata: MetadataType }
 }
-export type DataAction<T, U = void> =
-  | DataActionLoad<T, U>
-  | DataActionStore<T>
-  | DataActionErrored<T>
-  | DataActionReset<T>
+export type DataAction<
+  DataType,
+  LoadParametersType = void,
+  MetadataType = void
+> =
+  | DataActionLoad<LoadParametersType, MetadataType>
+  | DataActionStore<DataType, MetadataType>
+  | DataActionErrored<MetadataType>
+  | DataActionReset<MetadataType>

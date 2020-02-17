@@ -116,11 +116,19 @@ const mapStateToProps: (
   caseSetList: state.caseSetList,
 })
 const mapDispatchToProps: AiImplementationManagerContainerFunctionProps = {
-  fetchAiImplementationList: aiImplementationListDataActions.load,
+  // todo: blocked on https://github.com/microsoft/TypeScript/issues/29131
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  fetchAiImplementationList: (aiImplementationListDataActions.load as any) as (
+    parameters: aiImplementationListLoadParameters,
+  ) => void,
   // todo: blocked on https://github.com/microsoft/TypeScript/issues/29131
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   fetchCaseSetList: (caseSetListDataActions.load as any) as () => void,
-  createBenchmarkManager: benchmarkManagerDataAction.load,
+  // todo: blocked on https://github.com/microsoft/TypeScript/issues/29131
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  createBenchmarkManager: (benchmarkManagerDataAction.load as any) as (
+    benchmarkParameters: CreateBenchmarkManagerParameters,
+  ) => void,
 }
 export default connect(
   mapStateToProps,
