@@ -21,7 +21,7 @@ import {
   HourglassEmpty as TimeoutIcon,
 } from '@material-ui/icons'
 
-import { range, sum } from '../../data/util/math'
+import { range, sum } from '../../util/math'
 import {
   BenchmarkInfo,
   BenchmarkResultStatus,

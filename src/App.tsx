@@ -12,8 +12,8 @@ import { Menu as MenuIcon } from '@material-ui/icons'
 
 import * as Styled from './App.style'
 import { routes } from './routes'
-import LinkWrapper from './components/util/LinkWrapper'
-import NotFound from './components/util/NotFound'
+import LinkWrapper from './components/Common/LinkWrapper'
+import NotFound from './components/Common/NotFound'
 
 const App: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -27,7 +27,7 @@ const App: React.FC = () => {
   const title = currentRoute ? currentRoute.displayName : ''
 
   return (
-    <div>
+    <>
       <AppBar position='sticky'>
         <Toolbar>
           <IconButton
@@ -68,7 +68,7 @@ const App: React.FC = () => {
           <Route component={NotFound} />
         </Switch>
       </Styled.Main>
-    </div>
+    </>
   )
 }
 export default App

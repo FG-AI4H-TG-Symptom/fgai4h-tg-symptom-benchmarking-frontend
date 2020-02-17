@@ -7,7 +7,7 @@ import {
   CardHeader,
 } from '@material-ui/core'
 
-import TextPageWrapper from '../util/TextPageWrapper'
+import TextPageWrapper from '../Common/TextPageWrapper'
 
 const LandingPageComponent: React.FC<{}> = () => (
   <TextPageWrapper>

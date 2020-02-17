@@ -8,7 +8,7 @@ import { lastBenchmarkEvaluationDataAction } from '../../data/benchmarks/benchma
 import DataStateManager from '../Common/DataStateManager'
 import BenchmarkEvaluatorComponent from './BenchmarkEvaluatorComponent'
 import { BenchmarkInfo } from '../../data/benchmarks/benchmarkInfoDataType'
-import Warning from '../util/Warning'
+import Warning from '../Common/Warning'
 import { paths } from '../../routes'
 import { BenchmarkEvaluation } from '../../data/benchmarks/benchmarkEvaluationDataType'
 

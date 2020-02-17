@@ -14,7 +14,7 @@ import {
 import DataStateManager from '../Common/DataStateManager'
 import BenchmarkRunnerComponent from './BenchmarkRunnerComponent'
 import { BenchmarkInfo } from '../../data/benchmarks/benchmarkInfoDataType'
-import Warning from '../util/Warning'
+import Warning from '../Common/Warning'
 import { paths } from '../../routes'
 
 type BenchmarkRunnerContainerDataProps = {

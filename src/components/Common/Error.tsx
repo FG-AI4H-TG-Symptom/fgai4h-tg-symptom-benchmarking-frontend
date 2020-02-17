@@ -2,10 +2,10 @@ import React from 'react'
 
 import { Button, CardContent, CardHeader, Typography } from '@material-ui/core'
 
-import TextPageWrapper from '../util/TextPageWrapper'
+import TextPageWrapper from './TextPageWrapper'
 
 import * as Styled from './DataStateManager.style'
-import * as CommonStyled from '../util/CommonStyles'
+import * as CommonStyled from './CommonStyles'
 
 const Error: React.FC<{ error: string }> = ({ error }) => (
   <TextPageWrapper narrow>

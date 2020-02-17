@@ -6,9 +6,9 @@ const TextPageWrapper: React.FC<{ narrow?: boolean }> = ({
   children,
   narrow = false,
 }) => (
-  <Styled.FlexContainer>
+  <Styled.CenteredContainer>
     <Styled.Centered narrow={narrow}>{children}</Styled.Centered>
-  </Styled.FlexContainer>
+  </Styled.CenteredContainer>
 )
 
 export default TextPageWrapper
