@@ -25,3 +25,6 @@ yarn-error.log*
 ### Project
 # Editors
 .idea/
+
+# Config files
+.env.production
