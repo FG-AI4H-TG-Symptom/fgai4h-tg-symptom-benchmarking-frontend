@@ -1,6 +1,7 @@
 import LandingPage from './components/LandingPage'
 import CaseSetManager from './components/CaseSetManager'
 import CaseSetViewer from './components/CaseSetViewer'
+import CaseSetCreator from './components/CaseSetCreator'
 import AiImplementationManager from './components/AiImplementationManager'
 import BenchmarkRunner from './components/BenchmarkRunner'
 import BenchmarkCreator from './components/BenchmarkCreator'
@@ -10,6 +11,7 @@ export const paths = {
   home: (): string => '/',
   caseSetManager: (): string => '/cases',
   caseSetViewer: (caseSetId: string): string => `/cases/${caseSetId}`, // /cases/:caseSetId
+  caseSetCreator: (): string => '/cases/create',
   aiImplementationManager: (): string => '/ai-implementations',
   benchmarkRun: (benchmarkId: string): string =>
     `/benchmarks/run/${benchmarkId}`, // /benchmarks/run/:benchmarkId
@@ -28,7 +30,7 @@ export const routes = [
     visibleInMenu: true,
   },
   {
-    id: 'caseSetManager',
+    id: 'case-set-manager',
     displayName: 'Case set manager',
     path: paths.caseSetManager(),
     component: CaseSetManager,
@@ -36,7 +38,15 @@ export const routes = [
     visibleInMenu: true,
   },
   {
-    id: 'caseSetViewer',
+    id: 'case-set-creator',
+    displayName: 'Create case set',
+    path: paths.caseSetCreator(),
+    component: CaseSetCreator,
+    exact: true,
+    visibleInMenu: false,
+  },
+  {
+    id: 'case-set-viewer',
     displayName: 'Case set',
     path: paths.caseSetViewer(':caseSetId'),
     component: CaseSetViewer,

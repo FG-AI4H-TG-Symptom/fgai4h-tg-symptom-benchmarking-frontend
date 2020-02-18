@@ -5,16 +5,25 @@ import { DataState, Loadable } from '../../data/util/dataState/dataStateTypes'
 
 import Error from './Error'
 
-type DataStateManagerProps<T> = {
-  data: Loadable<T>
-  componentFunction: (data: T) => ReactNode
+type DataStateManagerProps<DataType> = {
+  data: Loadable<DataType>
   loading?: boolean // this is only intended for loading states that aren't covered by the state of the data itself
-}
+} & (
+  | {
+      componentFunction: (data: DataType) => ReactNode
+      allowUninitialized?: false
+    }
+  | {
+      componentFunction: (data: DataType | undefined) => ReactNode
+      allowUninitialized: true
+    }
+)
 
 function DataStateManager<T>({
   data,
   componentFunction,
   loading,
+  allowUninitialized,
 }: DataStateManagerProps<T>): ReactElement {
   if (loading || data.state === DataState.LOADING) {
     return <CircularProgress />
@@ -24,6 +33,10 @@ function DataStateManager<T>({
     return <Error error={data.error} />
   }
   if (data.state === DataState.INITIAL) {
+    if (allowUninitialized === true) {
+      return componentFunction(undefined) as ReactElement
+    }
+
     return <i>Uninitialized</i>
   }
 

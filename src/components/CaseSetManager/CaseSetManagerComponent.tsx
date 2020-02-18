@@ -17,7 +17,7 @@ import {
 
 import LinkWrapper from '../Common/LinkWrapper'
 import { paths } from '../../routes'
-import { CaseSetInfo } from '../../data/caseSetList/caseSetDataType'
+import { CaseSetInfo } from '../../data/caseSets/caseSetDataType'
 
 import * as Styled from './CaseSetManagerComponent.style'
 import * as CommonStyled from '../Common/CommonStyles'

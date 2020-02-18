@@ -18,7 +18,7 @@ import { ArrowForward as StartIcon } from '@material-ui/icons'
 import { useForm, ValidationResolver } from 'react-hook-form'
 
 import { AiImplementationInfo } from '../../data/aiImplementationList/aiImplementationDataType'
-import { CaseSetInfo } from '../../data/caseSetList/caseSetDataType'
+import { CaseSetInfo } from '../../data/caseSets/caseSetDataType'
 import { CreateBenchmarkManagerParameters } from '../../data/benchmarks/benchmarkActions'
 import ErrorIndicator from '../Common/ErrorIndicator'
 

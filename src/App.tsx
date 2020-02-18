@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { connect } from 'react-redux'
 import { Switch, Route, useLocation } from 'react-router-dom'
 import {
   AppBar,
@@ -15,8 +16,14 @@ import { routes } from './routes'
 import LinkWrapper from './components/Common/LinkWrapper'
 import NotFound from './components/Common/NotFound'
 import logo from './logo.svg'
+import { RootState } from './data/rootReducer'
+import Error from './components/Common/Error'
 
-const App: React.FC = () => {
+interface AppProps {
+  fatalError?: string
+}
+
+const App: React.FC<AppProps> = ({ fatalError }) => {
   const [menuOpen, setMenuOpen] = useState(false)
   const location = useLocation()
 
@@ -63,14 +70,23 @@ const App: React.FC = () => {
         </Styled.SideMenuList>
       </Drawer>
       <Styled.Main>
-        <Switch>
-          {routes.map(({ id, path, component, exact }) => (
-            <Route key={id} path={path} component={component} exact={exact} />
-          ))}
-          <Route component={NotFound} />
-        </Switch>
+        {fatalError ? (
+          <Error error={fatalError} />
+        ) : (
+          <Switch>
+            {routes.map(({ id, path, component, exact }) => (
+              <Route key={id} path={path} component={component} exact={exact} />
+            ))}
+            <Route component={NotFound} />
+          </Switch>
+        )}
       </Styled.Main>
     </>
   )
 }
-export default App
+
+const mapStateToProps = (state: RootState): AppProps => ({
+  fatalError: state.application.fatalError,
+})
+
+export default connect(mapStateToProps)(App)

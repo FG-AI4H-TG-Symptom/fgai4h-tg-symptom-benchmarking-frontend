@@ -3,15 +3,18 @@ import { Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import { useParams } from 'react-router-dom'
 
-import { caseSetDataAction } from '../../data/caseSets/caseSetsActions'
 import CaseSetViewerComponent from './CaseSetViewerComponent'
 import { RootState } from '../../data/rootReducer'
-import { CaseSetsState } from '../../data/caseSets/caseSetsReducers'
 import DataStateManager from '../Common/DataStateManager'
 import BasicPageLayout from '../Common/BasicPageLayout'
+import { caseSetDataAction } from '../../data/caseSets/caseSetActions'
+import { Loadable } from '../../data/util/dataState/dataStateTypes'
+import { CaseDataType } from '../../data/caseSets/caseDataType'
 
 type CaseSetContainerDataProps = {
-  caseSets: CaseSetsState
+  caseSets: {
+    [caseSetId: string]: Loadable<CaseDataType[]>
+  }
 }
 type CaseSetContainerFunctionProps = {
   fetchCaseSet: (caseSetId: string) => void
@@ -44,9 +47,8 @@ const CaseSetViewerContainer: React.FC<CaseSetContainerProps> = ({
 }
 
 function mapStateToProps(state: RootState): CaseSetContainerDataProps {
-  const { caseSets } = state
   return {
-    caseSets,
+    caseSets: state.caseSets.entries,
   }
 }
 

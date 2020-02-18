@@ -9,6 +9,7 @@ import {
 import urlBuilder, { COMPONENTS } from '../util/urlBuilder'
 import dataStateActionSagaWrapperLoadOnly from '../util/dataState/dataStateActionSagaWrapperLoadOnly'
 import { AiImplementationInfo } from './aiImplementationDataType'
+import httpResponseErrorMessage from '../util/httpResponseErrorMessage'
 
 type aiImplementationListServerResponse = {
   // eslint-disable-next-line camelcase
@@ -20,7 +21,7 @@ export function* fetchAiImplementationList(
   parameters: aiImplementationListLoadParameters,
 ) {
   try {
-    const response = yield fetch(
+    const response: Response = yield fetch(
       urlBuilder(COMPONENTS.EVALUATOR, 'list-all-ai-implementations'),
       {
         method: 'GET',
@@ -28,8 +29,7 @@ export function* fetchAiImplementationList(
     )
 
     if (!response.ok) {
-      // todo: error handling
-      throw new Error('Failed to fetch AI implementation list.')
+      throw new Error(httpResponseErrorMessage(response))
     }
 
     const {
@@ -73,8 +73,7 @@ export function* fetchAiImplementationHealth(aiImplementationName: string) {
     )
 
     if (!response.ok) {
-      // todo: error handling
-      throw new Error('Failed to fetch AI implementation list.')
+      throw new Error(httpResponseErrorMessage(response))
     }
 
     const data = yield response.json()
@@ -87,7 +86,10 @@ export function* fetchAiImplementationHealth(aiImplementationName: string) {
     )
   } catch (error) {
     yield put(
-      aiImplementationHealthDataActions.errored(error, aiImplementationName),
+      aiImplementationHealthDataActions.errored(
+        `Failed to fetch AI implementation list: ${error.message}`,
+        aiImplementationName,
+      ),
     )
   }
 }

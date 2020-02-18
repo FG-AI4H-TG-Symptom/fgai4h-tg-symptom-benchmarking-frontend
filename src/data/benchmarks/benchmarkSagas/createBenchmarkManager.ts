@@ -6,53 +6,62 @@ import {
   benchmarkManagerDataAction,
   CreateBenchmarkManagerParameters,
 } from '../benchmarkActions'
+import httpResponseErrorMessage from '../../util/httpResponseErrorMessage'
+import { fatalError } from '../../application/applicationActions'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export default function* createBenchmarkManager(
   parameters: CreateBenchmarkManagerParameters,
 ) {
-  const { caseSetId, aiImplementationNames } = parameters
+  try {
+    const { caseSetId, aiImplementationNames } = parameters
 
-  const response = yield fetch(
-    urlBuilder(COMPONENTS.EVALUATOR, 'create-benchmark-manager'),
-    {
-      method: 'GET',
-    },
-  )
-
-  if (!response.ok) {
-    // todo: error handling
-    throw new Error('Failed to request benchmark manager.')
-  }
-
-  const benchmarkManager: BenchmarkManager = yield response.json()
-
-  yield put(benchmarkManagerDataAction.store(benchmarkManager))
-
-  const startBenchmarkingResponse = yield fetch(
-    urlBuilder(COMPONENTS.EVALUATOR, 'run-case-set-against-all-ais'),
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
+    const response = yield fetch(
+      urlBuilder(COMPONENTS.EVALUATOR, 'create-benchmark-manager'),
+      {
+        method: 'GET',
       },
-      body: JSON.stringify({
-        benchmarkManagerId: benchmarkManager.benchmarkManagerId,
-        caseSetId,
-        aiImplementations: aiImplementationNames,
-      }),
-    },
-  )
+    )
 
-  if (!startBenchmarkingResponse.ok) {
-    // todo: error handling
-    throw new Error('Failed to run benchmark on case set.')
-  }
+    if (!response.ok) {
+      throw new Error(
+        httpResponseErrorMessage(response, 'create benchmark manager'),
+      )
+    }
 
-  const startBenchmarkingData = yield startBenchmarkingResponse.json()
+    const benchmarkManager: BenchmarkManager = yield response.json()
 
-  if (startBenchmarkingData !== 'Started') {
-    // todo: error handling
-    throw new Error('Failed to run benchmark on case set.')
+    yield put(benchmarkManagerDataAction.store(benchmarkManager))
+
+    const startBenchmarkingResponse = yield fetch(
+      urlBuilder(COMPONENTS.EVALUATOR, 'run-case-set-against-all-ais'),
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          benchmarkManagerId: benchmarkManager.benchmarkManagerId,
+          caseSetId,
+          aiImplementations: aiImplementationNames,
+        }),
+      },
+    )
+
+    if (!startBenchmarkingResponse.ok) {
+      throw new Error(httpResponseErrorMessage(response, 'start benchmark'))
+    }
+
+    const startBenchmarkingData = yield startBenchmarkingResponse.json()
+
+    if (startBenchmarkingData !== 'Started') {
+      throw new Error(
+        `Unexpected response from server: ${startBenchmarkingData}`,
+      )
+    }
+  } catch (error) {
+    yield put(
+      fatalError(`Failed to run benchmark on case set: ${error.message}`),
+    )
   }
 }

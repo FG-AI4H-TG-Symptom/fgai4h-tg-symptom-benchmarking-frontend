@@ -12,8 +12,7 @@ import {
 import BenchmarkCreatorComponent from './BenchmarkCreatorComponent'
 import { AiImplementationListState } from '../../data/aiImplementationList/aiImplementationListReducers'
 import { RootState } from '../../data/rootReducer'
-import { CaseSetListState } from '../../data/caseSetList/caseSetListReducers'
-import { caseSetListDataActions } from '../../data/caseSetList/caseSetListActions'
+import { caseSetListDataActions } from '../../data/caseSets/caseSetActions'
 import {
   benchmarkManagerDataAction,
   CreateBenchmarkManagerParameters,
@@ -23,11 +22,12 @@ import { BenchmarkManager } from '../../data/benchmarks/benchmarkManagerDataType
 import { paths } from '../../routes'
 import Error from '../Common/Error'
 import BasicPageLayout from '../Common/BasicPageLayout'
+import { CaseSetInfo } from '../../data/caseSets/caseSetDataType'
 
 type AiImplementationManagerContainerDataProps = {
   aiImplementationList: AiImplementationListState
   benchmarkManager: Loadable<BenchmarkManager>
-  caseSetList: CaseSetListState
+  caseSetList: Loadable<CaseSetInfo[]>
 }
 type AiImplementationManagerContainerFunctionProps = {
   fetchAiImplementationList: (
@@ -111,7 +111,7 @@ const mapStateToProps: (
 ) => AiImplementationManagerContainerDataProps = state => ({
   aiImplementationList: state.aiImplementationList,
   benchmarkManager: state.benchmark.benchmarkManager,
-  caseSetList: state.caseSetList,
+  caseSetList: state.caseSets.overview,
 })
 const mapDispatchToProps: AiImplementationManagerContainerFunctionProps = {
   fetchAiImplementationList: aiImplementationListDataActions.load,
