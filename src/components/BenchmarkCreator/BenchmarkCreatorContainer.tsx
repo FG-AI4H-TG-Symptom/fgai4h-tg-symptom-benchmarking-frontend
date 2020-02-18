@@ -22,6 +22,7 @@ import { DataState, Loadable } from '../../data/util/dataState/dataStateTypes'
 import { BenchmarkManager } from '../../data/benchmarks/benchmarkManagerDataType'
 import { paths } from '../../routes'
 import Error from '../Common/Error'
+import BasicPageLayout from '../Common/BasicPageLayout'
 
 type AiImplementationManagerContainerDataProps = {
   aiImplementationList: AiImplementationListState
@@ -99,12 +100,9 @@ const BenchmarkCreatorContainer: React.FC<AiImplementationManagerContainerProps>
   }
 
   return (
-    <>
-      <Typography variant='h2' gutterBottom>
-        Select settings for a new benchmark
-      </Typography>
+    <BasicPageLayout title='Select settings for a new benchmark'>
       {content}
-    </>
+    </BasicPageLayout>
   )
 }
 

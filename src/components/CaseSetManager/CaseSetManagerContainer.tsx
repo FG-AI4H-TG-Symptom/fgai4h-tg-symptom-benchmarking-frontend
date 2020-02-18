@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 
-import { Typography } from '@material-ui/core'
-
 import { caseSetListDataActions } from '../../data/caseSetList/caseSetListActions'
 import CaseSetManagerComponent from './CaseSetManagerComponent'
 import { CaseSetListState } from '../../data/caseSetList/caseSetListReducers'
 import { RootState } from '../../data/rootReducer'
 import DataStateManager from '../Common/DataStateManager'
+import BasicPageLayout from '../Common/BasicPageLayout'
 
 type CaseSetManagerContainerDataProps = {
   caseSetList: CaseSetListState
@@ -27,17 +26,14 @@ const CaseSetManagerContainer: React.FC<CaseSetManagerContainerProps> = ({
   }, [fetchCaseSetList])
 
   return (
-    <>
-      <Typography variant='h2' gutterBottom>
-        Case sets
-      </Typography>
+    <BasicPageLayout title='Case sets'>
       <DataStateManager
         data={caseSetList}
         componentFunction={(caseSetListData): JSX.Element => (
           <CaseSetManagerComponent caseSetList={caseSetListData} />
         )}
       />
-    </>
+    </BasicPageLayout>
   )
 }
 

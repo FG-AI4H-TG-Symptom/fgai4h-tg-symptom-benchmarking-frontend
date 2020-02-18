@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 
-import { Typography } from '@material-ui/core'
 import { RootState } from '../../data/rootReducer'
 import { Loadable } from '../../data/util/dataState/dataStateTypes'
 import { lastBenchmarkEvaluationDataAction } from '../../data/benchmarks/benchmarkActions'
@@ -11,6 +10,7 @@ import { BenchmarkInfo } from '../../data/benchmarks/benchmarkInfoDataType'
 import Warning from '../Common/Warning'
 import { paths } from '../../routes'
 import { BenchmarkEvaluation } from '../../data/benchmarks/benchmarkEvaluationDataType'
+import BasicPageLayout from '../Common/BasicPageLayout'
 
 type BenchmarkRunnerContainerDataProps = {
   currentBenchmarkingSession: BenchmarkInfo
@@ -46,10 +46,7 @@ const BenchmarkEvaluatorContainer: React.FC<BenchmarkRunnerContainerProps> = ({
   }
 
   return (
-    <>
-      <Typography variant='h2' gutterBottom>
-        Benchmark evaluation
-      </Typography>
+    <BasicPageLayout title='Benchmark evaluation'>
       <DataStateManager
         data={lastBenchmarkEvaluation}
         componentFunction={(evaluation): JSX.Element => (
@@ -57,7 +54,7 @@ const BenchmarkEvaluatorContainer: React.FC<BenchmarkRunnerContainerProps> = ({
         )}
         loading={!currentBenchmarkingSession}
       />
-    </>
+    </BasicPageLayout>
   )
 }
 

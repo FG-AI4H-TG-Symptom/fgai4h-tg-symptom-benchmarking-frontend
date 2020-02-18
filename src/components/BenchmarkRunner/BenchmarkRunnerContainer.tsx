@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { useParams, useHistory } from 'react-router-dom'
 
-import { Box, Button, CircularProgress, Typography } from '@material-ui/core'
+import { Button, CircularProgress } from '@material-ui/core'
 import { ArrowForward as ContinueIcon } from '@material-ui/icons'
 import { RootState } from '../../data/rootReducer'
 import { BenchmarkManager } from '../../data/benchmarks/benchmarkManagerDataType'
@@ -16,6 +16,7 @@ import BenchmarkRunnerComponent from './BenchmarkRunnerComponent'
 import { BenchmarkInfo } from '../../data/benchmarks/benchmarkInfoDataType'
 import Warning from '../Common/Warning'
 import { paths } from '../../routes'
+import BasicPageLayout from '../Common/BasicPageLayout'
 
 type BenchmarkRunnerContainerDataProps = {
   benchmarkManager: Loadable<BenchmarkManager>
@@ -62,29 +63,32 @@ const BenchmarkRunnerContainer: React.FC<BenchmarkRunnerContainerProps> = ({
     )
   }
 
-  return (
+  const title = (
     <>
-      <Box display='flex' justifyContent='space-between' alignItems='center'>
-        <Typography variant='h2' gutterBottom>
-          Running benchmark{' '}
-          <DataStateManager<BenchmarkManager>
-            data={benchmarkManager}
-            componentFunction={(data): string => data.benchmarkManagerId}
-          />
-        </Typography>
-        {currentBenchmarkingSession && currentBenchmarkingSession.finished ? (
-          <Button
-            variant='contained'
-            color='primary'
-            endIcon={<ContinueIcon />}
-            onClick={handleViewReport}
-          >
-            View report
-          </Button>
-        ) : (
-          <CircularProgress />
-        )}
-      </Box>
+      Running benchmark{' '}
+      <DataStateManager<BenchmarkManager>
+        data={benchmarkManager}
+        componentFunction={(data): string => data.benchmarkManagerId}
+      />
+    </>
+  )
+
+  const viewReportButton =
+    currentBenchmarkingSession && currentBenchmarkingSession.finished ? (
+      <Button
+        variant='contained'
+        color='primary'
+        endIcon={<ContinueIcon />}
+        onClick={handleViewReport}
+      >
+        View report
+      </Button>
+    ) : (
+      <CircularProgress />
+    )
+
+  return (
+    <BasicPageLayout title={title} action={viewReportButton}>
       <DataStateManager
         data={benchmarkManager}
         componentFunction={(): JSX.Element => (
@@ -92,7 +96,7 @@ const BenchmarkRunnerContainer: React.FC<BenchmarkRunnerContainerProps> = ({
         )}
         loading={!currentBenchmarkingSession}
       />
-    </>
+    </BasicPageLayout>
   )
 }
 

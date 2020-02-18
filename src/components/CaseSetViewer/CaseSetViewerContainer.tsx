@@ -3,13 +3,12 @@ import { Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import { useParams } from 'react-router-dom'
 
-import { Typography } from '@material-ui/core'
-
 import { caseSetDataAction } from '../../data/caseSets/caseSetsActions'
 import CaseSetViewerComponent from './CaseSetViewerComponent'
 import { RootState } from '../../data/rootReducer'
 import { CaseSetsState } from '../../data/caseSets/caseSetsReducers'
 import DataStateManager from '../Common/DataStateManager'
+import BasicPageLayout from '../Common/BasicPageLayout'
 
 type CaseSetContainerDataProps = {
   caseSets: CaseSetsState
@@ -32,10 +31,7 @@ const CaseSetViewerContainer: React.FC<CaseSetContainerProps> = ({
 
   const caseSet = caseSets[caseSetId]
   return (
-    <>
-      <Typography variant='h2' gutterBottom>
-        Cases in &quot;{caseSetId}&quot;
-      </Typography>
+    <BasicPageLayout title={`Cases in '${caseSetId}'`}>
       <DataStateManager
         loading={!caseSet}
         data={caseSet}
@@ -43,7 +39,7 @@ const CaseSetViewerContainer: React.FC<CaseSetContainerProps> = ({
           <CaseSetViewerComponent caseSet={caseSetData} />
         )}
       />
-    </>
+    </BasicPageLayout>
   )
 }
 

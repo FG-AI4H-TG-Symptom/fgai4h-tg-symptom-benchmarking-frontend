@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 
-import { Typography } from '@material-ui/core'
-
 import {
   aiImplementationListDataActions,
   aiImplementationListLoadParameters,
@@ -11,6 +9,7 @@ import AiImplementationManagerComponent from './AiImplementationManagerComponent
 import { AiImplementationListState } from '../../data/aiImplementationList/aiImplementationListReducers'
 import { RootState } from '../../data/rootReducer'
 import DataStateManager from '../Common/DataStateManager'
+import BasicPageLayout from '../Common/BasicPageLayout'
 
 type AiImplementationManagerContainerDataProps = {
   aiImplementationList: AiImplementationListState
@@ -32,10 +31,7 @@ const AiImplementationManagerContainer: React.FC<AiImplementationManagerContaine
   }, [fetchAiImplementationList])
 
   return (
-    <>
-      <Typography variant='h2' gutterBottom>
-        AI implementations
-      </Typography>
+    <BasicPageLayout title='AI implementations'>
       <DataStateManager
         data={aiImplementationList}
         componentFunction={(aiImplementationListData): JSX.Element => (
@@ -44,7 +40,7 @@ const AiImplementationManagerContainer: React.FC<AiImplementationManagerContaine
           />
         )}
       />
-    </>
+    </BasicPageLayout>
   )
 }
 
