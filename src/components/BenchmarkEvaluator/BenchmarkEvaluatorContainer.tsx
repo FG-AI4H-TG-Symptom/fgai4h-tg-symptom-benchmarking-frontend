@@ -68,9 +68,7 @@ const mapStateToProps: (
   lastBenchmarkEvaluation: state.benchmark.lastEvaluation,
 })
 const mapDispatchToProps: BenchmarkRunnerContainerFunctionProps = {
-  // todo: blocked on https://github.com/microsoft/TypeScript/issues/29131
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  fetchLastBenchmarkEvaluation: (lastBenchmarkEvaluationDataAction.load as any) as () => void,
+  fetchLastBenchmarkEvaluation: lastBenchmarkEvaluationDataAction.load,
 }
 export default connect(
   mapStateToProps,

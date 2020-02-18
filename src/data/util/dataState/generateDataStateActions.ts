@@ -6,20 +6,30 @@ import {
   DataActionTypes,
 } from './dataActionTypes'
 
+// the awkward ternaries are blocked on https://github.com/microsoft/TypeScript/issues/29131
 type DataStateActions<DataType, ParameterType = void, MetadataType = void> = {
   load: (
-    parameters: ParameterType,
-    metadata: MetadataType,
+    ...params: MetadataType extends void
+      ? ParameterType extends void
+        ? []
+        : Parameters<(parameters: ParameterType) => void>
+      : Parameters<(parameters: ParameterType, metadata: MetadataType) => void>
   ) => DataActionLoad<ParameterType, MetadataType>
   store: (
-    data: DataType,
-    metadata: MetadataType,
+    ...params: MetadataType extends void
+      ? Parameters<(data: DataType) => void>
+      : Parameters<(data: DataType, metadata: MetadataType) => void>
   ) => DataActionStore<DataType, MetadataType>
   errored: (
-    error: string,
-    metadata: MetadataType,
+    ...params: MetadataType extends void
+      ? Parameters<(error: string) => void>
+      : Parameters<(error: string, metadata: MetadataType) => void>
   ) => DataActionErrored<MetadataType>
-  reset: (metadata: MetadataType) => DataActionReset<MetadataType>
+  reset: (
+    ...params: MetadataType extends void
+      ? []
+      : Parameters<(metadata: MetadataType) => void>
+  ) => DataActionReset<MetadataType>
 }
 
 const generateDataStateActions = <
@@ -30,21 +40,21 @@ const generateDataStateActions = <
   type: string,
 ): DataStateActions<DataType, ParameterType, MetadataType> => ({
   load: (
-    parameters,
-    metadata,
+    parameters?,
+    metadata?,
   ): DataActionLoad<ParameterType, MetadataType> => ({
     type,
     payload: { intent: DataActionTypes.LOAD, parameters, metadata },
   }),
-  store: (data, metadata): DataActionStore<DataType, MetadataType> => ({
+  store: (data, metadata?): DataActionStore<DataType, MetadataType> => ({
     type,
     payload: { intent: DataActionTypes.STORE, data, metadata },
   }),
-  errored: (error, metadata): DataActionErrored<MetadataType> => ({
+  errored: (error, metadata?): DataActionErrored<MetadataType> => ({
     type,
     payload: { intent: DataActionTypes.ERROR, error, metadata },
   }),
-  reset: (metadata): DataActionReset<MetadataType> => ({
+  reset: (metadata?): DataActionReset<MetadataType> => ({
     type,
     payload: { intent: DataActionTypes.RESET, metadata },
   }),

@@ -51,7 +51,7 @@ const BenchmarkCreatorContainer: React.FC<AiImplementationManagerContainerProps>
   const history = useHistory()
 
   useEffect(() => {
-    fetchAiImplementationList()
+    fetchAiImplementationList({ withHealth: false })
     fetchCaseSetList()
   }, [fetchAiImplementationList, fetchCaseSetList])
 
@@ -116,19 +116,9 @@ const mapStateToProps: (
   caseSetList: state.caseSetList,
 })
 const mapDispatchToProps: AiImplementationManagerContainerFunctionProps = {
-  // todo: blocked on https://github.com/microsoft/TypeScript/issues/29131
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  fetchAiImplementationList: (aiImplementationListDataActions.load as any) as (
-    parameters: aiImplementationListLoadParameters,
-  ) => void,
-  // todo: blocked on https://github.com/microsoft/TypeScript/issues/29131
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  fetchCaseSetList: (caseSetListDataActions.load as any) as () => void,
-  // todo: blocked on https://github.com/microsoft/TypeScript/issues/29131
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  createBenchmarkManager: (benchmarkManagerDataAction.load as any) as (
-    benchmarkParameters: CreateBenchmarkManagerParameters,
-  ) => void,
+  fetchAiImplementationList: aiImplementationListDataActions.load,
+  fetchCaseSetList: caseSetListDataActions.load,
+  createBenchmarkManager: benchmarkManagerDataAction.load,
 }
 export default connect(
   mapStateToProps,

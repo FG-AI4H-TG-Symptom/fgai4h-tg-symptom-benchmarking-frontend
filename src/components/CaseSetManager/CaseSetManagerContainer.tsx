@@ -47,9 +47,7 @@ const mapStateToProps: (
   caseSetList: state.caseSetList,
 })
 const mapDispatchToProps: CaseSetManagerContainerFunctionProps = {
-  // todo: blocked on https://github.com/microsoft/TypeScript/issues/29131
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  fetchCaseSetList: (caseSetListDataActions.load as any) as () => void,
+  fetchCaseSetList: caseSetListDataActions.load,
 }
 export default connect(
   mapStateToProps,
