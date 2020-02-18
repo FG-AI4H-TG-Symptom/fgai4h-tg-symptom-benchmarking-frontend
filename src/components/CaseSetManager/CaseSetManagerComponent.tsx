@@ -52,7 +52,7 @@ const CaseSetManagerComponent: React.FC<CaseSetManagerComponentProps> = ({
                 ) : null}
               </TableCell>
               <CommonStyled.CenteredTableCell>
-                <LinkWrapper to={paths.cases(id)}>
+                <LinkWrapper to={paths.caseSetViewer(id)}>
                   <IconButton aria-label='view'>
                     <OpenIcon />
                   </IconButton>

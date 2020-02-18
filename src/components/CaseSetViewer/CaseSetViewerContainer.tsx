@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom'
 import { Typography } from '@material-ui/core'
 
 import { caseSetDataAction } from '../../data/caseSets/caseSetsActions'
-import CaseSetComponent from './CaseSetComponent'
+import CaseSetViewerComponent from './CaseSetViewerComponent'
 import { RootState } from '../../data/rootReducer'
 import { CaseSetsState } from '../../data/caseSets/caseSetsReducers'
 import DataStateManager from '../Common/DataStateManager'
@@ -20,7 +20,7 @@ type CaseSetContainerFunctionProps = {
 type CaseSetContainerProps = CaseSetContainerDataProps &
   CaseSetContainerFunctionProps
 
-const CaseSetContainer: React.FC<CaseSetContainerProps> = ({
+const CaseSetViewerContainer: React.FC<CaseSetContainerProps> = ({
   caseSets,
   fetchCaseSet,
 }) => {
@@ -40,7 +40,7 @@ const CaseSetContainer: React.FC<CaseSetContainerProps> = ({
         loading={!caseSet}
         data={caseSet}
         componentFunction={(caseSetData): JSX.Element => (
-          <CaseSetComponent caseSet={caseSetData} />
+          <CaseSetViewerComponent caseSet={caseSetData} />
         )}
       />
     </>
@@ -62,4 +62,7 @@ const mapDispatchToProps: (
   },
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(CaseSetContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(CaseSetViewerContainer)

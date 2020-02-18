@@ -17,7 +17,7 @@ import {
   PresenceStates,
 } from '../../data/caseSets/caseDataType'
 
-import * as Styled from './CaseSetComponent.style'
+import * as Styled from './CaseSetViewerComponent.style'
 import TextWithTooltipSelf from '../Common/TextWithTooltipSelf'
 import ViewRaw from '../Common/ViewRaw'
 
@@ -31,7 +31,9 @@ export interface CaseSetComponentProps {
   caseSet: CaseDataType[]
 }
 
-const CaseSetComponent: React.FC<CaseSetComponentProps> = ({ caseSet }) => (
+const CaseSetViewerComponent: React.FC<CaseSetComponentProps> = ({
+  caseSet,
+}) => (
   <>
     <TableContainer component={Paper}>
       <Table>
@@ -92,4 +94,4 @@ const CaseSetComponent: React.FC<CaseSetComponentProps> = ({ caseSet }) => (
   </>
 )
 
-export default CaseSetComponent
+export default CaseSetViewerComponent
