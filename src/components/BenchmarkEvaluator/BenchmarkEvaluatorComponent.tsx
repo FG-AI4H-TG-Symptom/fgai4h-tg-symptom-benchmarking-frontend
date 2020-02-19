@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core'
 
 import { BenchmarkEvaluation } from '../../data/benchmarks/benchmarkEvaluationDataType'
-import ViewRaw from '../Common/ViewRaw'
+import ViewRawFooter from '../Common/ViewRawFooter'
 import { mean } from '../../util/math'
 
 import * as CommonStyled from '../Common/CommonStyles'
@@ -71,7 +71,7 @@ const BenchmarkEvaluatorComponent: React.FC<AiImplementationManagerComponentProp
           </TableBody>
         </Table>
       </TableContainer>
-      <ViewRaw data={evaluation} ariaPrefix='evaluation-source' />
+      <ViewRawFooter data={evaluation} ariaPrefix='evaluation-source' />
     </>
   )
 }
