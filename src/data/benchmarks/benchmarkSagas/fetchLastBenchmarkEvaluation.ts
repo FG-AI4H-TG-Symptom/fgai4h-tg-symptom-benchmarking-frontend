@@ -13,12 +13,12 @@ export default function* fetchLastBenchmarkEvaluation() {
   try {
     let state: RootState = yield select()
     const benchmarkInfo = state.benchmark.currentBenchmarkingSession
-    if (!state.caseSets[benchmarkInfo.case_set_id]) {
+    if (!state.caseSets.entries[benchmarkInfo.case_set_id]) {
       yield call(fetchCaseSetSaga, benchmarkInfo.case_set_id)
       state = yield select()
     }
 
-    const caseSetLoadable = state.caseSets[benchmarkInfo.case_set_id]
+    const caseSetLoadable = state.caseSets.entries[benchmarkInfo.case_set_id]
     if (caseSetLoadable.state !== DataState.READY) {
       throw new Error('Case set not ready for benchmark evaluation')
     }
