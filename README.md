@@ -1,33 +1,26 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# FG AI4H TG Symptom – Benchmarking frontend
+
+## Getting started
+
+These instructions only apply to the frontend!
+The backend has [its own repository](https://github.com/babylonhealth/itu_who_2019_symptom_assessment_mmv_benchmark) 
+with the respective installation instructions.
+
+### Prerequisites
+- make sure you have a recent-ish version of `node` & `npm` installed
+  (consider using [nvm](https://github.com/nvm-sh/nvm))
+
+### Setting up
+1. Clone the repository  
+  `git clone https://github.com/FG-AI4H-TG-Symptom/fgai4h-tg-symptom-benchmarking-frontend.git`
+2. Install dependencies  
+  `npm i`
+3. Start the development server
+  `npm start`
+4. The frontend is available then on [http://localhost:3000](http://localhost:3000)
 
 ## Project Structure
-```txt
-- src
-| - actions # redux action creators
-| | - ___Actions.tsx # action creators for one entity
-|
-| - components # (pure) react components, always unaware of redux
-| | - ___Component.tsx
-| | - ___Component.test.tsx
-|
-| - constants # enums 
-| | - actionTypes.ts
-|
-| - containers # (pure) react components, always connected to redux -- as little UI as possible
-| | - ___Contain.tsx
-|
-| - reducers # redux reducers
-| | - rootSaga.ts # root reducer
-| | - ___Reducers.ts
-|
-| - sagas # redux sagas
-| | - rootSaga.ts # root saga
-| | - ___Sagas.ts
-|
-| - types # project-internal typings
-| | - ___.ts
-|
-```
+*Updated project structure will be documented soon*
 
 ## Available Scripts
 
@@ -66,7 +59,9 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
+## React / `create-react-app`
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
