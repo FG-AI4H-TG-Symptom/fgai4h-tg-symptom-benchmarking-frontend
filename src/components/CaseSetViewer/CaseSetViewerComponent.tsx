@@ -5,6 +5,7 @@ import { CaseDataType } from '../../data/caseSets/caseDataType'
 import ViewRaw from '../Common/ViewRaw'
 import CaseSetViewerTable from './CaseSetViewerTable'
 import TabFactory, { TabFactoryEntry } from '../Common/TabFactory'
+import CaseSetViewerAnalysis from './CaseSetViewerAnalysis'
 
 export interface CaseSetComponentProps {
   caseSet: CaseDataType[]
@@ -25,8 +26,9 @@ const CaseSetViewerComponent: React.FC<CaseSetComponentProps> = ({
     {
       id: 'analysis',
       name: 'Analysis',
-      componentCallback: (): null => null,
-      disabled: true,
+      componentCallback: (): JSX.Element => (
+        <CaseSetViewerAnalysis caseSet={caseSet} />
+      ),
     },
     {
       id: 'raw',
@@ -47,6 +49,7 @@ const CaseSetViewerComponent: React.FC<CaseSetComponentProps> = ({
         ariaPrefix='case-set-viewing'
         ariaLabel='case set viewing mode tabs'
         tabs={tabs}
+        stateStorage='hash'
       />
     </Paper>
   )
