@@ -11,7 +11,7 @@ import {
 import { ArrowForward as StartIcon } from '@material-ui/icons'
 import { useForm, ValidationResolver } from 'react-hook-form'
 
-import ErrorIndicator from '../Common/ErrorIndicator'
+import ErrorIndicator from '../common/ErrorIndicator'
 import { CreateCaseSetParameters } from '../../data/caseSets/caseSetActions'
 
 interface FormData {

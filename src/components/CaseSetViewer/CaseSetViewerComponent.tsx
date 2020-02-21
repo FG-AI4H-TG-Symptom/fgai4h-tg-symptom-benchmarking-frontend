@@ -2,9 +2,9 @@ import React from 'react'
 import { Paper } from '@material-ui/core'
 
 import { CaseDataType } from '../../data/caseSets/caseDataType'
-import ViewRaw from '../Common/ViewRaw'
+import ViewRaw from '../common/ViewRaw'
 import CaseSetViewerTable from './CaseSetViewerTable'
-import TabFactory, { TabFactoryEntry } from '../Common/TabFactory'
+import TabFactory, { TabFactoryEntry } from '../common/TabFactory'
 import CaseSetViewerAnalysis from './CaseSetViewerAnalysis'
 
 export interface CaseSetComponentProps {

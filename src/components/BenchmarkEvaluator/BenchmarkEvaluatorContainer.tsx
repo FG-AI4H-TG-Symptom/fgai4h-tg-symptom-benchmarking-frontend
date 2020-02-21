@@ -4,13 +4,13 @@ import { connect } from 'react-redux'
 import { RootState } from '../../data/rootReducer'
 import { Loadable } from '../../data/util/dataState/dataStateTypes'
 import { lastBenchmarkEvaluationDataAction } from '../../data/benchmarks/benchmarkActions'
-import DataStateManager from '../Common/DataStateManager'
+import DataStateManager from '../common/DataStateManager'
 import BenchmarkEvaluatorComponent from './BenchmarkEvaluatorComponent'
 import { BenchmarkInfo } from '../../data/benchmarks/benchmarkInfoDataType'
-import Warning from '../Common/Warning'
+import Warning from '../common/Warning'
 import { paths } from '../../routes'
 import { BenchmarkEvaluation } from '../../data/benchmarks/benchmarkEvaluationDataType'
-import BasicPageLayout from '../Common/BasicPageLayout'
+import BasicPageLayout from '../common/BasicPageLayout'
 
 type BenchmarkRunnerContainerDataProps = {
   currentBenchmarkingSession: BenchmarkInfo

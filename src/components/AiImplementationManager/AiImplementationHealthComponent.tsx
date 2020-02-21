@@ -7,7 +7,7 @@ import {
 
 import { AiImplementationHealth } from '../../data/aiImplementationList/aiImplementationDataType'
 import { Loadable } from '../../data/util/dataState/dataStateTypes'
-import DataStateManager from '../Common/DataStateManager'
+import DataStateManager from '../common/DataStateManager'
 
 const AiImplementationHealthComponent: React.FC<{
   health: Loadable<AiImplementationHealth>

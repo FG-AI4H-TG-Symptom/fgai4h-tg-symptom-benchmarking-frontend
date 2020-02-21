@@ -7,10 +7,10 @@ import {
   createCaseSetDataActions,
   CreateCaseSetParameters,
 } from '../../data/caseSets/caseSetActions'
-import BasicPageLayout from '../Common/BasicPageLayout'
+import BasicPageLayout from '../common/BasicPageLayout'
 import { RootState } from '../../data/rootReducer'
 import { DataState, Loadable } from '../../data/util/dataState/dataStateTypes'
-import DataStateManager from '../Common/DataStateManager'
+import DataStateManager from '../common/DataStateManager'
 import { paths } from '../../routes'
 
 type CaseSetCreatorContainerDataProps = {

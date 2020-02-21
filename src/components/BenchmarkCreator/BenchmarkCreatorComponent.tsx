@@ -20,7 +20,7 @@ import { useForm, ValidationResolver } from 'react-hook-form'
 import { AiImplementationInfo } from '../../data/aiImplementationList/aiImplementationDataType'
 import { CaseSetInfo } from '../../data/caseSets/caseSetDataType'
 import { CreateBenchmarkManagerParameters } from '../../data/benchmarks/benchmarkActions'
-import ErrorIndicator from '../Common/ErrorIndicator'
+import ErrorIndicator from '../common/ErrorIndicator'
 
 interface FormData {
   aiImplementations: boolean[]

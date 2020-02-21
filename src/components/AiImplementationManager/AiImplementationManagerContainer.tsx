@@ -8,8 +8,8 @@ import {
 import AiImplementationManagerComponent from './AiImplementationManagerComponent'
 import { AiImplementationListState } from '../../data/aiImplementationList/aiImplementationListReducers'
 import { RootState } from '../../data/rootReducer'
-import DataStateManager from '../Common/DataStateManager'
-import BasicPageLayout from '../Common/BasicPageLayout'
+import DataStateManager from '../common/DataStateManager'
+import BasicPageLayout from '../common/BasicPageLayout'
 
 type AiImplementationManagerContainerDataProps = {
   aiImplementationList: AiImplementationListState

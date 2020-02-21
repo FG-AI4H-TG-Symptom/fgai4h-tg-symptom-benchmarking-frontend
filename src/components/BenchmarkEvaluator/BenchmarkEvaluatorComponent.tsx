@@ -10,10 +10,10 @@ import {
 } from '@material-ui/core'
 
 import { BenchmarkEvaluation } from '../../data/benchmarks/benchmarkEvaluationDataType'
-import ViewRawFooter from '../Common/ViewRawFooter'
+import ViewRawFooter from '../common/ViewRawFooter'
 import { mean } from '../../util/math'
 
-import * as CommonStyled from '../Common/CommonStyles'
+import * as CommonStyled from '../common/CommonStyles'
 
 interface AiImplementationManagerComponentProps {
   evaluation: BenchmarkEvaluation

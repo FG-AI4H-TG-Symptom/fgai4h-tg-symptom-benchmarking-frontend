@@ -20,8 +20,8 @@ import {
 import { DataState, Loadable } from '../../data/util/dataState/dataStateTypes'
 import { BenchmarkManager } from '../../data/benchmarks/benchmarkManagerDataType'
 import { paths } from '../../routes'
-import Error from '../Common/Error'
-import BasicPageLayout from '../Common/BasicPageLayout'
+import Error from '../common/Error'
+import BasicPageLayout from '../common/BasicPageLayout'
 import { CaseSetInfo } from '../../data/caseSets/caseSetDataType'
 
 type AiImplementationManagerContainerDataProps = {

@@ -18,7 +18,7 @@ import {
 } from '../../data/caseSets/caseDataType'
 
 import * as Styled from './CaseSetViewerTable.style'
-import TextWithTooltipSelf from '../Common/TextWithTooltipSelf'
+import TextWithTooltipSelf from '../common/TextWithTooltipSelf'
 
 const PresenceIcon: React.FC<{ presence: Presence }> = ({ presence }) => (
   <Tooltip title={presence}>

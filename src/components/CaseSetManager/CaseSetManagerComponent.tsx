@@ -15,12 +15,12 @@ import {
   PlayCircleOutline as StartBenchmarkIcon,
 } from '@material-ui/icons'
 
-import LinkWrapper from '../Common/LinkWrapper'
+import LinkWrapper from '../common/LinkWrapper'
 import { paths } from '../../routes'
 import { CaseSetInfo } from '../../data/caseSets/caseSetDataType'
 
 import * as Styled from './CaseSetManagerComponent.style'
-import * as CommonStyled from '../Common/CommonStyles'
+import * as CommonStyled from '../common/CommonStyles'
 
 const LONDON_CASE_SET_ID = 'london_model2019_cases_v1'
 

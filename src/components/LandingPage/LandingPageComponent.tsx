@@ -8,7 +8,7 @@ import {
   Link,
 } from '@material-ui/core'
 
-import TextPageWrapper from '../Common/TextPageWrapper'
+import TextPageWrapper from '../common/TextPageWrapper'
 import logo from '../../logo.svg'
 import * as Styled from './LandingPageComponent.style'
 

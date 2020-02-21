@@ -11,12 +11,12 @@ import {
   benchmarkManagerDataAction,
   observeRunningBenchmark as observeRunningBenchmarkAction,
 } from '../../data/benchmarks/benchmarkActions'
-import DataStateManager from '../Common/DataStateManager'
+import DataStateManager from '../common/DataStateManager'
 import BenchmarkRunnerComponent from './BenchmarkRunnerComponent'
 import { BenchmarkInfo } from '../../data/benchmarks/benchmarkInfoDataType'
-import Warning from '../Common/Warning'
+import Warning from '../common/Warning'
 import { paths } from '../../routes'
-import BasicPageLayout from '../Common/BasicPageLayout'
+import BasicPageLayout from '../common/BasicPageLayout'
 
 type BenchmarkRunnerContainerDataProps = {
   benchmarkManager: Loadable<BenchmarkManager>

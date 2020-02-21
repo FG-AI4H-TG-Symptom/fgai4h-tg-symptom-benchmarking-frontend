@@ -13,11 +13,11 @@ import { Menu as MenuIcon } from '@material-ui/icons'
 
 import * as Styled from './App.style'
 import { routes } from './routes'
-import LinkWrapper from './components/Common/LinkWrapper'
-import NotFound from './components/Common/NotFound'
+import LinkWrapper from './components/common/LinkWrapper'
+import NotFound from './components/common/NotFound'
 import logo from './logo.svg'
 import { RootState } from './data/rootReducer'
-import Error from './components/Common/Error'
+import Error from './components/common/Error'
 
 interface AppProps {
   fatalError?: string
