@@ -28,7 +28,7 @@ function registerChartsTheme(theme: Theme): void {
     },
     axisLabel: {
       textStyle: {
-        color: theme.palette.text.secondary,
+        color: theme.palette.text.hint,
       },
     },
     splitLine: {
@@ -71,7 +71,7 @@ function registerChartsTheme(theme: Theme): void {
     toolbox: {
       iconStyle: {
         normal: {
-          borderColor: theme.palette.text.primary,
+          borderColor: theme.palette.text.secondary,
         },
       },
     },
