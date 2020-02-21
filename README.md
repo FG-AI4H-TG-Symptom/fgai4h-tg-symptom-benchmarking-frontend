@@ -12,12 +12,30 @@ with the respective installation instructions.
 
 ### Setting up
 1. Clone the repository  
-  `git clone https://github.com/FG-AI4H-TG-Symptom/fgai4h-tg-symptom-benchmarking-frontend.git`
+    `git clone https://github.com/FG-AI4H-TG-Symptom/fgai4h-tg-symptom-benchmarking-frontend.git`
 2. Install dependencies  
-  `npm i`
-3. Start the development server
-  `npm start`
+    `npm i`
+3. Start the development server  
+    `npm start`
 4. The frontend is available then on [http://localhost:3000](http://localhost:3000)
+
+### Local production build
+
+1. Configure the environment
+   1. Copy `.env.development` to `.env.production` (the latter is ignored by git)
+   2. Adjust values in `.env.production` as need
+2. Build  
+   `npm run build`
+3. Serve using Docker
+   1. Create an image  
+      `docker build -t mmvb_frontend .`
+   2. Start a container
+      `docker run --name "mmvb_frontend" -d -p 8000:80 mmvb_frontend:latest`
+4. If you don't have Docker: Serve using Python3 (or use any other static file server of your choice)  
+   `python3 -m http.server --directory build 8000`  
+   *This does not provide a History API fallback, i.e. you must always start navigating to `/`.*
+   *Paths like `/cases` won't be accessible directly.*   
+5. The production frontend is now available on [http://localhost:8000](http://localhost:8000)
 
 ## Project Structure
 *Updated project structure will be documented soon*
