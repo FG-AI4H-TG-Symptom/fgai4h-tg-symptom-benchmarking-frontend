@@ -1,17 +1,25 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import {
+  render,
+  getByAltText as getByAltTextUnbound,
+} from '@testing-library/react'
 import { Provider } from 'react-redux'
+import { MemoryRouter } from 'react-router'
+
 import App from './App'
 import configureStore from './configureStore'
 
 test('renders main page of app', () => {
   const store = configureStore()
 
-  const { getByText } = render(
+  const { container } = render(
     <Provider store={store}>
-      <App />
+      <MemoryRouter initialEntries={['/']}>
+        <App />
+      </MemoryRouter>
     </Provider>,
   )
-  const linkElement = getByText(/ai4h/i)
-  expect(linkElement).toBeInTheDocument()
+  const main = container.querySelector('main')
+  const logoElement = getByAltTextUnbound(main, /FG AI4H logo/i)
+  expect(logoElement).toBeInTheDocument()
 })
