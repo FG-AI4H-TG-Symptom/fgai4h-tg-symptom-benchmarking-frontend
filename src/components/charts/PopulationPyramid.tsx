@@ -3,8 +3,9 @@ import ReactEcharts from 'echarts-for-react'
 import datalib from 'datalib'
 import merge from 'lodash/merge'
 
-import getBaseOptions from './chartBaseOptions'
-import { BiologicalSex } from '../../data/caseSets/caseDataType'
+import getBaseOptions from './defaultChartBaseOptions'
+import { Population } from './chartTypes'
+import defaultChartOpts from './defaultChartOpts'
 
 const biologicalSexes = ['male', 'female']
 
@@ -27,10 +28,6 @@ const calculateStatistics = (population: Population) => {
   return { histograms, binLabels, maxCountInBin }
 }
 
-type Population = Array<{
-  biologicalSex: BiologicalSex
-  age: number
-}>
 interface PopulationPyramidProps {
   population: Population
 }
@@ -80,7 +77,7 @@ const PopulationPyramid: React.FC<PopulationPyramidProps> = ({
     data: binLabels,
   }
 
-  const populationPyramidOptions = merge(getBaseOptions(), {
+  const populationPyramidOptions = merge(getBaseOptions({ dataZoom: true }), {
     baseOption: {
       legend: {
         data: biologicalSexes,
@@ -175,7 +172,7 @@ const PopulationPyramid: React.FC<PopulationPyramidProps> = ({
   return (
     <ReactEcharts
       option={populationPyramidOptions}
-      opts={{ renderer: 'svg' }}
+      opts={defaultChartOpts}
       style={{ width: '100%', height: '50vh' }}
       theme='benchmark'
     />
