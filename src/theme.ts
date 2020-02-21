@@ -44,7 +44,7 @@ function registerChartsTheme(theme: Theme): void {
   })
   echarts.registerTheme('benchmark', {
     color: chartsColorPalette,
-    // backgroundColor: '#333',
+    backgroundColor: theme.palette.background.paper,
     tooltip: {
       axisPointer: {
         lineStyle: {
@@ -69,9 +69,15 @@ function registerChartsTheme(theme: Theme): void {
       },
     },
     toolbox: {
+      itemSize: 20,
       iconStyle: {
         normal: {
-          borderColor: theme.palette.text.secondary,
+          color: theme.palette.divider,
+          borderColor: 'none',
+        },
+        emphasis: {
+          color: theme.palette.text.secondary,
+          borderColor: 'none',
         },
       },
     },
