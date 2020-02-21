@@ -5,6 +5,7 @@ import {
   Typography,
   Box,
   CardHeader,
+  Link,
 } from '@material-ui/core'
 
 import TextPageWrapper from '../Common/TextPageWrapper'
@@ -65,27 +66,23 @@ const LandingPageComponent: React.FC<{}> = () => (
       <CardHeader title='Copyright and Licence' />
       <CardContent>
         <Typography gutterBottom>
-          Copyright, 2019, created jointly by the members of the ITU sub-group
-          (topic group) &quot;Symptom assessment&quot; of the International
-          Telecommunication Union focus group “Artificial Intelligence for
-          Health”, which works in partnership with the World Health
-          Organization.
+          Copyright 2019–{new Date().getFullYear()}, created jointly by the
+          members of the ITU sub-group (topic group) &quot;Symptom
+          assessment&quot; of the International Telecommunication Union focus
+          group “Artificial Intelligence for Health”, which works in partnership
+          with the World Health Organization.
         </Typography>
         <Typography gutterBottom>
-          All parts of this benchmark are free software: you can redistribute
-          them and/or modify them under the terms of the GNU General Public
-          License as published by the Free Software Foundation, either version 3
-          of the License, or (at your option) any later version.
-        </Typography>
-        <Typography gutterBottom>
-          They are distributed in the hope that it will be useful, but WITHOUT
-          ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-          FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-          for more details.
-        </Typography>
-        <Typography>
-          You should have received a copy of the GNU General Public License
-          along with this program. If not, see https://www.gnu.org/licenses/.
+          All parts of this benchmark are free software. This component (the
+          frontend) is licensed under the{' '}
+          <Link
+            href='https://www.apache.org/licenses/LICENSE-2.0'
+            target='_blank'
+            rel='noopener noreferrer'
+            color='secondary'
+          >
+            Apache License 2.0
+          </Link>
         </Typography>
       </CardContent>
     </Card>
