@@ -43,14 +43,14 @@ jobs:
       - name: Build Docker image
         run: |
           docker build -t mmvb_frontend .
-          docker tag mmvb_frontend ${{ secrets.GOOGLE_CLOUD_PROJECT_ID }}/${{ secrets.GOOGLE_RUN_SERVICE_NAME}}:$GITHUB_SHA
+          docker tag mmvb_frontend ${{ secrets.GOOGLE_CLOUD_PROJECT_ID }}/${{ secrets.GOOGLE_RUN_SERVICE_NAME}}:${{ github.sha }}
       - name: Submit image to GCR
         run: |
-          docker push ${{ secrets.GOOGLE_CONTAINER_REGISTRY_ZONE }}.gcr.io/${{ secrets.GOOGLE_CLOUD_PROJECT_ID }}/${{ secrets.GOOGLE_RUN_SERVICE_NAME}}:$GITHUB_SHA
+          docker push ${{ secrets.GOOGLE_CONTAINER_REGISTRY_ZONE }}.gcr.io/${{ secrets.GOOGLE_CLOUD_PROJECT_ID }}/${{ secrets.GOOGLE_RUN_SERVICE_NAME}}:${{ github.sha }}
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy ${{ secrets.GOOGLE_RUN_SERVICE_NAME }} \
             --region ${{ secrets.GOOGLE_RUN_REGION }} \
-            --image ${{ secrets.GOOGLE_CONTAINER_REGISTRY_ZONE }}.gcr.io/${{ secrets.GOOGLE_CLOUD_PROJECT_ID }}/${{ secrets.GOOGLE_RUN_SERVICE_NAME}}:$GITHUB_SHA \
+            --image ${{ secrets.GOOGLE_CONTAINER_REGISTRY_ZONE }}.gcr.io/${{ secrets.GOOGLE_CLOUD_PROJECT_ID }}/${{ secrets.GOOGLE_RUN_SERVICE_NAME}}:${{ github.sha }} \
             --platform managed
 
