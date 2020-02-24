@@ -2,13 +2,13 @@ import React from 'react'
 
 import { Button, CardContent, CardHeader, Typography } from '@material-ui/core'
 
-import TextPageWrapper from './TextPageWrapper'
+import PageWrapper, { PageWidth } from './PageWrapper'
 
 import * as Styled from './DataStateManager.style'
 import * as CommonStyled from './CommonStyles'
 
 const Error: React.FC<{ error: string }> = ({ error }) => (
-  <TextPageWrapper narrow>
+  <PageWrapper pageWidth={PageWidth.ULTRA_NARROW}>
     <Styled.ErroredCard raised>
       <CardHeader title='Error' />
       <CardContent>
@@ -20,7 +20,7 @@ const Error: React.FC<{ error: string }> = ({ error }) => (
         </Button>
       </CommonStyled.CardActionsEnd>
     </Styled.ErroredCard>
-  </TextPageWrapper>
+  </PageWrapper>
 )
 
 export default Error
