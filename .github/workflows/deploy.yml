@@ -1,6 +1,9 @@
 name: Node.js CI
 
-on: [push]
+on:
+  push:
+    branches:
+      - master
 
 jobs:
   build:
@@ -8,6 +11,16 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+      - name: Setup up gcloud CLI
+        uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: '281.0.0'
+          service_account_email: ${{ secrets.GOOGLE_CLOUD_SERVICE_ACCOUNT_EMAIL }}
+          service_account_key: ${{ secrets.GOOGLE_CLOUD_SERVICE_ACCOUNT_KEY }}
+      - name: Configure gcloud CLI
+        run: |
+          gcloud config set project $GOOGLE_CLOUD_PROJECT_ID
+          gcloud auth configure-docker
       - name: Use Node.js
         uses: actions/setup-node@v1
       - name: Cache Node.js modules
@@ -20,5 +33,24 @@ jobs:
             ${{ runner.OS }}-
       - name: Install dependencies
         run: npm ci
-      - name: Build project
+      - name: Build React project
         run: npm run build
+        env:
+          REACT_APP_BACKEND_PROTOCOL: ${{ secrets.PRODUCTION_BACKEND_PROTOCOL }}
+          REACT_APP_BACKEND_HOSTNAME_TOY_AIS: ${{ secrets.PRODUCTION_BACKEND_HOSTNAME_TOY_AIS }}
+          REACT_APP_BACKEND_HOSTNAME_EVALUATOR: ${{ secrets.PRODUCTION_BACKEND_HOSTNAME_EVALUATOR }}
+          REACT_APP_BACKEND_HOSTNAME_METRIC_CALCULATOR: ${{ secrets.PRODUCTION_BACKEND_HOSTNAME_METRIC_CALCULATOR }}
+      - name: Build Docker image
+        run: |
+          docker build -t mmvb_frontend .
+          docker tag mmvb_frontend ${{ secrets.GOOGLE_CLOUD_PROJECT_ID }}/${{ secrets.GOOGLE_RUN_SERVICE_NAME}}:$GITHUB_SHA
+      - name: Submit image to GCR
+        run: |
+          docker push ${{ secrets.GOOGLE_CONTAINER_REGISTRY_ZONE }}.gcr.io/${{ secrets.GOOGLE_CLOUD_PROJECT_ID }}/${{ secrets.GOOGLE_RUN_SERVICE_NAME}}:$GITHUB_SHA
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy ${{ secrets.GOOGLE_RUN_SERVICE_NAME }} \
+            --region ${{ secrets.GOOGLE_RUN_REGION }} \
+            --image ${{ secrets.GOOGLE_CONTAINER_REGISTRY_ZONE }}.gcr.io/${{ secrets.GOOGLE_CLOUD_PROJECT_ID }}/${{ secrets.GOOGLE_RUN_SERVICE_NAME}}:$GITHUB_SHA \
+            --platform managed
+
