@@ -19,7 +19,7 @@ jobs:
           service_account_key: ${{ secrets.GOOGLE_CLOUD_SERVICE_ACCOUNT_KEY }}
       - name: Configure gcloud CLI
         run: |
-          gcloud config set project $GOOGLE_CLOUD_PROJECT_ID
+          gcloud config set project ${{ secrets.GOOGLE_CLOUD_PROJECT_ID }}
           gcloud auth configure-docker
       - name: Use Node.js
         uses: actions/setup-node@v1
