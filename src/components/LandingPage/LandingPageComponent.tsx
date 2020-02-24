@@ -1,19 +1,19 @@
 import React from 'react'
 import {
+  Box,
   Card,
   CardContent,
-  Typography,
-  Box,
   CardHeader,
   Link,
+  Typography,
 } from '@material-ui/core'
 
-import TextPageWrapper from '../common/TextPageWrapper'
+import PageWrapper, { PageWidth } from '../common/PageWrapper'
 import logo from '../../logo.svg'
 import * as Styled from './LandingPageComponent.style'
 
 const LandingPageComponent: React.FC<{}> = () => (
-  <TextPageWrapper>
+  <PageWrapper pageWidth={PageWidth.NARROW}>
     <Styled.LogoWrapper>
       <Styled.Logo src={logo} alt='FG AI4H logo' />
     </Styled.LogoWrapper>
@@ -86,7 +86,7 @@ const LandingPageComponent: React.FC<{}> = () => (
         </Typography>
       </CardContent>
     </Card>
-  </TextPageWrapper>
+  </PageWrapper>
 )
 
 export default LandingPageComponent

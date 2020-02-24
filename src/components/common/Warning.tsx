@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Card, CardContent, CardHeader } from '@material-ui/core'
 
-import TextPageWrapper from './TextPageWrapper'
+import PageWrapper, { PageWidth } from './PageWrapper'
 import LinkWrapper from './LinkWrapper'
 
 import * as CommonStyled from './CommonStyles'
@@ -10,7 +10,7 @@ const Warning: React.FC<{
   title: string
   actions: Array<{ text: string; targetUrl: string }>
 }> = ({ title, actions, children }) => (
-  <TextPageWrapper narrow>
+  <PageWrapper pageWidth={PageWidth.ULTRA_NARROW}>
     <Card>
       <CardHeader title={title} />
       <CardContent>{children}</CardContent>
@@ -25,7 +25,7 @@ const Warning: React.FC<{
         ))}
       </CommonStyled.CardActionsEnd>
     </Card>
-  </TextPageWrapper>
+  </PageWrapper>
 )
 
 export default Warning
