@@ -1,4 +1,4 @@
-name: Node.js CI
+name: Build and upload image
 
 on:
   push:
@@ -11,16 +11,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      - name: Setup up gcloud CLI
-        uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
-        with:
-          version: '281.0.0'
-          service_account_email: ${{ secrets.GOOGLE_CLOUD_SERVICE_ACCOUNT_EMAIL }}
-          service_account_key: ${{ secrets.GOOGLE_CLOUD_SERVICE_ACCOUNT_KEY }}
-      - name: Configure gcloud CLI
-        run: |
-          gcloud config set project ${{ secrets.GOOGLE_CLOUD_PROJECT_ID }}
-          gcloud auth configure-docker
       - name: Use Node.js
         uses: actions/setup-node@v1
       - name: Cache Node.js modules
@@ -40,16 +30,10 @@ jobs:
           REACT_APP_BACKEND_HOSTNAME_TOY_AIS: ${{ secrets.PRODUCTION_BACKEND_HOSTNAME_TOY_AIS }}
           REACT_APP_BACKEND_HOSTNAME_EVALUATOR: ${{ secrets.PRODUCTION_BACKEND_HOSTNAME_EVALUATOR }}
           REACT_APP_BACKEND_HOSTNAME_METRIC_CALCULATOR: ${{ secrets.PRODUCTION_BACKEND_HOSTNAME_METRIC_CALCULATOR }}
-      - name: Build Docker image
-        run: |
-          docker build -t ${{ secrets.GOOGLE_CONTAINER_REGISTRY_ZONE }}.gcr.io/${{ secrets.GOOGLE_CLOUD_PROJECT_ID }}/${{ secrets.GOOGLE_RUN_SERVICE_NAME}}:${{ github.sha }} .
-      - name: Submit image to GCR
-        run: |
-          docker push ${{ secrets.GOOGLE_CONTAINER_REGISTRY_ZONE }}.gcr.io/${{ secrets.GOOGLE_CLOUD_PROJECT_ID }}/${{ secrets.GOOGLE_RUN_SERVICE_NAME}}:${{ github.sha }}
-      - name: Deploy to Cloud Run
-        run: |
-          gcloud run deploy ${{ secrets.GOOGLE_RUN_SERVICE_NAME }} \
-            --region ${{ secrets.GOOGLE_RUN_REGION }} \
-            --image ${{ secrets.GOOGLE_CONTAINER_REGISTRY_ZONE }}.gcr.io/${{ secrets.GOOGLE_CLOUD_PROJECT_ID }}/${{ secrets.GOOGLE_RUN_SERVICE_NAME}}:${{ github.sha }} \
-            --platform managed
-
+      - name: Build Docker image and submit to Docker Hub
+        uses: elgohr/Publish-Docker-Github-Action@2.12
+        with:
+          name: fgai4htgsymptom/mmvb-frontend
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          tags: latest,${{ github.sha }}
