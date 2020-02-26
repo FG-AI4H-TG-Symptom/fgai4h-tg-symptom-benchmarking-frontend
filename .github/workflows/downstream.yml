@@ -1,0 +1,17 @@
+name: Cross-push the code to the downstream repository
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Set up downstream repository
+        run: git remote add downstream ${{ secrets.DOWNSTREAM_GIT }}
+      - name: Push to downstream repository
+        run: git push downstream
