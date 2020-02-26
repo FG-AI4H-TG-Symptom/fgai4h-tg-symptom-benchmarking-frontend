@@ -11,6 +11,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # all history
       - name: Set up downstream repository
         run: git remote add downstream ${{ secrets.DOWNSTREAM_GIT }}
       - name: Push to downstream repository
