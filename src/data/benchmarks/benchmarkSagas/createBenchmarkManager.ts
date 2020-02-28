@@ -31,8 +31,6 @@ export default function* createBenchmarkManager(
 
     const benchmarkManager: BenchmarkManager = yield response.json()
 
-    yield put(benchmarkManagerDataAction.store(benchmarkManager))
-
     const startBenchmarkingResponse = yield fetch(
       urlBuilder(COMPONENTS.EVALUATOR, 'run-case-set-against-all-ais'),
       {
@@ -59,6 +57,8 @@ export default function* createBenchmarkManager(
         `Unexpected response from server: ${startBenchmarkingData}`,
       )
     }
+
+    yield put(benchmarkManagerDataAction.store(benchmarkManager))
   } catch (error) {
     yield put(
       fatalError(`Failed to run benchmark on case set: ${error.message}`),
