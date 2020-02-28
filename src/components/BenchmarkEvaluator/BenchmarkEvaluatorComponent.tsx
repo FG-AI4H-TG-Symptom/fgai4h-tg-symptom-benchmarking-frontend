@@ -44,7 +44,7 @@ const BenchmarkEvaluatorComponent: React.FC<AiImplementationManagerComponentProp
         <Table>
           <caption>
             {Object.keys(evaluation).length} AI implementations,{' '}
-            {Object.entries(evaluation)[0].length} cases, {metricNames.length}{' '}
+            {Object.values(evaluation)[0].length} cases, {metricNames.length}{' '}
             metrics
           </caption>
           <TableHead>
