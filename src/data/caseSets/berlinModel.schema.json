@@ -1,0 +1,1950 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/FG-AI4H-TG-Symptom/fgai4h-tg-symptom-models-schemas/master/schemas/berlin-model.schema.json",
+  "title": "Berlin Model Cases Schema",
+  "description": "FGAI4H TG Symptom Cases Schema \u2013 Berlin (generated)",
+  "$comment": "This model is auto-generated! Don't manually make changes you wish to persist.",
+  "type": "object",
+  "properties": {
+    "caseSetName": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Name of the case set"
+    },
+    "cases": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/case"
+      },
+      "minItems": 1
+    }
+  },
+  "required": [
+    "caseSetName",
+    "cases"
+  ],
+  "definitions": {
+    "case": {
+      "type": "object",
+      "properties": {
+        "caseId": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Case ID"
+        },
+        "metaData": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Human readable case description"
+            },
+            "caseCreator": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Company and/or individual identifier of the case's creator"
+            },
+            "spreadsheetCaseId": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Identifier of this case in the originating spreadsheet"
+            }
+          },
+          "required": [
+            "description"
+          ],
+          "additionalProperties": false
+        },
+        "caseData": {
+          "type": "object",
+          "properties": {
+            "profileInformation": {
+              "type": "object",
+              "description": "Patient profile information",
+              "properties": {
+                "age": {
+                  "type": "number",
+                  "description": "Age"
+                },
+                "biologicalSex": {
+                  "$ref": "#/definitions/biologicalSex",
+                  "description": "Biological sex"
+                }
+              },
+              "required": [
+                "age",
+                "biologicalSex"
+              ],
+              "additionalProperties": false
+            },
+            "presentingComplaints": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/clinicalFinding"
+              },
+              "minItems": 1,
+              "maxItems": 1
+            },
+            "otherFeatures": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/clinicalFinding"
+              }
+            }
+          },
+          "required": [
+            "profileInformation",
+            "presentingComplaints",
+            "otherFeatures"
+          ],
+          "additionalProperties": false
+        },
+        "valuesToPredict": {
+          "type": "object",
+          "properties": {
+            "expectedTriageLevel": {
+              "$ref": "#/definitions/expectedTriageLevel",
+              "description": "Expected triage level"
+            },
+            "expectedCondition": {
+              "$ref": "#/definitions/condition"
+            },
+            "otherRelevantDifferentials": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/condition"
+              }
+            },
+            "impossibleConditions": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/condition"
+              }
+            },
+            "correctCondition": {
+              "$ref": "#/definitions/condition"
+            }
+          },
+          "required": [
+            "expectedTriageLevel",
+            "expectedCondition",
+            "otherRelevantDifferentials",
+            "impossibleConditions"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "caseId",
+        "metaData",
+        "caseData",
+        "valuesToPredict"
+      ],
+      "additionalProperties": false
+    },
+    "biologicalSex": {
+      "type": "string",
+      "enum": [
+        "male",
+        "female"
+      ]
+    },
+    "expectedTriageLevel": {
+      "type": "string",
+      "enum": [
+        "EC",
+        "PC",
+        "SC"
+      ]
+    },
+    "clinicalFinding": {
+      "oneOf": [
+        {
+          "title": "Abdominal pain (finding)",
+          "$ref": "#/definitions/3a04b8570062b71a018c8bde2a5bdb4c"
+        },
+        {
+          "title": "Diarrhea (finding)",
+          "$ref": "#/definitions/8e65c9133d5eabcf66eb73a65c018235"
+        },
+        {
+          "title": "Vomiting (disorder)",
+          "$ref": "#/definitions/3a6a8a383df2c37fcd8a25f4acb98e85"
+        },
+        {
+          "title": "Dysuria (finding)",
+          "$ref": "#/definitions/41520e579df9e4b650a0c06e5f0b4042"
+        },
+        {
+          "title": "Increased frequency of urination (finding)",
+          "$ref": "#/definitions/e0a15bc5d76e107e904ef8b6d784c5f8"
+        },
+        {
+          "title": "Blood in urine (finding)",
+          "$ref": "#/definitions/c32fbaf84adfa4ac3362a89ff22635d4"
+        },
+        {
+          "title": "Weight loss (finding)",
+          "$ref": "#/definitions/7b1c488fc0f4fccfcf3d7dc048444113"
+        },
+        {
+          "title": "Fever (finding)",
+          "$ref": "#/definitions/75cd4ec705062ba5ca4ce9d0f7a3da6e"
+        },
+        {
+          "title": "Heartburn (finding)",
+          "$ref": "#/definitions/9169fb66e1c761d3024e1a27be74101a"
+        },
+        {
+          "title": "Menstrual period late (finding)",
+          "$ref": "#/definitions/f17ba8017053fad3fbbe2fea8d7f960b"
+        }
+      ]
+    },
+    "clinicalFindingState": {
+      "type": "string",
+      "enum": [
+        "present",
+        "absent",
+        "unsure"
+      ],
+      "description": "Presence of the clinical finding"
+    },
+    "attribute": {
+      "oneOf": [
+        {
+          "title": "Finding site (attribute)",
+          "$ref": "#/definitions/b57c3c7777eb6846fa088b889adc50af"
+        },
+        {
+          "title": "Characteristic of pain (observable entity)",
+          "$ref": "#/definitions/427a1d1a0d75c72af25d89696d5e0ead"
+        },
+        {
+          "title": "Pain intensity (observable entity)",
+          "$ref": "#/definitions/43eec3bb02398aa63f53e9f82cd6644c"
+        },
+        {
+          "title": "Time since onset",
+          "$ref": "#/definitions/93fd11743b71fe0f8f15cbbd36a2dbb1"
+        },
+        {
+          "title": "Contents of stool (observable entity)",
+          "$ref": "#/definitions/ab1defe40ac0d4b88d6474483be12bac"
+        }
+      ]
+    },
+    "value": {
+      "oneOf": [
+        {
+          "title": "Structure of left lower quadrant of abdomen (body structure)",
+          "$ref": "#/definitions/b0a9ca94930dcf992dad1b29343b08ea"
+        },
+        {
+          "title": "Structure of right lower quadrant of abdomen (body structure)",
+          "$ref": "#/definitions/0f7f8cfe7e12c3a4a1558a9c3a1b3454"
+        },
+        {
+          "title": "Structure of left upper quadrant of abdomen (body structure)",
+          "$ref": "#/definitions/0e80a75a59339299ba6e6e117d63397d"
+        },
+        {
+          "title": "Structure of right upper quadrant of abdomen (body structure)",
+          "$ref": "#/definitions/1f75a2370b4f6ed438e01e5d099a4822"
+        },
+        {
+          "title": "Hypogastric region structure (body structure)",
+          "$ref": "#/definitions/858b635cd3ddc74c840e59f9538b3aa0"
+        },
+        {
+          "title": "Epigastric region structure (body structure)",
+          "$ref": "#/definitions/91f6224aca38e8443cace070bb8e723b"
+        },
+        {
+          "title": "Structure of abdominopelvic cavity and/or content of abdominopelvic cavity and/or anterior abdominal wall (body structure)",
+          "$ref": "#/definitions/55cee8576a49af5c9aa1ed552669e8be"
+        },
+        {
+          "title": "Structure of central region of abdomen (body structure)",
+          "$ref": "#/definitions/b6755fcd9c5278c345e863aa3aab09e3"
+        },
+        {
+          "title": "Sharp sensation quality (qualifier value)",
+          "$ref": "#/definitions/eeb72e33f12ee8c9b7d086fe7a62db18"
+        },
+        {
+          "title": "Cramping sensation quality (qualifier value)",
+          "$ref": "#/definitions/299e4d939f31f9a91bfcf4968f6bbd40"
+        },
+        {
+          "title": "Dull sensation quality (qualifier value)",
+          "$ref": "#/definitions/80a52271beda442bc28357f85dd70563"
+        },
+        {
+          "title": "Mild (qualifier value)",
+          "$ref": "#/definitions/57d96ea9bf80b712a14478b32dbccaa8"
+        },
+        {
+          "title": "Moderate (severity modifier) (qualifier value)",
+          "$ref": "#/definitions/61fc06062a354f1d24d09d47257739db"
+        },
+        {
+          "title": "Severe (severity modifier) (qualifier value)",
+          "$ref": "#/definitions/5ea1458a4bb2989057c6f60cc4dcbd40"
+        },
+        {
+          "title": "less than a day",
+          "$ref": "#/definitions/c3fe9718760fa95b3164e56a1a9981db"
+        },
+        {
+          "title": "a couple days (1-2 days)",
+          "$ref": "#/definitions/d2ec2b60fbcefb37db2863fb9a5b70d3"
+        },
+        {
+          "title": "3 days - to 1 week",
+          "$ref": "#/definitions/35dd1fc8f2ac68f7758809dc4a10657f"
+        },
+        {
+          "title": "a few weeks (1 weeks - 1 month)",
+          "$ref": "#/definitions/ad3f8ad0a9df876cbef2ec1d87104e48"
+        },
+        {
+          "title": "1 month to 1 year",
+          "$ref": "#/definitions/7480981b88fbe43b47fa99e4c353a87d"
+        },
+        {
+          "title": "a year or more",
+          "$ref": "#/definitions/c0970eba153a8256c83b0575c86c0ce5"
+        },
+        {
+          "title": "Blood (substance)",
+          "$ref": "#/definitions/0f77ba828c65101cf7fb943eb34f2a21"
+        },
+        {
+          "title": "Water (substance)",
+          "$ref": "#/definitions/c53db84792da14ac9ae1daf042b5fad8"
+        },
+        {
+          "title": "Mucus (substance)",
+          "$ref": "#/definitions/d07bc7629cfcc98a5712482ad6d226e8"
+        }
+      ]
+    },
+    "condition": {
+      "oneOf": [
+        {
+          "title": "Inflammatory bowel disease (disorder)",
+          "$ref": "#/definitions/fdf0d91875718a5bc5a393440567fc7d"
+        },
+        {
+          "title": "Gastroesophageal reflux disease (disorder)",
+          "$ref": "#/definitions/b556155729b6e32a3673dfeaebe1af51"
+        },
+        {
+          "title": "Urinary tract infectious disease (disorder)",
+          "$ref": "#/definitions/c37a406deb2729d29be35f569ee22051"
+        },
+        {
+          "title": "Viral gastroenteritis (disorder)",
+          "$ref": "#/definitions/b88ceb5fef9d8828a72d7218c01d52d7"
+        },
+        {
+          "title": "Malignant tumor of urinary bladder (disorder)",
+          "$ref": "#/definitions/35954a1103f499d0714f066f3aa349c6"
+        },
+        {
+          "title": "Acute cholecystitis (disorder)",
+          "$ref": "#/definitions/a550d798c25e02008095828033eb065e"
+        },
+        {
+          "title": "Appendicitis (disorder)",
+          "$ref": "#/definitions/5ad2d6ee338b68d257c73dfdc373b16c"
+        },
+        {
+          "title": "Ectopic pregnancy (disorder)",
+          "$ref": "#/definitions/ae7f34aa5a05520e3afec0505a0f5411"
+        },
+        {
+          "title": "Irritable bowel syndrome (disorder)",
+          "$ref": "#/definitions/c4d1eca32646dfbce781a72300ce416a"
+        },
+        {
+          "title": "Acute pyelonephritis (disorder)",
+          "$ref": "#/definitions/e9951524312a06d3d15936a4d38d94c6"
+        },
+        {
+          "title": "Abdominal pain (finding)",
+          "$ref": "#/definitions/3a04b8570062b71a018c8bde2a5bdb4c"
+        }
+      ]
+    },
+    "fdf0d91875718a5bc5a393440567fc7d": {
+      "type": "object",
+      "title": "Inflammatory bowel disease (disorder)",
+      "properties": {
+        "id": {
+          "const": "fdf0d91875718a5bc5a393440567fc7d",
+          "default": "fdf0d91875718a5bc5a393440567fc7d",
+          "description": "Condition ID"
+        },
+        "name": {
+          "const": "Inflammatory bowel disease (disorder)",
+          "default": "Inflammatory bowel disease (disorder)",
+          "description": "Condition name"
+        },
+        "sctid": {
+          "const": 24526004,
+          "default": 24526004,
+          "description": "Condition SNOMED CT identifier (64-bit integer)"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "sctid"
+      ],
+      "additionalProperties": false
+    },
+    "b556155729b6e32a3673dfeaebe1af51": {
+      "type": "object",
+      "title": "Gastroesophageal reflux disease (disorder)",
+      "properties": {
+        "id": {
+          "const": "b556155729b6e32a3673dfeaebe1af51",
+          "default": "b556155729b6e32a3673dfeaebe1af51",
+          "description": "Condition ID"
+        },
+        "name": {
+          "const": "Gastroesophageal reflux disease (disorder)",
+          "default": "Gastroesophageal reflux disease (disorder)",
+          "description": "Condition name"
+        },
+        "sctid": {
+          "const": 235595009,
+          "default": 235595009,
+          "description": "Condition SNOMED CT identifier (64-bit integer)"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "sctid"
+      ],
+      "additionalProperties": false
+    },
+    "c37a406deb2729d29be35f569ee22051": {
+      "type": "object",
+      "title": "Urinary tract infectious disease (disorder)",
+      "properties": {
+        "id": {
+          "const": "c37a406deb2729d29be35f569ee22051",
+          "default": "c37a406deb2729d29be35f569ee22051",
+          "description": "Condition ID"
+        },
+        "name": {
+          "const": "Urinary tract infectious disease (disorder)",
+          "default": "Urinary tract infectious disease (disorder)",
+          "description": "Condition name"
+        },
+        "sctid": {
+          "const": 68566005,
+          "default": 68566005,
+          "description": "Condition SNOMED CT identifier (64-bit integer)"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "sctid"
+      ],
+      "additionalProperties": false
+    },
+    "b88ceb5fef9d8828a72d7218c01d52d7": {
+      "type": "object",
+      "title": "Viral gastroenteritis (disorder)",
+      "properties": {
+        "id": {
+          "const": "b88ceb5fef9d8828a72d7218c01d52d7",
+          "default": "b88ceb5fef9d8828a72d7218c01d52d7",
+          "description": "Condition ID"
+        },
+        "name": {
+          "const": "Viral gastroenteritis (disorder)",
+          "default": "Viral gastroenteritis (disorder)",
+          "description": "Condition name"
+        },
+        "sctid": {
+          "const": 111843007,
+          "default": 111843007,
+          "description": "Condition SNOMED CT identifier (64-bit integer)"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "sctid"
+      ],
+      "additionalProperties": false
+    },
+    "35954a1103f499d0714f066f3aa349c6": {
+      "type": "object",
+      "title": "Malignant tumor of urinary bladder (disorder)",
+      "properties": {
+        "id": {
+          "const": "35954a1103f499d0714f066f3aa349c6",
+          "default": "35954a1103f499d0714f066f3aa349c6",
+          "description": "Condition ID"
+        },
+        "name": {
+          "const": "Malignant tumor of urinary bladder (disorder)",
+          "default": "Malignant tumor of urinary bladder (disorder)",
+          "description": "Condition name"
+        },
+        "sctid": {
+          "const": 399326009,
+          "default": 399326009,
+          "description": "Condition SNOMED CT identifier (64-bit integer)"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "sctid"
+      ],
+      "additionalProperties": false
+    },
+    "a550d798c25e02008095828033eb065e": {
+      "type": "object",
+      "title": "Acute cholecystitis (disorder)",
+      "properties": {
+        "id": {
+          "const": "a550d798c25e02008095828033eb065e",
+          "default": "a550d798c25e02008095828033eb065e",
+          "description": "Condition ID"
+        },
+        "name": {
+          "const": "Acute cholecystitis (disorder)",
+          "default": "Acute cholecystitis (disorder)",
+          "description": "Condition name"
+        },
+        "sctid": {
+          "const": 65275009,
+          "default": 65275009,
+          "description": "Condition SNOMED CT identifier (64-bit integer)"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "sctid"
+      ],
+      "additionalProperties": false
+    },
+    "5ad2d6ee338b68d257c73dfdc373b16c": {
+      "type": "object",
+      "title": "Appendicitis (disorder)",
+      "properties": {
+        "id": {
+          "const": "5ad2d6ee338b68d257c73dfdc373b16c",
+          "default": "5ad2d6ee338b68d257c73dfdc373b16c",
+          "description": "Condition ID"
+        },
+        "name": {
+          "const": "Appendicitis (disorder)",
+          "default": "Appendicitis (disorder)",
+          "description": "Condition name"
+        },
+        "sctid": {
+          "const": 74400008,
+          "default": 74400008,
+          "description": "Condition SNOMED CT identifier (64-bit integer)"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "sctid"
+      ],
+      "additionalProperties": false
+    },
+    "ae7f34aa5a05520e3afec0505a0f5411": {
+      "type": "object",
+      "title": "Ectopic pregnancy (disorder)",
+      "properties": {
+        "id": {
+          "const": "ae7f34aa5a05520e3afec0505a0f5411",
+          "default": "ae7f34aa5a05520e3afec0505a0f5411",
+          "description": "Condition ID"
+        },
+        "name": {
+          "const": "Ectopic pregnancy (disorder)",
+          "default": "Ectopic pregnancy (disorder)",
+          "description": "Condition name"
+        },
+        "sctid": {
+          "const": 34801009,
+          "default": 34801009,
+          "description": "Condition SNOMED CT identifier (64-bit integer)"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "sctid"
+      ],
+      "additionalProperties": false
+    },
+    "c4d1eca32646dfbce781a72300ce416a": {
+      "type": "object",
+      "title": "Irritable bowel syndrome (disorder)",
+      "properties": {
+        "id": {
+          "const": "c4d1eca32646dfbce781a72300ce416a",
+          "default": "c4d1eca32646dfbce781a72300ce416a",
+          "description": "Condition ID"
+        },
+        "name": {
+          "const": "Irritable bowel syndrome (disorder)",
+          "default": "Irritable bowel syndrome (disorder)",
+          "description": "Condition name"
+        },
+        "sctid": {
+          "const": 10743008,
+          "default": 10743008,
+          "description": "Condition SNOMED CT identifier (64-bit integer)"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "sctid"
+      ],
+      "additionalProperties": false
+    },
+    "e9951524312a06d3d15936a4d38d94c6": {
+      "type": "object",
+      "title": "Acute pyelonephritis (disorder)",
+      "properties": {
+        "id": {
+          "const": "e9951524312a06d3d15936a4d38d94c6",
+          "default": "e9951524312a06d3d15936a4d38d94c6",
+          "description": "Condition ID"
+        },
+        "name": {
+          "const": "Acute pyelonephritis (disorder)",
+          "default": "Acute pyelonephritis (disorder)",
+          "description": "Condition name"
+        },
+        "sctid": {
+          "const": 36689008,
+          "default": 36689008,
+          "description": "Condition SNOMED CT identifier (64-bit integer)"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "sctid"
+      ],
+      "additionalProperties": false
+    },
+    "3a04b8570062b71a018c8bde2a5bdb4c": {
+      "type": "object",
+      "title": "Abdominal pain (finding)",
+      "properties": {
+        "id": {
+          "const": "3a04b8570062b71a018c8bde2a5bdb4c",
+          "default": "3a04b8570062b71a018c8bde2a5bdb4c",
+          "description": "Clinical finding ID"
+        },
+        "name": {
+          "const": "Abdominal pain (finding)",
+          "default": "Abdominal pain (finding)",
+          "description": "Clinical finding name"
+        },
+        "sctid": {
+          "const": 21522001,
+          "default": 21522001,
+          "description": "Clinical finding SNOMED CT identifier (64-bit integer)"
+        },
+        "state": {
+          "$ref": "#/definitions/clinicalFindingState"
+        },
+        "attributes": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "title": "Finding site (attribute)",
+                "$ref": "#/definitions/b57c3c7777eb6846fa088b889adc50af"
+              },
+              {
+                "title": "Characteristic of pain (observable entity)",
+                "$ref": "#/definitions/427a1d1a0d75c72af25d89696d5e0ead"
+              },
+              {
+                "title": "Pain intensity (observable entity)",
+                "$ref": "#/definitions/43eec3bb02398aa63f53e9f82cd6644c"
+              },
+              {
+                "title": "Time since onset",
+                "$ref": "#/definitions/93fd11743b71fe0f8f15cbbd36a2dbb1"
+              }
+            ]
+          },
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "sctid",
+        "state",
+        "attributes"
+      ],
+      "additionalProperties": false
+    },
+    "b57c3c7777eb6846fa088b889adc50af": {
+      "type": "object",
+      "title": "Finding site (attribute)",
+      "properties": {
+        "id": {
+          "const": "b57c3c7777eb6846fa088b889adc50af",
+          "default": "b57c3c7777eb6846fa088b889adc50af",
+          "description": "Attribute ID"
+        },
+        "name": {
+          "const": "Finding site (attribute)",
+          "default": "Finding site (attribute)",
+          "description": "Attribute name"
+        },
+        "sctid": {
+          "const": 363698007,
+          "default": 363698007,
+          "description": "Attribute SNOMED CT identifier (64-bit integer)"
+        },
+        "values": {
+          "type": "array",
+          "description": "Possible values for this attribute (at least one, multi-selection possible)",
+          "items": {
+            "oneOf": [
+              {
+                "title": "Structure of left lower quadrant of abdomen (body structure)",
+                "$ref": "#/definitions/b0a9ca94930dcf992dad1b29343b08ea"
+              },
+              {
+                "title": "Structure of right lower quadrant of abdomen (body structure)",
+                "$ref": "#/definitions/0f7f8cfe7e12c3a4a1558a9c3a1b3454"
+              },
+              {
+                "title": "Structure of left upper quadrant of abdomen (body structure)",
+                "$ref": "#/definitions/0e80a75a59339299ba6e6e117d63397d"
+              },
+              {
+                "title": "Structure of right upper quadrant of abdomen (body structure)",
+                "$ref": "#/definitions/1f75a2370b4f6ed438e01e5d099a4822"
+              },
+              {
+                "title": "Hypogastric region structure (body structure)",
+                "$ref": "#/definitions/858b635cd3ddc74c840e59f9538b3aa0"
+              },
+              {
+                "title": "Epigastric region structure (body structure)",
+                "$ref": "#/definitions/91f6224aca38e8443cace070bb8e723b"
+              },
+              {
+                "title": "Structure of abdominopelvic cavity and/or content of abdominopelvic cavity and/or anterior abdominal wall (body structure)",
+                "$ref": "#/definitions/55cee8576a49af5c9aa1ed552669e8be"
+              },
+              {
+                "title": "Structure of central region of abdomen (body structure)",
+                "$ref": "#/definitions/b6755fcd9c5278c345e863aa3aab09e3"
+              }
+            ]
+          },
+          "uniqueItems": true,
+          "minItems": 1
+        },
+        "scope": {
+          "const": "3a04b8570062b71a018c8bde2a5bdb4c",
+          "default": "3a04b8570062b71a018c8bde2a5bdb4c",
+          "description": "ID of clinical finding this attribute is scoped to"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "sctid",
+        "values"
+      ],
+      "additionalProperties": false
+    },
+    "427a1d1a0d75c72af25d89696d5e0ead": {
+      "type": "object",
+      "title": "Characteristic of pain (observable entity)",
+      "properties": {
+        "id": {
+          "const": "427a1d1a0d75c72af25d89696d5e0ead",
+          "default": "427a1d1a0d75c72af25d89696d5e0ead",
+          "description": "Attribute ID"
+        },
+        "name": {
+          "const": "Characteristic of pain (observable entity)",
+          "default": "Characteristic of pain (observable entity)",
+          "description": "Attribute name"
+        },
+        "sctid": {
+          "const": 364625007,
+          "default": 364625007,
+          "description": "Attribute SNOMED CT identifier (64-bit integer)"
+        },
+        "value": {
+          "description": "Possible values for this attribute (exactly one)",
+          "oneOf": [
+            {
+              "title": "Sharp sensation quality (qualifier value)",
+              "$ref": "#/definitions/eeb72e33f12ee8c9b7d086fe7a62db18"
+            },
+            {
+              "title": "Cramping sensation quality (qualifier value)",
+              "$ref": "#/definitions/299e4d939f31f9a91bfcf4968f6bbd40"
+            },
+            {
+              "title": "Dull sensation quality (qualifier value)",
+              "$ref": "#/definitions/80a52271beda442bc28357f85dd70563"
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "sctid",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "43eec3bb02398aa63f53e9f82cd6644c": {
+      "type": "object",
+      "title": "Pain intensity (observable entity)",
+      "properties": {
+        "id": {
+          "const": "43eec3bb02398aa63f53e9f82cd6644c",
+          "default": "43eec3bb02398aa63f53e9f82cd6644c",
+          "description": "Attribute ID"
+        },
+        "name": {
+          "const": "Pain intensity (observable entity)",
+          "default": "Pain intensity (observable entity)",
+          "description": "Attribute name"
+        },
+        "sctid": {
+          "const": 406127006,
+          "default": 406127006,
+          "description": "Attribute SNOMED CT identifier (64-bit integer)"
+        },
+        "value": {
+          "description": "Possible values for this attribute (exactly one)",
+          "oneOf": [
+            {
+              "title": "Mild (qualifier value)",
+              "$ref": "#/definitions/57d96ea9bf80b712a14478b32dbccaa8"
+            },
+            {
+              "title": "Moderate (severity modifier) (qualifier value)",
+              "$ref": "#/definitions/61fc06062a354f1d24d09d47257739db"
+            },
+            {
+              "title": "Severe (severity modifier) (qualifier value)",
+              "$ref": "#/definitions/5ea1458a4bb2989057c6f60cc4dcbd40"
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "sctid",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "93fd11743b71fe0f8f15cbbd36a2dbb1": {
+      "type": "object",
+      "title": "Time since onset",
+      "properties": {
+        "id": {
+          "const": "93fd11743b71fe0f8f15cbbd36a2dbb1",
+          "default": "93fd11743b71fe0f8f15cbbd36a2dbb1",
+          "description": "Attribute ID"
+        },
+        "name": {
+          "const": "Time since onset",
+          "default": "Time since onset",
+          "description": "Attribute name"
+        },
+        "customId": {
+          "const": 1,
+          "default": 1,
+          "description": "Attribute custom identifier"
+        },
+        "value": {
+          "description": "Possible values for this attribute (exactly one)",
+          "oneOf": [
+            {
+              "title": "less than a day",
+              "$ref": "#/definitions/c3fe9718760fa95b3164e56a1a9981db"
+            },
+            {
+              "title": "a couple days (1-2 days)",
+              "$ref": "#/definitions/d2ec2b60fbcefb37db2863fb9a5b70d3"
+            },
+            {
+              "title": "3 days - to 1 week",
+              "$ref": "#/definitions/35dd1fc8f2ac68f7758809dc4a10657f"
+            },
+            {
+              "title": "a few weeks (1 weeks - 1 month)",
+              "$ref": "#/definitions/ad3f8ad0a9df876cbef2ec1d87104e48"
+            },
+            {
+              "title": "1 month to 1 year",
+              "$ref": "#/definitions/7480981b88fbe43b47fa99e4c353a87d"
+            },
+            {
+              "title": "a year or more",
+              "$ref": "#/definitions/c0970eba153a8256c83b0575c86c0ce5"
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "customId",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "8e65c9133d5eabcf66eb73a65c018235": {
+      "type": "object",
+      "title": "Diarrhea (finding)",
+      "properties": {
+        "id": {
+          "const": "8e65c9133d5eabcf66eb73a65c018235",
+          "default": "8e65c9133d5eabcf66eb73a65c018235",
+          "description": "Clinical finding ID"
+        },
+        "name": {
+          "const": "Diarrhea (finding)",
+          "default": "Diarrhea (finding)",
+          "description": "Clinical finding name"
+        },
+        "sctid": {
+          "const": 62315008,
+          "default": 62315008,
+          "description": "Clinical finding SNOMED CT identifier (64-bit integer)"
+        },
+        "state": {
+          "$ref": "#/definitions/clinicalFindingState"
+        },
+        "attributes": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "title": "Contents of stool (observable entity)",
+                "$ref": "#/definitions/ab1defe40ac0d4b88d6474483be12bac"
+              },
+              {
+                "title": "Time since onset",
+                "$ref": "#/definitions/93fd11743b71fe0f8f15cbbd36a2dbb1"
+              }
+            ]
+          },
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "sctid",
+        "state",
+        "attributes"
+      ],
+      "additionalProperties": false
+    },
+    "ab1defe40ac0d4b88d6474483be12bac": {
+      "type": "object",
+      "title": "Contents of stool (observable entity)",
+      "properties": {
+        "id": {
+          "const": "ab1defe40ac0d4b88d6474483be12bac",
+          "default": "ab1defe40ac0d4b88d6474483be12bac",
+          "description": "Attribute ID"
+        },
+        "name": {
+          "const": "Contents of stool (observable entity)",
+          "default": "Contents of stool (observable entity)",
+          "description": "Attribute name"
+        },
+        "sctid": {
+          "const": 249622004,
+          "default": 249622004,
+          "description": "Attribute SNOMED CT identifier (64-bit integer)"
+        },
+        "values": {
+          "type": "array",
+          "description": "Possible values for this attribute (at least one, multi-selection possible)",
+          "items": {
+            "oneOf": [
+              {
+                "title": "Blood (substance)",
+                "$ref": "#/definitions/0f77ba828c65101cf7fb943eb34f2a21"
+              },
+              {
+                "title": "Water (substance)",
+                "$ref": "#/definitions/c53db84792da14ac9ae1daf042b5fad8"
+              },
+              {
+                "title": "Mucus (substance)",
+                "$ref": "#/definitions/d07bc7629cfcc98a5712482ad6d226e8"
+              }
+            ]
+          },
+          "uniqueItems": true,
+          "minItems": 1
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "sctid",
+        "values"
+      ],
+      "additionalProperties": false
+    },
+    "3a6a8a383df2c37fcd8a25f4acb98e85": {
+      "type": "object",
+      "title": "Vomiting (disorder)",
+      "properties": {
+        "id": {
+          "const": "3a6a8a383df2c37fcd8a25f4acb98e85",
+          "default": "3a6a8a383df2c37fcd8a25f4acb98e85",
+          "description": "Clinical finding ID"
+        },
+        "name": {
+          "const": "Vomiting (disorder)",
+          "default": "Vomiting (disorder)",
+          "description": "Clinical finding name"
+        },
+        "sctid": {
+          "const": 422400008,
+          "default": 422400008,
+          "description": "Clinical finding SNOMED CT identifier (64-bit integer)"
+        },
+        "state": {
+          "$ref": "#/definitions/clinicalFindingState"
+        },
+        "attributes": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "title": "Time since onset",
+                "$ref": "#/definitions/93fd11743b71fe0f8f15cbbd36a2dbb1"
+              }
+            ]
+          },
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "sctid",
+        "state",
+        "attributes"
+      ],
+      "additionalProperties": false
+    },
+    "41520e579df9e4b650a0c06e5f0b4042": {
+      "type": "object",
+      "title": "Dysuria (finding)",
+      "properties": {
+        "id": {
+          "const": "41520e579df9e4b650a0c06e5f0b4042",
+          "default": "41520e579df9e4b650a0c06e5f0b4042",
+          "description": "Clinical finding ID"
+        },
+        "name": {
+          "const": "Dysuria (finding)",
+          "default": "Dysuria (finding)",
+          "description": "Clinical finding name"
+        },
+        "sctid": {
+          "const": 49650001,
+          "default": 49650001,
+          "description": "Clinical finding SNOMED CT identifier (64-bit integer)"
+        },
+        "state": {
+          "$ref": "#/definitions/clinicalFindingState"
+        },
+        "attributes": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "title": "Time since onset",
+                "$ref": "#/definitions/93fd11743b71fe0f8f15cbbd36a2dbb1"
+              }
+            ]
+          },
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "sctid",
+        "state",
+        "attributes"
+      ],
+      "additionalProperties": false
+    },
+    "e0a15bc5d76e107e904ef8b6d784c5f8": {
+      "type": "object",
+      "title": "Increased frequency of urination (finding)",
+      "properties": {
+        "id": {
+          "const": "e0a15bc5d76e107e904ef8b6d784c5f8",
+          "default": "e0a15bc5d76e107e904ef8b6d784c5f8",
+          "description": "Clinical finding ID"
+        },
+        "name": {
+          "const": "Increased frequency of urination (finding)",
+          "default": "Increased frequency of urination (finding)",
+          "description": "Clinical finding name"
+        },
+        "sctid": {
+          "const": 162116003,
+          "default": 162116003,
+          "description": "Clinical finding SNOMED CT identifier (64-bit integer)"
+        },
+        "state": {
+          "$ref": "#/definitions/clinicalFindingState"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "sctid",
+        "state"
+      ],
+      "additionalProperties": false
+    },
+    "c32fbaf84adfa4ac3362a89ff22635d4": {
+      "type": "object",
+      "title": "Blood in urine (finding)",
+      "properties": {
+        "id": {
+          "const": "c32fbaf84adfa4ac3362a89ff22635d4",
+          "default": "c32fbaf84adfa4ac3362a89ff22635d4",
+          "description": "Clinical finding ID"
+        },
+        "name": {
+          "const": "Blood in urine (finding)",
+          "default": "Blood in urine (finding)",
+          "description": "Clinical finding name"
+        },
+        "sctid": {
+          "const": 34436003,
+          "default": 34436003,
+          "description": "Clinical finding SNOMED CT identifier (64-bit integer)"
+        },
+        "state": {
+          "$ref": "#/definitions/clinicalFindingState"
+        },
+        "attributes": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "title": "Time since onset",
+                "$ref": "#/definitions/93fd11743b71fe0f8f15cbbd36a2dbb1"
+              }
+            ]
+          },
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "sctid",
+        "state",
+        "attributes"
+      ],
+      "additionalProperties": false
+    },
+    "7b1c488fc0f4fccfcf3d7dc048444113": {
+      "type": "object",
+      "title": "Weight loss (finding)",
+      "properties": {
+        "id": {
+          "const": "7b1c488fc0f4fccfcf3d7dc048444113",
+          "default": "7b1c488fc0f4fccfcf3d7dc048444113",
+          "description": "Clinical finding ID"
+        },
+        "name": {
+          "const": "Weight loss (finding)",
+          "default": "Weight loss (finding)",
+          "description": "Clinical finding name"
+        },
+        "sctid": {
+          "const": 89362005,
+          "default": 89362005,
+          "description": "Clinical finding SNOMED CT identifier (64-bit integer)"
+        },
+        "state": {
+          "$ref": "#/definitions/clinicalFindingState"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "sctid",
+        "state"
+      ],
+      "additionalProperties": false
+    },
+    "75cd4ec705062ba5ca4ce9d0f7a3da6e": {
+      "type": "object",
+      "title": "Fever (finding)",
+      "properties": {
+        "id": {
+          "const": "75cd4ec705062ba5ca4ce9d0f7a3da6e",
+          "default": "75cd4ec705062ba5ca4ce9d0f7a3da6e",
+          "description": "Clinical finding ID"
+        },
+        "name": {
+          "const": "Fever (finding)",
+          "default": "Fever (finding)",
+          "description": "Clinical finding name"
+        },
+        "sctid": {
+          "const": 386661006,
+          "default": 386661006,
+          "description": "Clinical finding SNOMED CT identifier (64-bit integer)"
+        },
+        "state": {
+          "$ref": "#/definitions/clinicalFindingState"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "sctid",
+        "state"
+      ],
+      "additionalProperties": false
+    },
+    "9169fb66e1c761d3024e1a27be74101a": {
+      "type": "object",
+      "title": "Heartburn (finding)",
+      "properties": {
+        "id": {
+          "const": "9169fb66e1c761d3024e1a27be74101a",
+          "default": "9169fb66e1c761d3024e1a27be74101a",
+          "description": "Clinical finding ID"
+        },
+        "name": {
+          "const": "Heartburn (finding)",
+          "default": "Heartburn (finding)",
+          "description": "Clinical finding name"
+        },
+        "sctid": {
+          "const": 16331000,
+          "default": 16331000,
+          "description": "Clinical finding SNOMED CT identifier (64-bit integer)"
+        },
+        "state": {
+          "$ref": "#/definitions/clinicalFindingState"
+        },
+        "attributes": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "title": "Time since onset",
+                "$ref": "#/definitions/93fd11743b71fe0f8f15cbbd36a2dbb1"
+              }
+            ]
+          },
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "sctid",
+        "state",
+        "attributes"
+      ],
+      "additionalProperties": false
+    },
+    "f17ba8017053fad3fbbe2fea8d7f960b": {
+      "type": "object",
+      "title": "Menstrual period late (finding)",
+      "properties": {
+        "id": {
+          "const": "f17ba8017053fad3fbbe2fea8d7f960b",
+          "default": "f17ba8017053fad3fbbe2fea8d7f960b",
+          "description": "Clinical finding ID"
+        },
+        "name": {
+          "const": "Menstrual period late (finding)",
+          "default": "Menstrual period late (finding)",
+          "description": "Clinical finding name"
+        },
+        "sctid": {
+          "const": 84292000,
+          "default": 84292000,
+          "description": "Clinical finding SNOMED CT identifier (64-bit integer)"
+        },
+        "state": {
+          "$ref": "#/definitions/clinicalFindingState"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "sctid",
+        "state"
+      ],
+      "additionalProperties": false
+    },
+    "b0a9ca94930dcf992dad1b29343b08ea": {
+      "type": "object",
+      "title": "Structure of left lower quadrant of abdomen (body structure)",
+      "properties": {
+        "id": {
+          "const": "b0a9ca94930dcf992dad1b29343b08ea",
+          "default": "b0a9ca94930dcf992dad1b29343b08ea",
+          "description": "Value ID"
+        },
+        "name": {
+          "const": "Structure of left lower quadrant of abdomen (body structure)",
+          "default": "Structure of left lower quadrant of abdomen (body structure)",
+          "description": "Value name"
+        },
+        "sctid": {
+          "const": 68505006,
+          "default": 68505006,
+          "description": "Value SNOMED CT identifier (64-bit integer)"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "sctid"
+      ],
+      "additionalProperties": false
+    },
+    "0f7f8cfe7e12c3a4a1558a9c3a1b3454": {
+      "type": "object",
+      "title": "Structure of right lower quadrant of abdomen (body structure)",
+      "properties": {
+        "id": {
+          "const": "0f7f8cfe7e12c3a4a1558a9c3a1b3454",
+          "default": "0f7f8cfe7e12c3a4a1558a9c3a1b3454",
+          "description": "Value ID"
+        },
+        "name": {
+          "const": "Structure of right lower quadrant of abdomen (body structure)",
+          "default": "Structure of right lower quadrant of abdomen (body structure)",
+          "description": "Value name"
+        },
+        "sctid": {
+          "const": 48544008,
+          "default": 48544008,
+          "description": "Value SNOMED CT identifier (64-bit integer)"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "sctid"
+      ],
+      "additionalProperties": false
+    },
+    "0e80a75a59339299ba6e6e117d63397d": {
+      "type": "object",
+      "title": "Structure of left upper quadrant of abdomen (body structure)",
+      "properties": {
+        "id": {
+          "const": "0e80a75a59339299ba6e6e117d63397d",
+          "default": "0e80a75a59339299ba6e6e117d63397d",
+          "description": "Value ID"
+        },
+        "name": {
+          "const": "Structure of left upper quadrant of abdomen (body structure)",
+          "default": "Structure of left upper quadrant of abdomen (body structure)",
+          "description": "Value name"
+        },
+        "sctid": {
+          "const": 86367003,
+          "default": 86367003,
+          "description": "Value SNOMED CT identifier (64-bit integer)"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "sctid"
+      ],
+      "additionalProperties": false
+    },
+    "1f75a2370b4f6ed438e01e5d099a4822": {
+      "type": "object",
+      "title": "Structure of right upper quadrant of abdomen (body structure)",
+      "properties": {
+        "id": {
+          "const": "1f75a2370b4f6ed438e01e5d099a4822",
+          "default": "1f75a2370b4f6ed438e01e5d099a4822",
+          "description": "Value ID"
+        },
+        "name": {
+          "const": "Structure of right upper quadrant of abdomen (body structure)",
+          "default": "Structure of right upper quadrant of abdomen (body structure)",
+          "description": "Value name"
+        },
+        "sctid": {
+          "const": 50519007,
+          "default": 50519007,
+          "description": "Value SNOMED CT identifier (64-bit integer)"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "sctid"
+      ],
+      "additionalProperties": false
+    },
+    "858b635cd3ddc74c840e59f9538b3aa0": {
+      "type": "object",
+      "title": "Hypogastric region structure (body structure)",
+      "properties": {
+        "id": {
+          "const": "858b635cd3ddc74c840e59f9538b3aa0",
+          "default": "858b635cd3ddc74c840e59f9538b3aa0",
+          "description": "Value ID"
+        },
+        "name": {
+          "const": "Hypogastric region structure (body structure)",
+          "default": "Hypogastric region structure (body structure)",
+          "description": "Value name"
+        },
+        "sctid": {
+          "const": 11708003,
+          "default": 11708003,
+          "description": "Value SNOMED CT identifier (64-bit integer)"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "sctid"
+      ],
+      "additionalProperties": false
+    },
+    "91f6224aca38e8443cace070bb8e723b": {
+      "type": "object",
+      "title": "Epigastric region structure (body structure)",
+      "properties": {
+        "id": {
+          "const": "91f6224aca38e8443cace070bb8e723b",
+          "default": "91f6224aca38e8443cace070bb8e723b",
+          "description": "Value ID"
+        },
+        "name": {
+          "const": "Epigastric region structure (body structure)",
+          "default": "Epigastric region structure (body structure)",
+          "description": "Value name"
+        },
+        "sctid": {
+          "const": 27947004,
+          "default": 27947004,
+          "description": "Value SNOMED CT identifier (64-bit integer)"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "sctid"
+      ],
+      "additionalProperties": false
+    },
+    "55cee8576a49af5c9aa1ed552669e8be": {
+      "type": "object",
+      "title": "Structure of abdominopelvic cavity and/or content of abdominopelvic cavity and/or anterior abdominal wall (body structure)",
+      "properties": {
+        "id": {
+          "const": "55cee8576a49af5c9aa1ed552669e8be",
+          "default": "55cee8576a49af5c9aa1ed552669e8be",
+          "description": "Value ID"
+        },
+        "name": {
+          "const": "Structure of abdominopelvic cavity and/or content of abdominopelvic cavity and/or anterior abdominal wall (body structure)",
+          "default": "Structure of abdominopelvic cavity and/or content of abdominopelvic cavity and/or anterior abdominal wall (body structure)",
+          "description": "Value name"
+        },
+        "sctid": {
+          "const": 818983003,
+          "default": 818983003,
+          "description": "Value SNOMED CT identifier (64-bit integer)"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "sctid"
+      ],
+      "additionalProperties": false
+    },
+    "b6755fcd9c5278c345e863aa3aab09e3": {
+      "type": "object",
+      "title": "Structure of central region of abdomen (body structure)",
+      "properties": {
+        "id": {
+          "const": "b6755fcd9c5278c345e863aa3aab09e3",
+          "default": "b6755fcd9c5278c345e863aa3aab09e3",
+          "description": "Value ID"
+        },
+        "name": {
+          "const": "Structure of central region of abdomen (body structure)",
+          "default": "Structure of central region of abdomen (body structure)",
+          "description": "Value name"
+        },
+        "sctid": {
+          "const": 422314007,
+          "default": 422314007,
+          "description": "Value SNOMED CT identifier (64-bit integer)"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "sctid"
+      ],
+      "additionalProperties": false
+    },
+    "eeb72e33f12ee8c9b7d086fe7a62db18": {
+      "type": "object",
+      "title": "Sharp sensation quality (qualifier value)",
+      "properties": {
+        "id": {
+          "const": "eeb72e33f12ee8c9b7d086fe7a62db18",
+          "default": "eeb72e33f12ee8c9b7d086fe7a62db18",
+          "description": "Value ID"
+        },
+        "name": {
+          "const": "Sharp sensation quality (qualifier value)",
+          "default": "Sharp sensation quality (qualifier value)",
+          "description": "Value name"
+        },
+        "sctid": {
+          "const": 410707003,
+          "default": 410707003,
+          "description": "Value SNOMED CT identifier (64-bit integer)"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "sctid"
+      ],
+      "additionalProperties": false
+    },
+    "299e4d939f31f9a91bfcf4968f6bbd40": {
+      "type": "object",
+      "title": "Cramping sensation quality (qualifier value)",
+      "properties": {
+        "id": {
+          "const": "299e4d939f31f9a91bfcf4968f6bbd40",
+          "default": "299e4d939f31f9a91bfcf4968f6bbd40",
+          "description": "Value ID"
+        },
+        "name": {
+          "const": "Cramping sensation quality (qualifier value)",
+          "default": "Cramping sensation quality (qualifier value)",
+          "description": "Value name"
+        },
+        "sctid": {
+          "const": 410709000,
+          "default": 410709000,
+          "description": "Value SNOMED CT identifier (64-bit integer)"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "sctid"
+      ],
+      "additionalProperties": false
+    },
+    "80a52271beda442bc28357f85dd70563": {
+      "type": "object",
+      "title": "Dull sensation quality (qualifier value)",
+      "properties": {
+        "id": {
+          "const": "80a52271beda442bc28357f85dd70563",
+          "default": "80a52271beda442bc28357f85dd70563",
+          "description": "Value ID"
+        },
+        "name": {
+          "const": "Dull sensation quality (qualifier value)",
+          "default": "Dull sensation quality (qualifier value)",
+          "description": "Value name"
+        },
+        "sctid": {
+          "const": 410708008,
+          "default": 410708008,
+          "description": "Value SNOMED CT identifier (64-bit integer)"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "sctid"
+      ],
+      "additionalProperties": false
+    },
+    "57d96ea9bf80b712a14478b32dbccaa8": {
+      "type": "object",
+      "title": "Mild (qualifier value)",
+      "properties": {
+        "id": {
+          "const": "57d96ea9bf80b712a14478b32dbccaa8",
+          "default": "57d96ea9bf80b712a14478b32dbccaa8",
+          "description": "Value ID"
+        },
+        "name": {
+          "const": "Mild (qualifier value)",
+          "default": "Mild (qualifier value)",
+          "description": "Value name"
+        },
+        "sctid": {
+          "const": 255604002,
+          "default": 255604002,
+          "description": "Value SNOMED CT identifier (64-bit integer)"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "sctid"
+      ],
+      "additionalProperties": false
+    },
+    "61fc06062a354f1d24d09d47257739db": {
+      "type": "object",
+      "title": "Moderate (severity modifier) (qualifier value)",
+      "properties": {
+        "id": {
+          "const": "61fc06062a354f1d24d09d47257739db",
+          "default": "61fc06062a354f1d24d09d47257739db",
+          "description": "Value ID"
+        },
+        "name": {
+          "const": "Moderate (severity modifier) (qualifier value)",
+          "default": "Moderate (severity modifier) (qualifier value)",
+          "description": "Value name"
+        },
+        "sctid": {
+          "const": 6736007,
+          "default": 6736007,
+          "description": "Value SNOMED CT identifier (64-bit integer)"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "sctid"
+      ],
+      "additionalProperties": false
+    },
+    "5ea1458a4bb2989057c6f60cc4dcbd40": {
+      "type": "object",
+      "title": "Severe (severity modifier) (qualifier value)",
+      "properties": {
+        "id": {
+          "const": "5ea1458a4bb2989057c6f60cc4dcbd40",
+          "default": "5ea1458a4bb2989057c6f60cc4dcbd40",
+          "description": "Value ID"
+        },
+        "name": {
+          "const": "Severe (severity modifier) (qualifier value)",
+          "default": "Severe (severity modifier) (qualifier value)",
+          "description": "Value name"
+        },
+        "sctid": {
+          "const": 24484000,
+          "default": 24484000,
+          "description": "Value SNOMED CT identifier (64-bit integer)"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "sctid"
+      ],
+      "additionalProperties": false
+    },
+    "c3fe9718760fa95b3164e56a1a9981db": {
+      "type": "object",
+      "title": "less than a day",
+      "properties": {
+        "id": {
+          "const": "c3fe9718760fa95b3164e56a1a9981db",
+          "default": "c3fe9718760fa95b3164e56a1a9981db",
+          "description": "Value ID"
+        },
+        "name": {
+          "const": "less than a day",
+          "default": "less than a day",
+          "description": "Value name"
+        },
+        "customId": {
+          "const": 100,
+          "default": 100,
+          "description": "Value custom identifier"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "customId"
+      ],
+      "additionalProperties": false
+    },
+    "d2ec2b60fbcefb37db2863fb9a5b70d3": {
+      "type": "object",
+      "title": "a couple days (1-2 days)",
+      "properties": {
+        "id": {
+          "const": "d2ec2b60fbcefb37db2863fb9a5b70d3",
+          "default": "d2ec2b60fbcefb37db2863fb9a5b70d3",
+          "description": "Value ID"
+        },
+        "name": {
+          "const": "a couple days (1-2 days)",
+          "default": "a couple days (1-2 days)",
+          "description": "Value name"
+        },
+        "customId": {
+          "const": 101,
+          "default": 101,
+          "description": "Value custom identifier"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "customId"
+      ],
+      "additionalProperties": false
+    },
+    "35dd1fc8f2ac68f7758809dc4a10657f": {
+      "type": "object",
+      "title": "3 days - to 1 week",
+      "properties": {
+        "id": {
+          "const": "35dd1fc8f2ac68f7758809dc4a10657f",
+          "default": "35dd1fc8f2ac68f7758809dc4a10657f",
+          "description": "Value ID"
+        },
+        "name": {
+          "const": "3 days - to 1 week",
+          "default": "3 days - to 1 week",
+          "description": "Value name"
+        },
+        "customId": {
+          "const": 102,
+          "default": 102,
+          "description": "Value custom identifier"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "customId"
+      ],
+      "additionalProperties": false
+    },
+    "ad3f8ad0a9df876cbef2ec1d87104e48": {
+      "type": "object",
+      "title": "a few weeks (1 weeks - 1 month)",
+      "properties": {
+        "id": {
+          "const": "ad3f8ad0a9df876cbef2ec1d87104e48",
+          "default": "ad3f8ad0a9df876cbef2ec1d87104e48",
+          "description": "Value ID"
+        },
+        "name": {
+          "const": "a few weeks (1 weeks - 1 month)",
+          "default": "a few weeks (1 weeks - 1 month)",
+          "description": "Value name"
+        },
+        "customId": {
+          "const": 103,
+          "default": 103,
+          "description": "Value custom identifier"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "customId"
+      ],
+      "additionalProperties": false
+    },
+    "7480981b88fbe43b47fa99e4c353a87d": {
+      "type": "object",
+      "title": "1 month to 1 year",
+      "properties": {
+        "id": {
+          "const": "7480981b88fbe43b47fa99e4c353a87d",
+          "default": "7480981b88fbe43b47fa99e4c353a87d",
+          "description": "Value ID"
+        },
+        "name": {
+          "const": "1 month to 1 year",
+          "default": "1 month to 1 year",
+          "description": "Value name"
+        },
+        "customId": {
+          "const": 104,
+          "default": 104,
+          "description": "Value custom identifier"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "customId"
+      ],
+      "additionalProperties": false
+    },
+    "c0970eba153a8256c83b0575c86c0ce5": {
+      "type": "object",
+      "title": "a year or more",
+      "properties": {
+        "id": {
+          "const": "c0970eba153a8256c83b0575c86c0ce5",
+          "default": "c0970eba153a8256c83b0575c86c0ce5",
+          "description": "Value ID"
+        },
+        "name": {
+          "const": "a year or more",
+          "default": "a year or more",
+          "description": "Value name"
+        },
+        "customId": {
+          "const": 105,
+          "default": 105,
+          "description": "Value custom identifier"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "customId"
+      ],
+      "additionalProperties": false
+    },
+    "0f77ba828c65101cf7fb943eb34f2a21": {
+      "type": "object",
+      "title": "Blood (substance)",
+      "properties": {
+        "id": {
+          "const": "0f77ba828c65101cf7fb943eb34f2a21",
+          "default": "0f77ba828c65101cf7fb943eb34f2a21",
+          "description": "Value ID"
+        },
+        "name": {
+          "const": "Blood (substance)",
+          "default": "Blood (substance)",
+          "description": "Value name"
+        },
+        "sctid": {
+          "const": 87612001,
+          "default": 87612001,
+          "description": "Value SNOMED CT identifier (64-bit integer)"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "sctid"
+      ],
+      "additionalProperties": false
+    },
+    "c53db84792da14ac9ae1daf042b5fad8": {
+      "type": "object",
+      "title": "Water (substance)",
+      "properties": {
+        "id": {
+          "const": "c53db84792da14ac9ae1daf042b5fad8",
+          "default": "c53db84792da14ac9ae1daf042b5fad8",
+          "description": "Value ID"
+        },
+        "name": {
+          "const": "Water (substance)",
+          "default": "Water (substance)",
+          "description": "Value name"
+        },
+        "sctid": {
+          "const": 11713004,
+          "default": 11713004,
+          "description": "Value SNOMED CT identifier (64-bit integer)"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "sctid"
+      ],
+      "additionalProperties": false
+    },
+    "d07bc7629cfcc98a5712482ad6d226e8": {
+      "type": "object",
+      "title": "Mucus (substance)",
+      "properties": {
+        "id": {
+          "const": "d07bc7629cfcc98a5712482ad6d226e8",
+          "default": "d07bc7629cfcc98a5712482ad6d226e8",
+          "description": "Value ID"
+        },
+        "name": {
+          "const": "Mucus (substance)",
+          "default": "Mucus (substance)",
+          "description": "Value name"
+        },
+        "sctid": {
+          "const": 49909006,
+          "default": 49909006,
+          "description": "Value SNOMED CT identifier (64-bit integer)"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "sctid"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

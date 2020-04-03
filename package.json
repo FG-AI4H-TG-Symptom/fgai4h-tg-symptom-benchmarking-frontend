@@ -6,6 +6,8 @@
   "dependencies": {
     "@material-ui/core": "^4.9.0",
     "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.47",
+    "ajv": "^6.12.0",
     "datalib": "^1.9.2",
     "dot-prop-immutable": "latest",
     "echarts": "^4.6.0",

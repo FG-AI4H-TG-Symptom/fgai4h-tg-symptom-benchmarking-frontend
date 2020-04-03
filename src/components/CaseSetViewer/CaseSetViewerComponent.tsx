@@ -6,6 +6,7 @@ import ViewRaw from '../common/ViewRaw'
 import CaseSetViewerTable from './CaseSetViewerTable'
 import TabFactory, { TabFactoryEntry } from '../common/TabFactory'
 import CaseSetViewerAnalysis from './CaseSetViewerAnalysis'
+import CaseSetEditor from './CaseSetEditor'
 
 export interface CaseSetComponentProps {
   caseSet: CaseDataType[]
@@ -21,6 +22,12 @@ const CaseSetViewerComponent: React.FC<CaseSetComponentProps> = ({
       componentCallback: (): JSX.Element => (
         <CaseSetViewerTable caseSet={caseSet} />
       ),
+      noPadding: true,
+    },
+    {
+      id: 'editor',
+      name: 'Editor',
+      componentCallback: (): JSX.Element => <CaseSetEditor caseSet={caseSet} />,
       noPadding: true,
     },
     {
