@@ -1,10 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Card, CardContent, CardHeader } from '@material-ui/core'
-import { FlatErrors } from './utils'
+import { Card, CardContent, CardHeader, Tooltip } from '@material-ui/core'
+import { Warning as WarningIcon } from '@material-ui/icons'
+import { errorSummary, useErrorsInChildren } from './utils'
+import { AutoPrefix } from './PrefixContext'
 
-const FormCard = styled(Card)<{ error?: boolean }>`
-  ${({ error }): string => (error ? 'border-color: red;' : '')}
+// todo: should prevent the `hasErrors` prop from being passed down
+const FormCard = styled(Card)<{ hasErrors?: boolean }>`
+  ${({ hasErrors }): string => (hasErrors ? 'border-color: red;' : '')}
   &:not(:last-child) {
     margin-bottom: 1rem;
   }
@@ -13,26 +16,27 @@ const FormCard = styled(Card)<{ error?: boolean }>`
 interface FormSectionProps {
   title: string
   name: string
-  errors?: FlatErrors
 }
-const FormSection: React.FC<FormSectionProps> = ({
-  title,
-  name,
-  children,
-  errors,
-}) => (
-  <FormCard
-    variant='outlined'
-    error={
-      errors &&
-      Object.entries(errors).some(([errorPath, error]) =>
-        errorPath.startsWith(name),
-      )
-    }
-  >
-    <CardHeader subheader={title} />
-    <CardContent>{children}</CardContent>
-  </FormCard>
-)
+const FormSection: React.FC<FormSectionProps> = ({ title, name, children }) => {
+  const errors = useErrorsInChildren(name)
+  const hasErrors = errors.length > 0
+  return (
+    <FormCard variant='outlined' hasErrors={hasErrors}>
+      <CardHeader
+        subheader={title}
+        action={
+          hasErrors ? (
+            <Tooltip title={errorSummary(name, errors)}>
+              <WarningIcon color='error' />
+            </Tooltip>
+          ) : null
+        }
+      />
+      <CardContent>
+        <AutoPrefix name={name}>{children}</AutoPrefix>
+      </CardContent>
+    </FormCard>
+  )
+}
 
 export default FormSection

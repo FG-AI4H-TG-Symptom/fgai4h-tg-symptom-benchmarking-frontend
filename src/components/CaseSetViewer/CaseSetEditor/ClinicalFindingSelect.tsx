@@ -1,38 +1,28 @@
 import React from 'react'
-import { Controller, useFieldArray, useForm } from 'react-hook-form'
-import {
-  Button,
-  FormControl,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  Typography,
-} from '@material-ui/core'
+import { Button, Grid, MenuItem, Typography } from '@material-ui/core'
 
 import berlinModelSchema from '../../../data/caseSets/berlinModel.schema.json'
-import { refToConcept, watchArrayHelper } from './utils'
 
+import {
+  refToConcept,
+  useAutoFieldArray,
+  useWatch,
+  useWatchArrayHelper,
+} from './utils'
 import AttributeSelect from './AttributeSelect'
 import FormBlock from './FormBlock'
+import AutoSelect from './AutoSelect'
 
-let renderCount = 0
-
-const ClinicalFindingSelect = ({ name, onChange }) => {
-  // , value
-  const validationResolver = (rawValues: any) => {
-    console.log('ClinicalFindingSelect.validationResolver', rawValues)
-    onChange({ value: rawValues })
-    return { values: rawValues, errors: {} }
-  }
-  const { control, watch } = useForm({ mode: 'onChange', validationResolver })
-
-  const attributes = useFieldArray({
-    control,
+const ClinicalFindingSelect: React.FC<{}> = () => {
+  const attributes = useAutoFieldArray({
     name: 'attributes',
-    keyName: 'key',
   })
-  const clinicalFindingId = watch('id')
+  const clinicalFindingId = useWatch<string>('id')
+  const currentAttributeIds = useWatchArrayHelper(
+    attributes,
+    'attributes[*].id',
+  )
+
   let attributesSection
   if (clinicalFindingId) {
     const clinicalFindingProperties =
@@ -45,45 +35,28 @@ const ClinicalFindingSelect = ({ name, onChange }) => {
 
       if (possibleAttributes.length < 4) {
         attributesSection = (
-          <FormBlock group color='white' title='Attributes'>
+          <FormBlock name='attributes' group color='#4cb8da' title='Attributes'>
             {possibleAttributes.map((attribute, index) => (
-              <FormBlock key={attribute.id} color='white'>
-                <Controller
-                  name={`attributes[${index}]`}
-                  fixedAttribute={attribute}
-                  as={AttributeSelect}
-                  control={control}
-                />
+              <FormBlock name={`[${index}]`} key={attribute.id} color='white'>
+                <AttributeSelect fixedAttribute={attribute} />
               </FormBlock>
             ))}
           </FormBlock>
         )
       } else {
-        const currentAttributes = watch('attributes')
-        const currentAttributeIds = currentAttributes
-          ? currentAttributes.map(({ id }) => id)
-          : []
-        // todo: the following doesn't work, but the (apparently) same code works in AttributeSelect for 'values'
-        // const currentAttributeIds = watchArrayHelper(
-        //   watch,
-        //   attributes,
-        //   'attributes[*].id',
-        // )
-
         attributesSection = (
-          <FormBlock group color='white' title='Attributes'>
+          <FormBlock name='attributes' group color='#4cb8da' title='Attributes'>
             {attributes.fields.map((item, index) => (
-              <FormBlock key={item.key} color='white'>
-                <Controller
-                  name={`attributes[${index}]`}
+              <FormBlock name={`[${index}]`} key={item.key} color='#4cb8da'>
+                <AttributeSelect
                   possibleAttributes={possibleAttributes.filter(
                     ({ id }) =>
                       id === currentAttributeIds[index] ||
                       !currentAttributeIds.includes(id),
                   )}
-                  onRemoveAttribute={(): void => attributes.remove(index)}
-                  as={AttributeSelect}
-                  control={control}
+                  onRemoveAttribute={(): void => {
+                    attributes.remove(index)
+                  }}
                 />
               </FormBlock>
             ))}
@@ -105,44 +78,41 @@ const ClinicalFindingSelect = ({ name, onChange }) => {
     )
   }
 
-  renderCount += 1
-  console.log('clinical finding render', renderCount)
-
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12} lg={4}>
-        <FormControl fullWidth>
-          <InputLabel id={`${name}__label`}>Clinical finding</InputLabel>
-          <Controller
-            name='id'
-            control={control}
-            defaultValue=''
-            labelId={`${name}__label`}
-            onChange={([event]): string => {
-              attributes.remove()
-              return event.target.value
-            }}
-            as={
-              <Select>
-                {berlinModelSchema.definitions.clinicalFinding.oneOf.map(
-                  ({ $ref }) => {
-                    const clinicalFinding = refToConcept($ref)
-                    return (
-                      <MenuItem
-                        key={clinicalFinding.id}
-                        value={clinicalFinding.id}
-                      >
-                        {clinicalFinding.name}
-                      </MenuItem>
-                    )
-                  },
-                )}
-              </Select>
-            }
-          />
-        </FormControl>
+      <Grid item xs={8} lg={3}>
+        <AutoSelect
+          name='id'
+          label='Clinical finding'
+          onChange={([event]): string => {
+            attributes.remove()
+            return event.target.value
+          }}
+        >
+          {berlinModelSchema.definitions.clinicalFinding.oneOf.map(
+            ({ $ref }) => {
+              const clinicalFinding = refToConcept($ref)
+              return (
+                <MenuItem key={clinicalFinding.id} value={clinicalFinding.id}>
+                  {clinicalFinding.name}
+                </MenuItem>
+              )
+            },
+          )}
+        </AutoSelect>
       </Grid>
-      <Grid item xs={12} lg={8}>
+      <Grid item xs={4} lg={2}>
+        <AutoSelect name='state' label='State'>
+          {berlinModelSchema.definitions.clinicalFindingState.enum.map(
+            state => (
+              <MenuItem key={state} value={state}>
+                {state}
+              </MenuItem>
+            ),
+          )}
+        </AutoSelect>
+      </Grid>
+      <Grid item xs={12} lg={7}>
         {attributesSection}
       </Grid>
     </Grid>

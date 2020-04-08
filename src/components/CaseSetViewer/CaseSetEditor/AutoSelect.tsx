@@ -1,22 +1,45 @@
-import { FormControl, InputLabel, Select } from '@material-ui/core'
-import { Controller } from 'react-hook-form'
 import React from 'react'
+import { Controller, useFormContext } from 'react-hook-form'
+import {
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  Select,
+} from '@material-ui/core'
 
-const AutoSelect = ({ control, name, prefix, errors, label, children }) => {
-  let labelId = `${label}__label`
-  if (prefix) {
-    labelId = `${prefix}__${labelId}`
-  }
+import { usePrefix } from './PrefixContext'
+import { sanitizeForId } from './utils'
+
+const AutoSelect: React.FC<{
+  name: string
+  label: string
+  onChange?: (events: [{ target: { value: string } }]) => string
+}> = ({ name, label, onChange, children }) => {
+  const prefixedName = usePrefix() + name
+  const {
+    control,
+    watch,
+    formState: { isSubmitted },
+  } = useFormContext()
+  const hasErrors = isSubmitted && !watch(prefixedName)
+
+  const labelId = `${sanitizeForId(prefixedName)}__label`
+  const helperTextId = `${sanitizeForId(prefixedName)}__helper`
   return (
-    <FormControl fullWidth error={Boolean(errors[name])}>
-      <InputLabel id={labelId}>Biological sex</InputLabel>
+    <FormControl fullWidth error={hasErrors}>
+      <InputLabel id={labelId}>{label}</InputLabel>
       <Controller
         defaultValue=''
         control={control}
-        name={name}
+        name={prefixedName}
         labelId={labelId}
+        aria-describedby={helperTextId}
+        onChange={onChange}
         as={<Select>{children}</Select>}
       />
+      <FormHelperText id={helperTextId}>
+        {hasErrors ? `select ${label.toLowerCase()}` : null}
+      </FormHelperText>
     </FormControl>
   )
 }

@@ -1,72 +1,60 @@
 import React from 'react'
-import { Controller, useForm } from 'react-hook-form'
-import { Grid, MenuItem, TextField } from '@material-ui/core'
+import { Box, Grid, MenuItem } from '@material-ui/core'
 
 import FormSection from './FormSection'
 import FormBlock from './FormBlock'
 import berlinModelSchema from '../../../data/caseSets/berlinModel.schema.json'
 import ClinicalFindingSelect from './ClinicalFindingSelect'
-import { FlatErrors } from './utils'
 import AutoTextField from './AutoTextField'
 import AutoSelect from './AutoSelect'
+import ConditionSelect from './ConditionSelect'
+import AutoArrayFormBlock from './AutoArrayFormBlock'
+import AutoReadOnlyField from './AutoReadOnlyField'
 
-interface CaseEditorProps {
-  name: string
-  onChange: (data: object) => void
-  errors: FlatErrors
-  value: object
-}
-
-const CaseEditor: React.FC<CaseEditorProps> = ({
-  name: prefix,
-  onChange,
-  errors,
-  value,
-}) => {
-  console.log('CaseEditor.value', value)
-
-  const validationResolver = (rawValues: any) => {
-    onChange({ value: rawValues })
-    return { values: rawValues, errors: {} }
-  }
-  const { register, control } = useForm({
-    mode: 'onChange',
-    validationResolver,
-  })
-
+const CaseEditor: React.FC<{}> = () => {
   return (
     <>
-      <FormSection title='Meta data' name='metaData' errors={errors}>
+      <AutoReadOnlyField name='caseId' />
+      <FormSection title='Meta data' name='metaData'>
         <AutoTextField
-          register={register}
           label='Case description'
           type='text'
-          name='metaData.description'
-          errors={errors}
+          name='description'
+          autoComplete='off'
         />
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={8}>
+            <AutoTextField
+              label={`Identifier of the case's creator`}
+              type='text'
+              name='caseCreator'
+              optional
+            />
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <AutoTextField
+              label='Spreadsheet ID'
+              type='text'
+              name='spreadsheetCaseId'
+              autoComplete='off'
+              optional
+            />
+          </Grid>
+        </Grid>
       </FormSection>
 
-      <FormSection title='Case data' name='caseData' errors={errors}>
-        <FormBlock color='navy' title='Profile information'>
+      <FormSection title='Case data' name='caseData'>
+        <FormBlock
+          name='profileInformation'
+          color='#a6a6f7'
+          title='Profile information'
+        >
           <Grid container spacing={2}>
             <Grid item xs={3} md={2} lg={1}>
-              <TextField
-                inputRef={register}
-                name='caseData.profileInformation.age'
-                type='number'
-                label='Age'
-                error={Boolean(errors[`caseData.profileInformation.age`])}
-                helperText={errors[`caseData.profileInformation.age`]}
-              />
+              <AutoTextField name='age' type='number' label='Age' />
             </Grid>
             <Grid item xs={6} md={3} lg={2}>
-              <AutoSelect
-                control={control}
-                label='Biological sex'
-                name='caseData.profileInformation.biologicalSex'
-                prefix={prefix}
-                errors={errors}
-              >
+              <AutoSelect label='Biological sex' name='biologicalSex'>
                 {berlinModelSchema.definitions.biologicalSex.enum.map(
                   biologicalSex => (
                     <MenuItem key={biologicalSex} value={biologicalSex}>
@@ -78,12 +66,64 @@ const CaseEditor: React.FC<CaseEditorProps> = ({
             </Grid>
           </Grid>
         </FormBlock>
-        <FormBlock color='green' title='Presenting complaint'>
-          <Controller
-            name='caseData.presentingComplaints[0]'
-            as={ClinicalFindingSelect}
-            control={control}
-          />
+
+        <FormBlock
+          name='presentingComplaints[0]'
+          color='#67c567'
+          title='Presenting complaint'
+        >
+          <ClinicalFindingSelect />
+        </FormBlock>
+
+        <AutoArrayFormBlock
+          title='Other features'
+          name='otherFeatures'
+          color='#deae37'
+          formComponent={ClinicalFindingSelect}
+        />
+      </FormSection>
+
+      <FormSection title='Values to predict' name='valuesToPredict'>
+        <Box marginBottom={2}>
+          <AutoSelect name='expectedTriageLevel' label='Expected triage level'>
+            {berlinModelSchema.definitions.expectedTriageLevel.enum.map(
+              expectedTriageLevel => (
+                <MenuItem key={expectedTriageLevel} value={expectedTriageLevel}>
+                  {expectedTriageLevel}
+                </MenuItem>
+              ),
+            )}
+          </AutoSelect>
+        </Box>
+
+        <FormBlock
+          name='expectedCondition'
+          color='#a6a6f7'
+          title='Expected condition'
+        >
+          <ConditionSelect />
+        </FormBlock>
+
+        <AutoArrayFormBlock
+          title='Other relevant differentials'
+          name='otherRelevantDifferentials'
+          color='#67c567'
+          formComponent={ConditionSelect}
+        />
+
+        <AutoArrayFormBlock
+          title='Impossible conditions'
+          name='impossibleConditions'
+          color='#deae37'
+          formComponent={ConditionSelect}
+        />
+
+        <FormBlock
+          name='correctCondition'
+          color='#e491e8'
+          title='Correct condition'
+        >
+          <ConditionSelect />
         </FormBlock>
       </FormSection>
     </>

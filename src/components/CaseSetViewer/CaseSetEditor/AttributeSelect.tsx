@@ -1,82 +1,22 @@
-import React from 'react'
-import { Controller, useFieldArray, useForm } from 'react-hook-form'
+import React, { useMemo } from 'react'
+import { useFormContext } from 'react-hook-form'
 import {
   Box,
-  Button,
-  FormControl,
   FormControlLabel,
   Grid,
+  Hidden,
   IconButton,
-  InputLabel,
   MenuItem,
-  Select,
   Switch,
 } from '@material-ui/core'
 import { Delete as DeleteIcon } from '@material-ui/icons'
 
 import berlinModelSchema from '../../../data/caseSets/berlinModel.schema.json'
-import { Concept, refToConcept, watchArrayHelper } from './utils'
-
-const ValueSelect = ({ name, control, possibleValues, prefix }) => {
-  const possibleValueDefinitions = possibleValues.map(({ $ref }) =>
-    refToConcept($ref),
-  )
-
-  return (
-    <FormControl fullWidth>
-      <InputLabel id={`${prefix}__value__label`}>Value</InputLabel>
-      <Controller
-        name={name}
-        control={control}
-        defaultValue=''
-        labelId={`${prefix}__value__label`}
-        as={
-          <Select>
-            {possibleValueDefinitions.map(value => (
-              <MenuItem key={value.id} value={value.id}>
-                {value.name}
-              </MenuItem>
-            ))}
-          </Select>
-        }
-      />
-    </FormControl>
-  )
-}
-
-const ValueMultiSelect = ({ control, possibleValues, watch, prefix }) => {
-  const values = useFieldArray({
-    control,
-    name: 'values',
-    keyName: 'key',
-  })
-
-  const currentValueIds = watchArrayHelper(watch, values, 'values[*].id')
-
-  return (
-    <>
-      {values.fields.map((item, index) => (
-        <Box display='flex' key={item.key}>
-          <ValueSelect
-            name={`values[${index}].id`}
-            control={control}
-            prefix={`${prefix}__${index}`}
-            possibleValues={possibleValues.filter(({ $ref }) => {
-              const id = $ref.split('/')[2]
-              return (
-                id === currentValueIds[index] || !currentValueIds.includes(id)
-              )
-            })}
-          />
-          <IconButton onClick={(): void => values.remove(index)}>
-            <DeleteIcon />
-          </IconButton>
-        </Box>
-      ))}
-      <Button onClick={(): void => values.append({})}>Add value</Button>
-    </>
-  )
-}
+import { Concept, refToConcept, sanitizeForId } from './utils'
+import AutoSelect from './AutoSelect'
+import ValueSelect from './ValueSelect'
+import ValueMultiSelect from './ValueMultiSelect'
+import { usePrefix } from './PrefixContext'
 
 type AttributeSelectRegularProps = {
   possibleAttributes: Array<Concept>
@@ -85,53 +25,48 @@ type AttributeSelectRegularProps = {
 type AttributeSelectFixedProps = {
   fixedAttribute: Concept
 }
-type AttributeSelectProps = {
-  name: string
-  onChange: (data: object) => void
-} & (AttributeSelectRegularProps | AttributeSelectFixedProps)
+type AttributeSelectProps =
+  | AttributeSelectRegularProps
+  | AttributeSelectFixedProps
 
 const AttributeSelect: React.FC<AttributeSelectProps> = props => {
-  const { onChange, name } = props
+  const { register, watch, setValue } = useFormContext()
+  const prefix = usePrefix()
 
-  const validationResolver = (rawValues: any) => {
-    console.log('AttributeSelect.validationResolver', rawValues)
-    onChange({ value: rawValues })
-    return { values: rawValues, errors: {} }
-  }
-  const { control, register, watch } = useForm({
-    mode: 'onChange',
-    validationResolver,
-  })
+  const attributeId =
+    'fixedAttribute' in props ? props.fixedAttribute.id : watch(`${prefix}id`)
 
-  // todo: check if symptom even has attributes; if no remove currently existing attributes (always remove on change?)
+  const attributeProperties =
+    berlinModelSchema.definitions[attributeId]?.properties
+
+  const possibleValueReferences =
+    attributeProperties?.value?.oneOf ||
+    attributeProperties?.values?.items.oneOf ||
+    []
+
+  const dereferencedPossibleValues: Array<Concept> = useMemo(
+    () => possibleValueReferences.map(({ $ref }) => refToConcept($ref)),
+    [possibleValueReferences],
+  )
+
+  const enabledFieldName = sanitizeForId(`${prefix}__enabled`)
 
   let valuesSection = null
-
-  if (!('fixedAttribute' in props) || watch('__enabled')) {
-    const attributeId =
-      'fixedAttribute' in props ? props.fixedAttribute.id : watch('id')
-    if (attributeId) {
-      const attributeProperties =
-        berlinModelSchema.definitions[attributeId].properties
-      if (attributeProperties.value) {
-        valuesSection = (
-          <ValueSelect
-            name='value.id'
-            control={control}
-            possibleValues={attributeProperties.value.oneOf}
-            prefix={name}
-          />
-        )
-      } else {
-        valuesSection = (
-          <ValueMultiSelect
-            prefix={name}
-            control={control}
-            watch={watch}
-            possibleValues={attributeProperties.values.items.oneOf}
-          />
-        )
-      }
+  if (
+    attributeId &&
+    (!('fixedAttribute' in props) || watch(enabledFieldName))
+  ) {
+    if (attributeProperties.value) {
+      valuesSection = (
+        <ValueSelect name='value' possibleValues={dereferencedPossibleValues} />
+      )
+    } else {
+      valuesSection = (
+        <ValueMultiSelect
+          name='values'
+          possibleValues={dereferencedPossibleValues}
+        />
+      )
     }
   }
 
@@ -140,29 +75,35 @@ const AttributeSelect: React.FC<AttributeSelectProps> = props => {
       <Grid item xs={12} md={6}>
         {'fixedAttribute' in props ? (
           <FormControlLabel
-            control={<Switch inputRef={register} name='__enabled' />}
+            control={<Switch inputRef={register} name={enabledFieldName} />}
             label={props.fixedAttribute.name}
           />
         ) : (
           <Box display='flex'>
-            <FormControl fullWidth>
-              <InputLabel id={`${name}__label`}>Attribute</InputLabel>
-              <Controller
-                name='id'
-                control={control}
-                defaultValue=''
-                labelId={`${name}__label`}
-                as={
-                  <Select>
-                    {props.possibleAttributes.map(attribute => (
-                      <MenuItem key={attribute.id} value={attribute.id}>
-                        {attribute.name}
-                      </MenuItem>
-                    ))}
-                  </Select>
+            <AutoSelect
+              name='id'
+              label='Attribute'
+              onChange={([event]): string => {
+                // this watch should be redundant, but is somehow necessary to
+                // force a re-render
+                /* todo: clear current values? what happens when a symptom with
+                   `values` is replace by one with `value` and vice versa? */
+                if (watch(`${prefix}id`)) {
+                  if (attributeProperties.value) {
+                    setValue(`${prefix}value`, undefined)
+                  } else {
+                    setValue(`${prefix}values`, [])
+                  }
                 }
-              />
-            </FormControl>
+                return event.target.value
+              }}
+            >
+              {props.possibleAttributes.map(attribute => (
+                <MenuItem key={attribute.id} value={attribute.id}>
+                  {attribute.name}
+                </MenuItem>
+              ))}
+            </AutoSelect>
 
             <IconButton onClick={props.onRemoveAttribute}>
               <DeleteIcon />
@@ -171,7 +112,9 @@ const AttributeSelect: React.FC<AttributeSelectProps> = props => {
         )}
       </Grid>
 
-      <Grid item xs={12} md={6}>
+      {/* the following hacks a 1 column offset below the md-breakpoint */}
+      <Grid item xs={1} implementation='css' mdUp component={Hidden} />
+      <Grid item xs={11} md={6}>
         {valuesSection}
       </Grid>
     </Grid>
