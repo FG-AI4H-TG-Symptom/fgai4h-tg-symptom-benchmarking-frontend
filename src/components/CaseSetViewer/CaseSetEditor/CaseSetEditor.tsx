@@ -41,9 +41,7 @@ const berlinModelCasesSchemaValidator = new Ajv({
   allErrors: true,
 }).compile(berlinModelSchema)
 
-const validationResolver: ValidationResolver = (
-  rawValues: Partial<BerlinModelCasesSchema>,
-) => {
+const validationResolver: ValidationResolver<BerlinModelCasesSchema> = rawValues => {
   // todo: replace by a flexible and efficient solution
   const values = extendWithModelInformationFromIds(rawValues)
 
@@ -73,15 +71,18 @@ const validationResolver: ValidationResolver = (
   /* eslint-enable no-param-reassign */
   // end-todo
 
-  const errors = {}
-  if (!berlinModelCasesSchemaValidator(values)) {
-    berlinModelCasesSchemaValidator.errors.forEach(error => {
-      // todo: make certain errors more human readable
-      errors[error.dataPath.replace(/^\./, '')] = error.message
-    })
+  const valid = berlinModelCasesSchemaValidator(values)
+  if (valid) {
+    return { values, errors: {} }
   }
 
-  return { values, errors }
+  const errors = {}
+  berlinModelCasesSchemaValidator.errors.forEach(error => {
+    // todo: make certain errors more human readable
+    errors[error.dataPath.replace(/^\./, '')] = error.message
+  })
+
+  return { values: {}, errors }
 }
 
 export interface CaseSetEditorProps {

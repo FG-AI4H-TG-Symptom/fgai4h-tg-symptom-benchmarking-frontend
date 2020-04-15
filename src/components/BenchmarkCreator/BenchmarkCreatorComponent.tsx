@@ -27,15 +27,18 @@ interface FormData {
   caseSetId: string
 }
 
-const validationResolver: ValidationResolver = (values: FormData) => {
-  const errors: { [fieldName in keyof FormData]?: string } = {}
+const validationResolver: ValidationResolver<FormData> = values => {
+  const errors = {}
   if (!values.caseSetId) {
-    errors.caseSetId = 'Select a case set'
+    // eslint-disable-next-line dot-notation
+    errors['caseSetId'] = 'Select a case set'
   }
   if (!values.aiImplementations.some(aiImplementation => aiImplementation)) {
-    errors.aiImplementations = 'Select at least one AI implementation'
+    // eslint-disable-next-line dot-notation
+    errors['aiImplementations'] = 'Select at least one AI implementation'
   }
-  return { values, errors }
+  const valid = Object.keys(errors).length === 0
+  return { values: valid ? values : {}, errors: valid ? {} : errors }
 }
 
 interface BenchmarkCreatorComponentProps {
@@ -87,7 +90,8 @@ const BenchmarkCreatorComponent: React.FC<BenchmarkCreatorComponentProps> = ({
             <CardHeader
               title='Case set'
               subheader={`${caseSetList.length} available`}
-              action={<ErrorIndicator error={errors.caseSetId} />}
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              action={<ErrorIndicator error={errors.caseSetId as any} />}
             />
             <CardContent>
               <FormControl
@@ -119,7 +123,10 @@ const BenchmarkCreatorComponent: React.FC<BenchmarkCreatorComponentProps> = ({
               subheader={`${aiImplementationsSelectedCount} selected, ${
                 Object.keys(aiImplementations).length
               } available`}
-              action={<ErrorIndicator error={errors.aiImplementations} />}
+              action={
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                <ErrorIndicator error={errors.aiImplementations as any} />
+              }
             />
             <CardContent>
               <FormControl

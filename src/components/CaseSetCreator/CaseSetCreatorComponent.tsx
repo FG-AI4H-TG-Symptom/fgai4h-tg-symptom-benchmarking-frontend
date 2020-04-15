@@ -9,7 +9,7 @@ import {
   TextField,
 } from '@material-ui/core'
 import { ArrowForward as StartIcon } from '@material-ui/icons'
-import { useForm, ValidationResolver } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 
 import ErrorIndicator from '../common/ErrorIndicator'
 import { CreateCaseSetParameters } from '../../data/caseSets/caseSetActions'
@@ -21,7 +21,8 @@ type RawFormData = {
   [fieldName in keyof FormData]?: string
 }
 
-const validationResolver: ValidationResolver = (rawValues: RawFormData) => {
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+const validationResolver = (rawValues: RawFormData) => {
   const errors: { [fieldName in keyof FormData]?: string } = {}
   const values: Partial<FormData> = {}
 
@@ -37,7 +38,12 @@ const validationResolver: ValidationResolver = (rawValues: RawFormData) => {
   if (values.numberOfCases > 200) {
     errors.numberOfCases = 'Please select a number of cases not exceeding 200'
   }
-  return { values, errors }
+
+  const valid = Object.keys(errors).length === 0
+
+  return valid
+    ? { values: values as FormData, errors: {} }
+    : { values: {}, errors }
 }
 
 interface CaseSetCreatorComponentProps {
@@ -48,7 +54,8 @@ const CaseSetCreatorComponent: React.FC<CaseSetCreatorComponentProps> = ({
   onCreateCaseSet,
 }) => {
   const { register, handleSubmit, errors } = useForm<FormData>({
-    validationResolver,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    validationResolver: validationResolver as any,
     defaultValues: {
       numberOfCases: 10,
     },
@@ -67,7 +74,8 @@ const CaseSetCreatorComponent: React.FC<CaseSetCreatorComponentProps> = ({
           <Card>
             <CardHeader
               title='Basic parameters'
-              action={<ErrorIndicator error={errors.numberOfCases} />}
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              action={<ErrorIndicator error={errors.numberOfCases as any} />}
             />
             <CardContent>
               <TextField
