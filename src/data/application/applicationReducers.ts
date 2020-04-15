@@ -12,7 +12,7 @@ const actionHandlers: {
     action,
   ) => ApplicationState
 } = {
-  [ApplicationActionTypes.FATAL_ERROR]: (state, action) => ({
+  [ApplicationActionTypes.SET_FATAL_ERROR]: (state, action) => ({
     ...state,
     fatalError: action.payload,
   }),
