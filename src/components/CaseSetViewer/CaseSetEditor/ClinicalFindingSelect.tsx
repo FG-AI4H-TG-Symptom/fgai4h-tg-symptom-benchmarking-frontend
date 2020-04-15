@@ -37,7 +37,7 @@ const ClinicalFindingSelect: React.FC<{}> = () => {
         attributesSection = (
           <FormBlock name='attributes' group color='#4cb8da' title='Attributes'>
             {possibleAttributes.map((attribute, index) => (
-              <FormBlock name={`[${index}]`} key={attribute.id} color='white'>
+              <FormBlock name={`[${index}]`} key={attribute.id} color='#4cb8da'>
                 <AttributeSelect fixedAttribute={attribute} />
               </FormBlock>
             ))}

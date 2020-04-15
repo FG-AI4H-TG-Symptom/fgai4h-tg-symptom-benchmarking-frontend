@@ -36,7 +36,9 @@ export const modelConstToObject = (
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const extendWithModelInformationFromIds = (data: any): any => {
   if (Array.isArray(data)) {
-    return data.map(extendWithModelInformationFromIds)
+    return data
+      .map(extendWithModelInformationFromIds)
+      .filter(entry => Boolean(entry))
   }
   if (typeof data === 'object') {
     let extendedData = {}
@@ -87,6 +89,7 @@ export const useWatchArrayHelper = <WatchedType>(
   return fieldNames.map(name => watchResultObject[name]) as Array<WatchedType>
 }
 
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export const useAutoFieldArray = ({
   name,
   key,

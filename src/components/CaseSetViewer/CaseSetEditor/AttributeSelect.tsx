@@ -1,22 +1,15 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
-import {
-  Box,
-  FormControlLabel,
-  Grid,
-  Hidden,
-  IconButton,
-  MenuItem,
-  Switch,
-} from '@material-ui/core'
+import { Box, Grid, Hidden, IconButton, MenuItem } from '@material-ui/core'
 import { Delete as DeleteIcon } from '@material-ui/icons'
 
 import berlinModelSchema from '../../../data/caseSets/berlinModel.schema.json'
-import { Concept, refToConcept, sanitizeForId } from './utils'
+import { Concept, refToConcept } from './utils'
 import AutoSelect from './AutoSelect'
 import ValueSelect from './ValueSelect'
 import ValueMultiSelect from './ValueMultiSelect'
 import { usePrefix } from './PrefixContext'
+import AutoSwitchArrayEntry from './AutoSwitchArrayEntry'
 
 type AttributeSelectRegularProps = {
   possibleAttributes: Array<Concept>
@@ -30,11 +23,12 @@ type AttributeSelectProps =
   | AttributeSelectFixedProps
 
 const AttributeSelect: React.FC<AttributeSelectProps> = props => {
-  const { register, watch, setValue } = useFormContext()
+  const { watch, setValue } = useFormContext()
   const prefix = usePrefix()
+  const [enabled, setEnabled] = useState(false)
 
-  const attributeId =
-    'fixedAttribute' in props ? props.fixedAttribute.id : watch(`${prefix}id`)
+  const attributeIdName = `${prefix}id`
+  const attributeId = watch(attributeIdName)
 
   const attributeProperties =
     berlinModelSchema.definitions[attributeId]?.properties
@@ -49,13 +43,8 @@ const AttributeSelect: React.FC<AttributeSelectProps> = props => {
     [possibleValueReferences],
   )
 
-  const enabledFieldName = sanitizeForId(`${prefix}__enabled`)
-
   let valuesSection = null
-  if (
-    attributeId &&
-    (!('fixedAttribute' in props) || watch(enabledFieldName))
-  ) {
+  if (attributeId || enabled) {
     if (attributeProperties.value) {
       valuesSection = (
         <ValueSelect name='value' possibleValues={dereferencedPossibleValues} />
@@ -74,9 +63,12 @@ const AttributeSelect: React.FC<AttributeSelectProps> = props => {
     <Grid container spacing={2}>
       <Grid item xs={12} md={6}>
         {'fixedAttribute' in props ? (
-          <FormControlLabel
-            control={<Switch inputRef={register} name={enabledFieldName} />}
+          <AutoSwitchArrayEntry
+            name='id'
             label={props.fixedAttribute.name}
+            valueToSet={props.fixedAttribute.id}
+            onChange={setEnabled}
+            // todo: set defaultValue
           />
         ) : (
           <Box display='flex'>
@@ -86,9 +78,7 @@ const AttributeSelect: React.FC<AttributeSelectProps> = props => {
               onChange={([event]): string => {
                 // this watch should be redundant, but is somehow necessary to
                 // force a re-render
-                /* todo: clear current values? what happens when a symptom with
-                   `values` is replace by one with `value` and vice versa? */
-                if (watch(`${prefix}id`)) {
+                if (watch(attributeIdName)) {
                   if (attributeProperties.value) {
                     setValue(`${prefix}value`, undefined)
                   } else {

@@ -49,10 +49,10 @@ const validationResolver: ValidationResolver<BerlinModelCasesSchema> = rawValues
   /* eslint-disable no-param-reassign */
   // eslint-disable-next-line no-unused-expressions
   values.cases?.forEach(case_ => {
-    if (case_.metaData.spreadsheetCaseId?.length === 0) {
+    if (case_.metaData?.spreadsheetCaseId?.length === 0) {
       delete case_.metaData.spreadsheetCaseId
     }
-    if (case_.metaData.caseCreator?.length === 0) {
+    if (case_.metaData?.caseCreator?.length === 0) {
       delete case_.metaData.caseCreator
     }
     // eslint-disable-next-line no-unused-expressions
