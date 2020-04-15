@@ -7,13 +7,16 @@ import CaseSetViewerTable from './CaseSetViewerTable'
 import TabFactory, { TabFactoryEntry } from '../common/TabFactory'
 import CaseSetViewerAnalysis from './CaseSetViewerAnalysis'
 import CaseSetEditor from './CaseSetEditor'
+import { Notification } from '../../data/application/applicationReducers'
 
 export interface CaseSetComponentProps {
   caseSet: CaseDataType[]
+  queueNotification: (notification: Notification) => void
 }
 
 const CaseSetViewerComponent: React.FC<CaseSetComponentProps> = ({
   caseSet,
+  queueNotification,
 }) => {
   const tabs: TabFactoryEntry[] = [
     {
@@ -27,7 +30,12 @@ const CaseSetViewerComponent: React.FC<CaseSetComponentProps> = ({
     {
       id: 'editor',
       name: 'Editor',
-      componentCallback: (): JSX.Element => <CaseSetEditor caseSet={caseSet} />,
+      componentCallback: (): JSX.Element => (
+        <CaseSetEditor
+          caseSet={caseSet}
+          queueNotification={queueNotification}
+        />
+      ),
       noPadding: true,
     },
     {

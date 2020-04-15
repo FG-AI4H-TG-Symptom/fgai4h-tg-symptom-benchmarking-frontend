@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
-import { Dispatch } from 'redux'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 
 import CaseSetViewerComponent from './CaseSetViewerComponent'
@@ -10,57 +9,36 @@ import BasicPageLayout from '../common/BasicPageLayout'
 import { caseSetDataAction } from '../../data/caseSets/caseSetActions'
 import { Loadable } from '../../data/util/dataState/dataStateTypes'
 import { CaseDataType } from '../../data/caseSets/caseDataType'
+import { Notification } from '../../data/application/applicationReducers'
+import { queueNotification } from '../../data/application/applicationActions'
 
-type CaseSetContainerDataProps = {
-  caseSets: {
-    [caseSetId: string]: Loadable<CaseDataType[]>
-  }
-}
-type CaseSetContainerFunctionProps = {
-  fetchCaseSet: (caseSetId: string) => void
-}
-type CaseSetContainerProps = CaseSetContainerDataProps &
-  CaseSetContainerFunctionProps
-
-const CaseSetViewerContainer: React.FC<CaseSetContainerProps> = ({
-  caseSets,
-  fetchCaseSet,
-}) => {
+const CaseSetViewerContainer: React.FC<{}> = () => {
   const { caseSetId } = useParams()
+  const dispatch = useDispatch()
+  const caseSet = useSelector<RootState, Loadable<CaseDataType[]>>(
+    state => state.caseSets.entries[caseSetId],
+  )
 
   useEffect(() => {
-    fetchCaseSet(caseSetId)
-  }, [fetchCaseSet, caseSetId])
+    dispatch(caseSetDataAction.load(caseSetId, caseSetId))
+  }, [dispatch, caseSetId])
 
-  const caseSet = caseSets[caseSetId]
   return (
     <BasicPageLayout title={`Cases in '${caseSetId}'`}>
       <DataStateManager
         loading={!caseSet}
         data={caseSet}
         componentFunction={(caseSetData): JSX.Element => (
-          <CaseSetViewerComponent caseSet={caseSetData} />
+          <CaseSetViewerComponent
+            caseSet={caseSetData}
+            queueNotification={(notification: Notification): void => {
+              dispatch(queueNotification(notification))
+            }}
+          />
         )}
       />
     </BasicPageLayout>
   )
 }
 
-function mapStateToProps(state: RootState): CaseSetContainerDataProps {
-  return {
-    caseSets: state.caseSets.entries,
-  }
-}
-
-const mapDispatchToProps: (
-  dispatch: Dispatch,
-) => CaseSetContainerFunctionProps = dispatch => ({
-  fetchCaseSet: (caseSetId: string): void => {
-    dispatch(caseSetDataAction.load(caseSetId, caseSetId))
-  },
-})
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(CaseSetViewerContainer)
+export default CaseSetViewerContainer

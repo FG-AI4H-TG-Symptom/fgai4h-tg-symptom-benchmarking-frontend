@@ -35,6 +35,7 @@ import CaseEditor from './CaseEditor'
 import AutoTextField from './AutoTextField'
 import { AutoPrefix } from './PrefixContext'
 import { BerlinModelCasesSchema } from '../../../data/caseSets/berlinModelTypes'
+import { Notification } from '../../../data/application/applicationReducers'
 
 const berlinModelCasesSchemaValidator = new Ajv({
   coerceTypes: true,
@@ -87,11 +88,15 @@ const validationResolver: ValidationResolver<BerlinModelCasesSchema> = rawValues
 
 export interface CaseSetEditorProps {
   caseSet: CaseDataType[]
+  queueNotification: (notification: Notification) => void
 }
 
 // todo: hydrate form from data
-// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-const CaseSetEditor: React.FC<CaseSetEditorProps> = ({ caseSet }) => {
+const CaseSetEditor: React.FC<CaseSetEditorProps> = ({
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+  caseSet,
+  queueNotification,
+}) => {
   const methods = useForm<BerlinModelCasesSchema>({
     validationResolver,
     defaultValues: {
@@ -119,6 +124,10 @@ const CaseSetEditor: React.FC<CaseSetEditorProps> = ({ caseSet }) => {
     // todo: store data
     // eslint-disable-next-line no-console
     console.log('submit', data)
+    queueNotification({
+      message: 'Case set saved',
+      type: 'success',
+    })
   }
 
   return (
