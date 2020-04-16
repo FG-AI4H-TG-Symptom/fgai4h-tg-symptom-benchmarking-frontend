@@ -93,14 +93,13 @@ export interface CaseSetEditorProps {
 
 // todo: hydrate form from data
 const CaseSetEditor: React.FC<CaseSetEditorProps> = ({
-  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
   caseSet,
   queueNotification,
 }) => {
   const methods = useForm<BerlinModelCasesSchema>({
     validationResolver,
     defaultValues: {
-      cases: [],
+      cases: caseSet,
     },
   })
   const {
