@@ -3,7 +3,6 @@ import { Button } from '@material-ui/core'
 
 import FormBlock from './FormBlock'
 import { useAutoFieldArray } from './utils'
-import { usePrefix } from './PrefixContext'
 
 interface AutoArrayFormBlockProps {
   title: string
@@ -19,7 +18,7 @@ const AutoArrayFormBlock: React.FC<AutoArrayFormBlockProps> = ({
   formComponent: FormComponent,
 }) => {
   const fieldArray = useAutoFieldArray({
-    name: usePrefix() + name,
+    name,
   })
 
   return (
