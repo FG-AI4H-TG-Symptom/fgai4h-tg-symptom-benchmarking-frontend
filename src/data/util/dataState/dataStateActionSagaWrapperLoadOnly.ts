@@ -13,7 +13,7 @@ export default function dataStateActionSagaWrapperLoadOnly(
       return
     }
 
-    yield* generator(action.payload.parameters)
+    yield* generator(action.payload.parameters, action.meta)
   }
 
   return takeEvery(dataActionType, sagaWrapper)

@@ -1,38 +1,22 @@
-import React, { useEffect } from 'react'
-import { Dispatch } from 'redux'
-import { connect } from 'react-redux'
+import React from 'react'
 import { useParams } from 'react-router-dom'
 
-import CaseSetViewerComponent from './CaseSetViewerComponent'
-import { RootState } from '../../data/rootReducer'
+import { caseSetDataAction } from '../../data/caseSets/caseSetActions'
+import { CaseDataType } from '../../data/caseSets/caseDataType'
+import useDataStateLoader from '../../data/util/dataState/useDataStateLoader'
 import DataStateManager from '../common/DataStateManager'
 import BasicPageLayout from '../common/BasicPageLayout'
-import { caseSetDataAction } from '../../data/caseSets/caseSetActions'
-import { Loadable } from '../../data/util/dataState/dataStateTypes'
-import { CaseDataType } from '../../data/caseSets/caseDataType'
 
-type CaseSetContainerDataProps = {
-  caseSets: {
-    [caseSetId: string]: Loadable<CaseDataType[]>
-  }
-}
-type CaseSetContainerFunctionProps = {
-  fetchCaseSet: (caseSetId: string) => void
-}
-type CaseSetContainerProps = CaseSetContainerDataProps &
-  CaseSetContainerFunctionProps
+import CaseSetViewerComponent from './CaseSetViewerComponent'
 
-const CaseSetViewerContainer: React.FC<CaseSetContainerProps> = ({
-  caseSets,
-  fetchCaseSet,
-}) => {
+const CaseSetViewerContainer: React.FC<{}> = () => {
   const { caseSetId } = useParams()
 
-  useEffect(() => {
-    fetchCaseSet(caseSetId)
-  }, [fetchCaseSet, caseSetId])
+  const caseSet = useDataStateLoader<CaseDataType[]>(
+    state => state.caseSets.entries[caseSetId],
+    caseSetDataAction.load(caseSetId, { caseSetId }),
+  )
 
-  const caseSet = caseSets[caseSetId]
   return (
     <BasicPageLayout title={`Cases in '${caseSetId}'`}>
       <DataStateManager
@@ -46,21 +30,4 @@ const CaseSetViewerContainer: React.FC<CaseSetContainerProps> = ({
   )
 }
 
-function mapStateToProps(state: RootState): CaseSetContainerDataProps {
-  return {
-    caseSets: state.caseSets.entries,
-  }
-}
-
-const mapDispatchToProps: (
-  dispatch: Dispatch,
-) => CaseSetContainerFunctionProps = dispatch => ({
-  fetchCaseSet: (caseSetId: string): void => {
-    dispatch(caseSetDataAction.load(caseSetId, caseSetId))
-  },
-})
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(CaseSetViewerContainer)
+export default CaseSetViewerContainer

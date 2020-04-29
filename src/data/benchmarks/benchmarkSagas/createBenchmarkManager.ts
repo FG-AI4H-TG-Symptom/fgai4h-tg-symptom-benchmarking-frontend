@@ -1,27 +1,38 @@
 import { put } from 'redux-saga/effects'
 
-import urlBuilder, { COMPONENTS } from '../../util/urlBuilder'
-import { BenchmarkManager } from '../benchmarkManagerDataType'
-import {
-  benchmarkManagerDataAction,
-  CreateBenchmarkManagerParameters,
-} from '../benchmarkActions'
-import httpResponseErrorMessage from '../../util/httpResponseErrorMessage'
 import { fatalError } from '../../application/applicationActions'
+import urlBuilder from '../../util/urlBuilder'
+import httpResponseErrorMessage from '../../util/httpResponseErrorMessage'
+import { CallbackMetadata } from '../../util/dataState/generateDataStateActions'
+import {
+  BenchmarkingSession,
+  BenchmarkingSessionStatus,
+} from '../benchmarkManagerDataType'
+import {
+  createBenchmarkingSessionDataAction,
+  CreateBenchmarkManagerParameters,
+  markBenchmarkingSessionAs,
+} from '../benchmarkActions'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export default function* createBenchmarkManager(
   parameters: CreateBenchmarkManagerParameters,
+  metadata: CallbackMetadata<BenchmarkingSession>,
 ) {
   try {
-    const { caseSetId, aiImplementationNames } = parameters
+    const { caseSetId, aiImplementationIds } = parameters
 
-    const response = yield fetch(
-      urlBuilder(COMPONENTS.EVALUATOR, 'create-benchmark-manager'),
-      {
-        method: 'GET',
+    // todo: adapt to new endpoint
+    const response = yield fetch(urlBuilder('benchmarking-sessions'), {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
       },
-    )
+      body: JSON.stringify({
+        caseSet: caseSetId,
+        aiImplementations: aiImplementationIds,
+      }),
+    })
 
     if (!response.ok) {
       throw new Error(
@@ -29,20 +40,18 @@ export default function* createBenchmarkManager(
       )
     }
 
-    const benchmarkManager: BenchmarkManager = yield response.json()
+    const benchmarkingSession: BenchmarkingSession = yield response.json()
+
+    yield put(createBenchmarkingSessionDataAction.store(benchmarkingSession))
+
+    if (metadata.onSuccess) {
+      metadata.onSuccess(benchmarkingSession)
+    }
 
     const startBenchmarkingResponse = yield fetch(
-      urlBuilder(COMPONENTS.EVALUATOR, 'run-case-set-against-all-ais'),
+      urlBuilder(`benchmarking-sessions/${benchmarkingSession.id}/run`),
       {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          benchmarkManagerId: benchmarkManager.benchmarkManagerId,
-          caseSetId,
-          aiImplementations: aiImplementationNames,
-        }),
       },
     )
 
@@ -50,15 +59,12 @@ export default function* createBenchmarkManager(
       throw new Error(httpResponseErrorMessage(response, 'start benchmark'))
     }
 
-    const startBenchmarkingData = yield startBenchmarkingResponse.json()
-
-    if (startBenchmarkingData !== 'Started') {
-      throw new Error(
-        `Unexpected response from server: ${startBenchmarkingData}`,
-      )
-    }
-
-    yield put(benchmarkManagerDataAction.store(benchmarkManager))
+    yield put(
+      markBenchmarkingSessionAs({
+        benchmarkingSessionId: benchmarkingSession.id,
+        status: BenchmarkingSessionStatus.RUNNING,
+      }),
+    )
   } catch (error) {
     yield put(
       fatalError(`Failed to run benchmark on case set: ${error.message}`),

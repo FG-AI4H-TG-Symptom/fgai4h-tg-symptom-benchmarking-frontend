@@ -1,40 +1,31 @@
 import { put } from 'redux-saga/effects'
 
+import urlBuilder from '../util/urlBuilder'
+import dataStateActionSagaWrapperLoadOnly from '../util/dataState/dataStateActionSagaWrapperLoadOnly'
+import httpResponseErrorMessage from '../util/httpResponseErrorMessage'
+
+import { AiImplementationInfo } from './aiImplementationDataType'
 import {
   AiImplementationListActionTypes,
   aiImplementationListDataActions,
   aiImplementationHealthDataActions,
-  aiImplementationListLoadParameters,
+  AiImplementationListLoadParameters,
 } from './aiImplementationListActions'
-import urlBuilder, { COMPONENTS } from '../util/urlBuilder'
-import dataStateActionSagaWrapperLoadOnly from '../util/dataState/dataStateActionSagaWrapperLoadOnly'
-import { AiImplementationInfo } from './aiImplementationDataType'
-import httpResponseErrorMessage from '../util/httpResponseErrorMessage'
-
-type aiImplementationListServerResponse = {
-  // eslint-disable-next-line camelcase
-  ai_implementations: AiImplementationInfo[]
-}
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function* fetchAiImplementationList(
-  parameters: aiImplementationListLoadParameters,
+  parameters: AiImplementationListLoadParameters,
 ) {
   try {
-    const response: Response = yield fetch(
-      urlBuilder(COMPONENTS.EVALUATOR, 'list-all-ai-implementations'),
-      {
-        method: 'GET',
-      },
-    )
+    const response: Response = yield fetch(urlBuilder('ai-implementations'), {
+      method: 'GET',
+    })
 
     if (!response.ok) {
       throw new Error(httpResponseErrorMessage(response))
     }
 
-    const {
-      ai_implementations: aiImplementations,
-    }: aiImplementationListServerResponse = yield response.json()
+    const aiImplementations: AiImplementationInfo[] = yield response.json()
 
     yield put(aiImplementationListDataActions.store(aiImplementations))
 
@@ -43,8 +34,8 @@ export function* fetchAiImplementationList(
       for (const aiImplementation of aiImplementations) {
         yield put(
           aiImplementationHealthDataActions.load(
-            aiImplementation.name,
-            aiImplementation.name,
+            aiImplementation.id,
+            aiImplementation.id,
           ),
         )
       }
@@ -59,16 +50,12 @@ export function* fetchAiImplementationList(
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function* fetchAiImplementationHealth(aiImplementationName: string) {
+export function* fetchAiImplementationHealth(aiImplementationId: string) {
   try {
     const response = yield fetch(
-      urlBuilder(COMPONENTS.TOY_AIS, 'health-check'),
+      urlBuilder(`ai-implementations/${aiImplementationId}/health-check`),
       {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ aiImplementation: aiImplementationName }),
+        method: 'GET',
       },
     )
 
@@ -79,16 +66,13 @@ export function* fetchAiImplementationHealth(aiImplementationName: string) {
     const data = yield response.json()
 
     yield put(
-      aiImplementationHealthDataActions.store(
-        data.status,
-        aiImplementationName,
-      ),
+      aiImplementationHealthDataActions.store(data.status, aiImplementationId),
     )
   } catch (error) {
     yield put(
       aiImplementationHealthDataActions.errored(
         `Failed to fetch AI implementation list: ${error.message}`,
-        aiImplementationName,
+        aiImplementationId,
       ),
     )
   }

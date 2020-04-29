@@ -1,34 +1,22 @@
-import React, { useEffect } from 'react'
-import { connect } from 'react-redux'
+import React from 'react'
 
-import {
-  aiImplementationListDataActions,
-  aiImplementationListLoadParameters,
-} from '../../data/aiImplementationList/aiImplementationListActions'
-import AiImplementationManagerComponent from './AiImplementationManagerComponent'
-import { AiImplementationListState } from '../../data/aiImplementationList/aiImplementationListReducers'
-import { RootState } from '../../data/rootReducer'
+import { aiImplementationListDataActions } from '../../data/aiImplementationList/aiImplementationListActions'
+import { AiImplementationInfo } from '../../data/aiImplementationList/aiImplementationDataType'
+import useDataStateLoader from '../../data/util/dataState/useDataStateLoader'
 import DataStateManager from '../common/DataStateManager'
 import BasicPageLayout from '../common/BasicPageLayout'
 
-type AiImplementationManagerContainerDataProps = {
-  aiImplementationList: AiImplementationListState
-}
-type AiImplementationManagerContainerFunctionProps = {
-  fetchAiImplementationList: (
-    parameters: aiImplementationListLoadParameters,
-  ) => void
-}
-type AiImplementationManagerContainerProps = AiImplementationManagerContainerDataProps &
-  AiImplementationManagerContainerFunctionProps
+import AiImplementationManagerComponent from './AiImplementationManagerComponent'
 
-const AiImplementationManagerContainer: React.FC<AiImplementationManagerContainerProps> = ({
-  aiImplementationList,
-  fetchAiImplementationList,
-}) => {
-  useEffect(() => {
-    fetchAiImplementationList({ withHealth: true })
-  }, [fetchAiImplementationList])
+const AiImplementationManagerContainer: React.FC<{}> = () => {
+  const aiImplementationList = useDataStateLoader<{
+    [id: string]: AiImplementationInfo
+  }>(
+    state => state.aiImplementationList,
+    aiImplementationListDataActions.load({
+      withHealth: false,
+    }),
+  )
 
   return (
     <BasicPageLayout title='AI implementations'>
@@ -44,15 +32,4 @@ const AiImplementationManagerContainer: React.FC<AiImplementationManagerContaine
   )
 }
 
-const mapStateToProps: (
-  state: RootState,
-) => AiImplementationManagerContainerDataProps = state => ({
-  aiImplementationList: state.aiImplementationList,
-})
-const mapDispatchToProps: AiImplementationManagerContainerFunctionProps = {
-  fetchAiImplementationList: aiImplementationListDataActions.load,
-}
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(AiImplementationManagerContainer)
+export default AiImplementationManagerContainer

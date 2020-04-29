@@ -1,7 +1,8 @@
-import { CaseSetInfo } from './caseSetDataType'
 import { InitialState, Loadable } from '../util/dataState/dataStateTypes'
-import { CaseSetActionTypes } from './caseSetActions'
 import dataStateGenericReducer from '../util/dataState/dataStateGenericReducer'
+
+import { CaseSetInfo } from './caseSetDataType'
+import { CaseSetActionTypes } from './caseSetActions'
 import { CaseDataType } from './caseDataType'
 
 export type CaseSetsState = {
@@ -32,8 +33,8 @@ const actionHandlers: {
     CaseSetsState,
     CaseDataType[],
     undefined,
-    string
-  >({ path: action => `entries.${action.payload.metadata}` }),
+    { caseSetId: string }
+  >({ path: action => `entries.${action.meta.caseSetId}` }),
 }
 
 const caseSetReducer = (state = caseSetsInitialState, action): CaseSetsState =>

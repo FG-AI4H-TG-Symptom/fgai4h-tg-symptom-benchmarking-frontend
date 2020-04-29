@@ -1,73 +1,65 @@
-import React, { useEffect } from 'react'
-import { connect } from 'react-redux'
+import React from 'react'
+import { useParams } from 'react-router-dom'
 
-import { RootState } from '../../data/rootReducer'
-import { Loadable } from '../../data/util/dataState/dataStateTypes'
-import { lastBenchmarkEvaluationDataAction } from '../../data/benchmarks/benchmarkActions'
-import DataStateManager from '../common/DataStateManager'
-import BenchmarkEvaluatorComponent from './BenchmarkEvaluatorComponent'
-import { BenchmarkInfo } from '../../data/benchmarks/benchmarkInfoDataType'
-import Warning from '../common/Warning'
-import { paths } from '../../routes'
+import { aiImplementationListDataActions } from '../../data/aiImplementationList/aiImplementationListActions'
+import { AiImplementationInfo } from '../../data/aiImplementationList/aiImplementationDataType'
+import {
+  benchmarkEvaluationDataAction,
+  benchmarkingSessionDataAction,
+} from '../../data/benchmarks/benchmarkActions'
 import { BenchmarkEvaluation } from '../../data/benchmarks/benchmarkEvaluationDataType'
+import { BenchmarkingSession } from '../../data/benchmarks/benchmarkManagerDataType'
+import useDataStateLoader from '../../data/util/dataState/useDataStateLoader'
+import { DataReady } from '../../data/util/dataState/dataStateTypes'
+import DataStateManager from '../common/DataStateManager'
 import BasicPageLayout from '../common/BasicPageLayout'
 
-type BenchmarkRunnerContainerDataProps = {
-  currentBenchmarkingSession: BenchmarkInfo
-  lastBenchmarkEvaluation: Loadable<BenchmarkEvaluation>
-}
-type BenchmarkRunnerContainerFunctionProps = {
-  fetchLastBenchmarkEvaluation: () => void
-}
-type BenchmarkRunnerContainerProps = BenchmarkRunnerContainerDataProps &
-  BenchmarkRunnerContainerFunctionProps
+import BenchmarkEvaluatorComponent from './BenchmarkEvaluatorComponent'
 
-const BenchmarkEvaluatorContainer: React.FC<BenchmarkRunnerContainerProps> = ({
-  currentBenchmarkingSession,
-  lastBenchmarkEvaluation,
-  fetchLastBenchmarkEvaluation,
-}) => {
-  useEffect(() => {
-    fetchLastBenchmarkEvaluation()
-  }, [fetchLastBenchmarkEvaluation])
+const BenchmarkEvaluatorContainer: React.FC<{}> = () => {
+  const { benchmarkId } = useParams()
 
-  if (!currentBenchmarkingSession) {
-    return (
-      <Warning
-        title='No benchmark available'
-        actions={[
-          { text: 'Create benchmark', targetUrl: paths.benchmarkCreate() },
-        ]}
-      >
-        The benchmark evaluator can currently only evaluate a benchmark that was
-        just executed. Do you want to create a new benchmark?
-      </Warning>
-    )
-  }
+  const benchmarkingSession = useDataStateLoader<BenchmarkingSession>(
+    state => state.benchmark.entries[benchmarkId],
+    benchmarkingSessionDataAction.load(benchmarkId, {
+      benchmarkingSessionId: benchmarkId,
+    }),
+  )
+
+  const benchmarkingSessionResults = useDataStateLoader<BenchmarkEvaluation>(
+    state =>
+      (state.benchmark.entries[benchmarkId] as DataReady<BenchmarkingSession>)
+        .data.results,
+    benchmarkEvaluationDataAction.load(benchmarkId, {
+      benchmarkingSessionId: benchmarkId,
+    }),
+    {
+      loadAfter: benchmarkingSession,
+    },
+  )
+
+  const aiImplementationList = useDataStateLoader<{
+    [id: string]: AiImplementationInfo
+  }>(
+    state => state.aiImplementationList,
+    aiImplementationListDataActions.load({
+      withHealth: false,
+    }),
+  )
 
   return (
     <BasicPageLayout title='Benchmark evaluation'>
       <DataStateManager
-        data={lastBenchmarkEvaluation}
+        data={benchmarkingSessionResults}
         componentFunction={(evaluation): JSX.Element => (
-          <BenchmarkEvaluatorComponent evaluation={evaluation} />
+          <BenchmarkEvaluatorComponent
+            evaluation={evaluation}
+            aiImplementationList={aiImplementationList}
+          />
         )}
-        loading={!currentBenchmarkingSession}
       />
     </BasicPageLayout>
   )
 }
 
-const mapStateToProps: (
-  state: RootState,
-) => BenchmarkRunnerContainerDataProps = state => ({
-  currentBenchmarkingSession: state.benchmark.currentBenchmarkingSession,
-  lastBenchmarkEvaluation: state.benchmark.lastEvaluation,
-})
-const mapDispatchToProps: BenchmarkRunnerContainerFunctionProps = {
-  fetchLastBenchmarkEvaluation: lastBenchmarkEvaluationDataAction.load,
-}
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(BenchmarkEvaluatorContainer)
+export default BenchmarkEvaluatorContainer

@@ -17,7 +17,8 @@ export const paths = {
     `/benchmarks/run/${benchmarkId}`, // /benchmarks/run/:benchmarkId
   benchmarkCreate: (caseSetId?: string): string =>
     `/benchmarks/create${caseSetId ? `?caseSetId=${caseSetId}` : ''}`, // /benchmarks/create?caseSetId={caseSetId}
-  benchmarkEvaluate: (): string => `/benchmarks/evaluate`,
+  benchmarkEvaluate: (benchmarkId: string): string =>
+    `/benchmarks/${benchmarkId}/evaluate`, // /benchmarks/:benchmarkId/evaluate
 }
 
 export const routes = [
@@ -80,7 +81,7 @@ export const routes = [
   {
     id: 'benchmark-evaluator',
     displayName: 'Benchmark evaluator',
-    path: paths.benchmarkEvaluate(),
+    path: paths.benchmarkEvaluate(':benchmarkId'),
     component: BenchmarkEvaluator,
     exact: true,
     visibleInMenu: false,

@@ -1,72 +1,72 @@
-import React, { useEffect } from 'react'
-import { connect } from 'react-redux'
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useHistory, useLocation } from 'react-router-dom'
 import queryString from 'qs'
-
 import { CircularProgress, Typography } from '@material-ui/core'
 
 import {
   aiImplementationListDataActions,
-  aiImplementationListLoadParameters,
+  AiImplementationListLoadParameters,
 } from '../../data/aiImplementationList/aiImplementationListActions'
-import BenchmarkCreatorComponent from './BenchmarkCreatorComponent'
 import { AiImplementationListState } from '../../data/aiImplementationList/aiImplementationListReducers'
-import { RootState } from '../../data/rootReducer'
+import { AiImplementationInfo } from '../../data/aiImplementationList/aiImplementationDataType'
+import { createBenchmarkingSessionDataAction } from '../../data/benchmarks/benchmarkActions'
+import { CaseSetInfo } from '../../data/caseSets/caseSetDataType'
 import { caseSetListDataActions } from '../../data/caseSets/caseSetActions'
 import {
-  benchmarkManagerDataAction,
-  CreateBenchmarkManagerParameters,
-} from '../../data/benchmarks/benchmarkActions'
-import { DataState, Loadable } from '../../data/util/dataState/dataStateTypes'
-import { BenchmarkManager } from '../../data/benchmarks/benchmarkManagerDataType'
+  DataState,
+  InitialState,
+  Loadable,
+  LoadableCreateOnly,
+} from '../../data/util/dataState/dataStateTypes'
+import { ID_PLACEHOLDER_NEW } from '../../data/util/dataState/dataActionTypes'
+import useDataStateLoader from '../../data/util/dataState/useDataStateLoader'
+import { RootState } from '../../data/rootReducer'
 import { paths } from '../../routes'
 import Error from '../common/Error'
 import BasicPageLayout from '../common/BasicPageLayout'
-import { CaseSetInfo } from '../../data/caseSets/caseSetDataType'
+
+import BenchmarkCreatorComponent from './BenchmarkCreatorComponent'
 
 type AiImplementationManagerContainerDataProps = {
   aiImplementationList: AiImplementationListState
-  benchmarkManager: Loadable<BenchmarkManager>
   caseSetList: Loadable<CaseSetInfo[]>
 }
 type AiImplementationManagerContainerFunctionProps = {
   fetchAiImplementationList: (
-    parameters: aiImplementationListLoadParameters,
+    parameters: AiImplementationListLoadParameters,
   ) => void
   fetchCaseSetList: () => void
-  createBenchmarkManager: (
-    benchmarkParameters: CreateBenchmarkManagerParameters,
-  ) => void
 }
 type AiImplementationManagerContainerProps = AiImplementationManagerContainerDataProps &
   AiImplementationManagerContainerFunctionProps
 
-const BenchmarkCreatorContainer: React.FC<AiImplementationManagerContainerProps> = ({
-  aiImplementationList,
-  benchmarkManager,
-  caseSetList,
-  fetchAiImplementationList,
-  fetchCaseSetList,
-  createBenchmarkManager,
-}) => {
+const BenchmarkCreatorContainer: React.FC<AiImplementationManagerContainerProps> = () => {
   const history = useHistory()
+  const dispatch = useDispatch()
 
-  useEffect(() => {
-    fetchAiImplementationList({ withHealth: false })
-    fetchCaseSetList()
-  }, [fetchAiImplementationList, fetchCaseSetList])
-
-  useEffect(() => {
-    if (benchmarkManager.state === DataState.READY) {
-      history.push(paths.benchmarkRun(benchmarkManager.data.benchmarkManagerId))
-    }
-  }, [benchmarkManager, history])
+  const aiImplementationList = useDataStateLoader<{
+    [id: string]: AiImplementationInfo
+  }>(
+    state => state.aiImplementationList,
+    aiImplementationListDataActions.load({
+      withHealth: false,
+    }),
+  )
+  const caseSetList = useDataStateLoader<CaseSetInfo[]>(
+    state => state.caseSets.overview,
+    caseSetListDataActions.load(),
+  )
 
   const searchParams = queryString.parse(useLocation().search, {
     ignoreQueryPrefix: true,
   })
 
-  if (benchmarkManager.state === DataState.LOADING) {
+  const newBenchmarkingSession = useSelector<RootState, LoadableCreateOnly>(
+    state => state.benchmark[ID_PLACEHOLDER_NEW] || InitialState,
+  )
+
+  if (newBenchmarkingSession.state === DataState.LOADING) {
     return (
       <>
         <Typography variant='h2' gutterBottom>
@@ -93,7 +93,13 @@ const BenchmarkCreatorContainer: React.FC<AiImplementationManagerContainerProps>
         caseSetList={caseSetList.data}
         defaultCaseSetId={searchParams.caseSetId}
         onCreateBenchmark={(benchmarkParameters): void => {
-          createBenchmarkManager(benchmarkParameters)
+          dispatch(
+            createBenchmarkingSessionDataAction.load(benchmarkParameters, {
+              onSuccess: createdBenchmarkingSession => {
+                history.push(paths.benchmarkRun(createdBenchmarkingSession.id))
+              },
+            }),
+          )
         }}
       />
     )
@@ -106,19 +112,4 @@ const BenchmarkCreatorContainer: React.FC<AiImplementationManagerContainerProps>
   )
 }
 
-const mapStateToProps: (
-  state: RootState,
-) => AiImplementationManagerContainerDataProps = state => ({
-  aiImplementationList: state.aiImplementationList,
-  benchmarkManager: state.benchmark.benchmarkManager,
-  caseSetList: state.caseSets.overview,
-})
-const mapDispatchToProps: AiImplementationManagerContainerFunctionProps = {
-  fetchAiImplementationList: aiImplementationListDataActions.load,
-  fetchCaseSetList: caseSetListDataActions.load,
-  createBenchmarkManager: benchmarkManagerDataAction.load,
-}
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(BenchmarkCreatorContainer)
+export default BenchmarkCreatorContainer

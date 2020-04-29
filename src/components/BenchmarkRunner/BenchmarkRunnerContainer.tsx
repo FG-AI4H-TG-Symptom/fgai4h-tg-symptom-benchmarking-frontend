@@ -1,116 +1,107 @@
 import React, { useEffect } from 'react'
-import { connect } from 'react-redux'
-import { useParams, useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
+import { CircularProgress } from '@material-ui/core'
 
-import { Button, CircularProgress } from '@material-ui/core'
-import { ArrowForward as ContinueIcon } from '@material-ui/icons'
-import { RootState } from '../../data/rootReducer'
-import { BenchmarkManager } from '../../data/benchmarks/benchmarkManagerDataType'
-import { DataState, Loadable } from '../../data/util/dataState/dataStateTypes'
-import {
-  benchmarkManagerDataAction,
-  observeRunningBenchmark as observeRunningBenchmarkAction,
-} from '../../data/benchmarks/benchmarkActions'
-import DataStateManager from '../common/DataStateManager'
-import BenchmarkRunnerComponent from './BenchmarkRunnerComponent'
-import { BenchmarkInfo } from '../../data/benchmarks/benchmarkInfoDataType'
-import Warning from '../common/Warning'
 import { paths } from '../../routes'
+import { AiImplementationInfo } from '../../data/aiImplementationList/aiImplementationDataType'
+import { aiImplementationListDataActions } from '../../data/aiImplementationList/aiImplementationListActions'
+import {
+  BenchmarkingSession,
+  BenchmarkingSessionStatus,
+} from '../../data/benchmarks/benchmarkManagerDataType'
+import {
+  benchmarkingSessionDataAction,
+  observeRunningBenchmarkDataAction,
+} from '../../data/benchmarks/benchmarkActions'
+import { RunningBenchmarkReport } from '../../data/benchmarks/benchmarkInfoDataType'
+import useDataStateLoader from '../../data/util/dataState/useDataStateLoader'
+import { DataReady, DataState } from '../../data/util/dataState/dataStateTypes'
+import DataStateManager from '../common/DataStateManager'
 import BasicPageLayout from '../common/BasicPageLayout'
 
-type BenchmarkRunnerContainerDataProps = {
-  benchmarkManager: Loadable<BenchmarkManager>
-  currentBenchmarkingSession: BenchmarkInfo
-}
-type BenchmarkRunnerContainerFunctionProps = {
-  observeRunningBenchmark: (benchmarkManagerId: string) => void
-  clearBenchmarkManager: () => void
-}
-type BenchmarkRunnerContainerProps = BenchmarkRunnerContainerDataProps &
-  BenchmarkRunnerContainerFunctionProps
+import BenchmarkRunnerComponent from './BenchmarkRunnerComponent'
 
-const BenchmarkRunnerContainer: React.FC<BenchmarkRunnerContainerProps> = ({
-  observeRunningBenchmark,
-  benchmarkManager,
-  currentBenchmarkingSession,
-  clearBenchmarkManager,
-}) => {
+const BenchmarkRunnerContainer: React.FC<{}> = () => {
   const { benchmarkId } = useParams()
-  useEffect(() => {
-    if (benchmarkManager.state === DataState.READY) {
-      observeRunningBenchmark(benchmarkId)
-    }
-  }, [observeRunningBenchmark, benchmarkId, benchmarkManager.state])
-
   const history = useHistory()
-  const handleViewReport = (): void => {
-    clearBenchmarkManager()
-    history.push(paths.benchmarkEvaluate())
-  }
 
-  if (benchmarkManager.state === DataState.INITIAL) {
-    return (
-      <Warning
-        title='No such benchmark'
-        actions={[
-          { text: 'Create benchmark', targetUrl: paths.benchmarkCreate() },
-        ]}
-      >
-        The benchmark manager currently can&apos;t display benchmarks after they
-        have finished or if you have reloaded the browser. Do you want to create
-        a new benchmark?
-      </Warning>
-    )
-  }
-
-  const title = (
-    <>
-      Running benchmark{' '}
-      <DataStateManager<BenchmarkManager>
-        data={benchmarkManager}
-        componentFunction={(data): string => data.benchmarkManagerId}
-      />
-    </>
+  const aiImplementationList = useDataStateLoader<{
+    [id: string]: AiImplementationInfo
+  }>(
+    state => state.aiImplementationList,
+    aiImplementationListDataActions.load({
+      withHealth: false,
+    }),
   )
 
-  const viewReportButton =
-    currentBenchmarkingSession && currentBenchmarkingSession.finished ? (
-      <Button
-        variant='contained'
-        color='primary'
-        endIcon={<ContinueIcon />}
-        onClick={handleViewReport}
-      >
-        View report
-      </Button>
-    ) : (
-      <CircularProgress />
-    )
+  const benchmarkingSession = useDataStateLoader<BenchmarkingSession>(
+    state => state.benchmark.entries[benchmarkId],
+    benchmarkingSessionDataAction.load(benchmarkId, {
+      benchmarkingSessionId: benchmarkId,
+    }),
+  )
+
+  const runningBenchmarkReport = useDataStateLoader<RunningBenchmarkReport>(
+    state => state.benchmark.runningBenchmarkStatus,
+    observeRunningBenchmarkDataAction.load(benchmarkId),
+  )
+
+  useEffect(() => {
+    if (
+      benchmarkingSession.state === DataState.READY &&
+      benchmarkingSession.data.status === BenchmarkingSessionStatus.FINISHED
+    ) {
+      history.push(paths.benchmarkEvaluate(benchmarkId))
+    }
+  }, [benchmarkId, benchmarkingSession])
 
   return (
-    <BasicPageLayout title={title} action={viewReportButton}>
+    <BasicPageLayout
+      title={
+        <>
+          Running benchmark{' '}
+          <DataStateManager<BenchmarkingSession>
+            data={benchmarkingSession}
+            componentFunction={(data): string => data.id}
+          />
+        </>
+      }
+      action={
+        <DataStateManager
+          data={runningBenchmarkReport}
+          componentFunction={({ statistics }): JSX.Element => (
+            <CircularProgress
+              variant='static'
+              value={
+                (statistics.currentCaseIndex / statistics.totalCaseCount) * 100
+              }
+            />
+          )}
+          loading={
+            runningBenchmarkReport.state === DataState.READY &&
+            runningBenchmarkReport.data.status ===
+              BenchmarkingSessionStatus.INTERMEDIATE
+          }
+        />
+      }
+    >
       <DataStateManager
-        data={benchmarkManager}
-        componentFunction={(): JSX.Element => (
-          <BenchmarkRunnerComponent benchmark={currentBenchmarkingSession} />
+        // todo: enable `DataStateManager` to consume and pass an array of `Loadable`s
+        data={benchmarkingSession}
+        componentFunction={(benchmarkManagerData): JSX.Element => (
+          <BenchmarkRunnerComponent
+            benchmarkingSession={benchmarkManagerData}
+            report={
+              // loading is handled manually, see below
+              (runningBenchmarkReport as DataReady<RunningBenchmarkReport>).data
+            }
+            aiImplementations={aiImplementationList}
+          />
         )}
-        loading={!currentBenchmarkingSession}
+        loading={runningBenchmarkReport.state !== DataState.READY}
       />
     </BasicPageLayout>
   )
 }
 
-const mapStateToProps: (
-  state: RootState,
-) => BenchmarkRunnerContainerDataProps = state => ({
-  benchmarkManager: state.benchmark.benchmarkManager,
-  currentBenchmarkingSession: state.benchmark.currentBenchmarkingSession,
-})
-const mapDispatchToProps: BenchmarkRunnerContainerFunctionProps = {
-  observeRunningBenchmark: observeRunningBenchmarkAction,
-  clearBenchmarkManager: benchmarkManagerDataAction.reset,
-}
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(BenchmarkRunnerContainer)
+export default BenchmarkRunnerContainer

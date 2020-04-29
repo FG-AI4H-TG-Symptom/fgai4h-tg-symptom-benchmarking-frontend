@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactElement } from 'react'
 import {
   Paper,
   Table,
@@ -9,63 +9,64 @@ import {
   TableRow,
 } from '@material-ui/core'
 
+import { AiImplementationInfo } from '../../data/aiImplementationList/aiImplementationDataType'
 import { BenchmarkEvaluation } from '../../data/benchmarks/benchmarkEvaluationDataType'
+import { Loadable } from '../../data/util/dataState/dataStateTypes'
 import ViewRawFooter from '../common/ViewRawFooter'
-import { mean } from '../../util/math'
-
+import DataStateManager from '../common/DataStateManager'
 import * as CommonStyled from '../common/CommonStyles'
 
 interface AiImplementationManagerComponentProps {
   evaluation: BenchmarkEvaluation
+  aiImplementationList: Loadable<{
+    [id: string]: AiImplementationInfo
+  }>
 }
 
 const BenchmarkEvaluatorComponent: React.FC<AiImplementationManagerComponentProps> = ({
   evaluation,
+  aiImplementationList,
 }) => {
-  const metricNames = Object.keys(Object.values(evaluation)[0][0])
-  const aggregateMetrics = Object.entries(evaluation).map(
-    ([aiImplementationName, metricsPerCase]) => {
-      const result = {
-        aiImplementationName,
-      }
-
-      metricNames.forEach(metricName => {
-        result[metricName] = mean(
-          metricsPerCase.map(metrics => metrics[metricName]),
-        )
-      })
-
-      return result
-    },
-  )
   return (
     <>
       <TableContainer component={Paper}>
         <Table>
           <caption>
-            {Object.keys(evaluation).length} AI implementations,{' '}
-            {Object.values(evaluation)[0].length} cases, {metricNames.length}{' '}
-            metrics
+            {Object.keys(evaluation.aiImplementations).length} AI
+            implementations, {evaluation.responses.length} cases,{' '}
+            {Object.keys(evaluation.aggregatedMetrics).length} metrics
           </caption>
           <TableHead>
             <TableRow>
               <TableCell>AI implementation name</TableCell>
-              {metricNames.map(metricName => (
-                <CommonStyled.CenteredTableCell key={metricName}>
-                  {metricName}
-                </CommonStyled.CenteredTableCell>
-              ))}
+              {Object.values(evaluation.aggregatedMetrics).map(
+                ({ id, name }) => (
+                  <CommonStyled.CenteredTableCell key={id}>
+                    {name}
+                  </CommonStyled.CenteredTableCell>
+                ),
+              )}
             </TableRow>
           </TableHead>
           <TableBody>
-            {aggregateMetrics.map(({ aiImplementationName, ...metrics }) => (
-              <TableRow key={aiImplementationName}>
-                <TableCell>{aiImplementationName}</TableCell>
-                {metricNames.map(metricName => (
-                  <CommonStyled.CenteredTableCell key={metricName}>
-                    {metrics[metricName]}
-                  </CommonStyled.CenteredTableCell>
-                ))}
+            {evaluation.aiImplementations.map(aiImplementationId => (
+              <TableRow key={aiImplementationId}>
+                <TableCell>
+                  <DataStateManager
+                    data={aiImplementationList}
+                    componentFunction={(aiImplementations): ReactElement => (
+                      <>{aiImplementations[aiImplementationId].name}</>
+                    )}
+                    interstitial={<>aiImplementationId</>}
+                  />
+                </TableCell>
+                {Object.values(evaluation.aggregatedMetrics).map(
+                  ({ id, values }) => (
+                    <CommonStyled.CenteredTableCell key={id}>
+                      {values[aiImplementationId]}
+                    </CommonStyled.CenteredTableCell>
+                  ),
+                )}
               </TableRow>
             ))}
           </TableBody>

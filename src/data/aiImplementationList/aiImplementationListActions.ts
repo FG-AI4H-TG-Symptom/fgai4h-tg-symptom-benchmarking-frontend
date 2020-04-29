@@ -10,11 +10,11 @@ export enum AiImplementationListActionTypes {
   AI_IMPLEMENTATION_HEALTH_DATA_ACTION = 'AI_IMPLEMENTATION_HEALTH_DATA_ACTION',
 }
 
-export type aiImplementationListLoadParameters = { withHealth: boolean }
+export type AiImplementationListLoadParameters = { withHealth: boolean }
 
 export const aiImplementationListDataActions = generateDataStateActions<
   AiImplementationInfo[],
-  aiImplementationListLoadParameters
+  AiImplementationListLoadParameters
 >(AiImplementationListActionTypes.AI_IMPLEMENTATION_LIST_DATA_ACTION)
 
 export const aiImplementationHealthDataActions = generateDataStateActions<

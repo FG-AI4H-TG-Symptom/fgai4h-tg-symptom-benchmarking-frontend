@@ -1,23 +1,26 @@
-import { takeLatest } from 'redux-saga/effects'
-
 import { BenchmarkActionTypes } from '../benchmarkActions'
-import createBenchmarkManager from './createBenchmarkManager'
+import createBenchmarkingSession from './createBenchmarkManager'
 import observeRunningBenchmark from './observeRunningBenchmark'
-import fetchLastBenchmarkEvaluation from './fetchLastBenchmarkEvaluation'
+import fetchBenchmarkEvaluation from './fetchBenchmarkEvaluation'
 import dataStateActionSagaWrapperLoadOnly from '../../util/dataState/dataStateActionSagaWrapperLoadOnly'
+import fetchBenchmarkingSession from './fetchBenchmarkingSession'
 
 const benchmarkSagas = [
   dataStateActionSagaWrapperLoadOnly(
-    BenchmarkActionTypes.BENCHMARK_MANAGER_DATA_ACTION,
-    createBenchmarkManager,
+    BenchmarkActionTypes.CREATE_BENCHMARKING_SESSION_DATA_ACTION,
+    createBenchmarkingSession,
   ),
-  takeLatest(
-    BenchmarkActionTypes.OBSERVE_RUNNING_BENCHMARK,
+  dataStateActionSagaWrapperLoadOnly(
+    BenchmarkActionTypes.OBSERVE_RUNNING_BENCHMARK_DATA_ACTION,
     observeRunningBenchmark,
   ),
   dataStateActionSagaWrapperLoadOnly(
-    BenchmarkActionTypes.LAST_BENCHMARK_EVALUATION_DATA_ACTION,
-    fetchLastBenchmarkEvaluation,
+    BenchmarkActionTypes.BENCHMARK_EVALUATION_DATA_ACTION,
+    fetchBenchmarkEvaluation,
+  ),
+  dataStateActionSagaWrapperLoadOnly(
+    BenchmarkActionTypes.BENCHMARKING_SESSION_DATA_ACTION,
+    fetchBenchmarkingSession,
   ),
 ]
 export default benchmarkSagas

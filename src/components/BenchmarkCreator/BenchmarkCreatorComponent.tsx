@@ -69,7 +69,7 @@ const BenchmarkCreatorComponent: React.FC<BenchmarkCreatorComponentProps> = ({
   }: FormData): void => {
     onCreateBenchmark({
       caseSetId,
-      aiImplementationNames: Object.keys(aiImplementations).filter(
+      aiImplementationIds: Object.keys(aiImplementations).filter(
         (_, index) => selectedAiImplementations[index],
       ),
     })

@@ -1,19 +1,33 @@
-import { BenchmarkManager } from './benchmarkManagerDataType'
-import { InitialState, Loadable } from '../util/dataState/dataStateTypes'
-import { BenchmarkActionTypes } from './benchmarkActions'
-import { BenchmarkInfo } from './benchmarkInfoDataType'
-import { BenchmarkEvaluation } from './benchmarkEvaluationDataType'
+import dotProp from 'dot-prop-immutable'
+
+import {
+  DataActionTypes,
+  ID_PLACEHOLDER_NEW,
+} from '../util/dataState/dataActionTypes'
+import {
+  InitialState,
+  Loadable,
+  LoadableCreateOnly,
+} from '../util/dataState/dataStateTypes'
 import dataStateGenericReducer from '../util/dataState/dataStateGenericReducer'
 
+import { BenchmarkingSession } from './benchmarkManagerDataType'
+import { BenchmarkActionTypes } from './benchmarkActions'
+import { BenchmarkEvaluation } from './benchmarkEvaluationDataType'
+import { RunningBenchmarkReport } from './benchmarkInfoDataType'
+
 export interface BenchmarkState {
-  benchmarkManager: Loadable<BenchmarkManager>
-  currentBenchmarkingSession?: BenchmarkInfo
-  lastEvaluation: Loadable<BenchmarkEvaluation>
+  [ID_PLACEHOLDER_NEW]: LoadableCreateOnly
+  entries: {
+    [benchmarkingSessionId: string]: Loadable<BenchmarkingSession>
+  }
+  runningBenchmarkStatus: Loadable<RunningBenchmarkReport>
 }
 
 const benchmarkInitialState: BenchmarkState = {
-  benchmarkManager: InitialState,
-  lastEvaluation: InitialState,
+  [ID_PLACEHOLDER_NEW]: InitialState,
+  entries: {},
+  runningBenchmarkStatus: InitialState,
 }
 
 const actionHandlers: {
@@ -22,19 +36,46 @@ const actionHandlers: {
     action,
   ) => BenchmarkState
 } = {
-  [BenchmarkActionTypes.BENCHMARK_MANAGER_DATA_ACTION]: dataStateGenericReducer<
+  [BenchmarkActionTypes.CREATE_BENCHMARKING_SESSION_DATA_ACTION]: dataStateGenericReducer<
     BenchmarkState,
-    BenchmarkManager
-  >({ path: 'benchmarkManager' }),
-  [BenchmarkActionTypes.OBSERVE_RUNNING_BENCHMARK]: state => state,
-  [BenchmarkActionTypes.SET_RUNNING_BENCHMARK_INFO]: (state, action) => ({
-    ...state,
-    currentBenchmarkingSession: action.payload,
+    BenchmarkingSession
+  >({
+    path: action =>
+      action.payload.intent === DataActionTypes.STORE
+        ? `entries.${action.payload.data.id}`
+        : ID_PLACEHOLDER_NEW,
+    postflightTransform: (state, action) => {
+      if (action.payload.intent !== DataActionTypes.STORE) {
+        return state
+      }
+
+      return dotProp.delete(state, ID_PLACEHOLDER_NEW) as BenchmarkState
+    },
   }),
-  [BenchmarkActionTypes.LAST_BENCHMARK_EVALUATION_DATA_ACTION]: dataStateGenericReducer<
+  [BenchmarkActionTypes.OBSERVE_RUNNING_BENCHMARK_DATA_ACTION]: dataStateGenericReducer<
     BenchmarkState,
-    BenchmarkEvaluation
-  >({ path: 'lastEvaluation' }),
+    RunningBenchmarkReport
+  >({ path: 'runningBenchmarkStatus' }),
+  [BenchmarkActionTypes.BENCHMARK_EVALUATION_DATA_ACTION]: dataStateGenericReducer<
+    BenchmarkState,
+    BenchmarkEvaluation,
+    undefined,
+    { benchmarkingSessionId: string }
+  >({
+    path: action => `entries.${action.meta.benchmarkingSessionId}.data.results`,
+  }),
+  [BenchmarkActionTypes.BENCHMARKING_SESSION_DATA_ACTION]: dataStateGenericReducer<
+    BenchmarkState,
+    BenchmarkingSession,
+    undefined,
+    { benchmarkingSessionId: string }
+  >({ path: action => `entries.${action.meta.benchmarkingSessionId}` }),
+  [BenchmarkActionTypes.MARK_BENCHMARKING_SESSION_AS]: (state, action) =>
+    dotProp.set(
+      state,
+      `entries.${action.payload.benchmarkingSessionId}.data.status`,
+      action.payload.status,
+    ),
 }
 
 const benchmarkReducers = (

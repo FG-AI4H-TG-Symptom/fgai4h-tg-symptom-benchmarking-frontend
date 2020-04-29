@@ -16,8 +16,10 @@ const CaseSetViewerAnalysis: React.FC<CaseSetComponentProps> = ({
     () =>
       caseSet.map(
         ({
-          caseData: {
-            profileInformation: { age, biologicalSex },
+          data: {
+            caseData: {
+              profileInformation: { age, biologicalSex },
+            },
           },
         }) => ({ age, biologicalSex }),
       ),

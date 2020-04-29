@@ -4,26 +4,44 @@ import {
   DataActionReset,
   DataActionStore,
   DataActionTypes,
+  TypeUnionIgnoreVoid,
 } from './dataActionTypes'
 
+// todo: enforce that all `CallbackType`s extend `CallbackMetadata`
+export type CallbackMetadata<DataType> = {
+  onSuccess?: (data: DataType) => void
+}
+
 // the awkward ternaries are blocked on https://github.com/microsoft/TypeScript/issues/29131
-type DataStateActions<DataType, ParameterType = void, MetadataType = void> = {
+type DataStateActions<
+  DataType,
+  ParameterType = void,
+  MetadataType = void,
+  CallbackType = void
+> = {
   load: (
-    ...params: MetadataType extends void
+    ...params: TypeUnionIgnoreVoid<MetadataType, CallbackType> extends void
       ? ParameterType extends void
         ? []
         : Parameters<(parameters: ParameterType) => void>
-      : Parameters<(parameters: ParameterType, metadata: MetadataType) => void>
-  ) => DataActionLoad<ParameterType, MetadataType>
+      : Parameters<
+          (
+            parameters: ParameterType,
+            metadata: TypeUnionIgnoreVoid<MetadataType, CallbackType>,
+          ) => void
+        >
+  ) => DataActionLoad<ParameterType, MetadataType, CallbackType>
   store: (
+    data: DataType,
     ...params: MetadataType extends void
-      ? Parameters<(data: DataType) => void>
-      : Parameters<(data: DataType, metadata: MetadataType) => void>
+      ? []
+      : Parameters<(metadata: MetadataType) => void>
   ) => DataActionStore<DataType, MetadataType>
   errored: (
+    error: string,
     ...params: MetadataType extends void
-      ? Parameters<(error: string) => void>
-      : Parameters<(error: string, metadata: MetadataType) => void>
+      ? []
+      : Parameters<(metadata: MetadataType) => void>
   ) => DataActionErrored<MetadataType>
   reset: (
     ...params: MetadataType extends void
@@ -35,28 +53,35 @@ type DataStateActions<DataType, ParameterType = void, MetadataType = void> = {
 const generateDataStateActions = <
   DataType,
   ParameterType = void,
-  MetadataType = void
+  MetadataType = void,
+  CallbackType = void
 >(
   type: string,
-): DataStateActions<DataType, ParameterType, MetadataType> => ({
+): DataStateActions<DataType, ParameterType, MetadataType, CallbackType> => ({
   load: (
     parameters?,
     metadata?,
-  ): DataActionLoad<ParameterType, MetadataType> => ({
-    type,
-    payload: { intent: DataActionTypes.LOAD, parameters, metadata },
-  }),
+  ): DataActionLoad<ParameterType, MetadataType, CallbackType> => {
+    return {
+      type,
+      payload: { intent: DataActionTypes.LOAD, parameters },
+      meta: metadata,
+    }
+  },
   store: (data, metadata?): DataActionStore<DataType, MetadataType> => ({
     type,
-    payload: { intent: DataActionTypes.STORE, data, metadata },
+    payload: { intent: DataActionTypes.STORE, data },
+    meta: metadata,
   }),
   errored: (error, metadata?): DataActionErrored<MetadataType> => ({
     type,
-    payload: { intent: DataActionTypes.ERROR, error, metadata },
+    payload: { intent: DataActionTypes.ERROR, error },
+    meta: metadata,
   }),
   reset: (metadata?): DataActionReset<MetadataType> => ({
     type,
-    payload: { intent: DataActionTypes.RESET, metadata },
+    payload: { intent: DataActionTypes.RESET },
+    meta: metadata,
   }),
 })
 

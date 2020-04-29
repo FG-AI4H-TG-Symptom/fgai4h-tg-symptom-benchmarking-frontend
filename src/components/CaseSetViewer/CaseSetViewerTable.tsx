@@ -16,9 +16,9 @@ import {
   Presence,
   PresenceStates,
 } from '../../data/caseSets/caseDataType'
+import TextWithTooltipSelf from '../common/TextWithTooltipSelf'
 
 import * as Styled from './CaseSetViewerTable.style'
-import TextWithTooltipSelf from '../common/TextWithTooltipSelf'
 
 const PresenceIcon: React.FC<{ presence: Presence }> = ({ presence }) => (
   <Tooltip title={presence}>
@@ -75,10 +75,10 @@ const CaseSetViewerTable: React.FC<CaseSetComponentProps> = ({ caseSet }) => {
           <TableBody>
             {caseSet
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map(({ caseData, valuesToPredict }) => (
-                <TableRow key={caseData.caseId}>
+              .map(({ id, data: { caseData, valuesToPredict } }) => (
+                <TableRow key={id}>
                   <Styled.CaseIdCell>
-                    <TextWithTooltipSelf>{caseData.caseId}</TextWithTooltipSelf>
+                    <TextWithTooltipSelf>{id}</TextWithTooltipSelf>
                   </Styled.CaseIdCell>
                   <TableCell>{caseData.metaData.case_creator}</TableCell>
                   <Styled.CaseDescriptionCell>
@@ -93,8 +93,10 @@ const CaseSetViewerTable: React.FC<CaseSetComponentProps> = ({ caseSet }) => {
                   </TableCell>
                   <TableCell>
                     {caseData.presentingComplaints.map(
-                      ({ id, name, state }) => (
-                        <Styled.IconWrapper key={`${caseData.caseId}_${id}`}>
+                      ({ id: presentingComplaintId, name, state }) => (
+                        <Styled.IconWrapper
+                          key={`${caseData.caseId}_${presentingComplaintId}`}
+                        >
                           <PresenceIcon presence={state} />
                           {name}
                         </Styled.IconWrapper>
@@ -102,12 +104,16 @@ const CaseSetViewerTable: React.FC<CaseSetComponentProps> = ({ caseSet }) => {
                     )}
                   </TableCell>
                   <TableCell>
-                    {caseData.otherFeatures.map(({ id, name, state }) => (
-                      <Styled.IconWrapper key={`${caseData.caseId}_${id}`}>
-                        <PresenceIcon presence={state} />
-                        {name}
-                      </Styled.IconWrapper>
-                    ))}
+                    {caseData.otherFeatures.map(
+                      ({ id: otherFeatureId, name, state }) => (
+                        <Styled.IconWrapper
+                          key={`${caseData.caseId}_${otherFeatureId}`}
+                        >
+                          <PresenceIcon presence={state} />
+                          {name}
+                        </Styled.IconWrapper>
+                      ),
+                    )}
                   </TableCell>
                   <TableCell>{valuesToPredict.condition.name}</TableCell>
                   <TableCell>{valuesToPredict.expectedTriageLevel}</TableCell>
