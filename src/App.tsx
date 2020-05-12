@@ -63,7 +63,9 @@ const App: React.FC<AppProps> = ({ fatalError }) => {
                     setMenuOpen(false)
                   }}
                 >
-                  <ListItemText>{displayName}</ListItemText>
+                  <ListItemText>
+                    {displayName.replace('manager', '')}
+                  </ListItemText>
                 </ListItem>
               </LinkWrapper>
             ))}
