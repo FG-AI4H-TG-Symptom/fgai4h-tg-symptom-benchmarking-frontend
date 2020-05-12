@@ -15,11 +15,11 @@ import { CaseSetInfo } from '../../data/caseSets/caseSetDataType'
 import { caseSetListDataActions } from '../../data/caseSets/caseSetActions'
 import {
   DataState,
+  ID_PLACEHOLDER_NEW,
   InitialState,
   Loadable,
   LoadableCreateOnly,
 } from '../../data/util/dataState/dataStateTypes'
-import { ID_PLACEHOLDER_NEW } from '../../data/util/dataState/dataActionTypes'
 import useDataStateLoader from '../../data/util/dataState/useDataStateLoader'
 import { RootState } from '../../data/rootReducer'
 import { paths } from '../../routes'

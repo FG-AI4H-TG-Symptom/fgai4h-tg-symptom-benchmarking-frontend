@@ -18,7 +18,7 @@ import {
 const BenchmarkingSessionManagerContainer: React.FC<{}> = () => {
   const dispatch = useDispatch()
   const benchmarkingSessions = useDataStateLoader<BenchmarkingSession[]>(
-    state => state.benchmark.overview,
+    'benchmark',
     benchmarkingSessionListDataAction.load(),
   )
   const deleteBenchmarkingSession = (benchmarkingSessionId): void => {

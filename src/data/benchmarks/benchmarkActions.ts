@@ -56,7 +56,8 @@ export const benchmarkingSessionListDataAction = generateDataStateActions<
 export const benchmarkingSessionDeleteDataAction = generateDataStateActions<
   BenchmarkingSession,
   string,
-  { benchmarkingSessionId: string }
+  { benchmarkingSessionId: string },
+  CallbackMetadata<void>
 >(BenchmarkActionTypes.BENCHMARKING_SESSION_DELETE_DATA_ACTION)
 
 export const markBenchmarkingSessionAs = createAction<{

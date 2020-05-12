@@ -17,3 +17,23 @@ export type LoadableCreateOnly =
 
 export const InitialState: LoadableCreateOnly = { state: DataState.INITIAL }
 export const LoadingState: LoadableCreateOnly = { state: DataState.LOADING }
+
+export const ID_PLACEHOLDER_NEW = 'ID_PLACEHOLDER_NEW'
+
+export type DataActionBaseState<DataType> = {
+  [ID_PLACEHOLDER_NEW]: LoadableCreateOnly
+  entries: {
+    [id: string]: Loadable<DataType>
+  }
+  deletions: {
+    [id: string]: Loadable<void>
+  }
+  overview: Loadable<DataType[]>
+}
+
+export const dataActionBaseStateInitial = () => ({
+  [ID_PLACEHOLDER_NEW]: InitialState,
+  entries: {},
+  deletions: {},
+  overview: InitialState,
+})

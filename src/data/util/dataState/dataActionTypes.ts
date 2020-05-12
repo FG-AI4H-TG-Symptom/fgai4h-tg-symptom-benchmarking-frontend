@@ -1,11 +1,10 @@
+/* eslint-disable import/prefer-default-export */
 export enum DataActionTypes {
   RESET = 'RESET',
   LOAD = 'LOAD',
   STORE = 'STORE',
   ERROR = 'ERROR',
 }
-
-export const ID_PLACEHOLDER_NEW = 'ID_PLACEHOLDER_NEW'
 
 export type TypeUnionIgnoreVoid<T, U> = T extends void
   ? U

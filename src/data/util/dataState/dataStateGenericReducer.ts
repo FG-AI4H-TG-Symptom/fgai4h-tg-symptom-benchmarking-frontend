@@ -2,6 +2,7 @@ import dotProp from 'dot-prop-immutable'
 
 import { DataAction, DataActionTypes } from './dataActionTypes'
 import { DataState, LoadingState } from './dataStateTypes'
+import { CallbackMetadata } from './generateDataStateActions'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const identity = <V>(x): V => (x as any) as V
@@ -59,6 +60,12 @@ const dataStateGenericReducer = <
       newValue = {
         state: DataState.READY,
         data: dataTransform(action.payload.data),
+      }
+      if (action.meta && 'onSuccess' in action.meta) {
+        const { data } = action.payload
+        setTimeout(() => {
+          ;(action.meta as CallbackMetadata<DataActionDataType>).onSuccess(data)
+        }, 0)
       }
     } else {
       newValue = { state: DataState.INITIAL }

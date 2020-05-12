@@ -1,14 +1,13 @@
 import dotProp from 'dot-prop-immutable'
 
+import { DataActionTypes } from '../util/dataState/dataActionTypes'
 import {
-  DataActionTypes,
-  ID_PLACEHOLDER_NEW,
-} from '../util/dataState/dataActionTypes'
-import {
+  DataActionBaseState,
+  dataActionBaseStateInitial,
   DataState,
+  ID_PLACEHOLDER_NEW,
   InitialState,
   Loadable,
-  LoadableCreateOnly,
 } from '../util/dataState/dataStateTypes'
 import dataStateGenericReducer from '../util/dataState/dataStateGenericReducer'
 
@@ -17,25 +16,16 @@ import { BenchmarkActionTypes } from './benchmarkActions'
 import { BenchmarkEvaluation } from './benchmarkEvaluationDataType'
 import { RunningBenchmarkReport } from './benchmarkInfoDataType'
 
-export interface BenchmarkState {
-  [ID_PLACEHOLDER_NEW]: LoadableCreateOnly
-  entries: {
-    [benchmarkingSessionId: string]: Loadable<BenchmarkingSession>
-  }
-  deletions: {
-    [benchmarkingSessionId: string]: Loadable<BenchmarkingSession>
-  }
-  overview: Loadable<BenchmarkingSession[]>
+export type BenchmarkState = DataActionBaseState<BenchmarkingSession> & {
   runningBenchmarkStatus: Loadable<RunningBenchmarkReport>
 }
 
-const benchmarkInitialState: BenchmarkState = {
-  [ID_PLACEHOLDER_NEW]: InitialState,
-  entries: {},
-  deletions: {},
-  overview: InitialState,
-  runningBenchmarkStatus: InitialState,
-}
+const benchmarkInitialState: BenchmarkState = Object.assign(
+  dataActionBaseStateInitial(),
+  {
+    runningBenchmarkStatus: InitialState,
+  },
+)
 
 const actionHandlers: {
   [key in BenchmarkActionTypes]: (
