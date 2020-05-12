@@ -5,6 +5,7 @@ import {
   ID_PLACEHOLDER_NEW,
 } from '../util/dataState/dataActionTypes'
 import {
+  DataState,
   InitialState,
   Loadable,
   LoadableCreateOnly,
@@ -21,12 +22,18 @@ export interface BenchmarkState {
   entries: {
     [benchmarkingSessionId: string]: Loadable<BenchmarkingSession>
   }
+  deletions: {
+    [benchmarkingSessionId: string]: Loadable<BenchmarkingSession>
+  }
+  overview: Loadable<BenchmarkingSession[]>
   runningBenchmarkStatus: Loadable<RunningBenchmarkReport>
 }
 
 const benchmarkInitialState: BenchmarkState = {
   [ID_PLACEHOLDER_NEW]: InitialState,
   entries: {},
+  deletions: {},
+  overview: InitialState,
   runningBenchmarkStatus: InitialState,
 }
 
@@ -70,12 +77,47 @@ const actionHandlers: {
     undefined,
     { benchmarkingSessionId: string }
   >({ path: action => `entries.${action.meta.benchmarkingSessionId}` }),
+  [BenchmarkActionTypes.BENCHMARKING_SESSION_LIST_DATA_ACTION]: dataStateGenericReducer<
+    BenchmarkState,
+    BenchmarkingSession
+  >({ path: 'overview' }),
   [BenchmarkActionTypes.MARK_BENCHMARKING_SESSION_AS]: (state, action) =>
     dotProp.set(
       state,
       `entries.${action.payload.benchmarkingSessionId}.data.status`,
       action.payload.status,
     ),
+  [BenchmarkActionTypes.BENCHMARKING_SESSION_DELETE_DATA_ACTION]: dataStateGenericReducer<
+    BenchmarkState,
+    undefined,
+    undefined,
+    { benchmarkingSessionId: string }
+  >({
+    path: action => `deletions.${action.meta.benchmarkingSessionId}`,
+    postflightTransform: (state, action) => {
+      if (action.payload.intent !== DataActionTypes.STORE) {
+        return state
+      }
+
+      let nextState = state
+      if (nextState.overview.state === DataState.READY) {
+        nextState = dotProp.delete(
+          nextState,
+          `overview.data.${nextState.overview.data.findIndex(
+            ({ id }) => id === action.meta.benchmarkingSessionId,
+          )}`,
+        ) as BenchmarkState
+      }
+      if (nextState.entries[action.meta.benchmarkingSessionId]) {
+        nextState = dotProp.delete(
+          nextState,
+          `entries.${action.meta.benchmarkingSessionId}`,
+        ) as BenchmarkState
+      }
+
+      return nextState
+    },
+  }),
 }
 
 const benchmarkReducers = (

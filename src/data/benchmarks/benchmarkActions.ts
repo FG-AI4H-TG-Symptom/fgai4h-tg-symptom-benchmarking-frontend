@@ -16,6 +16,8 @@ export enum BenchmarkActionTypes {
   OBSERVE_RUNNING_BENCHMARK_DATA_ACTION = 'OBSERVE_RUNNING_BENCHMARK_DATA_ACTION',
   BENCHMARK_EVALUATION_DATA_ACTION = 'BENCHMARK_EVALUATION_DATA_ACTION',
   BENCHMARKING_SESSION_DATA_ACTION = 'BENCHMARKING_SESSION_DATA_ACTION',
+  BENCHMARKING_SESSION_LIST_DATA_ACTION = 'BENCHMARKING_SESSION_LIST_DATA_ACTION',
+  BENCHMARKING_SESSION_DELETE_DATA_ACTION = 'BENCHMARKING_SESSION_DELETE_DATA_ACTION',
   MARK_BENCHMARKING_SESSION_AS = 'MARK_BENCHMARKING_SESSION_AS',
 }
 
@@ -46,6 +48,16 @@ export const benchmarkingSessionDataAction = generateDataStateActions<
   string,
   { benchmarkingSessionId: string }
 >(BenchmarkActionTypes.BENCHMARKING_SESSION_DATA_ACTION)
+
+export const benchmarkingSessionListDataAction = generateDataStateActions<
+  BenchmarkingSession[]
+>(BenchmarkActionTypes.BENCHMARKING_SESSION_LIST_DATA_ACTION)
+
+export const benchmarkingSessionDeleteDataAction = generateDataStateActions<
+  BenchmarkingSession,
+  string,
+  { benchmarkingSessionId: string }
+>(BenchmarkActionTypes.BENCHMARKING_SESSION_DELETE_DATA_ACTION)
 
 export const markBenchmarkingSessionAs = createAction<{
   benchmarkingSessionId: string

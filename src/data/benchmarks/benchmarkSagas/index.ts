@@ -1,9 +1,12 @@
+import dataStateActionSagaWrapperLoadOnly from '../../util/dataState/dataStateActionSagaWrapperLoadOnly'
 import { BenchmarkActionTypes } from '../benchmarkActions'
+
 import createBenchmarkingSession from './createBenchmarkManager'
 import observeRunningBenchmark from './observeRunningBenchmark'
 import fetchBenchmarkEvaluation from './fetchBenchmarkEvaluation'
-import dataStateActionSagaWrapperLoadOnly from '../../util/dataState/dataStateActionSagaWrapperLoadOnly'
 import fetchBenchmarkingSession from './fetchBenchmarkingSession'
+import fetchBenchmarkingSessionList from './fetchBenchmarkingSessionList'
+import deleteBenchmarkingSession from './deleteBenchmarkingSession'
 
 const benchmarkSagas = [
   dataStateActionSagaWrapperLoadOnly(
@@ -21,6 +24,14 @@ const benchmarkSagas = [
   dataStateActionSagaWrapperLoadOnly(
     BenchmarkActionTypes.BENCHMARKING_SESSION_DATA_ACTION,
     fetchBenchmarkingSession,
+  ),
+  dataStateActionSagaWrapperLoadOnly(
+    BenchmarkActionTypes.BENCHMARKING_SESSION_LIST_DATA_ACTION,
+    fetchBenchmarkingSessionList,
+  ),
+  dataStateActionSagaWrapperLoadOnly(
+    BenchmarkActionTypes.BENCHMARKING_SESSION_DELETE_DATA_ACTION,
+    deleteBenchmarkingSession,
   ),
 ]
 export default benchmarkSagas

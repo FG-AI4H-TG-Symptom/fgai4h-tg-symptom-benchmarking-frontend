@@ -1,3 +1,5 @@
+import React from 'react'
+
 import LandingPage from './components/LandingPage'
 import CaseSetManager from './components/CaseSetManager'
 import CaseSetViewer from './components/CaseSetViewer'
@@ -6,6 +8,7 @@ import AiImplementationManager from './components/AiImplementationManager'
 import BenchmarkRunner from './components/BenchmarkRunner'
 import BenchmarkCreator from './components/BenchmarkCreator'
 import BenchmarkEvaluator from './components/BenchmarkEvaluator'
+import BenchmarkingSessionManagerContainer from './components/BenchmarkingSessionManager'
 
 export const paths = {
   home: (): string => '/',
@@ -13,15 +16,25 @@ export const paths = {
   caseSetViewer: (caseSetId: string): string => `/cases/${caseSetId}`, // /cases/:caseSetId
   caseSetCreator: (): string => '/cases/create',
   aiImplementationManager: (): string => '/ai-implementations',
-  benchmarkRun: (benchmarkId: string): string =>
-    `/benchmarks/run/${benchmarkId}`, // /benchmarks/run/:benchmarkId
+  benchmarkingSessions: (): string => '/benchmarking-sessions',
   benchmarkCreate: (caseSetId?: string): string =>
     `/benchmarks/create${caseSetId ? `?caseSetId=${caseSetId}` : ''}`, // /benchmarks/create?caseSetId={caseSetId}
+  benchmarkRun: (benchmarkId: string): string =>
+    `/benchmarks/run/${benchmarkId}`, // /benchmarks/run/:benchmarkId
   benchmarkEvaluate: (benchmarkId: string): string =>
     `/benchmarks/${benchmarkId}/evaluate`, // /benchmarks/:benchmarkId/evaluate
 }
 
-export const routes = [
+interface Route {
+  id: string
+  displayName: string
+  path: string
+  component: React.FC<{}>
+  visibleInMenu: boolean
+  exact: boolean
+}
+
+export const routes: Array<Route> = [
   {
     id: 'home',
     displayName: 'Start',
@@ -55,12 +68,28 @@ export const routes = [
     visibleInMenu: false,
   },
   {
-    id: 'aiImplementationManager',
+    id: 'ai-implementation-manager',
     displayName: 'AI implementation manager',
     path: paths.aiImplementationManager(),
     component: AiImplementationManager,
     exact: true,
     visibleInMenu: true,
+  },
+  {
+    id: 'benchmarking-sessions-manager',
+    displayName: 'Benchmarking Sessions',
+    path: paths.benchmarkingSessions(),
+    component: BenchmarkingSessionManagerContainer,
+    exact: true,
+    visibleInMenu: true,
+  },
+  {
+    id: 'benchmark-creator',
+    displayName: 'Create benchmark',
+    path: paths.benchmarkCreate(),
+    component: BenchmarkCreator,
+    exact: true,
+    visibleInMenu: false,
   },
   {
     id: 'benchmark-runner',
@@ -69,14 +98,6 @@ export const routes = [
     component: BenchmarkRunner,
     exact: true,
     visibleInMenu: false,
-  },
-  {
-    id: 'benchmark-creator',
-    displayName: 'Create benchmark',
-    path: paths.benchmarkCreate(),
-    component: BenchmarkCreator,
-    exact: true,
-    visibleInMenu: true,
   },
   {
     id: 'benchmark-evaluator',
