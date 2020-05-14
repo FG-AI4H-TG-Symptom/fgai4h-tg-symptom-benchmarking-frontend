@@ -1,18 +1,18 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { RootState } from '../../rootReducer'
+import { RootState, RootStateEntries } from '../../data/rootReducer'
 import {
   DataActionBaseState,
   DataState,
   InitialState,
   Loadable,
-} from './dataStateTypes'
-import { DataActionLoad } from './dataActionTypes'
+} from '../../data/util/dataState/dataStateTypes'
+import { DataActionLoad } from '../../data/util/dataState/dataActionTypes'
 
 // todo: document
 const useDataStateLoader = <LoadableType>(
-  selector: string | ((state: RootState) => Loadable<LoadableType>),
+  selector: RootStateEntries | ((state: RootState) => Loadable<LoadableType>),
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   action: DataActionLoad<any, any, any>,
   options: {

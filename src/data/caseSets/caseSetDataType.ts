@@ -1,3 +1,5 @@
-export type CaseSetInfo = {
-  id: string
+import BaseConcept from '../util/baseConcept'
+
+export type CaseSetInfo = BaseConcept & {
+  name: string
 }

@@ -42,7 +42,7 @@ const CaseSetManagerContainer: React.FC<CaseSetManagerContainerProps> = ({
         </LinkWrapper>
       }
     >
-      <DataStateManager
+      <DataStateManager<CaseSetInfo[]>
         data={caseSetList}
         componentFunction={(caseSetListData): JSX.Element => (
           <CaseSetManagerComponent caseSetList={caseSetListData} />

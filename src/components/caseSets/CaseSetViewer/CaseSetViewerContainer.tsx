@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 
 import { caseSetDataAction } from '../../../data/caseSets/caseSetActions'
 import { CaseDataType } from '../../../data/caseSets/caseDataType'
-import useDataStateLoader from '../../../data/util/dataState/useDataStateLoader'
+import useDataStateLoader from '../../util/useDataStateLoader'
 import DataStateManager from '../../common/DataStateManager'
 import BasicPageLayout from '../../common/BasicPageLayout'
 
@@ -19,8 +19,7 @@ const CaseSetViewerContainer: React.FC<{}> = () => {
 
   return (
     <BasicPageLayout title={`Cases in '${caseSetId}'`}>
-      <DataStateManager
-        loading={!caseSet}
+      <DataStateManager<CaseDataType[]>
         data={caseSet}
         componentFunction={(caseSetData): JSX.Element => (
           <CaseSetViewerComponent caseSet={caseSetData} />

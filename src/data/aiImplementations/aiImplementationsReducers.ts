@@ -1,7 +1,7 @@
 import {
+  DataActionBaseState,
+  dataActionBaseStateInitial,
   DataState,
-  InitialState,
-  Loadable,
 } from '../util/dataState/dataStateTypes'
 import dataStateGenericReducer from '../util/dataState/dataStateGenericReducer'
 
@@ -11,53 +11,43 @@ import {
   AiImplementationInfo,
 } from './aiImplementationDataType'
 
-export type AiImplementationListState = Loadable<{
-  [id: string]: AiImplementationInfo
-}>
+export type AiImplementationsState = DataActionBaseState<AiImplementationInfo>
 
-const aiImplementationListInitialState: AiImplementationListState = InitialState
+const aiImplementationsInitialState: AiImplementationsState = dataActionBaseStateInitial()
 
 const actionHandlers: {
   [key in AiImplementationListActionTypes]: (
-    state: AiImplementationListState,
+    state: AiImplementationsState,
     action,
-  ) => AiImplementationListState
+  ) => AiImplementationsState
 } = {
-  [AiImplementationListActionTypes.AI_IMPLEMENTATION_LIST_DATA_ACTION]: dataStateGenericReducer<
-    AiImplementationListState,
+  [AiImplementationListActionTypes.AI_IMPLEMENTATIONS_OVERVIEW_DATA_ACTION]: dataStateGenericReducer<
+    AiImplementationsState,
     AiImplementationInfo[],
     { [id: string]: AiImplementationInfo }
   >({
-    dataTransform: aiImplementations => {
-      const aiImplementationsMap = {}
-
-      aiImplementations.forEach(aiImplementation => {
-        aiImplementationsMap[aiImplementation.id] = aiImplementation
-      })
-
-      return aiImplementationsMap
-    },
+    path: 'overview',
   }),
   [AiImplementationListActionTypes.AI_IMPLEMENTATION_HEALTH_DATA_ACTION]: dataStateGenericReducer<
-    AiImplementationListState,
+    AiImplementationsState,
     AiImplementationHealth,
     void,
     { aiImplementationId: string }
   >({
     preflightCheck: state => {
-      if (state.state !== DataState.READY) {
+      if (state.overview.state !== DataState.READY) {
         throw Error('Trying to load AI health before AI list is loaded')
       }
       return true
     },
-    path: action => `data.${action.meta.aiImplementationId}.health`,
+    path: action => `overview.data.${action.meta.aiImplementationId}.health`,
   }),
 }
 
 const aiImplementationListReducer = (
-  state = aiImplementationListInitialState,
+  state = aiImplementationsInitialState,
   action,
-): AiImplementationListState =>
+): AiImplementationsState =>
   actionHandlers[action.type]
     ? actionHandlers[action.type](state, action)
     : state

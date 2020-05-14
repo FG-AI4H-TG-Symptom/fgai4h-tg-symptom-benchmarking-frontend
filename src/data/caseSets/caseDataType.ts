@@ -1,5 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 
+import BaseConcept from '../util/baseConcept'
+
 export enum PresenceStates {
   PRESENT = 'present',
   ABSENT = 'absent',
@@ -7,8 +9,7 @@ export enum PresenceStates {
 export type Presence = 'present' | 'absent'
 export type BiologicalSex = 'male' | 'female' // limited for the MMVB
 export type TriageLevel = 'PC' | 'EC' | 'SC'
-export type CaseDataType = {
-  id: string
+export type CaseDataType = BaseConcept & {
   data: {
     caseData: {
       caseId: string

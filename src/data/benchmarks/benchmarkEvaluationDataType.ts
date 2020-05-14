@@ -1,7 +1,7 @@
+import BaseConcept from '../util/baseConcept'
 import { BenchmarkingSessionStatus } from './benchmarkManagerDataType'
 
-export type BenchmarkEvaluation = {
-  id: string
+export type BenchmarkEvaluation = BaseConcept & {
   caseSet: string
   aiImplementations: Array<string>
   status: BenchmarkingSessionStatus
