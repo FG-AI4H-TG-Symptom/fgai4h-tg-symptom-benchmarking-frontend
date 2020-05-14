@@ -5,14 +5,14 @@ import {
   Clear as StatusBadIcon,
 } from '@material-ui/icons'
 
-import { AiImplementationHealth } from '../../../data/aiImplementationList/aiImplementationDataType'
+import { AiImplementationHealth } from '../../../data/aiImplementations/aiImplementationDataType'
 import { Loadable } from '../../../data/util/dataState/dataStateTypes'
 import DataStateManager from '../../common/DataStateManager'
 
 const AiImplementationHealthComponent: React.FC<{
   health: Loadable<AiImplementationHealth>
 }> = ({ health }) => (
-  <DataStateManager
+  <DataStateManager<AiImplementationHealth>
     loading={!health}
     data={health}
     componentFunction={(healthData): JSX.Element =>

@@ -44,7 +44,7 @@ const CaseSetCreatorContainer: React.FC<CasesSetCreatorProps> = ({
 
   return (
     <BasicPageLayout title='Generate a new case set'>
-      <DataStateManager
+      <DataStateManager<string>
         data={createdCaseSetId}
         allowUninitialized
         componentFunction={(): JSX.Element => (

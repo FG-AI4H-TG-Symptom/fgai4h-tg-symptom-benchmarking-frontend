@@ -9,23 +9,22 @@ import {
   TableRow,
 } from '@material-ui/core'
 
-import { AiImplementationInfo } from '../../../data/aiImplementationList/aiImplementationDataType'
+import { AiImplementationInfo } from '../../../data/aiImplementations/aiImplementationDataType'
 import { BenchmarkEvaluation } from '../../../data/benchmarks/benchmarkEvaluationDataType'
 import { Loadable } from '../../../data/util/dataState/dataStateTypes'
+import { ConceptIdMap } from '../../util/useConceptIdMap'
 import ViewRawFooter from '../../common/ViewRawFooter'
 import DataStateManager from '../../common/DataStateManager'
 import * as CommonStyled from '../../common/CommonStyles'
 
 interface AiImplementationManagerComponentProps {
   evaluation: BenchmarkEvaluation
-  aiImplementationList: Loadable<{
-    [id: string]: AiImplementationInfo
-  }>
+  aiImplementations: Loadable<ConceptIdMap<AiImplementationInfo>>
 }
 
 const BenchmarkEvaluatorComponent: React.FC<AiImplementationManagerComponentProps> = ({
   evaluation,
-  aiImplementationList,
+  aiImplementations,
 }) => {
   return (
     <>
@@ -52,10 +51,12 @@ const BenchmarkEvaluatorComponent: React.FC<AiImplementationManagerComponentProp
             {evaluation.aiImplementations.map(aiImplementationId => (
               <TableRow key={aiImplementationId}>
                 <TableCell>
-                  <DataStateManager
-                    data={aiImplementationList}
-                    componentFunction={(aiImplementations): ReactElement => (
-                      <>{aiImplementations[aiImplementationId].name}</>
+                  <DataStateManager<ConceptIdMap<AiImplementationInfo>>
+                    data={aiImplementations}
+                    componentFunction={(
+                      aiImplementationsData,
+                    ): ReactElement => (
+                      <>{aiImplementationsData[aiImplementationId].name}</>
                     )}
                     interstitial={<>aiImplementationId</>}
                   />

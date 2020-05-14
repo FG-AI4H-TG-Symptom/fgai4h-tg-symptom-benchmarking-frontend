@@ -80,7 +80,7 @@ export function* fetchAiImplementationHealth(aiImplementationId: string) {
 
 const aiImplementationListSagas = [
   dataStateActionSagaWrapperLoadOnly(
-    AiImplementationListActionTypes.AI_IMPLEMENTATION_LIST_DATA_ACTION,
+    AiImplementationListActionTypes.AI_IMPLEMENTATIONS_OVERVIEW_DATA_ACTION,
     fetchAiImplementationList,
   ),
   dataStateActionSagaWrapperLoadOnly(

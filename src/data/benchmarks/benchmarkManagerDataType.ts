@@ -1,5 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import { Loadable } from '../util/dataState/dataStateTypes'
+import BaseConcept from '../util/baseConcept'
 
 import { BenchmarkEvaluation } from './benchmarkEvaluationDataType'
 
@@ -10,8 +11,7 @@ export enum BenchmarkingSessionStatus {
   FINISHED = 'finished',
 }
 
-export type BenchmarkingSession = {
-  id: string
+export type BenchmarkingSession = BaseConcept & {
   status: BenchmarkingSessionStatus
   caseSet: string
   aiImplementations: Array<string>

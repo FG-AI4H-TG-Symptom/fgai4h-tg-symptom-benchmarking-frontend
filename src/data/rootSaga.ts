@@ -1,6 +1,6 @@
 import { all } from 'redux-saga/effects'
 import caseSetSagas from './caseSets/caseSetSagas'
-import aiImplementationListSagas from './aiImplementationList/aiImplementationListSagas'
+import aiImplementationListSagas from './aiImplementations/aiImplementationListSagas'
 import benchmarkSagas from './benchmarks/benchmarkSagas'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type

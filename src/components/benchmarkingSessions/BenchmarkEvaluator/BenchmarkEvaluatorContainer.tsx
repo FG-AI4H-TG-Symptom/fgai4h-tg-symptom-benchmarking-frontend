@@ -4,8 +4,8 @@ import { useDispatch } from 'react-redux'
 import { Tooltip } from '@material-ui/core'
 import { Delete as DeleteIcon } from '@material-ui/icons'
 
-import { aiImplementationListDataActions } from '../../../data/aiImplementationList/aiImplementationListActions'
-import { AiImplementationInfo } from '../../../data/aiImplementationList/aiImplementationDataType'
+import { aiImplementationListDataActions } from '../../../data/aiImplementations/aiImplementationListActions'
+import { AiImplementationInfo } from '../../../data/aiImplementations/aiImplementationDataType'
 import {
   benchmarkEvaluationDataAction,
   benchmarkingSessionDataAction,
@@ -13,7 +13,7 @@ import {
 } from '../../../data/benchmarks/benchmarkActions'
 import { BenchmarkEvaluation } from '../../../data/benchmarks/benchmarkEvaluationDataType'
 import { BenchmarkingSession } from '../../../data/benchmarks/benchmarkManagerDataType'
-import useDataStateLoader from '../../../data/util/dataState/useDataStateLoader'
+import useDataStateLoader from '../../util/useDataStateLoader'
 import { DataReady } from '../../../data/util/dataState/dataStateTypes'
 import DataStateManager from '../../common/DataStateManager'
 import BasicPageLayout from '../../common/BasicPageLayout'
@@ -21,6 +21,7 @@ import ConfirmationIconButton from '../../common/ConfirmationIconButton'
 import { paths } from '../../../routes'
 
 import BenchmarkEvaluatorComponent from './BenchmarkEvaluatorComponent'
+import useConceptIdMap from '../../util/useConceptIdMap'
 
 const BenchmarkEvaluatorContainer: React.FC<{}> = () => {
   const dispatch = useDispatch()
@@ -50,13 +51,14 @@ const BenchmarkEvaluatorContainer: React.FC<{}> = () => {
     },
   )
 
-  const aiImplementationList = useDataStateLoader<{
-    [id: string]: AiImplementationInfo
-  }>(
-    state => state.aiImplementationList,
+  const aiImplementationList = useDataStateLoader<AiImplementationInfo[]>(
+    'aiImplementations',
     aiImplementationListDataActions.load({
       withHealth: false,
     }),
+  )
+  const aiImplementationsMap = useConceptIdMap<AiImplementationInfo>(
+    aiImplementationList,
   )
 
   const deleteBenchmarkingSession = (): void => {
@@ -85,12 +87,12 @@ const BenchmarkEvaluatorContainer: React.FC<{}> = () => {
         </Tooltip>
       }
     >
-      <DataStateManager
+      <DataStateManager<BenchmarkEvaluation>
         data={benchmarkingSessionResults}
         componentFunction={(evaluation): JSX.Element => (
           <BenchmarkEvaluatorComponent
             evaluation={evaluation}
-            aiImplementationList={aiImplementationList}
+            aiImplementations={aiImplementationsMap}
           />
         )}
       />
