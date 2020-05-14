@@ -53,7 +53,7 @@ const BenchmarkRunnerContainer: React.FC<{}> = () => {
     ) {
       history.push(paths.benchmarkEvaluate(benchmarkId))
     }
-  }, [benchmarkId, benchmarkingSession])
+  }, [benchmarkId, benchmarkingSession, history])
 
   return (
     <BasicPageLayout
