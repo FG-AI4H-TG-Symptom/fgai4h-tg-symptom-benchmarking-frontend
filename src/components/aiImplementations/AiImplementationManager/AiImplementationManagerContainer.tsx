@@ -1,18 +1,16 @@
 import React from 'react'
 
-import { aiImplementationListDataActions } from '../../../data/aiImplementationList/aiImplementationListActions'
-import { AiImplementationInfo } from '../../../data/aiImplementationList/aiImplementationDataType'
-import useDataStateLoader from '../../../data/util/dataState/useDataStateLoader'
+import { aiImplementationListDataActions } from '../../../data/aiImplementations/aiImplementationListActions'
+import { AiImplementationInfo } from '../../../data/aiImplementations/aiImplementationDataType'
+import useDataStateLoader from '../../util/useDataStateLoader'
 import DataStateManager from '../../common/DataStateManager'
 import BasicPageLayout from '../../common/BasicPageLayout'
 
 import AiImplementationManagerComponent from './AiImplementationManagerComponent'
 
 const AiImplementationManagerContainer: React.FC<{}> = () => {
-  const aiImplementationList = useDataStateLoader<{
-    [id: string]: AiImplementationInfo
-  }>(
-    state => state.aiImplementationList,
+  const aiImplementationList = useDataStateLoader<AiImplementationInfo[]>(
+    'aiImplementations',
     aiImplementationListDataActions.load({
       withHealth: false,
     }),
@@ -20,7 +18,7 @@ const AiImplementationManagerContainer: React.FC<{}> = () => {
 
   return (
     <BasicPageLayout title='AI implementations'>
-      <DataStateManager
+      <DataStateManager<AiImplementationInfo[]>
         data={aiImplementationList}
         componentFunction={(aiImplementationListData): JSX.Element => (
           <AiImplementationManagerComponent

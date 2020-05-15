@@ -11,13 +11,11 @@ import {
 } from '@material-ui/core'
 import { Launch as LaunchIcon } from '@material-ui/icons'
 
-import { AiImplementationInfo } from '../../../data/aiImplementationList/aiImplementationDataType'
+import { AiImplementationInfo } from '../../../data/aiImplementations/aiImplementationDataType'
 import AiImplementationHealthComponent from './AiImplementationHealthComponent'
 
 interface AiImplementationManagerComponentProps {
-  aiImplementations: {
-    [name: string]: AiImplementationInfo
-  }
+  aiImplementations: AiImplementationInfo[]
 }
 
 const AiImplementationManagerComponent: React.FC<AiImplementationManagerComponentProps> = ({
@@ -26,9 +24,7 @@ const AiImplementationManagerComponent: React.FC<AiImplementationManagerComponen
   <>
     <TableContainer component={Paper}>
       <Table>
-        <caption>
-          {Object.keys(aiImplementations).length} AI implementations
-        </caption>
+        <caption>{aiImplementations.length} AI implementations</caption>
         <TableHead>
           <TableRow>
             <TableCell>Name</TableCell>
@@ -37,7 +33,7 @@ const AiImplementationManagerComponent: React.FC<AiImplementationManagerComponen
           </TableRow>
         </TableHead>
         <TableBody>
-          {Object.values(aiImplementations).map(({ name, health }) => (
+          {aiImplementations.map(({ name, health }) => (
             <TableRow key={name}>
               <TableCell>{name}</TableCell>
               <TableCell>

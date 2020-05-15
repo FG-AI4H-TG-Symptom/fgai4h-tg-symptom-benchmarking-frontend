@@ -3,8 +3,8 @@ import { useHistory, useParams } from 'react-router-dom'
 import { CircularProgress } from '@material-ui/core'
 
 import { paths } from '../../../routes'
-import { AiImplementationInfo } from '../../../data/aiImplementationList/aiImplementationDataType'
-import { aiImplementationListDataActions } from '../../../data/aiImplementationList/aiImplementationListActions'
+import { AiImplementationInfo } from '../../../data/aiImplementations/aiImplementationDataType'
+import { aiImplementationListDataActions } from '../../../data/aiImplementations/aiImplementationListActions'
 import {
   BenchmarkingSession,
   BenchmarkingSessionStatus,
@@ -14,11 +14,12 @@ import {
   observeRunningBenchmarkDataAction,
 } from '../../../data/benchmarks/benchmarkActions'
 import { RunningBenchmarkReport } from '../../../data/benchmarks/benchmarkInfoDataType'
-import useDataStateLoader from '../../../data/util/dataState/useDataStateLoader'
 import {
   DataReady,
   DataState,
 } from '../../../data/util/dataState/dataStateTypes'
+import useDataStateLoader from '../../util/useDataStateLoader'
+import useConceptIdMap from '../../util/useConceptIdMap'
 import DataStateManager from '../../common/DataStateManager'
 import BasicPageLayout from '../../common/BasicPageLayout'
 
@@ -28,13 +29,14 @@ const BenchmarkRunnerContainer: React.FC<{}> = () => {
   const { benchmarkId } = useParams()
   const history = useHistory()
 
-  const aiImplementationList = useDataStateLoader<{
-    [id: string]: AiImplementationInfo
-  }>(
-    state => state.aiImplementationList,
+  const aiImplementationList = useDataStateLoader<AiImplementationInfo[]>(
+    'aiImplementations',
     aiImplementationListDataActions.load({
       withHealth: false,
     }),
+  )
+  const aiImplementationsMap = useConceptIdMap<AiImplementationInfo>(
+    aiImplementationList,
   )
 
   const benchmarkingSession = useDataStateLoader<BenchmarkingSession>(
@@ -70,7 +72,7 @@ const BenchmarkRunnerContainer: React.FC<{}> = () => {
         </>
       }
       action={
-        <DataStateManager
+        <DataStateManager<RunningBenchmarkReport>
           data={runningBenchmarkReport}
           componentFunction={({ statistics }): JSX.Element => (
             <CircularProgress
@@ -88,7 +90,7 @@ const BenchmarkRunnerContainer: React.FC<{}> = () => {
         />
       }
     >
-      <DataStateManager
+      <DataStateManager<BenchmarkingSession>
         // todo: enable `DataStateManager` to consume and pass an array of `Loadable`s
         data={benchmarkingSession}
         componentFunction={(benchmarkManagerData): JSX.Element => (
@@ -98,7 +100,7 @@ const BenchmarkRunnerContainer: React.FC<{}> = () => {
               // loading is handled manually, see below
               (runningBenchmarkReport as DataReady<RunningBenchmarkReport>).data
             }
-            aiImplementations={aiImplementationList}
+            aiImplementations={aiImplementationsMap}
           />
         )}
         loading={runningBenchmarkReport.state !== DataState.READY}

@@ -17,7 +17,7 @@ import {
 import { ArrowForward as StartIcon } from '@material-ui/icons'
 import { useForm, ValidationResolver } from 'react-hook-form'
 
-import { AiImplementationInfo } from '../../../data/aiImplementationList/aiImplementationDataType'
+import { AiImplementationInfo } from '../../../data/aiImplementations/aiImplementationDataType'
 import { CaseSetInfo } from '../../../data/caseSets/caseSetDataType'
 import { CreateBenchmarkManagerParameters } from '../../../data/benchmarks/benchmarkActions'
 import ErrorIndicator from '../../common/ErrorIndicator'
@@ -42,9 +42,7 @@ const validationResolver: ValidationResolver<FormData> = values => {
 }
 
 interface BenchmarkCreatorComponentProps {
-  aiImplementations: {
-    [name: string]: AiImplementationInfo
-  }
+  aiImplementations: AiImplementationInfo[]
   caseSetList: CaseSetInfo[]
   defaultCaseSetId: string | null
   onCreateBenchmark: (
@@ -72,9 +70,9 @@ const BenchmarkCreatorComponent: React.FC<BenchmarkCreatorComponentProps> = ({
   }: FormData): void => {
     onCreateBenchmark({
       caseSetId,
-      aiImplementationIds: Object.keys(aiImplementations).filter(
-        (_, index) => selectedAiImplementations[index],
-      ),
+      aiImplementationIds: aiImplementations
+        .filter((_, index) => selectedAiImplementations[index])
+        .map(({ id }) => id),
     })
   }
 
@@ -120,9 +118,7 @@ const BenchmarkCreatorComponent: React.FC<BenchmarkCreatorComponentProps> = ({
           <Card>
             <CardHeader
               title='AI implementations'
-              subheader={`${aiImplementationsSelectedCount} selected, ${
-                Object.keys(aiImplementations).length
-              } available`}
+              subheader={`${aiImplementationsSelectedCount} selected, ${aiImplementations.length} available`}
               action={
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 <ErrorIndicator error={errors.aiImplementations as any} />
@@ -134,9 +130,9 @@ const BenchmarkCreatorComponent: React.FC<BenchmarkCreatorComponentProps> = ({
                 error={Boolean(errors.aiImplementations)}
               >
                 <FormGroup>
-                  {Object.values(aiImplementations).map(({ name }, index) => (
+                  {aiImplementations.map(({ id, name }, index) => (
                     <FormControlLabel
-                      key={name}
+                      key={id}
                       control={<Checkbox defaultChecked />}
                       label={name}
                       name={`aiImplementations[${index}]`}

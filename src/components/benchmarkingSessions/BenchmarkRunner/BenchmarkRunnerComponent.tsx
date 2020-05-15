@@ -18,7 +18,7 @@ import {
   HourglassEmpty as TimeoutIcon,
 } from '@material-ui/icons'
 
-import { AiImplementationInfo } from '../../../data/aiImplementationList/aiImplementationDataType'
+import { AiImplementationInfo } from '../../../data/aiImplementations/aiImplementationDataType'
 import {
   BenchmarkResultStatus,
   BenchmarkStepError,
@@ -30,6 +30,7 @@ import { Loadable } from '../../../data/util/dataState/dataStateTypes'
 import DataStateManager from '../../common/DataStateManager'
 
 import * as Styled from './BenchmarkRunnerComponent.style'
+import { ConceptIdMap } from '../../util/useConceptIdMap'
 
 const BenchmarkCaseStatusIcon: React.FC<{
   response: RunningBenchmarkStepResponse
@@ -74,9 +75,7 @@ const BenchmarkCaseStatusIcon: React.FC<{
 interface AiImplementationManagerComponentProps {
   benchmarkingSession: BenchmarkingSession
   report: RunningBenchmarkReport
-  aiImplementations: Loadable<{
-    [id: string]: AiImplementationInfo
-  }>
+  aiImplementations: Loadable<ConceptIdMap<AiImplementationInfo>>
 }
 
 const BenchmarkRunnerComponent: React.FC<AiImplementationManagerComponentProps> = ({
@@ -124,7 +123,7 @@ const BenchmarkRunnerComponent: React.FC<AiImplementationManagerComponentProps> 
         {benchmarkingSession.aiImplementations.map(aiImplementationId => (
           <TableRow key={aiImplementationId}>
             <TableCell>
-              <DataStateManager
+              <DataStateManager<ConceptIdMap<AiImplementationInfo>>
                 data={aiImplementations}
                 componentFunction={(aiImplementationData): string =>
                   aiImplementationData[aiImplementationId].name

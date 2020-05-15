@@ -4,12 +4,8 @@ import { useHistory, useLocation } from 'react-router-dom'
 import queryString from 'qs'
 import { CircularProgress, Typography } from '@material-ui/core'
 
-import {
-  aiImplementationListDataActions,
-  AiImplementationListLoadParameters,
-} from '../../../data/aiImplementationList/aiImplementationListActions'
-import { AiImplementationListState } from '../../../data/aiImplementationList/aiImplementationListReducers'
-import { AiImplementationInfo } from '../../../data/aiImplementationList/aiImplementationDataType'
+import { aiImplementationListDataActions } from '../../../data/aiImplementations/aiImplementationListActions'
+import { AiImplementationInfo } from '../../../data/aiImplementations/aiImplementationDataType'
 import { createBenchmarkingSessionDataAction } from '../../../data/benchmarks/benchmarkActions'
 import { CaseSetInfo } from '../../../data/caseSets/caseSetDataType'
 import { caseSetListDataActions } from '../../../data/caseSets/caseSetActions'
@@ -17,10 +13,9 @@ import {
   DataState,
   ID_PLACEHOLDER_NEW,
   InitialState,
-  Loadable,
   LoadableCreateOnly,
 } from '../../../data/util/dataState/dataStateTypes'
-import useDataStateLoader from '../../../data/util/dataState/useDataStateLoader'
+import useDataStateLoader from '../../util/useDataStateLoader'
 import { RootState } from '../../../data/rootReducer'
 import { paths } from '../../../routes'
 import Error from '../../common/Error'
@@ -28,27 +23,12 @@ import BasicPageLayout from '../../common/BasicPageLayout'
 
 import BenchmarkCreatorComponent from './BenchmarkCreatorComponent'
 
-type AiImplementationManagerContainerDataProps = {
-  aiImplementationList: AiImplementationListState
-  caseSetList: Loadable<CaseSetInfo[]>
-}
-type AiImplementationManagerContainerFunctionProps = {
-  fetchAiImplementationList: (
-    parameters: AiImplementationListLoadParameters,
-  ) => void
-  fetchCaseSetList: () => void
-}
-type AiImplementationManagerContainerProps = AiImplementationManagerContainerDataProps &
-  AiImplementationManagerContainerFunctionProps
-
-const BenchmarkCreatorContainer: React.FC<AiImplementationManagerContainerProps> = () => {
+const BenchmarkCreatorContainer: React.FC<{}> = () => {
   const history = useHistory()
   const dispatch = useDispatch()
 
-  const aiImplementationList = useDataStateLoader<{
-    [id: string]: AiImplementationInfo
-  }>(
-    state => state.aiImplementationList,
+  const aiImplementationList = useDataStateLoader<AiImplementationInfo[]>(
+    'aiImplementations',
     aiImplementationListDataActions.load({
       withHealth: false,
     }),

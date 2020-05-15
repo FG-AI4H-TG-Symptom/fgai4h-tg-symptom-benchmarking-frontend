@@ -8,7 +8,7 @@ import DataStateManager from '../../common/DataStateManager'
 import BasicPageLayout from '../../common/BasicPageLayout'
 import LinkWrapper from '../../common/LinkWrapper'
 import { paths } from '../../../routes'
-import useDataStateLoader from '../../../data/util/dataState/useDataStateLoader'
+import useDataStateLoader from '../../util/useDataStateLoader'
 import { BenchmarkingSession } from '../../../data/benchmarks/benchmarkManagerDataType'
 import {
   benchmarkingSessionDeleteDataAction,
@@ -40,7 +40,7 @@ const BenchmarkingSessionManagerContainer: React.FC<{}> = () => {
         </LinkWrapper>
       }
     >
-      <DataStateManager
+      <DataStateManager<BenchmarkingSession[]>
         data={benchmarkingSessions}
         componentFunction={(benchmarkingSessionsData): JSX.Element => (
           <BenchmarkingSessionManagerComponent
