@@ -2,8 +2,14 @@ import React from 'react'
 
 import * as Styled from './LinkWrapper.style'
 
-const LinkWrapper: React.FC<{ to: string }> = ({ to, children }) => (
-  <Styled.UndecoratedLink to={to}>{children}</Styled.UndecoratedLink>
+const LinkWrapper: React.FC<{ to: string; disabled?: boolean }> = ({
+  to,
+  disabled = false,
+  children,
+}) => (
+  <Styled.UndecoratedLink to={disabled ? '' : to}>
+    {children}
+  </Styled.UndecoratedLink>
 )
 
 export default LinkWrapper

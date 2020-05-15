@@ -1,5 +1,9 @@
 import { put } from 'redux-saga/effects'
 
+import urlBuilder from '../util/urlBuilder'
+import dataStateActionSagaWrapperLoadOnly from '../util/dataState/dataStateActionSagaWrapperLoadOnly'
+import httpResponseErrorMessage from '../util/httpResponseErrorMessage'
+
 import {
   CaseSetActionTypes,
   caseSetDataAction,
@@ -7,19 +11,11 @@ import {
   createCaseSetDataActions,
   CreateCaseSetParameters,
 } from './caseSetActions'
-import urlBuilder, { COMPONENTS } from '../util/urlBuilder'
-import dataStateActionSagaWrapperLoadOnly from '../util/dataState/dataStateActionSagaWrapperLoadOnly'
-import httpResponseErrorMessage from '../util/httpResponseErrorMessage'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function* fetchCaseSetList() {
   try {
-    const response: Response = yield fetch(
-      urlBuilder(COMPONENTS.EVALUATOR, 'list-case-sets'),
-      {
-        method: 'GET',
-      },
-    )
+    const response: Response = yield fetch(urlBuilder('case-sets'))
 
     if (!response.ok) {
       throw new Error(httpResponseErrorMessage(response))
@@ -27,7 +23,7 @@ export function* fetchCaseSetList() {
 
     const data = yield response.json()
 
-    yield put(caseSetListDataActions.store(data.existing_case_sets))
+    yield put(caseSetListDataActions.store(data))
   } catch (error) {
     yield put(
       caseSetListDataActions.errored(
@@ -41,14 +37,7 @@ export function* fetchCaseSetList() {
 export function* fetchCaseSet(caseSetId: string) {
   try {
     const response: Response = yield fetch(
-      urlBuilder(COMPONENTS.EVALUATOR, 'extract-case-set'),
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(caseSetId),
-      },
+      urlBuilder(`case-sets/${caseSetId}?full=1`),
     )
 
     if (!response.ok) {
@@ -57,13 +46,12 @@ export function* fetchCaseSet(caseSetId: string) {
 
     const data = yield response.json()
 
-    yield put(caseSetDataAction.store(data.cases, caseSetId))
+    yield put(caseSetDataAction.store(data.cases, { caseSetId }))
   } catch (error) {
     yield put(
-      caseSetDataAction.errored(
-        `Failed to fetch case set: ${error.message}`,
+      caseSetDataAction.errored(`Failed to fetch case set: ${error.message}`, {
         caseSetId,
-      ),
+      }),
     )
   }
 }
@@ -71,16 +59,13 @@ export function* fetchCaseSet(caseSetId: string) {
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function* createCaseSet({ numberOfCases }: CreateCaseSetParameters) {
   try {
-    const response: Response = yield fetch(
-      urlBuilder(COMPONENTS.EVALUATOR, 'generate-case-set'),
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ numCases: numberOfCases }),
+    const response: Response = yield fetch(urlBuilder('case-synthesizer'), {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
       },
-    )
+      body: JSON.stringify({ quantity: numberOfCases }),
+    })
 
     if (!response.ok) {
       throw new Error(httpResponseErrorMessage(response))

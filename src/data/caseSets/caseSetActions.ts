@@ -1,5 +1,6 @@
-import { CaseSetInfo } from './caseSetDataType'
 import generateDataStateActions from '../util/dataState/generateDataStateActions'
+
+import { CaseSetInfo } from './caseSetDataType'
 import { CaseDataType } from './caseDataType'
 
 export type CreateCaseSetParameters = {
@@ -22,5 +23,5 @@ export const createCaseSetDataActions = generateDataStateActions<
 export const caseSetDataAction = generateDataStateActions<
   CaseDataType[],
   string,
-  string
+  { caseSetId: string }
 >(CaseSetActionTypes.CASE_SET_DATA_ACTION)

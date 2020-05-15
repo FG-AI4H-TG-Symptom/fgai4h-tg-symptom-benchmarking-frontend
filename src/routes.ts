@@ -1,26 +1,46 @@
-import LandingPage from './components/LandingPage'
-import CaseSetManager from './components/CaseSetManager'
-import CaseSetViewer from './components/CaseSetViewer'
-import CaseSetCreator from './components/CaseSetCreator'
-import AiImplementationManager from './components/AiImplementationManager'
-import BenchmarkRunner from './components/BenchmarkRunner'
-import BenchmarkCreator from './components/BenchmarkCreator'
-import BenchmarkEvaluator from './components/BenchmarkEvaluator'
+import React from 'react'
+
+import LandingPage from './components/staticPages/LandingPage'
+import CaseSetManager from './components/caseSets/CaseSetManager'
+import CaseSetViewer from './components/caseSets/CaseSetViewer'
+import CaseSetCreator from './components/caseSets/CaseSetCreator'
+import AiImplementationManager from './components/aiImplementations/AiImplementationManager'
+import BenchmarkRunner from './components/benchmarkingSessions/BenchmarkRunner'
+import BenchmarkCreator from './components/benchmarkingSessions/BenchmarkCreator'
+import BenchmarkEvaluator from './components/benchmarkingSessions/BenchmarkEvaluator'
+import BenchmarkingSessionManagerContainer from './components/benchmarkingSessions/BenchmarkingSessionManager'
+
+const CASE_SETS_PATH = 'case-sets'
+const BENCHMARKING_SESSIONS_PATH = 'benchmarking-sessions'
 
 export const paths = {
   home: (): string => '/',
-  caseSetManager: (): string => '/cases',
-  caseSetViewer: (caseSetId: string): string => `/cases/${caseSetId}`, // /cases/:caseSetId
-  caseSetCreator: (): string => '/cases/create',
+  caseSetManager: (): string => `/${CASE_SETS_PATH}`,
+  caseSetViewer: (caseSetId: string): string =>
+    `/${CASE_SETS_PATH}/${caseSetId}`, // /cases/:caseSetId
+  caseSetCreator: (): string => `/${CASE_SETS_PATH}/create`,
   aiImplementationManager: (): string => '/ai-implementations',
-  benchmarkRun: (benchmarkId: string): string =>
-    `/benchmarks/run/${benchmarkId}`, // /benchmarks/run/:benchmarkId
+  benchmarkingSessions: (): string => `/${BENCHMARKING_SESSIONS_PATH}`,
   benchmarkCreate: (caseSetId?: string): string =>
-    `/benchmarks/create${caseSetId ? `?caseSetId=${caseSetId}` : ''}`, // /benchmarks/create?caseSetId={caseSetId}
-  benchmarkEvaluate: (): string => `/benchmarks/evaluate`,
+    `/${BENCHMARKING_SESSIONS_PATH}/create${
+      caseSetId ? `?caseSetId=${caseSetId}` : ''
+    }`, // /benchmarking-sessions/create?caseSetId={caseSetId}
+  benchmarkRun: (benchmarkId: string): string =>
+    `/${BENCHMARKING_SESSIONS_PATH}/run/${benchmarkId}`, // /benchmarking-sessions/run/:benchmarkId
+  benchmarkEvaluate: (benchmarkId: string): string =>
+    `/${BENCHMARKING_SESSIONS_PATH}/${benchmarkId}/evaluate`, // /benchmarking-sessions/:benchmarkId/evaluate
 }
 
-export const routes = [
+interface Route {
+  id: string
+  displayName: string
+  path: string
+  component: React.FC<{}>
+  visibleInMenu: boolean
+  exact: boolean
+}
+
+export const routes: Array<Route> = [
   {
     id: 'home',
     displayName: 'Start',
@@ -30,8 +50,8 @@ export const routes = [
     visibleInMenu: true,
   },
   {
-    id: 'case-set-manager',
-    displayName: 'Case set manager',
+    id: 'case-sets-manager',
+    displayName: 'Case sets manager',
     path: paths.caseSetManager(),
     component: CaseSetManager,
     exact: true,
@@ -54,33 +74,41 @@ export const routes = [
     visibleInMenu: false,
   },
   {
-    id: 'aiImplementationManager',
-    displayName: 'AI implementation manager',
+    id: 'ai-implementations-manager',
+    displayName: 'AI implementations manager',
     path: paths.aiImplementationManager(),
     component: AiImplementationManager,
     exact: true,
     visibleInMenu: true,
   },
   {
-    id: 'benchmark-runner',
-    displayName: 'Benchmark runner',
+    id: 'benchmarking-sessions-manager',
+    displayName: 'Benchmarking sessions manager',
+    path: paths.benchmarkingSessions(),
+    component: BenchmarkingSessionManagerContainer,
+    exact: true,
+    visibleInMenu: true,
+  },
+  {
+    id: 'benchmarking-session-creator',
+    displayName: 'Create benchmarking session',
+    path: paths.benchmarkCreate(),
+    component: BenchmarkCreator,
+    exact: true,
+    visibleInMenu: false,
+  },
+  {
+    id: 'benchmarking-session-runner',
+    displayName: 'Benchmarking session runner',
     path: paths.benchmarkRun(':benchmarkId'),
     component: BenchmarkRunner,
     exact: true,
     visibleInMenu: false,
   },
   {
-    id: 'benchmark-creator',
-    displayName: 'Create benchmark',
-    path: paths.benchmarkCreate(),
-    component: BenchmarkCreator,
-    exact: true,
-    visibleInMenu: true,
-  },
-  {
     id: 'benchmark-evaluator',
-    displayName: 'Benchmark evaluator',
-    path: paths.benchmarkEvaluate(),
+    displayName: 'Benchmarking session evaluator',
+    path: paths.benchmarkEvaluate(':benchmarkId'),
     component: BenchmarkEvaluator,
     exact: true,
     visibleInMenu: false,

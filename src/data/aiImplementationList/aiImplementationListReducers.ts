@@ -1,17 +1,18 @@
 import {
-  AiImplementationHealth,
-  AiImplementationInfo,
-} from './aiImplementationDataType'
-import {
   DataState,
   InitialState,
   Loadable,
 } from '../util/dataState/dataStateTypes'
-import { AiImplementationListActionTypes } from './aiImplementationListActions'
 import dataStateGenericReducer from '../util/dataState/dataStateGenericReducer'
 
+import { AiImplementationListActionTypes } from './aiImplementationListActions'
+import {
+  AiImplementationHealth,
+  AiImplementationInfo,
+} from './aiImplementationDataType'
+
 export type AiImplementationListState = Loadable<{
-  [name: string]: AiImplementationInfo
+  [id: string]: AiImplementationInfo
 }>
 
 const aiImplementationListInitialState: AiImplementationListState = InitialState
@@ -25,13 +26,13 @@ const actionHandlers: {
   [AiImplementationListActionTypes.AI_IMPLEMENTATION_LIST_DATA_ACTION]: dataStateGenericReducer<
     AiImplementationListState,
     AiImplementationInfo[],
-    { [name: string]: AiImplementationInfo }
+    { [id: string]: AiImplementationInfo }
   >({
     dataTransform: aiImplementations => {
       const aiImplementationsMap = {}
 
       aiImplementations.forEach(aiImplementation => {
-        aiImplementationsMap[aiImplementation.name] = aiImplementation
+        aiImplementationsMap[aiImplementation.id] = aiImplementation
       })
 
       return aiImplementationsMap
@@ -40,15 +41,16 @@ const actionHandlers: {
   [AiImplementationListActionTypes.AI_IMPLEMENTATION_HEALTH_DATA_ACTION]: dataStateGenericReducer<
     AiImplementationListState,
     AiImplementationHealth,
-    string
+    void,
+    { aiImplementationId: string }
   >({
-    preflight: state => {
+    preflightCheck: state => {
       if (state.state !== DataState.READY) {
         throw Error('Trying to load AI health before AI list is loaded')
       }
       return true
     },
-    path: action => `data.${action.payload.metadata}.health`,
+    path: action => `data.${action.meta.aiImplementationId}.health`,
   }),
 }
 

@@ -7,6 +7,7 @@ import Error from './Error'
 
 type DataStateManagerProps<DataType> = {
   data: Loadable<DataType>
+  interstitial?: ReactElement
   loading?: boolean // this is only intended for loading states that aren't covered by the state of the data itself
 } & (
   | {
@@ -19,19 +20,22 @@ type DataStateManagerProps<DataType> = {
     }
 )
 
-function DataStateManager<T>({
+function DataStateManager<DataType>({
   data,
   componentFunction,
   loading,
+  interstitial,
   allowUninitialized,
-}: DataStateManagerProps<T>): ReactElement {
-  if (loading || data.state === DataState.LOADING) {
-    return <CircularProgress />
-  }
-  if (data.state === DataState.ERRORED) {
+}: DataStateManagerProps<DataType>): ReactElement {
+  if (data?.state === DataState.ERRORED) {
     // todo: allow more customizations of size / location / ...
     return <Error error={data.error} />
   }
+
+  if (loading || !data || data.state === DataState.LOADING) {
+    return interstitial || <CircularProgress />
+  }
+
   if (data.state === DataState.INITIAL) {
     if (allowUninitialized === true) {
       return componentFunction(undefined) as ReactElement

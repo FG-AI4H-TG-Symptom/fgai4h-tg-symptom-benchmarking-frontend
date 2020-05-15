@@ -8,6 +8,8 @@ export enum AiImplementationHealth {
 }
 
 export type AiImplementationInfo = {
+  id: string
   name: string
+  baseUrl: string
   health: Loadable<AiImplementationHealth>
 }

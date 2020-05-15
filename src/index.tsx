@@ -1,10 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter as Router } from 'react-router-dom'
-
 import { Provider } from 'react-redux'
-
-import { StylesProvider, ThemeProvider } from '@material-ui/core/styles'
+import { ThemeProvider } from 'styled-components'
+import {
+  StylesProvider,
+  ThemeProvider as MuiThemeProvider,
+} from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import 'typeface-roboto'
 
@@ -23,10 +25,12 @@ const Providers: React.FC = () => {
       <Provider store={store}>
         <Router>
           <StylesProvider injectFirst>
-            <ThemeProvider theme={theme}>
-              <CssBaseline />
-              <App />
-            </ThemeProvider>
+            <MuiThemeProvider theme={theme}>
+              <ThemeProvider theme={theme}>
+                <CssBaseline />
+                <App />
+              </ThemeProvider>
+            </MuiThemeProvider>
           </StylesProvider>
         </Router>
       </Provider>

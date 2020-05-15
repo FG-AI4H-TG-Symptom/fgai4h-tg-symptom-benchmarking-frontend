@@ -64,7 +64,9 @@ const App: React.FC<{}> = () => {
                     setMenuOpen(false)
                   }}
                 >
-                  <ListItemText>{displayName}</ListItemText>
+                  <ListItemText>
+                    {displayName.replace('manager', '')}
+                  </ListItemText>
                 </ListItem>
               </LinkWrapper>
             ))}
