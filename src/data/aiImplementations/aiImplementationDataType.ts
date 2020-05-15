@@ -1,14 +1,14 @@
 /* eslint-disable import/prefer-default-export */
 
 import { Loadable } from '../util/dataState/dataStateTypes'
-import BaseConcept from '../util/baseConcept'
+import { BaseNamedConcept } from '../util/baseConceptTypes'
 
 export enum AiImplementationHealth {
   OK = 'OK',
   Error = 'Error',
 }
 
-export type AiImplementationInfo = BaseConcept & {
+export type AiImplementationInfo = BaseNamedConcept & {
   name: string
   baseUrl: string
   health: Loadable<AiImplementationHealth>

@@ -3,7 +3,7 @@ import { put } from 'redux-saga/effects'
 import urlBuilder from '../../util/urlBuilder'
 import { benchmarkingSessionDeleteDataAction } from '../benchmarkActions'
 import httpResponseErrorMessage from '../../util/httpResponseErrorMessage'
-import { fatalError } from '../../application/applicationActions'
+import { setFatalError } from '../../application/applicationActions'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export default function* deleteBenchmarkingSession(
@@ -26,7 +26,7 @@ export default function* deleteBenchmarkingSession(
   } catch (error) {
     console.error(error)
     yield put(
-      fatalError(
+      setFatalError(
         `Errored while deleting benchmarking session: ${error.message}`,
       ),
     )

@@ -1,9 +1,8 @@
 import React from 'react'
-import { FieldError } from 'react-hook-form'
 import { Tooltip } from '@material-ui/core'
 import { Warning as WarningIcon } from '@material-ui/icons'
 
-const ErrorIndicator: React.FC<{ error: FieldError }> = ({ error }) =>
+const ErrorIndicator: React.FC<{ error: string }> = ({ error }) =>
   error ? (
     <Tooltip title={error}>
       <WarningIcon color='error' />

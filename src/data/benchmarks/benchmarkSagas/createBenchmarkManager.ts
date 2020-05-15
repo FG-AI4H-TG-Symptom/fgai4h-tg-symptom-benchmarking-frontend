@@ -1,6 +1,6 @@
 import { put } from 'redux-saga/effects'
 
-import { fatalError } from '../../application/applicationActions'
+import { setFatalError } from '../../application/applicationActions'
 import urlBuilder from '../../util/urlBuilder'
 import httpResponseErrorMessage from '../../util/httpResponseErrorMessage'
 import { CallbackMetadata } from '../../util/dataState/generateDataStateActions'
@@ -67,7 +67,7 @@ export default function* createBenchmarkManager(
     )
   } catch (error) {
     yield put(
-      fatalError(`Failed to run benchmark on case set: ${error.message}`),
+      setFatalError(`Failed to run benchmark on case set: ${error.message}`),
     )
   }
 }

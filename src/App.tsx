@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Switch, Route, useLocation } from 'react-router-dom'
 import {
   AppBar,
@@ -18,12 +18,12 @@ import NotFound from './components/common/NotFound'
 import logo from './logo.svg'
 import { RootState } from './data/rootReducer'
 import Error from './components/common/Error'
+import Notifications from './components/common/Notifications'
 
-interface AppProps {
-  fatalError?: string
-}
-
-const App: React.FC<AppProps> = ({ fatalError }) => {
+const App: React.FC<{}> = () => {
+  const fatalError = useSelector<RootState, string>(
+    state => state.application.fatalError,
+  )
   const [menuOpen, setMenuOpen] = useState(false)
   const location = useLocation()
 
@@ -36,6 +36,7 @@ const App: React.FC<AppProps> = ({ fatalError }) => {
 
   return (
     <>
+      <Notifications />
       <AppBar position='sticky'>
         <Toolbar>
           <IconButton
@@ -87,8 +88,4 @@ const App: React.FC<AppProps> = ({ fatalError }) => {
   )
 }
 
-const mapStateToProps = (state: RootState): AppProps => ({
-  fatalError: state.application.fatalError,
-})
-
-export default connect(mapStateToProps)(App)
+export default App

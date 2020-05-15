@@ -1,4 +1,4 @@
-import BaseConcept from '../util/baseConcept'
+import { BaseConcept } from '../util/baseConceptTypes'
 import { BenchmarkingSessionStatus } from './benchmarkManagerDataType'
 
 export type BenchmarkEvaluation = BaseConcept & {
