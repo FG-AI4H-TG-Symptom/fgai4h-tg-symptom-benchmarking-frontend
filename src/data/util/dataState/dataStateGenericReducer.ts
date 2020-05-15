@@ -1,8 +1,41 @@
 import dotProp from 'dot-prop-immutable'
 
 import { DataAction, DataActionTypes } from './dataActionTypes'
-import { DataState, LoadingState } from './dataStateTypes'
+import { DataActionBaseState, DataState, LoadingState } from './dataStateTypes'
 import { CallbackMetadata } from './generateDataStateActions'
+import BaseConcept from '../baseConcept'
+
+export const deleteOptions = <
+  DataType extends BaseConcept,
+  StateType extends DataActionBaseState<DataType>
+>(
+  metadataIdFieldName: string,
+) => ({
+  path: (action): string => `deletions.${action.meta[metadataIdFieldName]}`,
+  postflightTransform: (state: StateType, action): StateType => {
+    if (action.payload.intent !== DataActionTypes.STORE) {
+      return state
+    }
+
+    let nextState = state
+    if (nextState.overview.state === DataState.READY) {
+      nextState = dotProp.delete(
+        nextState,
+        `overview.data.${nextState.overview.data.findIndex(
+          ({ id }) => id === action.meta[metadataIdFieldName],
+        )}`,
+      ) as StateType
+    }
+    if (nextState.entries[action.meta[metadataIdFieldName]]) {
+      nextState = dotProp.delete(
+        nextState,
+        `entries.${action.meta[metadataIdFieldName]}`,
+      ) as StateType
+    }
+
+    return nextState
+  },
+})
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const identity = <V>(x): V => (x as any) as V

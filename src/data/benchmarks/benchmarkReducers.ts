@@ -4,12 +4,13 @@ import { DataActionTypes } from '../util/dataState/dataActionTypes'
 import {
   DataActionBaseState,
   dataActionBaseStateInitial,
-  DataState,
   ID_PLACEHOLDER_NEW,
   InitialState,
   Loadable,
 } from '../util/dataState/dataStateTypes'
-import dataStateGenericReducer from '../util/dataState/dataStateGenericReducer'
+import dataStateGenericReducer, {
+  deleteOptions,
+} from '../util/dataState/dataStateGenericReducer'
 
 import { BenchmarkingSession } from './benchmarkManagerDataType'
 import { BenchmarkActionTypes } from './benchmarkActions'
@@ -82,32 +83,9 @@ const actionHandlers: {
     undefined,
     undefined,
     { benchmarkingSessionId: string }
-  >({
-    path: action => `deletions.${action.meta.benchmarkingSessionId}`,
-    postflightTransform: (state, action) => {
-      if (action.payload.intent !== DataActionTypes.STORE) {
-        return state
-      }
-
-      let nextState = state
-      if (nextState.overview.state === DataState.READY) {
-        nextState = dotProp.delete(
-          nextState,
-          `overview.data.${nextState.overview.data.findIndex(
-            ({ id }) => id === action.meta.benchmarkingSessionId,
-          )}`,
-        ) as BenchmarkState
-      }
-      if (nextState.entries[action.meta.benchmarkingSessionId]) {
-        nextState = dotProp.delete(
-          nextState,
-          `entries.${action.meta.benchmarkingSessionId}`,
-        ) as BenchmarkState
-      }
-
-      return nextState
-    },
-  }),
+  >(
+    deleteOptions<BenchmarkingSession, BenchmarkState>('benchmarkingSessionId'),
+  ),
 }
 
 const benchmarkReducers = (
