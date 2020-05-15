@@ -3,7 +3,9 @@ import {
   dataActionBaseStateInitial,
   DataState,
 } from '../util/dataState/dataStateTypes'
-import dataStateGenericReducer from '../util/dataState/dataStateGenericReducer'
+import dataStateGenericReducer, {
+  deleteOptions,
+} from '../util/dataState/dataStateGenericReducer'
 
 import { AiImplementationsActionTypes } from './aiImplementationsActions'
 import {
@@ -42,6 +44,16 @@ const actionHandlers: {
     },
     path: action => `overview.data.${action.meta.aiImplementationId}.health`,
   }),
+  [AiImplementationsActionTypes.AI_IMPLEMENTATION_DELETE_DATA_ACTION]: dataStateGenericReducer<
+    AiImplementationsState,
+    void,
+    void,
+    { aiImplementationId: string }
+  >(
+    deleteOptions<AiImplementationInfo, AiImplementationsState>(
+      'aiImplementationId',
+    ),
+  ),
 }
 
 const aiImplementationListReducer = (

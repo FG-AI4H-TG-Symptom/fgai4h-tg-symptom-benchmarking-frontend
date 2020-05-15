@@ -2,6 +2,7 @@ import dataStateActionSagaWrapperLoadOnly from '../../util/dataState/dataStateAc
 import { AiImplementationsActionTypes } from '../aiImplementationsActions'
 import fetchAiImplementationList from './fetchAiImplementationList'
 import fetchAiImplementationHealth from './fetchAiImplementationHealth'
+import deleteAiImplementation from './deleteAiImplementation'
 
 const aiImplementationListSagas = [
   dataStateActionSagaWrapperLoadOnly(
@@ -11,6 +12,10 @@ const aiImplementationListSagas = [
   dataStateActionSagaWrapperLoadOnly(
     AiImplementationsActionTypes.AI_IMPLEMENTATION_HEALTH_DATA_ACTION,
     fetchAiImplementationHealth,
+  ),
+  dataStateActionSagaWrapperLoadOnly(
+    AiImplementationsActionTypes.AI_IMPLEMENTATION_DELETE_DATA_ACTION,
+    deleteAiImplementation,
   ),
 ]
 
