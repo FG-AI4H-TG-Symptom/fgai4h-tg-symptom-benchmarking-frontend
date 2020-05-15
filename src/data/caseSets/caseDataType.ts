@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 
-import BaseConcept from '../util/baseConcept'
+import { BaseConcept } from '../util/baseConceptTypes'
 
 export enum PresenceStates {
   PRESENT = 'present',

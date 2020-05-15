@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import { Loadable } from '../util/dataState/dataStateTypes'
-import BaseConcept from '../util/baseConcept'
+import { BaseConcept } from '../util/baseConceptTypes'
 
 import { BenchmarkEvaluation } from './benchmarkEvaluationDataType'
 

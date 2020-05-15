@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 
 import { DataState, Loadable } from '../../data/util/dataState/dataStateTypes'
-import BaseConcept from '../../data/util/baseConcept'
+import { BaseConcept } from '../../data/util/baseConceptTypes'
 
 export type ConceptIdMap<DataType extends BaseConcept> = {
   [id: string]: DataType

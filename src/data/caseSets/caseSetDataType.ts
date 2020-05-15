@@ -1,5 +1,3 @@
-import BaseConcept from '../util/baseConcept'
+import { BaseNamedConcept } from '../util/baseConceptTypes'
 
-export type CaseSetInfo = BaseConcept & {
-  name: string
-}
+export type CaseSetInfo = BaseNamedConcept
