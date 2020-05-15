@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react'
 import { MenuItem } from '@material-ui/core'
 
-import { refToConcept } from './utils'
 import berlinModelSchema from '../../../../data/caseSets/berlinModel.schema.json'
-import AutoSelect from './AutoSelect'
+import AutoSelect from '../../../forms/AutoSelect'
+import { refToConcept } from './utils'
 
 interface ConditionSelectProps {
   name?: string

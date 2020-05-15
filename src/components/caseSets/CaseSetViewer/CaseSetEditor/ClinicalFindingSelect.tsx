@@ -2,16 +2,16 @@ import React from 'react'
 import { Button, Grid, MenuItem, Typography } from '@material-ui/core'
 
 import berlinModelSchema from '../../../../data/caseSets/berlinModel.schema.json'
-
+import FormBlock from '../../../forms/FormBlock'
+import AutoSelect from '../../../forms/AutoSelect'
 import {
-  refToConcept,
   useAutoFieldArray,
   useWatch,
   useWatchArrayHelper,
-} from './utils'
+} from '../../../forms/utils'
+
 import AttributeSelect from './AttributeSelect'
-import FormBlock from './FormBlock'
-import AutoSelect from './AutoSelect'
+import { refToConcept } from './utils'
 
 const ClinicalFindingSelect: React.FC<{}> = () => {
   const attributes = useAutoFieldArray({

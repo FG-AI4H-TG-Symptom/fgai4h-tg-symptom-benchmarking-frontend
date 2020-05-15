@@ -4,12 +4,13 @@ import { Box, Grid, Hidden, IconButton, MenuItem } from '@material-ui/core'
 import { Delete as DeleteIcon } from '@material-ui/icons'
 
 import berlinModelSchema from '../../../../data/caseSets/berlinModel.schema.json'
+import AutoSelect from '../../../forms/AutoSelect'
+import ValueSelect from '../../../forms/ValueSelect'
+import ValueMultiSelect from '../../../forms/ValueMultiSelect'
+import { usePrefix } from '../../../forms/PrefixContext'
+import AutoSwitchArrayEntry from '../../../forms/AutoSwitchArrayEntry'
+
 import { Concept, refToConcept } from './utils'
-import AutoSelect from './AutoSelect'
-import ValueSelect from './ValueSelect'
-import ValueMultiSelect from './ValueMultiSelect'
-import { usePrefix } from './PrefixContext'
-import AutoSwitchArrayEntry from './AutoSwitchArrayEntry'
 
 type AttributeSelectRegularProps = {
   possibleAttributes: Array<Concept>

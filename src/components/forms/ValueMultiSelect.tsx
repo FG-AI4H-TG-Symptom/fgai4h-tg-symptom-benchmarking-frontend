@@ -4,13 +4,14 @@ import { Box, Button, IconButton } from '@material-ui/core'
 import { Alert } from '@material-ui/lab'
 import { Delete as DeleteIcon } from '@material-ui/icons'
 
+import { BaseNamedConcept } from '../../data/util/baseConceptTypes'
 import { AutoPrefix } from './PrefixContext'
 import ValueSelect from './ValueSelect'
-import { Concept, useAutoFieldArray, useWatchArrayHelper } from './utils'
+import { useAutoFieldArray, useWatchArrayHelper } from './utils'
 
 interface ValueMultiSelectProps {
   name: string
-  possibleValues: Array<Concept>
+  possibleValues: Array<BaseNamedConcept>
 }
 
 const ValueMultiSelect: React.FC<ValueMultiSelectProps> = ({

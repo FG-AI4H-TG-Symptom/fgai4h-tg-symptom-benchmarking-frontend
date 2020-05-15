@@ -5,6 +5,7 @@ import {
   useForm,
   ValidationResolver,
 } from 'react-hook-form'
+import Ajv from 'ajv'
 import {
   Box,
   Button,
@@ -20,22 +21,19 @@ import {
   Warning as WarningIcon,
   Save as SaveIcon,
 } from '@material-ui/icons'
-import Ajv from 'ajv'
 
 import { CaseDataType } from '../../../../data/caseSets/caseDataType'
 import berlinModelSchema from '../../../../data/caseSets/berlinModel.schema.json'
-
-import * as Styled from './CaseSetEditor.style'
-import {
-  extendWithModelInformationFromIds,
-  errorsInChildren,
-  errorSummary,
-} from './utils'
-import CaseEditor from './CaseEditor'
-import AutoTextField from './AutoTextField'
-import { AutoPrefix } from './PrefixContext'
 import { BerlinModelCasesSchema } from '../../../../data/caseSets/berlinModelTypes'
 import { Notification } from '../../../../data/application/applicationReducers'
+import AutoTextField from '../../../forms/AutoTextField'
+import { AutoPrefix } from '../../../forms/PrefixContext'
+import { errorsInChildren, errorSummary } from '../../../forms/utils'
+
+import { extendWithModelInformationFromIds } from './utils'
+import CaseEditor from './CaseEditor'
+
+import * as Styled from './CaseSetEditor.style'
 
 const berlinModelCasesSchemaValidator = new Ajv({
   coerceTypes: true,

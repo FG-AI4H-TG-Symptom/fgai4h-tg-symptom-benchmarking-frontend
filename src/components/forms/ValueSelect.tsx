@@ -1,11 +1,11 @@
 import React from 'react'
 import { MenuItem } from '@material-ui/core'
 
-import { Concept } from './utils'
+import { BaseNamedConcept } from '../../data/util/baseConceptTypes'
 import AutoSelect from './AutoSelect'
 
 interface ValueSelectProps {
-  possibleValues: Array<Concept>
+  possibleValues: Array<BaseNamedConcept>
   name?: string
 }
 

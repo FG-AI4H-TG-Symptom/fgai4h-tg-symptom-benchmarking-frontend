@@ -1,15 +1,16 @@
 import React from 'react'
 import { Box, Grid, MenuItem } from '@material-ui/core'
 
-import FormSection from './FormSection'
-import FormBlock from './FormBlock'
 import berlinModelSchema from '../../../../data/caseSets/berlinModel.schema.json'
+import FormSection from '../../../forms/FormSection'
+import FormBlock from '../../../forms/FormBlock'
+import AutoTextField from '../../../forms/AutoTextField'
+import AutoSelect from '../../../forms/AutoSelect'
+import AutoArrayFormBlock from '../../../forms/AutoArrayFormBlock'
+import AutoReadOnlyField from '../../../forms/AutoReadOnlyField'
+
 import ClinicalFindingSelect from './ClinicalFindingSelect'
-import AutoTextField from './AutoTextField'
-import AutoSelect from './AutoSelect'
 import ConditionSelect from './ConditionSelect'
-import AutoArrayFormBlock from './AutoArrayFormBlock'
-import AutoReadOnlyField from './AutoReadOnlyField'
 
 const CaseEditor: React.FC<{}> = () => {
   return (
