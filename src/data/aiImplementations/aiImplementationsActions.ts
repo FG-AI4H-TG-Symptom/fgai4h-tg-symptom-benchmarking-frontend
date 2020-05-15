@@ -5,19 +5,19 @@ import {
   AiImplementationInfo,
 } from './aiImplementationDataType'
 
-export enum AiImplementationListActionTypes {
+export enum AiImplementationsActionTypes {
   AI_IMPLEMENTATIONS_OVERVIEW_DATA_ACTION = 'AI_IMPLEMENTATIONS_OVERVIEW_DATA_ACTION',
   AI_IMPLEMENTATION_HEALTH_DATA_ACTION = 'AI_IMPLEMENTATION_HEALTH_DATA_ACTION',
 }
 
 export type AiImplementationListLoadParameters = { withHealth: boolean }
 
-export const aiImplementationListDataActions = generateDataStateActions<
+export const aiImplementationOverviewDataAction = generateDataStateActions<
   AiImplementationInfo[],
   AiImplementationListLoadParameters
->(AiImplementationListActionTypes.AI_IMPLEMENTATIONS_OVERVIEW_DATA_ACTION)
+>(AiImplementationsActionTypes.AI_IMPLEMENTATIONS_OVERVIEW_DATA_ACTION)
 
-export const aiImplementationHealthDataActions = generateDataStateActions<
+export const aiImplementationHealthDataAction = generateDataStateActions<
   AiImplementationHealth,
   string,
   string

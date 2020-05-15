@@ -5,10 +5,10 @@ import httpResponseErrorMessage from '../../util/httpResponseErrorMessage'
 
 import { AiImplementationInfo } from '../aiImplementationDataType'
 import {
-  aiImplementationListDataActions,
-  aiImplementationHealthDataActions,
+  aiImplementationOverviewDataAction,
+  aiImplementationHealthDataAction,
   AiImplementationListLoadParameters,
-} from '../aiImplementationListActions'
+} from '../aiImplementationsActions'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export default function* fetchAiImplementationList(
@@ -25,13 +25,13 @@ export default function* fetchAiImplementationList(
 
     const aiImplementations: AiImplementationInfo[] = yield response.json()
 
-    yield put(aiImplementationListDataActions.store(aiImplementations))
+    yield put(aiImplementationOverviewDataAction.store(aiImplementations))
 
     if (parameters && parameters.withHealth) {
       // eslint-disable-next-line no-restricted-syntax
       for (const aiImplementation of aiImplementations) {
         yield put(
-          aiImplementationHealthDataActions.load(
+          aiImplementationHealthDataAction.load(
             aiImplementation.id,
             aiImplementation.id,
           ),
@@ -40,7 +40,7 @@ export default function* fetchAiImplementationList(
     }
   } catch (error) {
     yield put(
-      aiImplementationListDataActions.errored(
+      aiImplementationOverviewDataAction.errored(
         `Failed to load AI implementations: ${error.message}`,
       ),
     )

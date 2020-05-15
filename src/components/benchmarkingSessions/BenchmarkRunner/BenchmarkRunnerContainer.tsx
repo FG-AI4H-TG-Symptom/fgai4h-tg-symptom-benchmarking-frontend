@@ -4,7 +4,7 @@ import { CircularProgress } from '@material-ui/core'
 
 import { paths } from '../../../routes'
 import { AiImplementationInfo } from '../../../data/aiImplementations/aiImplementationDataType'
-import { aiImplementationListDataActions } from '../../../data/aiImplementations/aiImplementationListActions'
+import { aiImplementationOverviewDataAction } from '../../../data/aiImplementations/aiImplementationsActions'
 import {
   BenchmarkingSession,
   BenchmarkingSessionStatus,
@@ -31,7 +31,7 @@ const BenchmarkRunnerContainer: React.FC<{}> = () => {
 
   const aiImplementationList = useDataStateLoader<AiImplementationInfo[]>(
     'aiImplementations',
-    aiImplementationListDataActions.load({
+    aiImplementationOverviewDataAction.load({
       withHealth: false,
     }),
   )

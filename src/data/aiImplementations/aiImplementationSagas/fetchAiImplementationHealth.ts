@@ -2,7 +2,7 @@ import { put } from 'redux-saga/effects'
 
 import urlBuilder from '../../util/urlBuilder'
 import httpResponseErrorMessage from '../../util/httpResponseErrorMessage'
-import { aiImplementationHealthDataActions } from '../aiImplementationListActions'
+import { aiImplementationHealthDataAction } from '../aiImplementationsActions'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export default function* fetchAiImplementationHealth(
@@ -23,11 +23,11 @@ export default function* fetchAiImplementationHealth(
     const data = yield response.json()
 
     yield put(
-      aiImplementationHealthDataActions.store(data.status, aiImplementationId),
+      aiImplementationHealthDataAction.store(data.status, aiImplementationId),
     )
   } catch (error) {
     yield put(
-      aiImplementationHealthDataActions.errored(
+      aiImplementationHealthDataAction.errored(
         `Failed to fetch AI implementation list: ${error.message}`,
         aiImplementationId,
       ),

@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import { Tooltip } from '@material-ui/core'
 import { Delete as DeleteIcon } from '@material-ui/icons'
 
-import { aiImplementationListDataActions } from '../../../data/aiImplementations/aiImplementationListActions'
+import { aiImplementationOverviewDataAction } from '../../../data/aiImplementations/aiImplementationsActions'
 import { AiImplementationInfo } from '../../../data/aiImplementations/aiImplementationDataType'
 import {
   benchmarkEvaluationDataAction,
@@ -53,7 +53,7 @@ const BenchmarkEvaluatorContainer: React.FC<{}> = () => {
 
   const aiImplementationList = useDataStateLoader<AiImplementationInfo[]>(
     'aiImplementations',
-    aiImplementationListDataActions.load({
+    aiImplementationOverviewDataAction.load({
       withHealth: false,
     }),
   )

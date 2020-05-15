@@ -5,7 +5,7 @@ import {
 } from '../util/dataState/dataStateTypes'
 import dataStateGenericReducer from '../util/dataState/dataStateGenericReducer'
 
-import { AiImplementationListActionTypes } from './aiImplementationListActions'
+import { AiImplementationsActionTypes } from './aiImplementationsActions'
 import {
   AiImplementationHealth,
   AiImplementationInfo,
@@ -16,19 +16,19 @@ export type AiImplementationsState = DataActionBaseState<AiImplementationInfo>
 const aiImplementationsInitialState: AiImplementationsState = dataActionBaseStateInitial()
 
 const actionHandlers: {
-  [key in AiImplementationListActionTypes]: (
+  [key in AiImplementationsActionTypes]: (
     state: AiImplementationsState,
     action,
   ) => AiImplementationsState
 } = {
-  [AiImplementationListActionTypes.AI_IMPLEMENTATIONS_OVERVIEW_DATA_ACTION]: dataStateGenericReducer<
+  [AiImplementationsActionTypes.AI_IMPLEMENTATIONS_OVERVIEW_DATA_ACTION]: dataStateGenericReducer<
     AiImplementationsState,
     AiImplementationInfo[],
     { [id: string]: AiImplementationInfo }
   >({
     path: 'overview',
   }),
-  [AiImplementationListActionTypes.AI_IMPLEMENTATION_HEALTH_DATA_ACTION]: dataStateGenericReducer<
+  [AiImplementationsActionTypes.AI_IMPLEMENTATION_HEALTH_DATA_ACTION]: dataStateGenericReducer<
     AiImplementationsState,
     AiImplementationHealth,
     void,

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { aiImplementationListDataActions } from '../../../data/aiImplementations/aiImplementationListActions'
+import { aiImplementationOverviewDataAction } from '../../../data/aiImplementations/aiImplementationsActions'
 import { AiImplementationInfo } from '../../../data/aiImplementations/aiImplementationDataType'
 import useDataStateLoader from '../../util/useDataStateLoader'
 import DataStateManager from '../../common/DataStateManager'
@@ -11,7 +11,7 @@ import AiImplementationManagerComponent from './AiImplementationManagerComponent
 const AiImplementationManagerContainer: React.FC<{}> = () => {
   const aiImplementationList = useDataStateLoader<AiImplementationInfo[]>(
     'aiImplementations',
-    aiImplementationListDataActions.load({
+    aiImplementationOverviewDataAction.load({
       withHealth: false,
     }),
   )
