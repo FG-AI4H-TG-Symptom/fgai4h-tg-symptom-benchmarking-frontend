@@ -37,6 +37,8 @@ const CaseSetViewerComponent: React.FC<CaseSetComponentProps> = ({
         />
       ),
       noPadding: true,
+      // todo: remove once editor implementation is completed / PR merged
+      disabled: true,
     },
     {
       id: 'analysis',
