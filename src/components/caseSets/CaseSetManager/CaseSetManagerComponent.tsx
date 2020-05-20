@@ -37,15 +37,15 @@ const CaseSetManagerComponent: React.FC<CaseSetManagerComponentProps> = ({
         <caption>{caseSetList.length} case sets</caption>
         <TableHead>
           <TableRow>
-            <TableCell>Case set ID</TableCell>
+            <TableCell>Name</TableCell>
             <TableCell>Labels</TableCell>
             <Styled.ActionHeaderTableCell>Actions</Styled.ActionHeaderTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {caseSetList.map(({ id }) => (
+          {caseSetList.map(({ id, name }) => (
             <TableRow key={id}>
-              <TableCell>{id}</TableCell>
+              <TableCell>{name}</TableCell>
               <TableCell>
                 {id === LONDON_CASE_SET_ID ? (
                   <Chip label='Cases from doctors' color='primary' />
