@@ -12,6 +12,7 @@ import {
   AiImplementationHealth,
   AiImplementationInfo,
 } from './aiImplementationDataType'
+import { CallbackMetadata } from '../util/dataState/generateDataStateActions'
 
 export type AiImplementationsState = DataActionBaseState<AiImplementationInfo>
 
@@ -48,7 +49,7 @@ const actionHandlers: {
     AiImplementationsState,
     void,
     void,
-    { aiImplementationId: string }
+    { aiImplementationId: string } & CallbackMetadata<void>
   >(
     deleteOptions<AiImplementationInfo, AiImplementationsState>(
       'aiImplementationId',

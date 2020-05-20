@@ -20,13 +20,13 @@ export type DataActionLoad<ParameterType, MetadataType, CallbackType> = {
   }
   meta: TypeUnionIgnoreVoid<MetadataType, CallbackType>
 }
-export type DataActionStore<DataType, MetadataType> = {
+export type DataActionStore<DataType, MetadataType, CallbackType> = {
   type: string
   payload: {
     intent: DataActionTypes.STORE
     data: DataType
   }
-  meta: MetadataType
+  meta: TypeUnionIgnoreVoid<MetadataType, CallbackType>
 }
 export type DataActionErrored<MetadataType> = {
   type: string
@@ -48,6 +48,6 @@ export type DataAction<
   CallbackType = void
 > =
   | DataActionLoad<LoadParametersType, MetadataType, CallbackType>
-  | DataActionStore<DataType, MetadataType>
+  | DataActionStore<DataType, MetadataType, CallbackType>
   | DataActionErrored<MetadataType>
   | DataActionReset<MetadataType>

@@ -1,14 +1,13 @@
 import dotProp from 'dot-prop-immutable'
 
-import { DataActionTypes } from '../util/dataState/dataActionTypes'
 import {
   DataActionBaseState,
   dataActionBaseStateInitial,
-  ID_PLACEHOLDER_NEW,
   InitialState,
   Loadable,
 } from '../util/dataState/dataStateTypes'
 import dataStateGenericReducer, {
+  createOptions,
   deleteOptions,
 } from '../util/dataState/dataStateGenericReducer'
 
@@ -16,6 +15,7 @@ import { BenchmarkingSession } from './benchmarkManagerDataType'
 import { BenchmarkActionTypes } from './benchmarkActions'
 import { BenchmarkEvaluation } from './benchmarkEvaluationDataType'
 import { RunningBenchmarkReport } from './benchmarkInfoDataType'
+import { CallbackMetadata } from '../util/dataState/generateDataStateActions'
 
 export type BenchmarkState = DataActionBaseState<BenchmarkingSession> & {
   runningBenchmarkStatus: Loadable<RunningBenchmarkReport>
@@ -37,19 +37,7 @@ const actionHandlers: {
   [BenchmarkActionTypes.CREATE_BENCHMARKING_SESSION_DATA_ACTION]: dataStateGenericReducer<
     BenchmarkState,
     BenchmarkingSession
-  >({
-    path: action =>
-      action.payload.intent === DataActionTypes.STORE
-        ? `entries.${action.payload.data.id}`
-        : ID_PLACEHOLDER_NEW,
-    postflightTransform: (state, action) => {
-      if (action.payload.intent !== DataActionTypes.STORE) {
-        return state
-      }
-
-      return dotProp.delete(state, ID_PLACEHOLDER_NEW) as BenchmarkState
-    },
-  }),
+  >(createOptions<BenchmarkingSession, BenchmarkState, void>()),
   [BenchmarkActionTypes.OBSERVE_RUNNING_BENCHMARK_DATA_ACTION]: dataStateGenericReducer<
     BenchmarkState,
     RunningBenchmarkReport
@@ -80,9 +68,9 @@ const actionHandlers: {
     ),
   [BenchmarkActionTypes.BENCHMARKING_SESSION_DELETE_DATA_ACTION]: dataStateGenericReducer<
     BenchmarkState,
-    undefined,
-    undefined,
-    { benchmarkingSessionId: string }
+    void,
+    void,
+    { benchmarkingSessionId: string } & CallbackMetadata<void>
   >(
     deleteOptions<BenchmarkingSession, BenchmarkState>('benchmarkingSessionId'),
   ),

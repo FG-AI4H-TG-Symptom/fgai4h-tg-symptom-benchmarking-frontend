@@ -1,16 +1,49 @@
 import dotProp from 'dot-prop-immutable'
 
 import { DataAction, DataActionTypes } from './dataActionTypes'
-import { DataActionBaseState, DataState, LoadingState } from './dataStateTypes'
+import {
+  DataActionBaseState,
+  DataState,
+  ID_PLACEHOLDER_NEW,
+  LoadingState,
+} from './dataStateTypes'
 import { CallbackMetadata } from './generateDataStateActions'
 import BaseConcept from '../baseConcept'
+
+export const createOptions = <
+  DataType extends BaseConcept,
+  StateType extends DataActionBaseState<DataType>,
+  MetadataType = CallbackMetadata<DataType>
+>(): DataStateGenericReducerOptions<
+  StateType,
+  DataType,
+  DataType,
+  MetadataType
+> => ({
+  path: (action): string =>
+    action.payload.intent === DataActionTypes.STORE
+      ? `entries.${action.payload.data.id}`
+      : ID_PLACEHOLDER_NEW,
+  postflightTransform: (state, action) => {
+    if (action.payload.intent !== DataActionTypes.STORE) {
+      return state
+    }
+
+    return dotProp.delete(state, ID_PLACEHOLDER_NEW) as StateType
+  },
+})
 
 export const deleteOptions = <
   DataType extends BaseConcept,
   StateType extends DataActionBaseState<DataType>
 >(
   metadataIdFieldName: string,
-) => ({
+): DataStateGenericReducerOptions<
+  StateType,
+  void,
+  void,
+  CallbackMetadata<void>
+> => ({
   path: (action): string => `deletions.${action.meta[metadataIdFieldName]}`,
   postflightTransform: (state: StateType, action): StateType => {
     if (action.payload.intent !== DataActionTypes.STORE) {
@@ -40,6 +73,28 @@ export const deleteOptions = <
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const identity = <V>(x): V => (x as any) as V
 
+export type DataStateGenericReducerOptions<
+  StateType,
+  DataActionDataType,
+  TransformedDataType,
+  DataActionMetadataType
+> = {
+  path?:
+    | ((
+        action: DataAction<DataActionDataType, void, DataActionMetadataType>,
+      ) => string)
+    | string
+    | null
+  dataTransform?: (data: DataActionDataType) => TransformedDataType
+  preflightCheck?: (
+    state: StateType,
+    action: DataAction<DataActionDataType, void, DataActionMetadataType>,
+  ) => boolean
+  postflightTransform?: (
+    state: StateType,
+    action: DataAction<DataActionDataType, void, DataActionMetadataType>,
+  ) => StateType
+}
 /**
  * Generic reducer for DataStateActions
  * @param path A function (returning a string) or string indicating where in the state to store the data. Omit (or empty string) for root. [Default: Root]
@@ -57,23 +112,12 @@ const dataStateGenericReducer = <
   dataTransform = identity,
   preflightCheck,
   postflightTransform = (state): StateType => state,
-}: {
-  path?:
-    | ((
-        action: DataAction<DataActionDataType, void, DataActionMetadataType>,
-      ) => string)
-    | string
-    | null
-  dataTransform?: (data: DataActionDataType) => TransformedDataType
-  preflightCheck?: (
-    state: StateType,
-    action: DataAction<DataActionDataType, void, DataActionMetadataType>,
-  ) => boolean
-  postflightTransform?: (
-    state: StateType,
-    action: DataAction<DataActionDataType, void, DataActionMetadataType>,
-  ) => StateType
-} = {}) => (
+}: DataStateGenericReducerOptions<
+  StateType,
+  DataActionDataType,
+  TransformedDataType,
+  DataActionMetadataType
+> = {}) => (
   state: StateType,
   action: DataAction<DataActionDataType, void, DataActionMetadataType>,
 ): StateType => {

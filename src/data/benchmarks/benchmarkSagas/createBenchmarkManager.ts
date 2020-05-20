@@ -42,11 +42,9 @@ export default function* createBenchmarkManager(
 
     const benchmarkingSession: BenchmarkingSession = yield response.json()
 
-    yield put(createBenchmarkingSessionDataAction.store(benchmarkingSession))
-
-    if (metadata.onSuccess) {
-      metadata.onSuccess(benchmarkingSession)
-    }
+    yield put(
+      createBenchmarkingSessionDataAction.store(benchmarkingSession, metadata),
+    )
 
     const startBenchmarkingResponse = yield fetch(
       urlBuilder(`benchmarking-sessions/${benchmarkingSession.id}/run`),
