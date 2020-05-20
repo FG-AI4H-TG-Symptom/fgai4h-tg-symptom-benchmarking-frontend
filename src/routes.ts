@@ -1,25 +1,29 @@
 import React from 'react'
 
 import LandingPage from './components/staticPages/LandingPage'
+import AiImplementationManager from './components/aiImplementations/AiImplementationManager'
+import AiImplementationRegistration from './components/aiImplementations/AiImplementationRegistration'
 import CaseSetManager from './components/caseSets/CaseSetManager'
 import CaseSetViewer from './components/caseSets/CaseSetViewer'
 import CaseSetCreator from './components/caseSets/CaseSetCreator'
-import AiImplementationManager from './components/aiImplementations/AiImplementationManager'
 import BenchmarkRunner from './components/benchmarkingSessions/BenchmarkRunner'
 import BenchmarkCreator from './components/benchmarkingSessions/BenchmarkCreator'
 import BenchmarkEvaluator from './components/benchmarkingSessions/BenchmarkEvaluator'
 import BenchmarkingSessionManagerContainer from './components/benchmarkingSessions/BenchmarkingSessionManager'
 
+const AI_IMPLEMENTATIONS_PATH = 'ai-implementations'
 const CASE_SETS_PATH = 'case-sets'
 const BENCHMARKING_SESSIONS_PATH = 'benchmarking-sessions'
 
 export const paths = {
   home: (): string => '/',
+  aiImplementationManager: (): string => `/${AI_IMPLEMENTATIONS_PATH}`,
+  aiImplementationRegistration: (): string =>
+    `/${AI_IMPLEMENTATIONS_PATH}/register`,
   caseSetManager: (): string => `/${CASE_SETS_PATH}`,
   caseSetViewer: (caseSetId: string): string =>
     `/${CASE_SETS_PATH}/${caseSetId}`, // /cases/:caseSetId
   caseSetCreator: (): string => `/${CASE_SETS_PATH}/create`,
-  aiImplementationManager: (): string => '/ai-implementations',
   benchmarkingSessions: (): string => `/${BENCHMARKING_SESSIONS_PATH}`,
   benchmarkCreate: (caseSetId?: string): string =>
     `/${BENCHMARKING_SESSIONS_PATH}/create${
@@ -50,6 +54,22 @@ export const routes: Array<Route> = [
     visibleInMenu: true,
   },
   {
+    id: 'ai-implementations-manager',
+    displayName: 'AI implementations manager',
+    path: paths.aiImplementationManager(),
+    component: AiImplementationManager,
+    exact: true,
+    visibleInMenu: true,
+  },
+  {
+    id: 'ai-implementations-register',
+    displayName: 'Register AI implementation',
+    path: paths.aiImplementationRegistration(),
+    component: AiImplementationRegistration,
+    exact: true,
+    visibleInMenu: false,
+  },
+  {
     id: 'case-sets-manager',
     displayName: 'Case sets manager',
     path: paths.caseSetManager(),
@@ -72,14 +92,6 @@ export const routes: Array<Route> = [
     component: CaseSetViewer,
     exact: false,
     visibleInMenu: false,
-  },
-  {
-    id: 'ai-implementations-manager',
-    displayName: 'AI implementations manager',
-    path: paths.aiImplementationManager(),
-    component: AiImplementationManager,
-    exact: true,
-    visibleInMenu: true,
   },
   {
     id: 'benchmarking-sessions-manager',

@@ -2,17 +2,21 @@ import React from 'react'
 import { Paper } from '@material-ui/core'
 
 import { CaseDataType } from '../../../data/caseSets/caseDataType'
+import { Notification } from '../../../data/application/applicationReducers'
 import ViewRaw from '../../common/ViewRaw'
 import CaseSetViewerTable from './CaseSetViewerTable'
 import TabFactory, { TabFactoryEntry } from '../../common/TabFactory'
 import CaseSetViewerAnalysis from './CaseSetViewerAnalysis'
+import CaseSetEditor from './CaseSetEditor'
 
 export interface CaseSetComponentProps {
   caseSet: CaseDataType[]
+  queueNotification: (notification: Notification) => void
 }
 
 const CaseSetViewerComponent: React.FC<CaseSetComponentProps> = ({
   caseSet,
+  queueNotification,
 }) => {
   const tabs: TabFactoryEntry[] = [
     {
@@ -22,6 +26,19 @@ const CaseSetViewerComponent: React.FC<CaseSetComponentProps> = ({
         <CaseSetViewerTable caseSet={caseSet} />
       ),
       noPadding: true,
+    },
+    {
+      id: 'editor',
+      name: 'Editor',
+      componentCallback: (): JSX.Element => (
+        <CaseSetEditor
+          caseSet={caseSet}
+          queueNotification={queueNotification}
+        />
+      ),
+      noPadding: true,
+      // todo: remove once editor implementation is completed / PR merged
+      disabled: true,
     },
     {
       id: 'analysis',

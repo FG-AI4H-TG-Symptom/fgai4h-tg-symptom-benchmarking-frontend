@@ -6,6 +6,8 @@
   "dependencies": {
     "@material-ui/core": "^4.9.0",
     "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.47",
+    "ajv": "^6.12.0",
     "datalib": "^1.9.2",
     "dot-prop-immutable": "latest",
     "echarts": "^4.6.0",
@@ -14,7 +16,7 @@
     "qs": "^6.9.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-hook-form": "^4.9.3",
+    "react-hook-form": "^5.4.2",
     "react-redux": "^7.1.3",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.3.0",

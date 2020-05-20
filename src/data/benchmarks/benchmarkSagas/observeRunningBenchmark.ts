@@ -8,7 +8,7 @@ import {
 } from '../benchmarkActions'
 import sleep from '../../util/sleep'
 import httpResponseErrorMessage from '../../util/httpResponseErrorMessage'
-import { fatalError } from '../../application/applicationActions'
+import { setFatalError } from '../../application/applicationActions'
 import { BenchmarkingSessionStatus } from '../benchmarkManagerDataType'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -48,7 +48,7 @@ export default function* observeRunningBenchmark(benchmarkManagerId: string) {
     }
   } catch (error) {
     yield put(
-      fatalError(
+      setFatalError(
         `Errored while running benchmark on case set: ${error.message}`,
       ),
     )

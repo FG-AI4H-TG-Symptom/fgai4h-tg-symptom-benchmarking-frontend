@@ -4,7 +4,7 @@ import { useHistory, useLocation } from 'react-router-dom'
 import queryString from 'qs'
 import { CircularProgress, Typography } from '@material-ui/core'
 
-import { aiImplementationListDataActions } from '../../../data/aiImplementations/aiImplementationListActions'
+import { aiImplementationOverviewDataAction } from '../../../data/aiImplementations/aiImplementationsActions'
 import { AiImplementationInfo } from '../../../data/aiImplementations/aiImplementationDataType'
 import { createBenchmarkingSessionDataAction } from '../../../data/benchmarks/benchmarkActions'
 import { CaseSetInfo } from '../../../data/caseSets/caseSetDataType'
@@ -29,7 +29,7 @@ const BenchmarkCreatorContainer: React.FC<{}> = () => {
 
   const aiImplementationList = useDataStateLoader<AiImplementationInfo[]>(
     'aiImplementations',
-    aiImplementationListDataActions.load({
+    aiImplementationOverviewDataAction.load({
       withHealth: false,
     }),
   )

@@ -1,10 +1,18 @@
 import { ApplicationActionTypes } from './applicationActions'
 
-export interface ApplicationState {
-  fatalError?: string
+export interface Notification {
+  message: string
+  type: 'error' | 'warning' | 'info' | 'success'
 }
 
-const applicationInitialState = {}
+export interface ApplicationState {
+  fatalError?: string
+  notificationQueue: Array<Notification>
+}
+
+const applicationInitialState: ApplicationState = {
+  notificationQueue: [],
+}
 
 const actionHandlers: {
   [key in ApplicationActionTypes]: (
@@ -12,9 +20,17 @@ const actionHandlers: {
     action,
   ) => ApplicationState
 } = {
-  [ApplicationActionTypes.FATAL_ERROR]: (state, action) => ({
+  [ApplicationActionTypes.SET_FATAL_ERROR]: (state, action) => ({
     ...state,
     fatalError: action.payload,
+  }),
+  [ApplicationActionTypes.QUEUE_NOTIFICATION]: (state, action) => ({
+    ...state,
+    notificationQueue: state.notificationQueue.concat([action.payload]),
+  }),
+  [ApplicationActionTypes.CLEAR_CURRENT_NOTIFICATION]: state => ({
+    ...state,
+    notificationQueue: state.notificationQueue.slice(1),
   }),
 }
 

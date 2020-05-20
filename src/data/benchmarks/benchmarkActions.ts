@@ -54,7 +54,7 @@ export const benchmarkingSessionListDataAction = generateDataStateActions<
 >(BenchmarkActionTypes.BENCHMARKING_SESSION_LIST_DATA_ACTION)
 
 export const benchmarkingSessionDeleteDataAction = generateDataStateActions<
-  BenchmarkingSession,
+  void,
   string,
   { benchmarkingSessionId: string },
   CallbackMetadata<void>

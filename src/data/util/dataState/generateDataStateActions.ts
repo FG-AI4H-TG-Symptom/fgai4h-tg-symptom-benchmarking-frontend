@@ -32,11 +32,15 @@ type DataStateActions<
         >
   ) => DataActionLoad<ParameterType, MetadataType, CallbackType>
   store: (
-    data: DataType,
-    ...params: MetadataType extends void
-      ? []
-      : Parameters<(metadata: MetadataType) => void>
-  ) => DataActionStore<DataType, MetadataType>
+    ...params: TypeUnionIgnoreVoid<MetadataType, CallbackType> extends void
+      ? Parameters<(data: DataType) => void>
+      : Parameters<
+          (
+            data: DataType,
+            metadata: TypeUnionIgnoreVoid<MetadataType, CallbackType>,
+          ) => void
+        >
+  ) => DataActionStore<DataType, MetadataType, CallbackType>
   errored: (
     error: string,
     ...params: MetadataType extends void
@@ -68,7 +72,10 @@ const generateDataStateActions = <
       meta: metadata,
     }
   },
-  store: (data, metadata?): DataActionStore<DataType, MetadataType> => ({
+  store: (
+    data,
+    metadata?,
+  ): DataActionStore<DataType, MetadataType, CallbackType> => ({
     type,
     payload: { intent: DataActionTypes.STORE, data },
     meta: metadata,
