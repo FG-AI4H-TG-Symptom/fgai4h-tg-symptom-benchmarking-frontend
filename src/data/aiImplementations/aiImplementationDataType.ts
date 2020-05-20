@@ -11,5 +11,5 @@ export enum AiImplementationHealth {
 export type AiImplementationInfo = BaseNamedConcept & {
   name: string
   baseUrl: string
-  health: Loadable<AiImplementationHealth>
+  health?: Loadable<AiImplementationHealth>
 }

@@ -4,6 +4,7 @@ import {
   DataState,
 } from '../util/dataState/dataStateTypes'
 import dataStateGenericReducer, {
+  createOptions,
   deleteOptions,
 } from '../util/dataState/dataStateGenericReducer'
 
@@ -24,6 +25,12 @@ const actionHandlers: {
     action,
   ) => AiImplementationsState
 } = {
+  [AiImplementationsActionTypes.AI_IMPLEMENTATION_CREATE_DATA_ACTION]: dataStateGenericReducer<
+    AiImplementationsState,
+    AiImplementationInfo,
+    void,
+    CallbackMetadata<AiImplementationInfo>
+  >(createOptions<AiImplementationInfo, AiImplementationsState>()),
   [AiImplementationsActionTypes.AI_IMPLEMENTATIONS_OVERVIEW_DATA_ACTION]: dataStateGenericReducer<
     AiImplementationsState,
     AiImplementationInfo[],

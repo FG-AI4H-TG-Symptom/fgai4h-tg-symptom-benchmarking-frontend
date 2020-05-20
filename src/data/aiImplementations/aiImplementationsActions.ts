@@ -8,10 +8,18 @@ import {
 } from './aiImplementationDataType'
 
 export enum AiImplementationsActionTypes {
+  AI_IMPLEMENTATION_CREATE_DATA_ACTION = 'AI_IMPLEMENTATION_CREATE_DATA_ACTION',
   AI_IMPLEMENTATIONS_OVERVIEW_DATA_ACTION = 'AI_IMPLEMENTATIONS_OVERVIEW_DATA_ACTION',
   AI_IMPLEMENTATION_HEALTH_DATA_ACTION = 'AI_IMPLEMENTATION_HEALTH_DATA_ACTION',
   AI_IMPLEMENTATION_DELETE_DATA_ACTION = 'AI_IMPLEMENTATION_DELETE_DATA_ACTION',
 }
+
+export const aiImplementationRegisterDataAction = generateDataStateActions<
+  AiImplementationInfo,
+  AiImplementationInfo,
+  void,
+  CallbackMetadata<AiImplementationInfo>
+>(AiImplementationsActionTypes.AI_IMPLEMENTATION_CREATE_DATA_ACTION)
 
 export type AiImplementationListLoadParameters = { withHealth: boolean }
 
