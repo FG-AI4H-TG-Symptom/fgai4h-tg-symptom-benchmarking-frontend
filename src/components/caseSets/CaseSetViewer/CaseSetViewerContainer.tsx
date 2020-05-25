@@ -3,9 +3,9 @@ import { useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
 
 import { caseSetDataAction } from '../../../data/caseSets/caseSetActions'
-import { CaseDataType } from '../../../data/caseSets/caseDataType'
 import { Notification } from '../../../data/application/applicationReducers'
 import { queueNotification as queueNotificationAction } from '../../../data/application/applicationActions'
+import { CaseSetInfo } from '../../../data/caseSets/caseSetDataType'
 import useDataStateLoader from '../../util/useDataStateLoader'
 import DataStateManager from '../../common/DataStateManager'
 import BasicPageLayout from '../../common/BasicPageLayout'
@@ -16,7 +16,7 @@ const CaseSetViewerContainer: React.FC<{}> = () => {
   const dispatch = useDispatch()
   const { caseSetId } = useParams()
 
-  const caseSet = useDataStateLoader<CaseDataType[]>(
+  const caseSet = useDataStateLoader<CaseSetInfo>(
     state => state.caseSets.entries[caseSetId],
     caseSetDataAction.load(caseSetId, { caseSetId }),
   )
@@ -27,11 +27,11 @@ const CaseSetViewerContainer: React.FC<{}> = () => {
 
   return (
     <BasicPageLayout title={`Cases in '${caseSetId}'`}>
-      <DataStateManager<CaseDataType[]>
+      <DataStateManager<CaseSetInfo>
         data={caseSet}
         componentFunction={(caseSetData): JSX.Element => (
           <CaseSetViewerComponent
-            caseSet={caseSetData}
+            caseSet={caseSetData.cases}
             queueNotification={queueNotification}
           />
         )}

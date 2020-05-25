@@ -1,51 +1,44 @@
-import React, { useEffect } from 'react'
-import { connect } from 'react-redux'
+import React from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
-import CaseSetCreatorComponent from './CaseSetCreatorComponent'
 import {
   createCaseSetDataActions,
   CreateCaseSetParameters,
 } from '../../../data/caseSets/caseSetActions'
-import BasicPageLayout from '../../common/BasicPageLayout'
-import { RootState } from '../../../data/rootReducer'
 import {
-  DataState,
-  Loadable,
+  ID_PLACEHOLDER_NEW,
+  LoadableCreateOnly,
 } from '../../../data/util/dataState/dataStateTypes'
+import { RootState } from '../../../data/rootReducer'
 import DataStateManager from '../../common/DataStateManager'
+import BasicPageLayout from '../../common/BasicPageLayout'
 import { paths } from '../../../routes'
 
-type CaseSetCreatorContainerDataProps = {
-  createdCaseSetId: Loadable<string>
-}
-type CaseSetCreatorContainerFunctionProps = {
-  createCaseSet: (caseSetParameters: CreateCaseSetParameters) => void
-  clearCreateCaseSet: () => void
-}
-type CasesSetCreatorProps = CaseSetCreatorContainerDataProps &
-  CaseSetCreatorContainerFunctionProps
+import CaseSetCreatorComponent from './CaseSetCreatorComponent'
 
-const CaseSetCreatorContainer: React.FC<CasesSetCreatorProps> = ({
-  createdCaseSetId,
-  createCaseSet,
-  clearCreateCaseSet,
-}) => {
+const CaseSetCreatorContainer: React.FC<{}> = () => {
+  const dispatch = useDispatch()
   const history = useHistory()
-  useEffect(() => {
-    if (createdCaseSetId.state === DataState.READY) {
-      history.push(paths.caseSetViewer(createdCaseSetId.data))
-    }
 
-    return (): void => {
-      setTimeout(clearCreateCaseSet, 0)
-    }
-  }, [createdCaseSetId, clearCreateCaseSet, history])
+  const createdCaseSet = useSelector<RootState, LoadableCreateOnly>(
+    state => state.caseSets[ID_PLACEHOLDER_NEW],
+  )
+
+  const createCaseSet = (caseSetParameters: CreateCaseSetParameters): void => {
+    dispatch(
+      createCaseSetDataActions.load(caseSetParameters, {
+        onSuccess: caseSet => {
+          history.push(paths.caseSetViewer(caseSet.id))
+        },
+      }),
+    )
+  }
 
   return (
     <BasicPageLayout title='Generate a new case set'>
       <DataStateManager<string>
-        data={createdCaseSetId}
+        data={createdCaseSet}
         allowUninitialized
         componentFunction={(): JSX.Element => (
           <CaseSetCreatorComponent onCreateCaseSet={createCaseSet} />
@@ -55,16 +48,4 @@ const CaseSetCreatorContainer: React.FC<CasesSetCreatorProps> = ({
   )
 }
 
-const mapStateToProps: (
-  state: RootState,
-) => CaseSetCreatorContainerDataProps = state => ({
-  createdCaseSetId: state.caseSets.created,
-})
-const mapDispatchToProps: CaseSetCreatorContainerFunctionProps = {
-  createCaseSet: createCaseSetDataActions.load,
-  clearCreateCaseSet: createCaseSetDataActions.reset,
-}
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(CaseSetCreatorContainer)
+export default CaseSetCreatorContainer

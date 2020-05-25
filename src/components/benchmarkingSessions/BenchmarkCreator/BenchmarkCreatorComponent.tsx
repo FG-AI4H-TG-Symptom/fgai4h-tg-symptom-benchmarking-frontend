@@ -100,12 +100,12 @@ const BenchmarkCreatorComponent: React.FC<BenchmarkCreatorComponentProps> = ({
                   aria-label='case set'
                   defaultValue={defaultCaseSetId}
                 >
-                  {caseSetList.map(({ id }) => (
+                  {caseSetList.map(({ id, name }) => (
                     <FormControlLabel
                       key={id}
                       value={id}
                       control={<Radio name='caseSetId' inputRef={register} />}
-                      label={id}
+                      label={name}
                     />
                   ))}
                 </RadioGroup>
