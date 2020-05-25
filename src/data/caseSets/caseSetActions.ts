@@ -13,19 +13,29 @@ export enum CaseSetActionTypes {
   CASE_SET_LIST_DATA_ACTION = 'CASE_SET_LIST_DATA_ACTION',
   CREATE_CASE_SET_DATA_ACTION = 'CREATE_CASE_SET_DATA_ACTION',
   CASE_SET_DATA_ACTION = 'CASE_SET_DATA_ACTION',
+  CASE_SET_DELETE_DATA_ACTION = 'CASE_SET_DELETE_DATA_ACTION',
 }
 
 export const caseSetListDataActions = generateDataStateActions<CaseSetInfo[]>(
   CaseSetActionTypes.CASE_SET_LIST_DATA_ACTION,
 )
+
 export const createCaseSetDataActions = generateDataStateActions<
   string,
   CreateCaseSetParameters,
   void,
   CallbackMetadata<CaseSetInfo>
 >(CaseSetActionTypes.CREATE_CASE_SET_DATA_ACTION)
+
 export const caseSetDataAction = generateDataStateActions<
   CaseDataType[],
   string,
   { caseSetId: string }
 >(CaseSetActionTypes.CASE_SET_DATA_ACTION)
+
+export const caseSetDeleteDataAction = generateDataStateActions<
+  void,
+  string,
+  { caseSetId: string },
+  CallbackMetadata<void>
+>(CaseSetActionTypes.CASE_SET_DELETE_DATA_ACTION)

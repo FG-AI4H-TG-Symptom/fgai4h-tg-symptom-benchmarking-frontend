@@ -4,6 +4,7 @@ import {
 } from '../util/dataState/dataStateTypes'
 import dataStateGenericReducer, {
   createOptions,
+  deleteOptions,
 } from '../util/dataState/dataStateGenericReducer'
 import { CallbackMetadata } from '../util/dataState/generateDataStateActions'
 
@@ -27,13 +28,18 @@ const actionHandlers: {
     void,
     CallbackMetadata<CaseSetInfo>
   >(createOptions<CaseSetInfo, CaseSetsState>()),
-
   [CaseSetActionTypes.CASE_SET_DATA_ACTION]: dataStateGenericReducer<
     CaseSetsState,
     CaseDataType[],
     void,
     { caseSetId: string }
   >({ path: action => `entries.${action.meta.caseSetId}` }),
+  [CaseSetActionTypes.CASE_SET_DELETE_DATA_ACTION]: dataStateGenericReducer<
+    CaseSetsState,
+    void,
+    void,
+    { caseSetId: string } & CallbackMetadata<void>
+  >(deleteOptions<CaseSetInfo, CaseSetsState>('caseSetId')),
 }
 
 const caseSetReducer = (state = caseSetsInitialState, action): CaseSetsState =>

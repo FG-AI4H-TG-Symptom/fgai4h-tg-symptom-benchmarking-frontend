@@ -9,10 +9,12 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Tooltip,
 } from '@material-ui/core'
 import {
   ViewList as OpenIcon,
   PlayCircleOutline as StartBenchmarkIcon,
+  Delete as DeleteIcon,
 } from '@material-ui/icons'
 
 import LinkWrapper from '../../common/LinkWrapper'
@@ -21,15 +23,18 @@ import { CaseSetInfo } from '../../../data/caseSets/caseSetDataType'
 
 import * as Styled from './CaseSetManagerComponent.style'
 import * as CommonStyled from '../../common/CommonStyles'
+import ConfirmationIconButton from '../../common/ConfirmationIconButton'
 
 const LONDON_CASE_SET_ID = 'london_model2019_cases_v1'
 
 interface CaseSetManagerComponentProps {
   caseSetList: CaseSetInfo[]
+  deleteCaseSet: (caseSetId: string) => void
 }
 
 const CaseSetManagerComponent: React.FC<CaseSetManagerComponentProps> = ({
   caseSetList,
+  deleteCaseSet,
 }) => (
   <>
     <TableContainer component={Paper}>
@@ -51,7 +56,7 @@ const CaseSetManagerComponent: React.FC<CaseSetManagerComponentProps> = ({
                   <Chip label='Cases from doctors' color='primary' />
                 ) : null}
               </TableCell>
-              <CommonStyled.CenteredTableCell>
+              <CommonStyled.ButtonsTableCell>
                 <LinkWrapper to={paths.caseSetViewer(id)}>
                   <IconButton aria-label='view'>
                     <OpenIcon />
@@ -62,7 +67,19 @@ const CaseSetManagerComponent: React.FC<CaseSetManagerComponentProps> = ({
                     <StartBenchmarkIcon />
                   </IconButton>
                 </LinkWrapper>
-              </CommonStyled.CenteredTableCell>
+
+                <Tooltip title='Hold to delete case set'>
+                  <span>
+                    <ConfirmationIconButton
+                      onConfirmed={(): void => deleteCaseSet(id)}
+                      color='darkred'
+                      aria-label='delete case set'
+                    >
+                      <DeleteIcon />
+                    </ConfirmationIconButton>
+                  </span>
+                </Tooltip>
+              </CommonStyled.ButtonsTableCell>
             </TableRow>
           ))}
         </TableBody>

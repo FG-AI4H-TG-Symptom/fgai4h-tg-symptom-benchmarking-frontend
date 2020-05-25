@@ -1,35 +1,32 @@
-import React, { useEffect } from 'react'
-import { connect } from 'react-redux'
+import React from 'react'
+import { useDispatch } from 'react-redux'
 
 import { IconButton } from '@material-ui/core'
 import { Add as CreateIcon } from '@material-ui/icons'
 
-import { caseSetListDataActions } from '../../../data/caseSets/caseSetActions'
+import {
+  caseSetDeleteDataAction,
+  caseSetListDataActions,
+} from '../../../data/caseSets/caseSetActions'
 import CaseSetManagerComponent from './CaseSetManagerComponent'
-import { RootState } from '../../../data/rootReducer'
 import DataStateManager from '../../common/DataStateManager'
 import BasicPageLayout from '../../common/BasicPageLayout'
 import LinkWrapper from '../../common/LinkWrapper'
 import { paths } from '../../../routes'
 import { CaseSetInfo } from '../../../data/caseSets/caseSetDataType'
-import { Loadable } from '../../../data/util/dataState/dataStateTypes'
+import useDataStateLoader from '../../util/useDataStateLoader'
 
-type CaseSetManagerContainerDataProps = {
-  caseSetList: Loadable<CaseSetInfo[]>
-}
-type CaseSetManagerContainerFunctionProps = {
-  fetchCaseSetList: () => void
-}
-type CaseSetManagerContainerProps = CaseSetManagerContainerDataProps &
-  CaseSetManagerContainerFunctionProps
+const CaseSetManagerContainer: React.FC<{}> = () => {
+  const dispatch = useDispatch()
 
-const CaseSetManagerContainer: React.FC<CaseSetManagerContainerProps> = ({
-  caseSetList,
-  fetchCaseSetList,
-}) => {
-  useEffect(() => {
-    fetchCaseSetList()
-  }, [fetchCaseSetList])
+  const caseSets = useDataStateLoader<CaseSetInfo[]>(
+    'caseSets',
+    caseSetListDataActions.load(),
+  )
+
+  const deleteCaseSet = (caseSetId: string): void => {
+    dispatch(caseSetDeleteDataAction.load(caseSetId, { caseSetId }))
+  }
 
   return (
     <BasicPageLayout
@@ -43,24 +40,16 @@ const CaseSetManagerContainer: React.FC<CaseSetManagerContainerProps> = ({
       }
     >
       <DataStateManager<CaseSetInfo[]>
-        data={caseSetList}
-        componentFunction={(caseSetListData): JSX.Element => (
-          <CaseSetManagerComponent caseSetList={caseSetListData} />
+        data={caseSets}
+        componentFunction={(caseSetsData): JSX.Element => (
+          <CaseSetManagerComponent
+            caseSetList={caseSetsData}
+            deleteCaseSet={deleteCaseSet}
+          />
         )}
       />
     </BasicPageLayout>
   )
 }
 
-const mapStateToProps: (
-  state: RootState,
-) => CaseSetManagerContainerDataProps = state => ({
-  caseSetList: state.caseSets.overview,
-})
-const mapDispatchToProps: CaseSetManagerContainerFunctionProps = {
-  fetchCaseSetList: caseSetListDataActions.load,
-}
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(CaseSetManagerContainer)
+export default CaseSetManagerContainer
