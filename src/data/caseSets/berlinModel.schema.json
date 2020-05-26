@@ -1244,13 +1244,19 @@
         },
         "state": {
           "$ref": "#/definitions/clinicalFindingState"
+        },
+        "attributes": {
+          "type": "array",
+          "uniqueItems": true,
+          "const": []
         }
       },
       "required": [
         "id",
         "name",
         "standardOntologyUris",
-        "state"
+        "state",
+        "attributes"
       ],
       "additionalProperties": false
     },
@@ -1327,13 +1333,19 @@
         },
         "state": {
           "$ref": "#/definitions/clinicalFindingState"
+        },
+        "attributes": {
+          "type": "array",
+          "uniqueItems": true,
+          "const": []
         }
       },
       "required": [
         "id",
         "name",
         "standardOntologyUris",
-        "state"
+        "state",
+        "attributes"
       ],
       "additionalProperties": false
     },
@@ -1362,13 +1374,19 @@
         },
         "state": {
           "$ref": "#/definitions/clinicalFindingState"
+        },
+        "attributes": {
+          "type": "array",
+          "uniqueItems": true,
+          "const": []
         }
       },
       "required": [
         "id",
         "name",
         "standardOntologyUris",
-        "state"
+        "state",
+        "attributes"
       ],
       "additionalProperties": false
     },
@@ -1445,13 +1463,19 @@
         },
         "state": {
           "$ref": "#/definitions/clinicalFindingState"
+        },
+        "attributes": {
+          "type": "array",
+          "uniqueItems": true,
+          "const": []
         }
       },
       "required": [
         "id",
         "name",
         "standardOntologyUris",
-        "state"
+        "state",
+        "attributes"
       ],
       "additionalProperties": false
     },

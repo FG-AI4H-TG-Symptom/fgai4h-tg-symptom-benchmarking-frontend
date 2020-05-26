@@ -8,7 +8,7 @@ import {
   LoadingState,
 } from './dataStateTypes'
 import { CallbackMetadata } from './generateDataStateActions'
-import BaseConcept from '../baseConcept'
+import { BaseConcept } from '../baseConceptTypes'
 
 export const createOptions = <
   DataType extends BaseConcept,

@@ -1,26 +1,32 @@
-import React from 'react'
-import { Button, Grid, MenuItem, Typography } from '@material-ui/core'
+import React, { useMemo } from 'react'
+import { Box, Grid, IconButton, MenuItem, Typography } from '@material-ui/core'
+import { Delete as DeleteIcon } from '@material-ui/icons'
 
 import berlinModelSchema from '../../../../data/caseSets/berlinModel.schema.json'
 import FormBlock from '../../../forms/FormBlock'
 import AutoSelect from '../../../forms/AutoSelect'
-import {
-  useAutoFieldArray,
-  useWatch,
-  useWatchArrayHelper,
-} from '../../../forms/utils'
+import AutoArrayFormBlock, {
+  ArrayFormComponentProps,
+} from '../../../forms/AutoArrayFormBlock'
+import { useWatch } from '../../../forms/utils'
 
 import AttributeSelect from './AttributeSelect'
-import { refToConcept } from './utils'
+import { ConceptSelectionProps, refToConcept } from './utils'
+import { BaseNamedConcept } from '../../../../data/util/baseConceptTypes'
 
-const ClinicalFindingSelect: React.FC<{}> = () => {
-  const attributes = useAutoFieldArray({
-    name: 'attributes',
-  })
+const ClinicalFindingSelect: React.FC<
+  ConceptSelectionProps | ArrayFormComponentProps
+> = ({ possibleValues, ...props }) => {
   const clinicalFindingId = useWatch<string>('id')
-  const currentAttributeIds = useWatchArrayHelper(
-    attributes,
-    'attributes[*].id',
+
+  const possibleAttributes = useMemo<Array<BaseNamedConcept>>(
+    () =>
+      berlinModelSchema.definitions[
+        clinicalFindingId
+      ]?.properties.attributes.items?.oneOf.map(({ $ref }) =>
+        refToConcept($ref),
+      ) || [],
+    [clinicalFindingId],
   )
 
   let attributesSection
@@ -28,45 +34,29 @@ const ClinicalFindingSelect: React.FC<{}> = () => {
     const clinicalFindingProperties =
       berlinModelSchema.definitions[clinicalFindingId].properties
 
-    if (clinicalFindingProperties.attributes) {
-      const possibleAttributes = clinicalFindingProperties.attributes.items.oneOf.map(
-        ({ $ref }) => refToConcept($ref),
-      )
-
+    if (clinicalFindingProperties.attributes.items) {
       if (possibleAttributes.length < 4) {
         attributesSection = (
           <FormBlock name='attributes' group color='#4cb8da' title='Attributes'>
             {possibleAttributes.map((attribute, index) => (
               <FormBlock name={`[${index}]`} key={attribute.id} color='#4cb8da'>
-                <AttributeSelect fixedAttribute={attribute} />
+                <AttributeSelect
+                  fixedAttribute={attribute}
+                  possibleValues={possibleAttributes}
+                />
               </FormBlock>
             ))}
           </FormBlock>
         )
       } else {
         attributesSection = (
-          <FormBlock name='attributes' group color='#4cb8da' title='Attributes'>
-            {attributes.fields.map((item, index) => (
-              <FormBlock name={`[${index}]`} key={item.key} color='#4cb8da'>
-                <AttributeSelect
-                  possibleAttributes={possibleAttributes.filter(
-                    ({ id }) =>
-                      id === currentAttributeIds[index] ||
-                      !currentAttributeIds.includes(id),
-                  )}
-                  onRemoveAttribute={(): void => {
-                    attributes.remove(index)
-                  }}
-                />
-              </FormBlock>
-            ))}
-
-            {currentAttributeIds.length < possibleAttributes.length ? (
-              <Button onClick={(): void => attributes.append({})}>
-                Add attribute
-              </Button>
-            ) : null}
-          </FormBlock>
+          <AutoArrayFormBlock
+            title='Attributes'
+            name='attributes'
+            color='#4cb8da'
+            formComponent={AttributeSelect}
+            possibleValues={possibleAttributes}
+          />
         )
       }
     } else {
@@ -80,38 +70,35 @@ const ClinicalFindingSelect: React.FC<{}> = () => {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={8} lg={3}>
-        <AutoSelect
-          name='id'
-          label='Clinical finding'
-          onChange={([event]): string => {
-            attributes.remove()
-            return event.target.value
-          }}
-        >
-          {berlinModelSchema.definitions.clinicalFinding.oneOf.map(
-            ({ $ref }) => {
-              const clinicalFinding = refToConcept($ref)
-              return (
-                <MenuItem key={clinicalFinding.id} value={clinicalFinding.id}>
-                  {clinicalFinding.name}
+      <Grid item xs={12} sm={8} lg={3}>
+        <AutoSelect name='id' label='Clinical finding'>
+          {(possibleValues as BaseNamedConcept[]).map(clinicalFinding => (
+            <MenuItem key={clinicalFinding.id} value={clinicalFinding.id}>
+              {clinicalFinding.name}
+            </MenuItem>
+          ))}
+        </AutoSelect>
+      </Grid>
+      <Grid item xs={12} sm={4} lg={2}>
+        <Box display='flex'>
+          <AutoSelect name='state' label='State'>
+            {berlinModelSchema.definitions.clinicalFindingState.enum.map(
+              state => (
+                <MenuItem key={state} value={state}>
+                  {state}
                 </MenuItem>
-              )
-            },
-          )}
-        </AutoSelect>
+              ),
+            )}
+          </AutoSelect>
+
+          {'onRemove' in props ? (
+            <IconButton onClick={props.onRemove}>
+              <DeleteIcon />
+            </IconButton>
+          ) : null}
+        </Box>
       </Grid>
-      <Grid item xs={4} lg={2}>
-        <AutoSelect name='state' label='State'>
-          {berlinModelSchema.definitions.clinicalFindingState.enum.map(
-            state => (
-              <MenuItem key={state} value={state}>
-                {state}
-              </MenuItem>
-            ),
-          )}
-        </AutoSelect>
-      </Grid>
+
       <Grid item xs={12} lg={7}>
         {attributesSection}
       </Grid>
