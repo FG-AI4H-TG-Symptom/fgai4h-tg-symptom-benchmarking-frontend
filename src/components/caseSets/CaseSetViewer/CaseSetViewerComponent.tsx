@@ -1,7 +1,7 @@
 import React from 'react'
 import { Paper } from '@material-ui/core'
 
-import { CaseDataType } from '../../../data/caseSets/caseDataType'
+import { CaseSetInfo } from '../../../data/caseSets/caseSetDataType'
 import { Notification } from '../../../data/application/applicationReducers'
 import ViewRaw from '../../common/ViewRaw'
 import CaseSetViewerTable from './CaseSetViewerTable'
@@ -10,7 +10,7 @@ import CaseSetViewerAnalysis from './CaseSetViewerAnalysis'
 import CaseSetEditor from './CaseSetEditor'
 
 export interface CaseSetComponentProps {
-  caseSet: CaseDataType[]
+  caseSet: CaseSetInfo
   queueNotification: (notification: Notification) => void
 }
 
@@ -32,7 +32,7 @@ const CaseSetViewerComponent: React.FC<CaseSetComponentProps> = ({
       name: 'Editor',
       componentCallback: (): JSX.Element => (
         <CaseSetEditor
-          caseSet={caseSet}
+          caseSet={caseSet.cases}
           queueNotification={queueNotification}
         />
       ),
@@ -44,7 +44,7 @@ const CaseSetViewerComponent: React.FC<CaseSetComponentProps> = ({
       id: 'analysis',
       name: 'Analysis',
       componentCallback: (): JSX.Element => (
-        <CaseSetViewerAnalysis caseSet={caseSet} />
+        <CaseSetViewerAnalysis caseSet={caseSet.cases} />
       ),
     },
     {

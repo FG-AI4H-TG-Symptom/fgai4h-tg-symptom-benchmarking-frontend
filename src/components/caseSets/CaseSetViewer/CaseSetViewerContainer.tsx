@@ -31,7 +31,7 @@ const CaseSetViewerContainer: React.FC<{}> = () => {
         data={caseSet}
         componentFunction={(caseSetData): JSX.Element => (
           <CaseSetViewerComponent
-            caseSet={caseSetData.cases}
+            caseSet={caseSetData}
             queueNotification={queueNotification}
           />
         )}
