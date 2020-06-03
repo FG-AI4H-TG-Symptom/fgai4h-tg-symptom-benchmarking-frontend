@@ -9,7 +9,6 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Tooltip,
 } from '@material-ui/core'
 import {
   ViewList as OpenIcon,
@@ -68,17 +67,13 @@ const CaseSetManagerComponent: React.FC<CaseSetManagerComponentProps> = ({
                   </IconButton>
                 </LinkWrapper>
 
-                <Tooltip title='Hold to delete case set'>
-                  <span>
-                    <ConfirmationIconButton
-                      onConfirmed={(): void => deleteCaseSet(id)}
-                      color='darkred'
-                      aria-label='delete case set'
-                    >
-                      <DeleteIcon />
-                    </ConfirmationIconButton>
-                  </span>
-                </Tooltip>
+                <ConfirmationIconButton
+                  onConfirmed={(): void => deleteCaseSet(id)}
+                  color='darkred'
+                  label='Hold to delete case set'
+                >
+                  <DeleteIcon />
+                </ConfirmationIconButton>
               </CommonStyled.ButtonsTableCell>
             </TableRow>
           ))}
