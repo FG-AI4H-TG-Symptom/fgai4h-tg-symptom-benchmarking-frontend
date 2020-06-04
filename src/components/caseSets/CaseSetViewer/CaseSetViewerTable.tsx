@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import {
-  IconButton,
   Table,
   TableBody,
   TableCell,
@@ -10,19 +9,13 @@ import {
   TableRow,
   Tooltip,
 } from '@material-ui/core'
-import {
-  Check as CheckIcon,
-  Clear as ClearIcon,
-  Edit as EditIcon,
-} from '@material-ui/icons'
+import { Check as CheckIcon, Clear as ClearIcon } from '@material-ui/icons'
 
+import { CaseSetInfo } from '../../../data/caseSets/caseSetDataType'
+import { ClinicalFindingState } from '../../../data/caseSets/berlinModelTypes'
 import TextWithTooltipSelf from '../../common/TextWithTooltipSelf'
 
 import * as Styled from './CaseSetViewerTable.style'
-import LinkWrapper from '../../common/LinkWrapper'
-import { paths } from '../../../routes'
-import { CaseSetInfo } from '../../../data/caseSets/caseSetDataType'
-import { ClinicalFindingState } from '../../../data/caseSets/berlinModelTypes'
 
 const PresenceIcon: React.FC<{ presence: ClinicalFindingState }> = ({
   presence,
@@ -39,7 +32,7 @@ export interface CaseSetComponentProps {
 }
 
 const CaseSetViewerTable: React.FC<CaseSetComponentProps> = ({
-  caseSet: { id: caseSetId, cases },
+  caseSet: { cases },
 }) => {
   const activeRowsPerPageOptions = rowsPerPageOptions.filter(
     rowsPerPageOption => rowsPerPageOption <= cases.length,
@@ -78,7 +71,6 @@ const CaseSetViewerTable: React.FC<CaseSetComponentProps> = ({
               <TableCell>Other features</TableCell>
               <TableCell>Condition</TableCell>
               <TableCell>Expected triage level</TableCell>
-              <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -86,8 +78,8 @@ const CaseSetViewerTable: React.FC<CaseSetComponentProps> = ({
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map(
                 ({
-                  id: caseId2,
-                  data: { caseId, metaData, caseData, valuesToPredict },
+                  id: caseId,
+                  data: { metaData, caseData, valuesToPredict },
                 }) => (
                   <TableRow key={caseId}>
                     <Styled.CaseIdCell>
@@ -132,15 +124,6 @@ const CaseSetViewerTable: React.FC<CaseSetComponentProps> = ({
                       {valuesToPredict.correctCondition.name}
                     </TableCell>
                     <TableCell>{valuesToPredict.expectedTriageLevel}</TableCell>
-                    <TableCell>
-                      <LinkWrapper
-                        to={paths.caseSetCaseEditor(caseSetId, caseId2)}
-                      >
-                        <IconButton>
-                          <EditIcon />
-                        </IconButton>
-                      </LinkWrapper>
-                    </TableCell>
                   </TableRow>
                 ),
               )}

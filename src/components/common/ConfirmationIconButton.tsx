@@ -38,6 +38,7 @@ interface ConfirmationIconButtonProps {
   onConfirmed: () => void
   color: string
   label: string
+  disabled?: boolean
 }
 
 const ConfirmationIconButton: React.FC<ConfirmationIconButtonProps> = ({
@@ -45,6 +46,7 @@ const ConfirmationIconButton: React.FC<ConfirmationIconButtonProps> = ({
   color,
   children,
   label,
+  disabled,
 }) => {
   const [progress, setProgress] = useState(0)
   const animationInterval = useRef<number>()
@@ -71,24 +73,27 @@ const ConfirmationIconButton: React.FC<ConfirmationIconButtonProps> = ({
 
   return (
     <Tooltip title={label}>
-      <IconButtonForProgressIndicator
-        aria-label={label}
-        onMouseDown={startConfirmation}
-        onMouseUp={abortConfirmation}
-      >
-        <ProgressBackgroundContainer
-          viewBox={`0 0 ${SVG_VIRTUAL_SIZE} ${SVG_VIRTUAL_SIZE}`}
+      <span>
+        <IconButtonForProgressIndicator
+          aria-label={label}
+          onMouseDown={startConfirmation}
+          onMouseUp={abortConfirmation}
+          disabled={disabled}
         >
-          <ProgressBackgroundCircle
-            r={(SVG_VIRTUAL_SIZE - PROGRESS_CIRCLE_STROKE_WIDTH) / 2}
-            cx={SVG_VIRTUAL_SIZE / 2}
-            cy={SVG_VIRTUAL_SIZE / 2}
-            color={color}
-            progress={progress}
-          />
-        </ProgressBackgroundContainer>
-        {children}
-      </IconButtonForProgressIndicator>
+          <ProgressBackgroundContainer
+            viewBox={`0 0 ${SVG_VIRTUAL_SIZE} ${SVG_VIRTUAL_SIZE}`}
+          >
+            <ProgressBackgroundCircle
+              r={(SVG_VIRTUAL_SIZE - PROGRESS_CIRCLE_STROKE_WIDTH) / 2}
+              cx={SVG_VIRTUAL_SIZE / 2}
+              cy={SVG_VIRTUAL_SIZE / 2}
+              color={color}
+              progress={progress}
+            />
+          </ProgressBackgroundContainer>
+          {children}
+        </IconButtonForProgressIndicator>
+      </span>
     </Tooltip>
   )
 }

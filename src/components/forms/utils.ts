@@ -1,4 +1,10 @@
-import { FieldErrors, useFieldArray, useFormContext } from 'react-hook-form'
+import {
+  FieldErrors,
+  useFieldArray,
+  useFormContext,
+  ValidationResolver,
+} from 'react-hook-form'
+import { ValidateFunction } from 'ajv'
 
 import { usePrefix } from './PrefixContext'
 
@@ -79,3 +85,21 @@ export const errorSummary = (
 
 export const sanitizeForId = (prefix: string): string =>
   prefix.replace(/[.[\]'"]/g, '')
+
+export const validateAgainstSchema = <FormValues>(
+  values,
+  schemaValidator: ValidateFunction,
+): ReturnType<ValidationResolver<FormValues>> => {
+  const valid = schemaValidator(values)
+  if (valid) {
+    return { values, errors: {} }
+  }
+
+  const errors = {}
+  schemaValidator.errors.forEach(error => {
+    // todo: make certain errors more human readable
+    errors[error.dataPath.replace(/^\./, '')] = error.message
+  })
+
+  return { values: {}, errors }
+}

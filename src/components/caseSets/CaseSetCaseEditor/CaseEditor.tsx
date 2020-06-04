@@ -1,13 +1,12 @@
 import React, { useMemo } from 'react'
 import { Box, Grid, MenuItem } from '@material-ui/core'
 
-import berlinModelSchema from '../../../../data/caseSets/berlinModel.schema.json'
-import FormSection from '../../../forms/FormSection'
-import FormBlock from '../../../forms/FormBlock'
-import AutoTextField from '../../../forms/AutoTextField'
-import AutoSelect from '../../../forms/AutoSelect'
-import AutoArrayFormBlock from '../../../forms/AutoArrayFormBlock'
-import AutoReadOnlyField from '../../../forms/AutoReadOnlyField'
+import berlinModelSchema from '../../../data/caseSets/berlinModel.schema.json'
+import FormSection from '../../forms/FormSection'
+import FormBlock from '../../forms/FormBlock'
+import AutoTextField from '../../forms/AutoTextField'
+import AutoSelect from '../../forms/AutoSelect'
+import AutoArrayFormBlock from '../../forms/AutoArrayFormBlock'
 
 import ClinicalFindingSelect from './ClinicalFindingSelect'
 import ConditionSelect from './ConditionSelect'
@@ -31,13 +30,19 @@ const CaseEditor: React.FC<{}> = () => {
 
   return (
     <>
-      <AutoReadOnlyField name='caseId' />
       <FormSection title='Meta data' name='metaData'>
+        <AutoTextField
+          label='Case name'
+          type='text'
+          name='name'
+          autoComplete='off'
+        />
         <AutoTextField
           label='Case description'
           type='text'
           name='description'
           autoComplete='off'
+          optional
         />
         <Grid container spacing={2}>
           <Grid item xs={12} sm={8}>

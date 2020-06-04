@@ -1,5 +1,5 @@
-import berlinModelSchema from '../../../../data/caseSets/berlinModel.schema.json'
-import { BaseNamedConcept } from '../../../../data/util/baseConceptTypes'
+import berlinModelSchema from '../../../data/caseSets/berlinModel.schema.json'
+import { BaseNamedConcept } from '../../../data/util/baseConceptTypes'
 
 export interface ModelConstProperties {
   properties: {
