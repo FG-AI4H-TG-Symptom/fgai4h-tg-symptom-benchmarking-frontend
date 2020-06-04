@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { IconButton } from '@material-ui/core'
+import { IconButton, Tooltip } from '@material-ui/core'
 import styled from 'styled-components'
 
 const IconButtonForProgressIndicator = styled(IconButton)`
@@ -37,14 +37,16 @@ const ProgressBackgroundCircle = styled.circle<{
 interface ConfirmationIconButtonProps {
   onConfirmed: () => void
   color: string
-  'aria-label': string
+  label: string
+  disabled?: boolean
 }
 
 const ConfirmationIconButton: React.FC<ConfirmationIconButtonProps> = ({
   onConfirmed,
   color,
   children,
-  'aria-label': ariaLabel,
+  label,
+  disabled,
 }) => {
   const [progress, setProgress] = useState(0)
   const animationInterval = useRef<number>()
@@ -70,24 +72,29 @@ const ConfirmationIconButton: React.FC<ConfirmationIconButtonProps> = ({
   }
 
   return (
-    <IconButtonForProgressIndicator
-      aria-label={ariaLabel}
-      onMouseDown={startConfirmation}
-      onMouseUp={abortConfirmation}
-    >
-      <ProgressBackgroundContainer
-        viewBox={`0 0 ${SVG_VIRTUAL_SIZE} ${SVG_VIRTUAL_SIZE}`}
-      >
-        <ProgressBackgroundCircle
-          r={(SVG_VIRTUAL_SIZE - PROGRESS_CIRCLE_STROKE_WIDTH) / 2}
-          cx={SVG_VIRTUAL_SIZE / 2}
-          cy={SVG_VIRTUAL_SIZE / 2}
-          color={color}
-          progress={progress}
-        />
-      </ProgressBackgroundContainer>
-      {children}
-    </IconButtonForProgressIndicator>
+    <Tooltip title={label}>
+      <span>
+        <IconButtonForProgressIndicator
+          aria-label={label}
+          onMouseDown={startConfirmation}
+          onMouseUp={abortConfirmation}
+          disabled={disabled}
+        >
+          <ProgressBackgroundContainer
+            viewBox={`0 0 ${SVG_VIRTUAL_SIZE} ${SVG_VIRTUAL_SIZE}`}
+          >
+            <ProgressBackgroundCircle
+              r={(SVG_VIRTUAL_SIZE - PROGRESS_CIRCLE_STROKE_WIDTH) / 2}
+              cx={SVG_VIRTUAL_SIZE / 2}
+              cy={SVG_VIRTUAL_SIZE / 2}
+              color={color}
+              progress={progress}
+            />
+          </ProgressBackgroundContainer>
+          {children}
+        </IconButtonForProgressIndicator>
+      </span>
+    </Tooltip>
   )
 }
 

@@ -6,10 +6,15 @@
   "$comment": "This model is auto-generated! Don't manually make changes you wish to persist.",
   "type": "object",
   "properties": {
-    "caseSetName": {
+    "id": {
       "type": "string",
       "minLength": 1,
-      "description": "Name of the case set"
+      "description": "Case set ID"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Case set name"
     },
     "cases": {
       "type": "array",
@@ -20,7 +25,7 @@
     }
   },
   "required": [
-    "caseSetName",
+    "name",
     "cases"
   ],
   "additionalProperties": false,
@@ -28,14 +33,15 @@
     "case": {
       "type": "object",
       "properties": {
-        "caseId": {
-          "type": "string",
-          "minLength": 1,
-          "description": "Case ID"
-        },
         "metaData": {
           "type": "object",
           "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 50,
+              "description": "Short human readable case name"
+            },
             "description": {
               "type": "string",
               "minLength": 1,
@@ -53,7 +59,7 @@
             }
           },
           "required": [
-            "description"
+            "name"
           ],
           "additionalProperties": false
         },
@@ -139,7 +145,6 @@
         }
       },
       "required": [
-        "caseId",
         "metaData",
         "caseData",
         "valuesToPredict"
@@ -1244,13 +1249,19 @@
         },
         "state": {
           "$ref": "#/definitions/clinicalFindingState"
+        },
+        "attributes": {
+          "type": "array",
+          "uniqueItems": true,
+          "const": []
         }
       },
       "required": [
         "id",
         "name",
         "standardOntologyUris",
-        "state"
+        "state",
+        "attributes"
       ],
       "additionalProperties": false
     },
@@ -1327,13 +1338,19 @@
         },
         "state": {
           "$ref": "#/definitions/clinicalFindingState"
+        },
+        "attributes": {
+          "type": "array",
+          "uniqueItems": true,
+          "const": []
         }
       },
       "required": [
         "id",
         "name",
         "standardOntologyUris",
-        "state"
+        "state",
+        "attributes"
       ],
       "additionalProperties": false
     },
@@ -1362,13 +1379,19 @@
         },
         "state": {
           "$ref": "#/definitions/clinicalFindingState"
+        },
+        "attributes": {
+          "type": "array",
+          "uniqueItems": true,
+          "const": []
         }
       },
       "required": [
         "id",
         "name",
         "standardOntologyUris",
-        "state"
+        "state",
+        "attributes"
       ],
       "additionalProperties": false
     },
@@ -1445,13 +1468,19 @@
         },
         "state": {
           "$ref": "#/definitions/clinicalFindingState"
+        },
+        "attributes": {
+          "type": "array",
+          "uniqueItems": true,
+          "const": []
         }
       },
       "required": [
         "id",
         "name",
         "standardOntologyUris",
-        "state"
+        "state",
+        "attributes"
       ],
       "additionalProperties": false
     },

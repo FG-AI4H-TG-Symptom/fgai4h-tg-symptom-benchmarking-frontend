@@ -22,7 +22,7 @@ export type BenchmarkState = DataActionBaseState<BenchmarkingSession> & {
 }
 
 const benchmarkInitialState: BenchmarkState = Object.assign(
-  dataActionBaseStateInitial(),
+  dataActionBaseStateInitial<BenchmarkingSession>(),
   {
     runningBenchmarkStatus: InitialState,
   },

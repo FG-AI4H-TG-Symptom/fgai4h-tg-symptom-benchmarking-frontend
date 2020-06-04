@@ -21,9 +21,9 @@ const FormSection: React.FC<FormSectionProps> = ({ title, name, children }) => {
   const errors = useErrorsInChildren(name)
   const hasErrors = errors.length > 0
   return (
-    <FormCard variant='outlined' hasErrors={hasErrors}>
+    <FormCard hasErrors={hasErrors}>
       <CardHeader
-        subheader={title}
+        title={title}
         action={
           hasErrors ? (
             <Tooltip title={errorSummary(name, errors)}>

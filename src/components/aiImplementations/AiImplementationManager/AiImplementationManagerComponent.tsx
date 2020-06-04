@@ -8,7 +8,6 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Tooltip,
 } from '@material-ui/core'
 import { Delete as DeleteIcon, Launch as LaunchIcon } from '@material-ui/icons'
 
@@ -47,17 +46,13 @@ const AiImplementationManagerComponent: React.FC<AiImplementationManagerComponen
                 <IconButton aria-label='view' disabled>
                   <LaunchIcon />
                 </IconButton>
-                <Tooltip title='Hold to delete AI implementation'>
-                  <span>
-                    <ConfirmationIconButton
-                      onConfirmed={(): void => deleteAiImplementation(id)}
-                      color='darkred'
-                      aria-label='delete AI implementation'
-                    >
-                      <DeleteIcon />
-                    </ConfirmationIconButton>
-                  </span>
-                </Tooltip>
+                <ConfirmationIconButton
+                  onConfirmed={(): void => deleteAiImplementation(id)}
+                  color='darkred'
+                  label='Hold to delete AI implementation'
+                >
+                  <DeleteIcon />
+                </ConfirmationIconButton>
               </TableCell>
             </TableRow>
           ))}

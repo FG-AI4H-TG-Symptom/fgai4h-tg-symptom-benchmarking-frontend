@@ -1,7 +1,6 @@
 import React from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { Tooltip } from '@material-ui/core'
 import { Delete as DeleteIcon } from '@material-ui/icons'
 
 import { aiImplementationOverviewDataAction } from '../../../data/aiImplementations/aiImplementationsActions'
@@ -74,17 +73,13 @@ const BenchmarkEvaluatorContainer: React.FC<{}> = () => {
     <BasicPageLayout
       title='Benchmark evaluation'
       action={
-        <Tooltip title='Hold to delete benchmarking session'>
-          <span>
-            <ConfirmationIconButton
-              onConfirmed={deleteBenchmarkingSession}
-              color='darkred'
-              aria-label='delete benchmarking session'
-            >
-              <DeleteIcon />
-            </ConfirmationIconButton>
-          </span>
-        </Tooltip>
+        <ConfirmationIconButton
+          onConfirmed={deleteBenchmarkingSession}
+          color='darkred'
+          label='Hold to delete benchmarking session'
+        >
+          <DeleteIcon />
+        </ConfirmationIconButton>
       }
     >
       <DataStateManager<BenchmarkEvaluation>

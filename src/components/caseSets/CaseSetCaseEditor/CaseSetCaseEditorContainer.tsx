@@ -4,20 +4,21 @@ import { useParams } from 'react-router-dom'
 
 import {
   caseSetDataAction,
-  caseSetSaveDataAction,
+  caseSetSaveCaseDataAction,
 } from '../../../data/caseSets/caseSetActions'
 import { Notification } from '../../../data/application/applicationReducers'
 import { queueNotification as queueNotificationAction } from '../../../data/application/applicationActions'
 import { CaseSetInfo } from '../../../data/caseSets/caseSetDataType'
+import { CaseDataType } from '../../../data/caseSets/caseDataType'
 import useDataStateLoader from '../../util/useDataStateLoader'
 import DataStateManager from '../../common/DataStateManager'
 import BasicPageLayout from '../../common/BasicPageLayout'
 
-import CaseSetViewerComponent from './CaseSetViewerComponent'
+import CaseSetCaseEditorComponent from './CaseSetCaseEditorComponent'
 
-const CaseSetViewerContainer: React.FC<{}> = () => {
+const CaseSetCaseEditorContainer: React.FC<{}> = () => {
   const dispatch = useDispatch()
-  const { caseSetId } = useParams()
+  const { caseId, caseSetId } = useParams()
 
   const caseSet = useDataStateLoader<CaseSetInfo>(
     state => state.caseSets.entries[caseSetId],
@@ -28,13 +29,14 @@ const CaseSetViewerContainer: React.FC<{}> = () => {
     dispatch(queueNotificationAction(notification))
   }
 
-  const saveCaseSet = (editedCaseSet: CaseSetInfo): void => {
+  const saveCase = (case_: CaseDataType): void => {
     dispatch(
-      caseSetSaveDataAction.load(editedCaseSet, {
+      caseSetSaveCaseDataAction.load(case_, {
         caseSetId,
+        caseId: case_.id,
         onSuccess: () => {
           queueNotification({
-            message: 'Case set saved',
+            message: 'Case saved',
             type: 'success',
           })
         },
@@ -43,13 +45,26 @@ const CaseSetViewerContainer: React.FC<{}> = () => {
   }
 
   return (
-    <BasicPageLayout title={`Cases in '${caseSetId}'`}>
+    <BasicPageLayout
+      title={`Edit case '${caseId}'`}
+      subtitle={
+        <>
+          in case set &apos;
+          <DataStateManager
+            data={caseSet}
+            componentFunction={(caseSetData): string => caseSetData.name}
+            interstitial={<>caseSetId</>}
+          />
+          &apos;
+        </>
+      }
+    >
       <DataStateManager<CaseSetInfo>
         data={caseSet}
         componentFunction={(caseSetData): JSX.Element => (
-          <CaseSetViewerComponent
-            caseSet={caseSetData}
-            saveCaseSet={saveCaseSet}
+          <CaseSetCaseEditorComponent
+            caseData={caseSetData.cases.find(({ id }) => id === caseId)}
+            saveCase={saveCase}
           />
         )}
       />
@@ -57,4 +72,4 @@ const CaseSetViewerContainer: React.FC<{}> = () => {
   )
 }
 
-export default CaseSetViewerContainer
+export default CaseSetCaseEditorContainer

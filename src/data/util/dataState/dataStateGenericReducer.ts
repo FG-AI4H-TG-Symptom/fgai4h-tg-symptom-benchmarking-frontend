@@ -1,6 +1,6 @@
 import dotProp from 'dot-prop-immutable'
 
-import { DataAction, DataActionTypes } from './dataActionTypes'
+import { DataAction, DataActionStore, DataActionTypes } from './dataActionTypes'
 import {
   DataActionBaseState,
   DataState,
@@ -8,7 +8,7 @@ import {
   LoadingState,
 } from './dataStateTypes'
 import { CallbackMetadata } from './generateDataStateActions'
-import BaseConcept from '../baseConcept'
+import { BaseConcept } from '../baseConceptTypes'
 
 export const createOptions = <
   DataType extends BaseConcept,
@@ -24,12 +24,81 @@ export const createOptions = <
     action.payload.intent === DataActionTypes.STORE
       ? `entries.${action.payload.data.id}`
       : ID_PLACEHOLDER_NEW,
-  postflightTransform: (state, action) => {
+  postflightTransform: (state, action): StateType => {
     if (action.payload.intent !== DataActionTypes.STORE) {
       return state
     }
 
     return dotProp.delete(state, ID_PLACEHOLDER_NEW) as StateType
+  },
+})
+
+type SaveOptionsOverride<DataType, StateType, MetadataType> = {
+  updateEntry?: (
+    state: StateType,
+    action: DataActionStore<DataType, MetadataType, void>,
+  ) => StateType
+  updateOverview?: (
+    state: StateType,
+    action: DataActionStore<DataType, MetadataType, void>,
+  ) => StateType
+}
+
+export const saveOptions = <
+  DataType extends BaseConcept,
+  StateType extends DataActionBaseState<DataType>,
+  MetadataType,
+  ActionDataType extends BaseConcept = DataType
+>(
+  metadataIdFieldName: string,
+  options?: SaveOptionsOverride<ActionDataType, StateType, MetadataType>,
+): DataStateGenericReducerOptions<
+  StateType,
+  ActionDataType,
+  void,
+  MetadataType & CallbackMetadata<ActionDataType>
+> => ({
+  path: (action): string => `saves.${action.meta[metadataIdFieldName]}`,
+  postflightTransform: (state: StateType, action): StateType => {
+    if (action.payload.intent !== DataActionTypes.STORE) {
+      return state
+    }
+
+    let nextState = state
+    if (nextState.overview.state === DataState.READY) {
+      if (options?.updateOverview) {
+        nextState = options.updateOverview(
+          nextState,
+          action as DataActionStore<ActionDataType, MetadataType, void>,
+        )
+      } else {
+        nextState = dotProp.set(
+          nextState,
+          `overview.data.${nextState.overview.data.findIndex(
+            ({ id }) => id === action.meta[metadataIdFieldName],
+          )}`,
+          action.payload.data,
+        ) as StateType
+      }
+    }
+
+    if (options?.updateEntry) {
+      nextState = options.updateEntry(
+        nextState,
+        action as DataActionStore<ActionDataType, MetadataType, void>,
+      )
+    } else {
+      nextState = dotProp.set(
+        nextState,
+        `entries.${action.meta[metadataIdFieldName]}`,
+        action.payload.data,
+      ) as StateType
+    }
+
+    return dotProp.delete(
+      nextState,
+      `saves.${action.meta[metadataIdFieldName]}`,
+    ) as StateType
   },
 })
 
@@ -162,5 +231,28 @@ const dataStateGenericReducer = <
 
   return postflightTransform(nextState, action)
 }
+
+// no return type as it's a thin wrapper and TypeScript inference works just fine
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+export const dataStateSaveReducer = <
+  DataType extends BaseConcept,
+  StateType extends DataActionBaseState<DataType>,
+  MetadataType,
+  ActionDataType extends BaseConcept = DataType
+>(
+  metadataIdFieldName: string,
+  options?: SaveOptionsOverride<ActionDataType, StateType, MetadataType>,
+) =>
+  dataStateGenericReducer<
+    StateType,
+    ActionDataType,
+    void,
+    MetadataType & CallbackMetadata<ActionDataType>
+  >(
+    saveOptions<DataType, StateType, MetadataType, ActionDataType>(
+      metadataIdFieldName,
+      options,
+    ),
+  )
 
 export default dataStateGenericReducer

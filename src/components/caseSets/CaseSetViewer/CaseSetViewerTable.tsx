@@ -11,40 +11,41 @@ import {
 } from '@material-ui/core'
 import { Check as CheckIcon, Clear as ClearIcon } from '@material-ui/icons'
 
-import {
-  CaseDataType,
-  Presence,
-  PresenceStates,
-} from '../../../data/caseSets/caseDataType'
+import { CaseSetInfo } from '../../../data/caseSets/caseSetDataType'
+import { ClinicalFindingState } from '../../../data/caseSets/berlinModelTypes'
 import TextWithTooltipSelf from '../../common/TextWithTooltipSelf'
 
 import * as Styled from './CaseSetViewerTable.style'
 
-const PresenceIcon: React.FC<{ presence: Presence }> = ({ presence }) => (
+const PresenceIcon: React.FC<{ presence: ClinicalFindingState }> = ({
+  presence,
+}) => (
   <Tooltip title={presence}>
-    {presence === PresenceStates.PRESENT ? <CheckIcon /> : <ClearIcon />}
+    {presence === 'present' ? <CheckIcon /> : <ClearIcon />}
   </Tooltip>
 )
 
 const rowsPerPageOptions = [10, 20, 50, 100]
 
 export interface CaseSetComponentProps {
-  caseSet: CaseDataType[]
+  caseSet: CaseSetInfo
 }
 
-const CaseSetViewerTable: React.FC<CaseSetComponentProps> = ({ caseSet }) => {
+const CaseSetViewerTable: React.FC<CaseSetComponentProps> = ({
+  caseSet: { cases },
+}) => {
   const activeRowsPerPageOptions = rowsPerPageOptions.filter(
-    rowsPerPageOption => rowsPerPageOption <= caseSet.length,
+    rowsPerPageOption => rowsPerPageOption <= cases.length,
   )
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageOptions[0])
 
   return (
     <>
-      {caseSet.length > rowsPerPageOptions[0] ? (
+      {cases.length > rowsPerPageOptions[0] ? (
         <TablePagination
           component='div'
-          count={caseSet.length}
+          count={cases.length}
           page={page}
           onChangePage={(event, newPage): void => setPage(newPage)}
           rowsPerPage={rowsPerPage}
@@ -57,7 +58,7 @@ const CaseSetViewerTable: React.FC<CaseSetComponentProps> = ({ caseSet }) => {
       ) : null}
       <TableContainer>
         <Table>
-          <caption>{caseSet.length} cases</caption>
+          <caption>{cases.length} cases</caption>
           <TableHead>
             <TableRow>
               <Styled.CaseIdCell>Case ID</Styled.CaseIdCell>
@@ -73,52 +74,59 @@ const CaseSetViewerTable: React.FC<CaseSetComponentProps> = ({ caseSet }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {caseSet
+            {cases
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map(({ id, data: { caseData, valuesToPredict } }) => (
-                <TableRow key={id}>
-                  <Styled.CaseIdCell>
-                    <TextWithTooltipSelf>{id}</TextWithTooltipSelf>
-                  </Styled.CaseIdCell>
-                  <TableCell>{caseData.metaData.case_creator}</TableCell>
-                  <Styled.CaseDescriptionCell>
-                    <TextWithTooltipSelf>
-                      {caseData.metaData.description}
-                    </TextWithTooltipSelf>
-                  </Styled.CaseDescriptionCell>
-                  <TableCell>{caseData.metaData.spreadsheet_case_id}</TableCell>
-                  <TableCell>{caseData.profileInformation.age}</TableCell>
-                  <TableCell>
-                    {caseData.profileInformation.biologicalSex}
-                  </TableCell>
-                  <TableCell>
-                    {caseData.presentingComplaints.map(
-                      ({ id: presentingComplaintId, name, state }) => (
-                        <Styled.IconWrapper
-                          key={`${caseData.caseId}_${presentingComplaintId}`}
-                        >
-                          <PresenceIcon presence={state} />
-                          {name}
-                        </Styled.IconWrapper>
-                      ),
-                    )}
-                  </TableCell>
-                  <TableCell>
-                    {caseData.otherFeatures.map(
-                      ({ id: otherFeatureId, name, state }) => (
-                        <Styled.IconWrapper
-                          key={`${caseData.caseId}_${otherFeatureId}`}
-                        >
-                          <PresenceIcon presence={state} />
-                          {name}
-                        </Styled.IconWrapper>
-                      ),
-                    )}
-                  </TableCell>
-                  <TableCell>{valuesToPredict.condition.name}</TableCell>
-                  <TableCell>{valuesToPredict.expectedTriageLevel}</TableCell>
-                </TableRow>
-              ))}
+              .map(
+                ({
+                  id: caseId,
+                  data: { metaData, caseData, valuesToPredict },
+                }) => (
+                  <TableRow key={caseId}>
+                    <Styled.CaseIdCell>
+                      <TextWithTooltipSelf>{caseId}</TextWithTooltipSelf>
+                    </Styled.CaseIdCell>
+                    <TableCell>{metaData.caseCreator}</TableCell>
+                    <Styled.CaseDescriptionCell>
+                      <TextWithTooltipSelf>
+                        {metaData.description}
+                      </TextWithTooltipSelf>
+                    </Styled.CaseDescriptionCell>
+                    <TableCell>{metaData.spreadsheetCaseId}</TableCell>
+                    <TableCell>{caseData.profileInformation.age}</TableCell>
+                    <TableCell>
+                      {caseData.profileInformation.biologicalSex}
+                    </TableCell>
+                    <TableCell>
+                      {caseData.presentingComplaints.map(
+                        ({ id: presentingComplaintId, name, state }) => (
+                          <Styled.IconWrapper
+                            key={`${caseId}_${presentingComplaintId}`}
+                          >
+                            <PresenceIcon presence={state} />
+                            {name}
+                          </Styled.IconWrapper>
+                        ),
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {caseData.otherFeatures.map(
+                        ({ id: otherFeatureId, name, state }) => (
+                          <Styled.IconWrapper
+                            key={`${caseId}_${otherFeatureId}`}
+                          >
+                            <PresenceIcon presence={state} />
+                            {name}
+                          </Styled.IconWrapper>
+                        ),
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {valuesToPredict.correctCondition.name}
+                    </TableCell>
+                    <TableCell>{valuesToPredict.expectedTriageLevel}</TableCell>
+                  </TableRow>
+                ),
+              )}
           </TableBody>
         </Table>
       </TableContainer>

@@ -1,5 +1,5 @@
-import berlinModelSchema from '../../../../data/caseSets/berlinModel.schema.json'
-import { BaseNamedConcept } from '../../../../data/util/baseConceptTypes'
+import berlinModelSchema from '../../../data/caseSets/berlinModel.schema.json'
+import { BaseNamedConcept } from '../../../data/util/baseConceptTypes'
 
 export interface ModelConstProperties {
   properties: {
@@ -11,14 +11,14 @@ export interface ModelConst {
   const: string
 }
 
-export type Concept = BaseNamedConcept & {
-  sctid?: string
+export interface ConceptSelectionProps {
+  possibleValues: Array<BaseNamedConcept>
 }
 
 export const modelConstToObject = (
   constObject: ModelConstProperties,
-): Concept => {
-  const unpackedObject: Partial<Concept> = {}
+): BaseNamedConcept => {
+  const unpackedObject: Partial<BaseNamedConcept> = {}
   Object.entries(constObject.properties).forEach(
     ([key, value]: [string, ModelConst | object]) => {
       if (!('const' in value)) {
@@ -27,7 +27,7 @@ export const modelConstToObject = (
       unpackedObject[key] = value.const
     },
   )
-  return unpackedObject as Concept
+  return unpackedObject as BaseNamedConcept
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -58,7 +58,7 @@ export const extendWithModelInformationFromIds = (data: any): any => {
   return data
 }
 
-export const refToConcept = (refOrConceptId: string): Concept =>
+export const refToConcept = (refOrConceptId: string): BaseNamedConcept =>
   modelConstToObject(
     berlinModelSchema.definitions[
       refOrConceptId.includes('/')
