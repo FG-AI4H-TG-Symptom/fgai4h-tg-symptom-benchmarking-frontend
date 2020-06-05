@@ -1,4 +1,12 @@
 import React from 'react'
+import {
+  SvgIconComponent,
+  Home as HomeIcon,
+  Add as AddIcon,
+  Memory as AiImplementationIcon,
+  Web as CaseSetIcon,
+  Speed as BenchmarkingSessionIcon,
+} from '@material-ui/icons'
 
 import LandingPage from './components/staticPages/LandingPage'
 import AiImplementationManager from './components/aiImplementations/AiImplementationManager'
@@ -45,6 +53,11 @@ interface Route {
   component: React.FC<{}>
   visibleInMenu: boolean
   exact: boolean
+  icon?: SvgIconComponent
+  action?: {
+    icon: SvgIconComponent
+    targetPath: string
+  }
 }
 
 export const routes: Array<Route> = [
@@ -55,6 +68,7 @@ export const routes: Array<Route> = [
     component: LandingPage,
     exact: true,
     visibleInMenu: true,
+    icon: HomeIcon,
   },
   {
     id: 'ai-implementations-manager',
@@ -63,6 +77,11 @@ export const routes: Array<Route> = [
     component: AiImplementationManager,
     exact: true,
     visibleInMenu: true,
+    icon: AiImplementationIcon,
+    action: {
+      targetPath: paths.aiImplementationRegistration(),
+      icon: AddIcon,
+    },
   },
   {
     id: 'ai-implementations-register',
@@ -79,6 +98,11 @@ export const routes: Array<Route> = [
     component: CaseSetManager,
     exact: true,
     visibleInMenu: true,
+    icon: CaseSetIcon,
+    action: {
+      targetPath: paths.caseSetCreator(),
+      icon: AddIcon,
+    },
   },
   {
     id: 'case-set-creator',
@@ -111,6 +135,11 @@ export const routes: Array<Route> = [
     component: BenchmarkingSessionManager,
     exact: true,
     visibleInMenu: true,
+    icon: BenchmarkingSessionIcon,
+    action: {
+      targetPath: paths.benchmarkCreate(),
+      icon: AddIcon,
+    },
   },
   {
     id: 'benchmarking-session-creator',
