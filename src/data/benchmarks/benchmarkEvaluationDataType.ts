@@ -10,22 +10,20 @@ export type BenchmarkEvaluation = BaseConcept & {
     caseIndex: number
     responses: {
       [aiImplementationId: string]: Array<{
-        [metricName: string]: {
-          // todo
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          value: any
-          // ...
-        }
+        // todo: types for different possible values (including errors)
       }>
     }
   }>
-  aggregatedMetrics: {
-    [metricId: string]: {
-      id: string
-      name: string
-      values: {
+  metrics: Array<{
+    id: string
+    name: string
+    values: {
+      [caseId: string]: {
         [aiImplementationId: string]: number
       }
     }
-  }
+    aggregatedValues: {
+      [aiImplementationId: string]: number
+    }
+  }>
 }
