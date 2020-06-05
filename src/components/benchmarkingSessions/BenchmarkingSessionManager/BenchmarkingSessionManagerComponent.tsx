@@ -124,7 +124,7 @@ const BenchmarkingSessionManagerComponent: React.FC<CaseSetManagerComponentProps
                     <ConfirmationIconButton
                       onConfirmed={(): void => deleteBenchmarkingSession(id)}
                       color='darkred'
-                      label='Hold to delete benchmarking session'
+                      label='Hold to delete'
                     >
                       <DeleteIcon />
                     </ConfirmationIconButton>

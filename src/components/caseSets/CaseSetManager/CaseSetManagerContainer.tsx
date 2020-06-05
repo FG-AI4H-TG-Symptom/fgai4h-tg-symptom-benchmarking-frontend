@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 
-import { IconButton } from '@material-ui/core'
+import { IconButton, Tooltip } from '@material-ui/core'
 import { Add as CreateIcon } from '@material-ui/icons'
 
 import {
@@ -33,9 +33,11 @@ const CaseSetManagerContainer: React.FC<{}> = () => {
       title='Case sets'
       action={
         <LinkWrapper to={paths.caseSetCreator()}>
-          <IconButton>
-            <CreateIcon />
-          </IconButton>
+          <Tooltip title='Create case set'>
+            <IconButton>
+              <CreateIcon />
+            </IconButton>
+          </Tooltip>
         </LinkWrapper>
       }
     >

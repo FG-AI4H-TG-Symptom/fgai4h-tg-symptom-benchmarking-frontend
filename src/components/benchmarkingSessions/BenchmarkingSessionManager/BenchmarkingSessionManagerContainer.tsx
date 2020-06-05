@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { IconButton } from '@material-ui/core'
+import { IconButton, Tooltip } from '@material-ui/core'
 import { Add as CreateIcon } from '@material-ui/icons'
 
 import BenchmarkingSessionManagerComponent from './BenchmarkingSessionManagerComponent'
@@ -34,9 +34,11 @@ const BenchmarkingSessionManagerContainer: React.FC<{}> = () => {
       title='Benchmarking sessions'
       action={
         <LinkWrapper to={paths.benchmarkCreate()}>
-          <IconButton>
-            <CreateIcon />
-          </IconButton>
+          <Tooltip title='Create benchmarking session'>
+            <IconButton>
+              <CreateIcon />
+            </IconButton>
+          </Tooltip>
         </LinkWrapper>
       }
     >
