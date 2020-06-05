@@ -1,43 +1,46 @@
 import { put } from 'redux-saga/effects'
 
-import urlBuilder, { COMPONENTS } from '../../util/urlBuilder'
-import { BenchmarkInfo } from '../benchmarkInfoDataType'
-import { setRunningBenchmarkInfo } from '../benchmarkActions'
+import urlBuilder from '../../util/urlBuilder'
+import { RunningBenchmarkReport } from '../benchmarkInfoDataType'
+import {
+  markBenchmarkingSessionAs,
+  observeRunningBenchmarkDataAction,
+} from '../benchmarkActions'
 import sleep from '../../util/sleep'
 import httpResponseErrorMessage from '../../util/httpResponseErrorMessage'
-import { fatalError } from '../../application/applicationActions'
+import { setFatalError } from '../../application/applicationActions'
+import { BenchmarkingSessionStatus } from '../benchmarkManagerDataType'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export default function* observeRunningBenchmark(action) {
+export default function* observeRunningBenchmark(benchmarkManagerId: string) {
   try {
-    const benchmarkManagerId: string = action.payload
-
     while (true) {
       const response = yield fetch(
-        urlBuilder(COMPONENTS.EVALUATOR, 'report-update'),
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            benchmarkId: benchmarkManagerId,
-          }),
-        },
+        urlBuilder(`benchmarking-sessions/${benchmarkManagerId}/status`),
       )
 
       if (!response.ok) {
         throw new Error(httpResponseErrorMessage(response))
       }
 
-      const benchmarkInfo: BenchmarkInfo = yield response.json()
-      benchmarkInfo.finished = benchmarkInfo.logs.some(log =>
-        log.includes('Finished'),
-      )
+      const benchmarkInfo: {
+        status: BenchmarkingSessionStatus
+        report: RunningBenchmarkReport
+      } = yield response.json()
 
-      yield put(setRunningBenchmarkInfo(benchmarkInfo))
+      if (benchmarkInfo.status === BenchmarkingSessionStatus.RUNNING) {
+        yield put(observeRunningBenchmarkDataAction.store(benchmarkInfo.report))
+      } else if (benchmarkInfo.status === BenchmarkingSessionStatus.FINISHED) {
+        // todo: always implicitly call when storing benchmark info
+        yield put(
+          markBenchmarkingSessionAs({
+            benchmarkingSessionId: benchmarkManagerId,
+            status: BenchmarkingSessionStatus.FINISHED,
+          }),
+        )
 
-      if (benchmarkInfo.finished) {
+        yield put(observeRunningBenchmarkDataAction.reset())
+
         break
       }
 
@@ -45,7 +48,7 @@ export default function* observeRunningBenchmark(action) {
     }
   } catch (error) {
     yield put(
-      fatalError(
+      setFatalError(
         `Errored while running benchmark on case set: ${error.message}`,
       ),
     )

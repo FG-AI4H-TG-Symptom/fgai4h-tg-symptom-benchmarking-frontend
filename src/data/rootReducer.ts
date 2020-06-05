@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux'
 import caseSetReducers, { CaseSetsState } from './caseSets/caseSetReducers'
-import aiImplementationListReducer, {
-  AiImplementationListState,
-} from './aiImplementationList/aiImplementationListReducers'
+import aiImplementationListReducers, {
+  AiImplementationsState,
+} from './aiImplementations/aiImplementationsReducers'
 import benchmarkReducers, {
   BenchmarkState,
 } from './benchmarks/benchmarkReducers'
@@ -13,15 +13,22 @@ import applicationReducers, {
 export interface RootState {
   application: ApplicationState
   caseSets: CaseSetsState
-  aiImplementationList: AiImplementationListState
+  aiImplementations: AiImplementationsState
   benchmark: BenchmarkState
 }
+export type RootStateEntries = keyof RootState
 
-const rootReducer = combineReducers({
+const reducers: {
+  [entryPoint in RootStateEntries]: (
+    state: RootState[entryPoint],
+    action,
+  ) => RootState[entryPoint]
+} = {
   application: applicationReducers,
   caseSets: caseSetReducers,
-  aiImplementationList: aiImplementationListReducer,
+  aiImplementations: aiImplementationListReducers,
   benchmark: benchmarkReducers,
-})
+}
+const rootReducer = combineReducers(reducers)
 
 export default rootReducer

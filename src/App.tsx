@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Switch, Route, useLocation } from 'react-router-dom'
 import {
   AppBar,
   Drawer,
   IconButton,
   ListItem,
+  ListItemIcon,
+  ListItemSecondaryAction,
   ListItemText,
   Toolbar,
 } from '@material-ui/core'
@@ -18,14 +20,15 @@ import NotFound from './components/common/NotFound'
 import logo from './logo.svg'
 import { RootState } from './data/rootReducer'
 import Error from './components/common/Error'
+import Notifications from './components/common/Notifications'
 
-interface AppProps {
-  fatalError?: string
-}
-
-const App: React.FC<AppProps> = ({ fatalError }) => {
-  const [menuOpen, setMenuOpen] = useState(false)
+const App: React.FC<{}> = () => {
   const location = useLocation()
+
+  const fatalError = useSelector<RootState, string>(
+    state => state.application.fatalError,
+  )
+  const [menuOpen, setMenuOpen] = useState(false)
 
   const currentRoute = routes.filter(route =>
     route.path.includes(':')
@@ -36,6 +39,7 @@ const App: React.FC<AppProps> = ({ fatalError }) => {
 
   return (
     <>
+      <Notifications />
       <AppBar position='sticky'>
         <Toolbar>
           <IconButton
@@ -55,7 +59,7 @@ const App: React.FC<AppProps> = ({ fatalError }) => {
         <Styled.SideMenuList>
           {routes
             .filter(({ visibleInMenu }) => visibleInMenu)
-            .map(({ id, displayName, path }) => (
+            .map(({ id, displayName, path, icon: Icon, action }) => (
               <LinkWrapper key={id} to={path}>
                 <ListItem
                   button
@@ -63,7 +67,24 @@ const App: React.FC<AppProps> = ({ fatalError }) => {
                     setMenuOpen(false)
                   }}
                 >
-                  <ListItemText>{displayName}</ListItemText>
+                  <ListItemIcon>{Icon ? <Icon /> : <></>}</ListItemIcon>
+                  <ListItemText>
+                    {displayName.replace('manager', '')}
+                  </ListItemText>
+                  {action && (
+                    <ListItemSecondaryAction
+                      onClick={(): void => {
+                        setMenuOpen(false)
+                      }}
+                    >
+                      {/* todo: this is illegal HTML since it's a link inside a link */}
+                      <LinkWrapper to={action.targetPath}>
+                        <IconButton>
+                          <action.icon />
+                        </IconButton>
+                      </LinkWrapper>
+                    </ListItemSecondaryAction>
+                  )}
                 </ListItem>
               </LinkWrapper>
             ))}
@@ -85,8 +106,4 @@ const App: React.FC<AppProps> = ({ fatalError }) => {
   )
 }
 
-const mapStateToProps = (state: RootState): AppProps => ({
-  fatalError: state.application.fatalError,
-})
-
-export default connect(mapStateToProps)(App)
+export default App

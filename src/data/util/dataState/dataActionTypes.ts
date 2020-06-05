@@ -6,40 +6,48 @@ export enum DataActionTypes {
   ERROR = 'ERROR',
 }
 
-export type DataActionLoad<ParameterType, MetadataType> = {
+export type TypeUnionIgnoreVoid<T, U> = T extends void
+  ? U
+  : U extends void
+  ? T
+  : T & U
+
+export type DataActionLoad<ParameterType, MetadataType, CallbackType> = {
   type: string
   payload: {
     intent: DataActionTypes.LOAD
     parameters: ParameterType
-    metadata: MetadataType
   }
+  meta: TypeUnionIgnoreVoid<MetadataType, CallbackType>
 }
-export type DataActionStore<DataType, MetadataType> = {
+export type DataActionStore<DataType, MetadataType, CallbackType> = {
   type: string
   payload: {
     intent: DataActionTypes.STORE
     data: DataType
-    metadata: MetadataType
   }
+  meta: TypeUnionIgnoreVoid<MetadataType, CallbackType>
 }
 export type DataActionErrored<MetadataType> = {
   type: string
   payload: {
     intent: DataActionTypes.ERROR
     error: string
-    metadata: MetadataType
   }
+  meta: MetadataType
 }
 export type DataActionReset<MetadataType> = {
   type: string
-  payload: { intent: DataActionTypes.RESET; metadata: MetadataType }
+  payload: { intent: DataActionTypes.RESET }
+  meta: MetadataType
 }
 export type DataAction<
   DataType,
   LoadParametersType = void,
-  MetadataType = void
+  MetadataType = void,
+  CallbackType = void
 > =
-  | DataActionLoad<LoadParametersType, MetadataType>
-  | DataActionStore<DataType, MetadataType>
+  | DataActionLoad<LoadParametersType, MetadataType, CallbackType>
+  | DataActionStore<DataType, MetadataType, CallbackType>
   | DataActionErrored<MetadataType>
   | DataActionReset<MetadataType>

@@ -1,33 +1,66 @@
 import { createAction } from 'redux-actions'
 
-import { BenchmarkManager } from './benchmarkManagerDataType'
-import { BenchmarkInfo } from './benchmarkInfoDataType'
+import generateDataStateActions, {
+  CallbackMetadata,
+} from '../util/dataState/generateDataStateActions'
+
+import {
+  BenchmarkingSession,
+  BenchmarkingSessionStatus,
+} from './benchmarkManagerDataType'
+import { RunningBenchmarkReport } from './benchmarkInfoDataType'
 import { BenchmarkEvaluation } from './benchmarkEvaluationDataType'
-import generateDataStateActions from '../util/dataState/generateDataStateActions'
 
 export enum BenchmarkActionTypes {
-  BENCHMARK_MANAGER_DATA_ACTION = 'BENCHMARK_MANAGER_DATA_ACTION',
-  OBSERVE_RUNNING_BENCHMARK = 'OBSERVE_RUNNING_BENCHMARK',
-  SET_RUNNING_BENCHMARK_INFO = 'SET_RUNNING_BENCHMARK_INFO',
-  LAST_BENCHMARK_EVALUATION_DATA_ACTION = 'LAST_BENCHMARK_EVALUATION_DATA_ACTION',
+  CREATE_BENCHMARKING_SESSION_DATA_ACTION = 'CREATE_BENCHMARKING_SESSION_DATA_ACTION',
+  OBSERVE_RUNNING_BENCHMARK_DATA_ACTION = 'OBSERVE_RUNNING_BENCHMARK_DATA_ACTION',
+  BENCHMARK_EVALUATION_DATA_ACTION = 'BENCHMARK_EVALUATION_DATA_ACTION',
+  BENCHMARKING_SESSION_DATA_ACTION = 'BENCHMARKING_SESSION_DATA_ACTION',
+  BENCHMARKING_SESSION_LIST_DATA_ACTION = 'BENCHMARKING_SESSION_LIST_DATA_ACTION',
+  BENCHMARKING_SESSION_DELETE_DATA_ACTION = 'BENCHMARKING_SESSION_DELETE_DATA_ACTION',
+  MARK_BENCHMARKING_SESSION_AS = 'MARK_BENCHMARKING_SESSION_AS',
 }
 
 export type CreateBenchmarkManagerParameters = {
   caseSetId: string
-  aiImplementationNames: string[]
+  aiImplementationIds: string[]
 }
-export const benchmarkManagerDataAction = generateDataStateActions<
-  BenchmarkManager,
-  CreateBenchmarkManagerParameters
->(BenchmarkActionTypes.BENCHMARK_MANAGER_DATA_ACTION)
+export const createBenchmarkingSessionDataAction = generateDataStateActions<
+  BenchmarkingSession,
+  CreateBenchmarkManagerParameters,
+  void,
+  CallbackMetadata<BenchmarkingSession>
+>(BenchmarkActionTypes.CREATE_BENCHMARKING_SESSION_DATA_ACTION)
 
-export const observeRunningBenchmark = createAction<string>(
-  BenchmarkActionTypes.OBSERVE_RUNNING_BENCHMARK,
-)
-export const setRunningBenchmarkInfo = createAction<BenchmarkInfo>(
-  BenchmarkActionTypes.SET_RUNNING_BENCHMARK_INFO,
-)
+export const observeRunningBenchmarkDataAction = generateDataStateActions<
+  RunningBenchmarkReport,
+  string
+>(BenchmarkActionTypes.OBSERVE_RUNNING_BENCHMARK_DATA_ACTION)
 
-export const lastBenchmarkEvaluationDataAction = generateDataStateActions<
-  BenchmarkEvaluation
->(BenchmarkActionTypes.LAST_BENCHMARK_EVALUATION_DATA_ACTION)
+export const benchmarkEvaluationDataAction = generateDataStateActions<
+  BenchmarkEvaluation,
+  string,
+  { benchmarkingSessionId: string }
+>(BenchmarkActionTypes.BENCHMARK_EVALUATION_DATA_ACTION)
+
+export const benchmarkingSessionDataAction = generateDataStateActions<
+  BenchmarkingSession,
+  string,
+  { benchmarkingSessionId: string }
+>(BenchmarkActionTypes.BENCHMARKING_SESSION_DATA_ACTION)
+
+export const benchmarkingSessionListDataAction = generateDataStateActions<
+  BenchmarkingSession[]
+>(BenchmarkActionTypes.BENCHMARKING_SESSION_LIST_DATA_ACTION)
+
+export const benchmarkingSessionDeleteDataAction = generateDataStateActions<
+  void,
+  string,
+  { benchmarkingSessionId: string },
+  CallbackMetadata<void>
+>(BenchmarkActionTypes.BENCHMARKING_SESSION_DELETE_DATA_ACTION)
+
+export const markBenchmarkingSessionAs = createAction<{
+  benchmarkingSessionId: string
+  status: BenchmarkingSessionStatus
+}>(BenchmarkActionTypes.MARK_BENCHMARKING_SESSION_AS)
