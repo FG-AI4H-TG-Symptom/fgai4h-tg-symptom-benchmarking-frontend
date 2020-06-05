@@ -151,6 +151,7 @@ export type DataStateGenericReducerOptions<
   path?:
     | ((
         action: DataAction<DataActionDataType, void, DataActionMetadataType>,
+        state: StateType,
       ) => string)
     | string
     | null
@@ -220,7 +221,7 @@ const dataStateGenericReducer = <
     if (path) {
       let evaluatedPath
       if (typeof path === 'function') {
-        evaluatedPath = path(action)
+        evaluatedPath = path(action, state)
       } else {
         evaluatedPath = path
       }

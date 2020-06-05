@@ -21,7 +21,7 @@ const AiImplementationManagerContainer: React.FC<{}> = () => {
   const aiImplementationList = useDataStateLoader<AiImplementationInfo[]>(
     'aiImplementations',
     aiImplementationOverviewDataAction.load({
-      withHealth: false,
+      withHealth: true,
     }),
   )
   const deleteAiImplementation = (aiImplementationId: string): void => {

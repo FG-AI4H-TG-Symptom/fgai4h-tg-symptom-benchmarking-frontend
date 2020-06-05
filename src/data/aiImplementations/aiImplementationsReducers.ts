@@ -1,6 +1,7 @@
 import {
   DataActionBaseState,
   dataActionBaseStateInitial,
+  DataReady,
   DataState,
 } from '../util/dataState/dataStateTypes'
 import dataStateGenericReducer, {
@@ -50,7 +51,13 @@ const actionHandlers: {
       }
       return true
     },
-    path: action => `overview.data.${action.meta.aiImplementationId}.health`,
+    path: (action, state) => {
+      // overview readiness is asserted through the preflight check
+      const aiImplementationIndex = (state.overview as DataReady<
+        AiImplementationInfo[]
+      >).data.findIndex(({ id }) => id === action.meta.aiImplementationId)
+      return `overview.data.${aiImplementationIndex}.health`
+    },
   }),
   [AiImplementationsActionTypes.AI_IMPLEMENTATION_DELETE_DATA_ACTION]: dataStateGenericReducer<
     AiImplementationsState,

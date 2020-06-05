@@ -12,8 +12,9 @@ import {
 import { Delete as DeleteIcon, Launch as LaunchIcon } from '@material-ui/icons'
 
 import { AiImplementationInfo } from '../../../data/aiImplementations/aiImplementationDataType'
-import AiImplementationHealthComponent from './AiImplementationHealthComponent'
 import ConfirmationIconButton from '../../common/ConfirmationIconButton'
+
+import AiImplementationHealthComponent from './AiImplementationHealthComponent'
 
 interface AiImplementationManagerComponentProps {
   aiImplementations: AiImplementationInfo[]
