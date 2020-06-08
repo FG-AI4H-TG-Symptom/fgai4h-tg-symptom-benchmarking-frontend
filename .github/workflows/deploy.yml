@@ -26,10 +26,7 @@ jobs:
       - name: Build React project
         run: npm run build
         env:
-          REACT_APP_BACKEND_PROTOCOL: ${{ secrets.PRODUCTION_BACKEND_PROTOCOL }}
-          REACT_APP_BACKEND_HOSTNAME_TOY_AIS: ${{ secrets.PRODUCTION_BACKEND_HOSTNAME_TOY_AIS }}
-          REACT_APP_BACKEND_HOSTNAME_EVALUATOR: ${{ secrets.PRODUCTION_BACKEND_HOSTNAME_EVALUATOR }}
-          REACT_APP_BACKEND_HOSTNAME_METRIC_CALCULATOR: ${{ secrets.PRODUCTION_BACKEND_HOSTNAME_METRIC_CALCULATOR }}
+          REACT_APP_BACKEND_BASE_URL: ${{ secrets.BACKEND_BASE_URL }}
       - name: Build Docker image and submit to Docker Hub
         uses: elgohr/Publish-Docker-Github-Action@2.12
         with:
