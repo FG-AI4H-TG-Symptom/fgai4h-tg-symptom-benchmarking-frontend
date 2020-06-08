@@ -10,7 +10,13 @@ import {
 } from '../../data/util/dataState/dataStateTypes'
 import { DataActionLoad } from '../../data/util/dataState/dataActionTypes'
 
-// todo: document
+/**
+ * A hook to load data by triggering an action and selecting from the store
+ * Only works for sub-stores that inherit from DataActionBaseState and best used with DataStateActions
+ * @param selector either the name of the concept or a selector function (like `useSelector`)
+ * @param action the load method of the data state entity
+ * @param options object with an entry for another entry that needs to be loaded first and an entry for an id of the entity to be retrieved
+ */
 const useDataStateLoader = <LoadableType>(
   selector: RootStateEntries | ((state: RootState) => Loadable<LoadableType>),
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
