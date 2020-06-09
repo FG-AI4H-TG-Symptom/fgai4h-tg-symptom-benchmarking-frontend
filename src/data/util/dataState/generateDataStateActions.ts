@@ -13,12 +13,21 @@ export type CallbackMetadata<DataType> = {
 }
 
 // the awkward ternaries are blocked on https://github.com/microsoft/TypeScript/issues/29131
+/**
+ * type definition for the four-in-one action creator accompanying the Loadable type
+ */
 type DataStateActions<
   DataType,
   ParameterType = void,
   MetadataType = void,
   CallbackType = void
 > = {
+  /**
+   * Create an action to 'load' data, can also be a save/update/delete action
+   * Precise arguments (0-2) depend on the types passed in
+   * @param parameters <ParameterType> Parameters for the load call, such as an ID or the data to be stored
+   * @param metadata <MetadataType & CallbackType> Metadata for storing the result (such as an ID) and callbacks (currently on `onSuccess`)
+   */
   load: (
     ...params: TypeUnionIgnoreVoid<MetadataType, CallbackType> extends void
       ? ParameterType extends void
@@ -31,6 +40,12 @@ type DataStateActions<
           ) => void
         >
   ) => DataActionLoad<ParameterType, MetadataType, CallbackType>
+  /**
+   * Create an action to 'store' data
+   * Precise arguments (1-2) depend on the types passed in
+   * @param data <DataType> The data/response that was fetched
+   * @param metadata <MetadataType & CallbackType> Metadata for storing the result (such as an ID) and callbacks (currently on `onSuccess`)
+   */
   store: (
     ...params: TypeUnionIgnoreVoid<MetadataType, CallbackType> extends void
       ? Parameters<(data: DataType) => void>
@@ -41,12 +56,21 @@ type DataStateActions<
           ) => void
         >
   ) => DataActionStore<DataType, MetadataType, CallbackType>
+  /**
+   * Create an action to indicate an 'error' when performing the request
+   * @param error Human readable error message
+   * @param metadata <MetadataType> Metadata for storing the error (such as an ID)
+   */
   errored: (
     error: string,
     ...params: MetadataType extends void
       ? []
       : Parameters<(metadata: MetadataType) => void>
   ) => DataActionErrored<MetadataType>
+  /**
+   * Create an action to 'reset' the data to its pristine state (no data, not loading, not errored)
+   * @param metadata Metadata for data to reset (such as an ID)
+   */
   reset: (
     ...params: MetadataType extends void
       ? []
@@ -54,6 +78,11 @@ type DataStateActions<
   ) => DataActionReset<MetadataType>
 }
 
+/**
+ * Factory for a four-in-one action creator as described by DataStateActions
+ * Created actions all have the same `type` and are distinguished by differing `payload.intent` values (DataActionTypes)
+ * @param type Redux action type constant
+ */
 const generateDataStateActions = <
   DataType,
   ParameterType = void,
