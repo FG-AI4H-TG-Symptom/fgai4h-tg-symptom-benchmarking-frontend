@@ -1,6 +1,7 @@
 import React from 'react'
 
-import LandingPage from './components/staticPages/LandingPage'
+import DashboardPage from './components/staticPages/DashboardPage'
+import AboutPage from './components/staticPages/AboutPage'
 import AiImplementationManager from './components/aiImplementations/AiImplementationManager'
 import AiImplementationRegistration from './components/aiImplementations/AiImplementationRegistration'
 import CaseSetManager from './components/caseSets/CaseSetManager'
@@ -14,9 +15,11 @@ import BenchmarkingSessionManagerContainer from './components/benchmarkingSessio
 const AI_IMPLEMENTATIONS_PATH = 'ai-implementations'
 const CASE_SETS_PATH = 'case-sets'
 const BENCHMARKING_SESSIONS_PATH = 'benchmarking-sessions'
+const ABOUT_PATH = 'about-page'
 
 export const paths = {
   home: (): string => '/',
+  about: (): string => `/${ABOUT_PATH}`,
   aiImplementationManager: (): string => `/${AI_IMPLEMENTATIONS_PATH}`,
   aiImplementationRegistration: (): string =>
     `/${AI_IMPLEMENTATIONS_PATH}/register`,
@@ -47,9 +50,17 @@ interface Route {
 export const routes: Array<Route> = [
   {
     id: 'home',
-    displayName: 'Start',
+    displayName: 'Dashboard',
     path: paths.home(),
-    component: LandingPage,
+    component: DashboardPage,
+    exact: true,
+    visibleInMenu: true,
+  },
+  {
+    id: 'about',
+    displayName: 'About',
+    path: paths.about(),
+    component: AboutPage,
     exact: true,
     visibleInMenu: true,
   },

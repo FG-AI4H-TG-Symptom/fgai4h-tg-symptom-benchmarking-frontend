@@ -60,7 +60,8 @@
     "prettier/prettier": ["error"],
     "eslint-comments/no-unused-disable": ["error"],
     "eslint-comments/disable-enable-pair": ["error", {"allowWholeFile": true}],
-    "@typescript-eslint/ban-ts-ignore": "off"
+    "@typescript-eslint/ban-ts-ignore": "off",
+    "@typescript-eslint/no-var-requires": "off"
   },
   "overrides": [
     {
