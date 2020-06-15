@@ -1,4 +1,8 @@
 /* eslint-disable import/prefer-default-export */
+
+/**
+ * The four possible types to distinguish `DataAction`s
+ */
 export enum DataActionTypes {
   RESET = 'RESET',
   LOAD = 'LOAD',
@@ -6,6 +10,9 @@ export enum DataActionTypes {
   ERROR = 'ERROR',
 }
 
+/**
+ * A type union which ignores void types such that `T & void = T`
+ */
 export type TypeUnionIgnoreVoid<T, U> = T extends void
   ? U
   : U extends void

@@ -1,6 +1,6 @@
 import dotProp from 'dot-prop-immutable'
 
-import { DataAction, DataActionTypes } from './dataActionTypes'
+import { DataAction, DataActionStore, DataActionTypes } from './dataActionTypes'
 import {
   DataActionBaseState,
   DataState,
@@ -8,8 +8,11 @@ import {
   LoadingState,
 } from './dataStateTypes'
 import { CallbackMetadata } from './generateDataStateActions'
-import BaseConcept from '../baseConcept'
+import { BaseConcept } from '../baseConceptTypes'
 
+/**
+ * Default options to use for create data actions
+ */
 export const createOptions = <
   DataType extends BaseConcept,
   StateType extends DataActionBaseState<DataType>,
@@ -24,7 +27,7 @@ export const createOptions = <
     action.payload.intent === DataActionTypes.STORE
       ? `entries.${action.payload.data.id}`
       : ID_PLACEHOLDER_NEW,
-  postflightTransform: (state, action) => {
+  postflightTransform: (state, action): StateType => {
     if (action.payload.intent !== DataActionTypes.STORE) {
       return state
     }
@@ -33,6 +36,94 @@ export const createOptions = <
   },
 })
 
+type SaveOptionsOverride<DataType, StateType, MetadataType> = {
+  /**
+   * Behavior override for storing an individual entity
+   * @param state Redux state
+   * @param action Data state store action
+   */
+  updateEntry?: (
+    state: StateType,
+    action: DataActionStore<DataType, MetadataType, void>,
+  ) => StateType
+  /**
+   * Behavior override for storing the overview (list of entities)
+   * @param state Redux state
+   * @param action Data state store action
+   */
+  updateOverview?: (
+    state: StateType,
+    action: DataActionStore<DataType, MetadataType, void>,
+  ) => StateType
+}
+
+/**
+ * Default options to use for save data actions
+ * @param metadataIdFieldName Name of the ID field in the metadata object
+ * @param options Reducers to override default storage behavior
+ */
+export const saveOptions = <
+  DataType extends BaseConcept,
+  StateType extends DataActionBaseState<DataType>,
+  MetadataType,
+  ActionDataType extends BaseConcept = DataType
+>(
+  metadataIdFieldName: string,
+  options?: SaveOptionsOverride<ActionDataType, StateType, MetadataType>,
+): DataStateGenericReducerOptions<
+  StateType,
+  ActionDataType,
+  void,
+  MetadataType & CallbackMetadata<ActionDataType>
+> => ({
+  path: (action): string => `saves.${action.meta[metadataIdFieldName]}`,
+  postflightTransform: (state: StateType, action): StateType => {
+    if (action.payload.intent !== DataActionTypes.STORE) {
+      return state
+    }
+
+    let nextState = state
+    if (nextState.overview.state === DataState.READY) {
+      if (options?.updateOverview) {
+        nextState = options.updateOverview(
+          nextState,
+          action as DataActionStore<ActionDataType, MetadataType, void>,
+        )
+      } else {
+        nextState = dotProp.set(
+          nextState,
+          `overview.data.${nextState.overview.data.findIndex(
+            ({ id }) => id === action.meta[metadataIdFieldName],
+          )}`,
+          action.payload.data,
+        ) as StateType
+      }
+    }
+
+    if (options?.updateEntry) {
+      nextState = options.updateEntry(
+        nextState,
+        action as DataActionStore<ActionDataType, MetadataType, void>,
+      )
+    } else {
+      nextState = dotProp.set(
+        nextState,
+        `entries.${action.meta[metadataIdFieldName]}`,
+        action.payload.data,
+      ) as StateType
+    }
+
+    return dotProp.delete(
+      nextState,
+      `saves.${action.meta[metadataIdFieldName]}`,
+    ) as StateType
+  },
+})
+
+/**
+ * Default options to use for deletion data actions
+ * @param metadataIdFieldName Name of the ID field in the metadata object
+ */
 export const deleteOptions = <
   DataType extends BaseConcept,
   StateType extends DataActionBaseState<DataType>
@@ -82,6 +173,7 @@ export type DataStateGenericReducerOptions<
   path?:
     | ((
         action: DataAction<DataActionDataType, void, DataActionMetadataType>,
+        state: StateType,
       ) => string)
     | string
     | null
@@ -95,8 +187,9 @@ export type DataStateGenericReducerOptions<
     action: DataAction<DataActionDataType, void, DataActionMetadataType>,
   ) => StateType
 }
+
 /**
- * Generic reducer for DataStateActions
+ * Generic reducer for DataStateActions, accepts a single options object and handles all four data actions
  * @param path A function (returning a string) or string indicating where in the state to store the data. Omit (or empty string) for root. [Default: Root]
  * @param dataTransform A function to transform the incoming data before saving in the store [Default: Identity]
  * @param preflightCheck A function to test whether to store the data (returned true) or not (returned false) [Default: No preflight]
@@ -151,7 +244,7 @@ const dataStateGenericReducer = <
     if (path) {
       let evaluatedPath
       if (typeof path === 'function') {
-        evaluatedPath = path(action)
+        evaluatedPath = path(action, state)
       } else {
         evaluatedPath = path
       }
@@ -162,5 +255,28 @@ const dataStateGenericReducer = <
 
   return postflightTransform(nextState, action)
 }
+
+// no return type as it's a thin wrapper and TypeScript inference works just fine
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+export const dataStateSaveReducer = <
+  DataType extends BaseConcept,
+  StateType extends DataActionBaseState<DataType>,
+  MetadataType,
+  ActionDataType extends BaseConcept = DataType
+>(
+  metadataIdFieldName: string,
+  options?: SaveOptionsOverride<ActionDataType, StateType, MetadataType>,
+) =>
+  dataStateGenericReducer<
+    StateType,
+    ActionDataType,
+    void,
+    MetadataType & CallbackMetadata<ActionDataType>
+  >(
+    saveOptions<DataType, StateType, MetadataType, ActionDataType>(
+      metadataIdFieldName,
+      options,
+    ),
+  )
 
 export default dataStateGenericReducer

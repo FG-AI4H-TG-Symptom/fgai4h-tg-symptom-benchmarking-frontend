@@ -10,11 +10,15 @@ import {
   TableRow,
   Tooltip,
 } from '@material-ui/core'
-import { Delete as DeleteIcon, Launch as LaunchIcon } from '@material-ui/icons'
+import {
+  Delete as DeleteIcon,
+  ViewList as ViewEditIcon,
+} from '@material-ui/icons'
 
 import { AiImplementationInfo } from '../../../data/aiImplementations/aiImplementationDataType'
-import AiImplementationHealthComponent from './AiImplementationHealthComponent'
 import ConfirmationIconButton from '../../common/ConfirmationIconButton'
+
+import AiImplementationHealthComponent from './AiImplementationHealthComponent'
 
 interface AiImplementationManagerComponentProps {
   aiImplementations: AiImplementationInfo[]
@@ -44,20 +48,20 @@ const AiImplementationManagerComponent: React.FC<AiImplementationManagerComponen
                 <AiImplementationHealthComponent health={health} />
               </TableCell>
               <TableCell>
-                <IconButton aria-label='view' disabled>
-                  <LaunchIcon />
-                </IconButton>
-                <Tooltip title='Hold to delete AI implementation'>
+                <Tooltip title='View / edit'>
                   <span>
-                    <ConfirmationIconButton
-                      onConfirmed={(): void => deleteAiImplementation(id)}
-                      color='darkred'
-                      aria-label='delete AI implementation'
-                    >
-                      <DeleteIcon />
-                    </ConfirmationIconButton>
+                    <IconButton aria-label='view' disabled>
+                      <ViewEditIcon />
+                    </IconButton>
                   </span>
                 </Tooltip>
+                <ConfirmationIconButton
+                  onConfirmed={(): void => deleteAiImplementation(id)}
+                  color='darkred'
+                  label='Hold to delete'
+                >
+                  <DeleteIcon />
+                </ConfirmationIconButton>
               </TableCell>
             </TableRow>
           ))}

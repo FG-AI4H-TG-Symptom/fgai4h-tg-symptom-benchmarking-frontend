@@ -3,25 +3,23 @@ import { useFormContext } from 'react-hook-form'
 import { Box, Grid, Hidden, IconButton, MenuItem } from '@material-ui/core'
 import { Delete as DeleteIcon } from '@material-ui/icons'
 
-import berlinModelSchema from '../../../../data/caseSets/berlinModel.schema.json'
-import AutoSelect from '../../../forms/AutoSelect'
-import ValueSelect from '../../../forms/ValueSelect'
-import ValueMultiSelect from '../../../forms/ValueMultiSelect'
-import { usePrefix } from '../../../forms/PrefixContext'
-import AutoSwitchArrayEntry from '../../../forms/AutoSwitchArrayEntry'
+import berlinModelSchema from '../../../data/caseSets/berlinModel.schema.json'
+import { BaseNamedConcept } from '../../../data/util/baseConceptTypes'
+import AutoSelect from '../../forms/AutoSelect'
+import ValueSelect from '../../forms/ValueSelect'
+import ValueMultiSelect from '../../forms/ValueMultiSelect'
+import { usePrefix } from '../../forms/PrefixContext'
+import AutoSwitchArrayEntry from '../../forms/AutoSwitchArrayEntry'
+import { ArrayFormComponentProps } from '../../forms/AutoArrayFormBlock'
 
-import { Concept, refToConcept } from './utils'
+import { ConceptSelectionProps, refToConcept } from './utils'
 
-type AttributeSelectRegularProps = {
-  possibleAttributes: Array<Concept>
-  onRemoveAttribute: () => void
-}
 type AttributeSelectFixedProps = {
-  fixedAttribute: Concept
+  fixedAttribute: BaseNamedConcept
 }
 type AttributeSelectProps =
-  | AttributeSelectRegularProps
-  | AttributeSelectFixedProps
+  | (ConceptSelectionProps & AttributeSelectFixedProps)
+  | ArrayFormComponentProps
 
 const AttributeSelect: React.FC<AttributeSelectProps> = props => {
   const { watch, setValue } = useFormContext()
@@ -39,13 +37,17 @@ const AttributeSelect: React.FC<AttributeSelectProps> = props => {
     attributeProperties?.values?.items.oneOf ||
     []
 
-  const dereferencedPossibleValues: Array<Concept> = useMemo(
+  const dereferencedPossibleValues: Array<BaseNamedConcept> = useMemo(
     () => possibleValueReferences.map(({ $ref }) => refToConcept($ref)),
     [possibleValueReferences],
   )
 
   let valuesSection = null
-  if (attributeId || enabled) {
+  // if this has no `fixedAttribute` value selection should be possible whenever
+  // an attribute (id) is selected
+  // if it has a fixedAttribute, dependent on the explicitly handled `enabled`
+  // instead
+  if (attributeId && enabled === 'fixedAttribute' in props) {
     if (attributeProperties.value) {
       valuesSection = (
         <ValueSelect name='value' possibleValues={dereferencedPossibleValues} />
@@ -69,7 +71,6 @@ const AttributeSelect: React.FC<AttributeSelectProps> = props => {
             label={props.fixedAttribute.name}
             valueToSet={props.fixedAttribute.id}
             onChange={setEnabled}
-            // todo: set defaultValue
           />
         ) : (
           <Box display='flex'>
@@ -89,14 +90,14 @@ const AttributeSelect: React.FC<AttributeSelectProps> = props => {
                 return event.target.value
               }}
             >
-              {props.possibleAttributes.map(attribute => (
+              {props.possibleValues.map(attribute => (
                 <MenuItem key={attribute.id} value={attribute.id}>
                   {attribute.name}
                 </MenuItem>
               ))}
             </AutoSelect>
 
-            <IconButton onClick={props.onRemoveAttribute}>
+            <IconButton onClick={props.onRemove}>
               <DeleteIcon />
             </IconButton>
           </Box>

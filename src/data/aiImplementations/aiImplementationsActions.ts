@@ -31,7 +31,7 @@ export const aiImplementationOverviewDataAction = generateDataStateActions<
 export const aiImplementationHealthDataAction = generateDataStateActions<
   AiImplementationHealth,
   string,
-  string
+  { aiImplementationId: string }
 >(AiImplementationsActionTypes.AI_IMPLEMENTATION_HEALTH_DATA_ACTION)
 
 export const aiImplementationDeleteDataAction = generateDataStateActions<

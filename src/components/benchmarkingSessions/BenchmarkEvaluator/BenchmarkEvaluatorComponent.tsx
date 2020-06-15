@@ -31,20 +31,18 @@ const BenchmarkEvaluatorComponent: React.FC<AiImplementationManagerComponentProp
       <TableContainer component={Paper}>
         <Table>
           <caption>
-            {Object.keys(evaluation.aiImplementations).length} AI
-            implementations, {evaluation.responses.length} cases,{' '}
-            {Object.keys(evaluation.aggregatedMetrics).length} metrics
+            {evaluation.aiImplementations.length} AI implementations,{' '}
+            {evaluation.responses.length} cases, {evaluation.metrics.length}{' '}
+            metrics
           </caption>
           <TableHead>
             <TableRow>
               <TableCell>AI implementation name</TableCell>
-              {Object.values(evaluation.aggregatedMetrics).map(
-                ({ id, name }) => (
-                  <CommonStyled.CenteredTableCell key={id}>
-                    {name}
-                  </CommonStyled.CenteredTableCell>
-                ),
-              )}
+              {evaluation.metrics.map(({ id, name }) => (
+                <CommonStyled.CenteredTableCell key={id}>
+                  {name}
+                </CommonStyled.CenteredTableCell>
+              ))}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -61,13 +59,11 @@ const BenchmarkEvaluatorComponent: React.FC<AiImplementationManagerComponentProp
                     interstitial={<>aiImplementationId</>}
                   />
                 </TableCell>
-                {Object.values(evaluation.aggregatedMetrics).map(
-                  ({ id, values }) => (
-                    <CommonStyled.CenteredTableCell key={id}>
-                      {values[aiImplementationId]}
-                    </CommonStyled.CenteredTableCell>
-                  ),
-                )}
+                {evaluation.metrics.map(({ id, aggregatedValues }) => (
+                  <CommonStyled.CenteredTableCell key={id}>
+                    {aggregatedValues[aiImplementationId]}
+                  </CommonStyled.CenteredTableCell>
+                ))}
               </TableRow>
             ))}
           </TableBody>

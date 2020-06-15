@@ -4,9 +4,10 @@ import PageWrapper from './PageWrapper'
 
 const BasicPageLayout: React.FC<{
   title: ReactNode
+  subtitle?: ReactNode
   action?: JSX.Element
   unlimitedWidth?: boolean
-}> = ({ title, action, children, unlimitedWidth }) => {
+}> = ({ title, subtitle, action, children, unlimitedWidth }) => {
   let content = (
     <>
       <Box
@@ -15,7 +16,12 @@ const BasicPageLayout: React.FC<{
         alignItems='center'
         marginBottom={2}
       >
-        <Typography variant='h2'>{title}</Typography>
+        <div>
+          <Typography variant='h2'>{title}</Typography>
+          {subtitle && (
+            <Typography color='textSecondary'>{subtitle}</Typography>
+          )}
+        </div>
         {action}
       </Box>
       {children}

@@ -4,8 +4,9 @@ import { Loadable } from '../util/dataState/dataStateTypes'
 import { BaseNamedConcept } from '../util/baseConceptTypes'
 
 export enum AiImplementationHealth {
-  OK = 'OK',
-  Error = 'Error',
+  OK = 'ok',
+  BAD_RESPONSE = 'bad response',
+  TIMEOUT = 'timeout',
 }
 
 export type AiImplementationInfo = BaseNamedConcept & {

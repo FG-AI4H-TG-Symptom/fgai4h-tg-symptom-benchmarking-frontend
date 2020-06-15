@@ -12,7 +12,7 @@ import {
   Tooltip,
 } from '@material-ui/core'
 import {
-  ViewList as OpenIcon,
+  ViewList as ViewEditIcon,
   PlayCircleOutline as StartBenchmarkIcon,
   Delete as DeleteIcon,
 } from '@material-ui/icons'
@@ -58,27 +58,27 @@ const CaseSetManagerComponent: React.FC<CaseSetManagerComponentProps> = ({
               </TableCell>
               <CommonStyled.ButtonsTableCell>
                 <LinkWrapper to={paths.caseSetViewer(id)}>
-                  <IconButton aria-label='view'>
-                    <OpenIcon />
-                  </IconButton>
+                  <Tooltip title='View / edit'>
+                    <IconButton aria-label='view'>
+                      <ViewEditIcon />
+                    </IconButton>
+                  </Tooltip>
                 </LinkWrapper>
                 <LinkWrapper to={paths.benchmarkCreate(id)}>
-                  <IconButton aria-label='run-benchmark'>
-                    <StartBenchmarkIcon />
-                  </IconButton>
+                  <Tooltip title='Run benchmark with this case set'>
+                    <IconButton aria-label='run-benchmark'>
+                      <StartBenchmarkIcon />
+                    </IconButton>
+                  </Tooltip>
                 </LinkWrapper>
 
-                <Tooltip title='Hold to delete case set'>
-                  <span>
-                    <ConfirmationIconButton
-                      onConfirmed={(): void => deleteCaseSet(id)}
-                      color='darkred'
-                      aria-label='delete case set'
-                    >
-                      <DeleteIcon />
-                    </ConfirmationIconButton>
-                  </span>
-                </Tooltip>
+                <ConfirmationIconButton
+                  onConfirmed={(): void => deleteCaseSet(id)}
+                  color='darkred'
+                  label='Hold to delete'
+                >
+                  <DeleteIcon />
+                </ConfirmationIconButton>
               </CommonStyled.ButtonsTableCell>
             </TableRow>
           ))}

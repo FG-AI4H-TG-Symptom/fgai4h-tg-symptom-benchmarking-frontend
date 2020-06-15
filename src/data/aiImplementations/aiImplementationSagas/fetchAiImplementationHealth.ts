@@ -23,13 +23,15 @@ export default function* fetchAiImplementationHealth(
     const data = yield response.json()
 
     yield put(
-      aiImplementationHealthDataAction.store(data.status, aiImplementationId),
+      aiImplementationHealthDataAction.store(data.status, {
+        aiImplementationId,
+      }),
     )
   } catch (error) {
     yield put(
       aiImplementationHealthDataAction.errored(
         `Failed to fetch AI implementation list: ${error.message}`,
-        aiImplementationId,
+        { aiImplementationId },
       ),
     )
   }

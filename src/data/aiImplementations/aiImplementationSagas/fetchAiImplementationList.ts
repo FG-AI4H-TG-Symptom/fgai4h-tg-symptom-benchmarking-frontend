@@ -31,10 +31,9 @@ export default function* fetchAiImplementationList(
       // eslint-disable-next-line no-restricted-syntax
       for (const aiImplementation of aiImplementations) {
         yield put(
-          aiImplementationHealthDataAction.load(
-            aiImplementation.id,
-            aiImplementation.id,
-          ),
+          aiImplementationHealthDataAction.load(aiImplementation.id, {
+            aiImplementationId: aiImplementation.id,
+          }),
         )
       }
     }

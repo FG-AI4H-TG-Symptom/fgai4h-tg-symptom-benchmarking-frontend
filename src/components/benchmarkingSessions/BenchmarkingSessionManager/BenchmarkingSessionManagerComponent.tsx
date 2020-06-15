@@ -121,19 +121,13 @@ const BenchmarkingSessionManagerComponent: React.FC<CaseSetManagerComponentProps
                         </LinkWrapper>
                       </span>
                     </Tooltip>
-                    <Tooltip title='Hold to delete benchmarking session'>
-                      <span>
-                        <ConfirmationIconButton
-                          onConfirmed={(): void =>
-                            deleteBenchmarkingSession(id)
-                          }
-                          color='darkred'
-                          aria-label='delete benchmarking session'
-                        >
-                          <DeleteIcon />
-                        </ConfirmationIconButton>
-                      </span>
-                    </Tooltip>
+                    <ConfirmationIconButton
+                      onConfirmed={(): void => deleteBenchmarkingSession(id)}
+                      color='darkred'
+                      label='Hold to delete'
+                    >
+                      <DeleteIcon />
+                    </ConfirmationIconButton>
                   </CommonStyled.CenteredTableCell>
                 </TableRow>
               ))}
