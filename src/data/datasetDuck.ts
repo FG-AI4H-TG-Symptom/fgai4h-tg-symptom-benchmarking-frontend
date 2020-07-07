@@ -17,6 +17,7 @@ const slice = createSlice({
   name: "datasets",
   initialState: initialState,
   reducers: {
+    // fetch Datasets
     fetchDatasets: () => {},
     fetchDatasetsSuccess: (datasets, action) => {
       datasets.list = action.payload;
@@ -57,6 +58,17 @@ const slice = createSlice({
     fetchFullDatasetFailure: (datasets, action) => {
       datasets.error = action.payload;
       datasets.loading = false;
+    },
+    // Save Dataset
+    saveDataset: (datasets, action) => {},
+    saveDatasetSuccess: (datasets, action) => {
+      const index = datasets.list.findIndex(
+        dataset => dataset.id === action.payload.id
+      );
+      datasets[index] = action.payload;
+    },
+    saveDatasetFailure: (datasets, action) => {
+      datasets.error = action.payload;
     }
   }
 });
@@ -65,8 +77,10 @@ export const {
   fetchDatasets,
   addDataset,
   deleteDataset,
-  fetchFullDataset
+  fetchFullDataset,
+  saveDataset
 } = slice.actions;
+
 export default slice.reducer;
 
 const {
@@ -77,7 +91,9 @@ const {
   addDatasetSuccess,
   addDatasetFailure,
   fetchFullDatasetSuccess,
-  fetchFullDatasetFailure
+  fetchFullDatasetFailure,
+  saveDatasetSuccess,
+  saveDatasetFailure
 } = slice.actions;
 
 // SAGAS /////////////////////////
@@ -169,21 +185,55 @@ function* fetchFullDatasetWorker(action) {
   }
 }
 
+function* saveDatasetWorker(action) {
+  const caseSet = action.payload;
+  // const createCaseSet = metadata.caseSetId === ID_PLACEHOLDER_NEW;
+  const backendFormattedCaseSet = caseSet;
+
+  if (caseSet.cases.length > 0 && typeof caseSet.cases[0] !== "string") {
+    // the backend expects only case IDs, no data
+    (backendFormattedCaseSet as any).cases = caseSet.cases.map(({ id }) => id);
+  }
+  try {
+    const response: Response = yield fetch(
+      urlBuilder(`case-sets/${caseSet.id}`),
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(backendFormattedCaseSet)
+      }
+    );
+    if (!response.ok) {
+      throw new Error(httpResponseErrorMessage(response));
+    }
+    const updatedCaseSet = yield response.json();
+    yield put(saveDatasetSuccess(updatedCaseSet));
+  } catch (error) {
+    yield put(saveDatasetFailure(`Failed to save case set: ${error.message}`));
+  }
+}
+
 // WATCHERS
-export function* fetchDatasetsWatcher() {
+function* fetchDatasetsWatcher() {
   yield takeEvery(fetchDatasets.type, fetchDatasetsWorker);
 }
 
-export function* addDatasetWatcher() {
+function* addDatasetWatcher() {
   yield takeEvery(addDataset.type, addDatasetWorker);
 }
 
-export function* deleteDatasetWatcher() {
+function* deleteDatasetWatcher() {
   yield takeEvery(deleteDataset.type, deleteDatasetWorker);
 }
 
-export function* fetchFullDatasetWatcher() {
+function* fetchFullDatasetWatcher() {
   yield takeEvery(fetchFullDataset.type, fetchFullDatasetWorker);
+}
+
+function* saveDatasetWatcher() {
+  yield takeEvery(saveDataset.type, saveDatasetWorker);
 }
 
 export function* rootDatasetsSaga() {
@@ -191,6 +241,7 @@ export function* rootDatasetsSaga() {
     fetchDatasetsWatcher(),
     addDatasetWatcher(),
     deleteDatasetWatcher(),
-    fetchFullDatasetWatcher()
+    fetchFullDatasetWatcher(),
+    saveDatasetWatcher()
   ]);
 }
