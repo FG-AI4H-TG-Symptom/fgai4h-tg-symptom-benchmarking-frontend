@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { IconButton, Tooltip, Button } from "@material-ui/core";
+import { IconButton, Tooltip } from "@material-ui/core";
 import { Add as CreateIcon } from "@material-ui/icons";
 import { paths } from "../../../routes";
-import { fetchAIs, addAI, deleteAI } from "../../../data/aiDuck";
+import { fetchAIs, deleteAI } from "../../../data/aiDuck";
 
 import BasicPageLayout from "../../common/BasicPageLayout";
 import LinkWrapper from "../../common/LinkWrapper";

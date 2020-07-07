@@ -1,47 +1,46 @@
-import React from 'react'
-import { useFormContext } from 'react-hook-form'
-import { Box, Button, IconButton } from '@material-ui/core'
-import { Alert } from '@material-ui/lab'
-import { Delete as DeleteIcon } from '@material-ui/icons'
+import React from "react";
+import { useFormContext } from "react-hook-form";
+import { Box, Button, IconButton } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
+import { Delete as DeleteIcon } from "@material-ui/icons";
 
-import { BaseNamedConcept } from '../../data/util/baseConceptTypes'
-import { AutoPrefix } from './PrefixContext'
-import ValueSelect from './ValueSelect'
-import { useAutoFieldArray, useWatchArrayHelper } from './utils'
+import { BaseNamedConcept } from "../../data/util/baseConceptTypes";
+import { AutoPrefix } from "./PrefixContext";
+import ValueSelect from "./ValueSelect";
+import { useAutoFieldArray, useWatchArrayHelper } from "./utils";
 
 interface ValueMultiSelectProps {
-  name: string
-  possibleValues: Array<BaseNamedConcept>
+  name: string;
+  possibleValues: Array<BaseNamedConcept>;
 }
 
 const ValueMultiSelect: React.FC<ValueMultiSelectProps> = ({
   name,
-  possibleValues,
+  possibleValues
 }) => {
   const {
-    formState: { isSubmitted },
-  } = useFormContext()
+    formState: { isSubmitted }
+  } = useFormContext();
   const values = useAutoFieldArray({
-    name: 'values',
-  })
+    name: "values"
+  });
 
-  const currentValueIds = useWatchArrayHelper(values, `${name}[*].id`)
+  const currentValueIds = useWatchArrayHelper(values, `${name}[*].id`);
 
   return (
     <>
       {isSubmitted && values.fields.length === 0 ? (
-        <Alert severity='error' variant='outlined'>
+        <Alert severity="error" variant="outlined">
           Add at least one value
         </Alert>
       ) : null}
       {values.fields.map((item, index) => (
-        <Box display='flex' key={item.key}>
+        <Box display="flex" key={item.key}>
           <AutoPrefix name={`${name}[${index}]`}>
             <ValueSelect
               possibleValues={possibleValues.filter(
                 ({ id }) =>
-                  id === currentValueIds[index] ||
-                  !currentValueIds.includes(id),
+                  id === currentValueIds[index] || !currentValueIds.includes(id)
               )}
             />
           </AutoPrefix>
@@ -52,7 +51,7 @@ const ValueMultiSelect: React.FC<ValueMultiSelectProps> = ({
       ))}
       <Button onClick={(): void => values.append({})}>Add value</Button>
     </>
-  )
-}
+  );
+};
 
-export default ValueMultiSelect
+export default ValueMultiSelect;

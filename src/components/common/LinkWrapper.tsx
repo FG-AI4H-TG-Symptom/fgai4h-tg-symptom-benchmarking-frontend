@@ -1,15 +1,15 @@
-import React from 'react'
+import React from "react";
 
-import * as Styled from './LinkWrapper.style'
+import * as Styled from "./LinkWrapper.style";
 
 const LinkWrapper: React.FC<{ to: string; disabled?: boolean }> = ({
   to,
   disabled = false,
-  children,
+  children
 }) => (
-  <Styled.UndecoratedLink to={disabled ? '' : to}>
+  <Styled.UndecoratedLink to={disabled ? "" : to}>
     {children}
   </Styled.UndecoratedLink>
-)
+);
 
-export default LinkWrapper
+export default LinkWrapper;

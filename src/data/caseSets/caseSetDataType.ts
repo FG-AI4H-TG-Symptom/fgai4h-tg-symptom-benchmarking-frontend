@@ -1,6 +1,6 @@
-import { BaseNamedConcept } from '../util/baseConceptTypes'
-import { CaseDataType } from './caseDataType'
+import { BaseNamedConcept } from "../util/baseConceptTypes";
+import { CaseDataType } from "./caseDataType";
 
 export type CaseSetInfo = BaseNamedConcept & {
-  cases: Array<CaseDataType>
-}
+  cases: Array<CaseDataType>;
+};

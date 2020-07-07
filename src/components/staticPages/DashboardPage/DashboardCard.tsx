@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import {
   Card,
   Button,
@@ -6,45 +6,45 @@ import {
   CardActions,
   CardActionArea,
   Typography,
-  CardMedia,
-} from '@material-ui/core'
+  CardMedia
+} from "@material-ui/core";
 
-import { makeStyles } from '@material-ui/core/styles'
-import LinkWrapper from '../../common/LinkWrapper'
+import { makeStyles } from "@material-ui/core/styles";
+import LinkWrapper from "../../common/LinkWrapper";
 
 interface Props {
-  title: string
-  count: number
-  link: string
-  image: string
-  addNewLink: string
+  title: string;
+  count: number;
+  link: string;
+  image: string;
+  addNewLink: string;
 }
 
 const DashboardCard: React.FC<Props> = props => {
   const useStyles = makeStyles({
     root: {
-      maxWidth: 345,
+      maxWidth: 345
     },
     media: {
-      height: 140,
-    },
-  })
+      height: 140
+    }
+  });
 
-  const classes = useStyles()
+  const classes = useStyles();
 
   return (
     <Card className={classes.root}>
       <CardActionArea>
         <CardMedia
-          style={{ height: 0, marginTop: '30', paddingTop: '56.25%' }}
+          style={{ height: 0, marginTop: "30", paddingTop: "56.25%" }}
           image={props.image}
           title={props.title}
         />
         <CardContent>
-          <Typography gutterBottom variant='h5' component='h2'>
+          <Typography gutterBottom variant="h5" component="h2">
             {props.title}
           </Typography>
-          <Typography variant='body2' color='textSecondary' component='p'>
+          <Typography variant="body2" color="textSecondary" component="p">
             <b style={{ fontSize: 20 }}>{props.count}</b> {props.title} are
             available
           </Typography>
@@ -61,7 +61,7 @@ const DashboardCard: React.FC<Props> = props => {
         </LinkWrapper>
       </CardActions>
     </Card>
-  )
-}
+  );
+};
 
-export default DashboardCard
+export default DashboardCard;

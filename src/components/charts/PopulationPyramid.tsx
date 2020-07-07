@@ -1,86 +1,86 @@
-import React, { useMemo } from 'react'
-import ReactEcharts from 'echarts-for-react'
-import datalib from 'datalib'
-import merge from 'lodash/merge'
+import React, { useMemo } from "react";
+import ReactEcharts from "echarts-for-react";
+import datalib from "datalib";
+import merge from "lodash/merge";
 
-import getBaseOptions from './defaultChartBaseOptions'
-import { Population } from './chartTypes'
-import defaultChartOpts from './defaultChartOpts'
+import getBaseOptions from "./defaultChartBaseOptions";
+import { Population } from "./chartTypes";
+import defaultChartOpts from "./defaultChartOpts";
 
-const biologicalSexes = ['male', 'female']
+const biologicalSexes = ["male", "female"];
 
 const calculateStatistics = (population: Population) => {
   const histograms = biologicalSexes.map(sex =>
     datalib.histogram(
       population
         .filter(({ biologicalSex }) => biologicalSex === sex)
-        .map(({ age }) => age),
-    ),
-  )
+        .map(({ age }) => age)
+    )
+  );
 
   const binLabels = histograms[0].map(
-    ({ value }) => `${value}-${value + histograms[0].bins.step}`,
-  )
+    ({ value }) => `${value}-${value + histograms[0].bins.step}`
+  );
   const maxCountInBin = Math.max(
-    ...histograms.map(histogram => histogram.map(({ count }) => count)).flat(),
-  )
+    ...histograms.map(histogram => histogram.map(({ count }) => count)).flat()
+  );
 
-  return { histograms, binLabels, maxCountInBin }
-}
+  return { histograms, binLabels, maxCountInBin };
+};
 
 interface PopulationPyramidProps {
-  population: Population
+  population: Population;
 }
 
 const PopulationPyramid: React.FC<PopulationPyramidProps> = ({
-  population,
+  population
 }) => {
   const { histograms, binLabels, maxCountInBin } = useMemo(
     () => calculateStatistics(population),
-    [population],
-  )
+    [population]
+  );
 
   const baseXAxis = {
-    type: 'value',
+    type: "value",
     axisLine: {
-      show: false,
+      show: false
     },
     axisTick: {
-      show: false,
+      show: false
     },
-    position: 'top',
+    position: "top",
     axisLabel: {
-      show: true,
+      show: true
     },
     splitLine: {
       show: true,
       lineStyle: {
         width: 1,
-        type: 'solid',
-      },
+        type: "solid"
+      }
     },
     max: maxCountInBin,
-    minInterval: 1,
-  }
+    minInterval: 1
+  };
   const baseYAxis = {
-    type: 'category',
+    type: "category",
     inverse: true,
     axisLine: {
-      show: false,
+      show: false
     },
     axisTick: {
-      show: false,
+      show: false
     },
     axisLabel: {
-      show: false,
+      show: false
     },
-    data: binLabels,
-  }
+    data: binLabels
+  };
 
   const populationPyramidOptions = merge(getBaseOptions({ dataZoom: true }), {
     baseOption: {
       legend: {
-        data: biologicalSexes,
+        data: biologicalSexes
       },
       grid: [
         {
@@ -89,14 +89,14 @@ const PopulationPyramid: React.FC<PopulationPyramidProps> = ({
           top: 40,
           bottom: 30,
           containLabel: true,
-          width: '40%',
+          width: "40%"
         },
         {
           show: false,
-          left: '50%',
+          left: "50%",
           top: 60,
           bottom: 30,
-          width: '0%',
+          width: "0%"
         },
         {
           show: false,
@@ -104,79 +104,79 @@ const PopulationPyramid: React.FC<PopulationPyramidProps> = ({
           top: 40,
           bottom: 30,
           containLabel: true,
-          width: '40%',
-        },
+          width: "40%"
+        }
       ],
       xAxis: [
         merge({}, baseXAxis, {
           gridIndex: 0,
-          inverse: true,
+          inverse: true
         }),
         {
           gridIndex: 1,
-          show: false,
+          show: false
         },
         merge({}, baseXAxis, {
-          gridIndex: 2,
-        }),
+          gridIndex: 2
+        })
       ],
       yAxis: [
         merge({}, baseYAxis, {
           gridIndex: 0,
-          position: 'right',
+          position: "right"
         }),
         merge({}, baseYAxis, {
           gridIndex: 1,
-          position: 'left',
+          position: "left",
           axisLabel: {
-            show: true,
+            show: true
           },
           data: binLabels.map(value => ({
             value,
             textStyle: {
-              align: 'center',
-            },
-          })),
+              align: "center"
+            }
+          }))
         }),
         merge({}, baseYAxis, {
           gridIndex: 2,
-          position: 'left',
-        }),
+          position: "left"
+        })
       ],
       series: histograms.map((histogram, index) => ({
         name: biologicalSexes[index],
         data: histogram.map(({ count }) => count),
-        type: 'bar',
+        type: "bar",
         barWidth: 20,
         barGap: 20,
         xAxisIndex: index === 0 ? 0 : 2,
         yAxisIndex: index === 0 ? 0 : 2,
         label: {
           normal: {
-            show: false,
+            show: false
           },
           emphasis: {
             show: true,
-            position: index === 0 ? 'left' : 'right',
+            position: index === 0 ? "left" : "right",
             offset: [0, 0],
             textStyle: {
-              color: '#fff',
-              fontSize: 14,
-            },
-          },
-        },
-      })),
-    },
-  })
+              color: "#fff",
+              fontSize: 14
+            }
+          }
+        }
+      }))
+    }
+  });
 
   return (
     <ReactEcharts
       option={populationPyramidOptions}
       opts={defaultChartOpts}
-      style={{ width: '100%', height: '50vh' }}
-      theme='benchmark'
+      style={{ width: "100%", height: "50vh" }}
+      theme="benchmark"
     />
-  )
-}
+  );
+};
 
-export default PopulationPyramid
+export default PopulationPyramid;

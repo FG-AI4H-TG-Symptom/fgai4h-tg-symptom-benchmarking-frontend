@@ -1,15 +1,15 @@
-import React from 'react'
-import { useFormContext } from 'react-hook-form'
-import { usePrefix } from './PrefixContext'
+import React from "react";
+import { useFormContext } from "react-hook-form";
+import { usePrefix } from "./PrefixContext";
 
 interface AutoReadOnlyFieldProps {
-  name: string
+  name: string;
 }
 
 const AutoReadOnlyField: React.FC<AutoReadOnlyFieldProps> = ({ name }) => {
-  const { register } = useFormContext()
-  const prefixedName = usePrefix() + name
-  return <input type='hidden' name={`${prefixedName}`} ref={register} />
-}
+  const { register } = useFormContext();
+  const prefixedName = usePrefix() + name;
+  return <input type="hidden" name={`${prefixedName}`} ref={register} />;
+};
 
-export default AutoReadOnlyField
+export default AutoReadOnlyField;

@@ -24,10 +24,7 @@
       "minItems": 1
     }
   },
-  "required": [
-    "name",
-    "cases"
-  ],
+  "required": ["name", "cases"],
   "additionalProperties": false,
   "definitions": {
     "case": {
@@ -61,9 +58,7 @@
                   "description": "Identifier of this case in the originating spreadsheet"
                 }
               },
-              "required": [
-                "name"
-              ],
+              "required": ["name"],
               "additionalProperties": false
             },
             "profileInformation": {
@@ -81,10 +76,7 @@
                   "description": "Biological sex"
                 }
               },
-              "required": [
-                "age",
-                "biologicalSex"
-              ],
+              "required": ["age", "biologicalSex"],
               "additionalProperties": false
             },
             "presentingComplaints": {
@@ -145,27 +137,16 @@
           "additionalProperties": false
         }
       },
-      "required": [
-        "metaData",
-        "caseData",
-        "valuesToPredict"
-      ],
+      "required": ["metaData", "caseData", "valuesToPredict"],
       "additionalProperties": false
     },
     "biologicalSex": {
       "type": "string",
-      "enum": [
-        "male",
-        "female"
-      ]
+      "enum": ["male", "female"]
     },
     "expectedTriageLevel": {
       "type": "string",
-      "enum": [
-        "EC",
-        "PC",
-        "SC"
-      ]
+      "enum": ["EC", "PC", "SC"]
     },
     "clinicalFinding": {
       "oneOf": [
@@ -213,11 +194,7 @@
     },
     "clinicalFindingState": {
       "type": "string",
-      "enum": [
-        "present",
-        "absent",
-        "unsure"
-      ],
+      "enum": ["present", "absent", "unsure"],
       "description": "Presence of the clinical finding"
     },
     "attribute": {
@@ -403,20 +380,12 @@
           "description": "Condition name"
         },
         "standardOntologyUris": {
-          "const": [
-            "http://snomed.info/id/24526004"
-          ],
-          "default": [
-            "http://snomed.info/id/24526004"
-          ],
+          "const": ["http://snomed.info/id/24526004"],
+          "default": ["http://snomed.info/id/24526004"],
           "description": "URIs referencing this condition in standard ontologies"
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris"
-      ],
+      "required": ["id", "name", "standardOntologyUris"],
       "additionalProperties": false
     },
     "23334e278d34e6394e763c05e8ba13c8": {
@@ -434,20 +403,12 @@
           "description": "Condition name"
         },
         "standardOntologyUris": {
-          "const": [
-            "http://snomed.info/id/235595009"
-          ],
-          "default": [
-            "http://snomed.info/id/235595009"
-          ],
+          "const": ["http://snomed.info/id/235595009"],
+          "default": ["http://snomed.info/id/235595009"],
           "description": "URIs referencing this condition in standard ontologies"
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris"
-      ],
+      "required": ["id", "name", "standardOntologyUris"],
       "additionalProperties": false
     },
     "84e38911d4dadafc033e196683720b70": {
@@ -465,20 +426,12 @@
           "description": "Condition name"
         },
         "standardOntologyUris": {
-          "const": [
-            "http://snomed.info/id/68566005"
-          ],
-          "default": [
-            "http://snomed.info/id/68566005"
-          ],
+          "const": ["http://snomed.info/id/68566005"],
+          "default": ["http://snomed.info/id/68566005"],
           "description": "URIs referencing this condition in standard ontologies"
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris"
-      ],
+      "required": ["id", "name", "standardOntologyUris"],
       "additionalProperties": false
     },
     "817ce20937adbd22595275ddfa572a6e": {
@@ -496,20 +449,12 @@
           "description": "Condition name"
         },
         "standardOntologyUris": {
-          "const": [
-            "http://snomed.info/id/111843007"
-          ],
-          "default": [
-            "http://snomed.info/id/111843007"
-          ],
+          "const": ["http://snomed.info/id/111843007"],
+          "default": ["http://snomed.info/id/111843007"],
           "description": "URIs referencing this condition in standard ontologies"
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris"
-      ],
+      "required": ["id", "name", "standardOntologyUris"],
       "additionalProperties": false
     },
     "7f2657a0f5b61e32b6867bd215b4a41e": {
@@ -527,20 +472,12 @@
           "description": "Condition name"
         },
         "standardOntologyUris": {
-          "const": [
-            "http://snomed.info/id/399326009"
-          ],
-          "default": [
-            "http://snomed.info/id/399326009"
-          ],
+          "const": ["http://snomed.info/id/399326009"],
+          "default": ["http://snomed.info/id/399326009"],
           "description": "URIs referencing this condition in standard ontologies"
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris"
-      ],
+      "required": ["id", "name", "standardOntologyUris"],
       "additionalProperties": false
     },
     "af900dbf0fcecf02e5b7f70bbd10ea44": {
@@ -558,20 +495,12 @@
           "description": "Condition name"
         },
         "standardOntologyUris": {
-          "const": [
-            "http://snomed.info/id/65275009"
-          ],
-          "default": [
-            "http://snomed.info/id/65275009"
-          ],
+          "const": ["http://snomed.info/id/65275009"],
+          "default": ["http://snomed.info/id/65275009"],
           "description": "URIs referencing this condition in standard ontologies"
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris"
-      ],
+      "required": ["id", "name", "standardOntologyUris"],
       "additionalProperties": false
     },
     "9d27455f69d907a7dad7bb471f3717a4": {
@@ -589,20 +518,12 @@
           "description": "Condition name"
         },
         "standardOntologyUris": {
-          "const": [
-            "http://snomed.info/id/74400008"
-          ],
-          "default": [
-            "http://snomed.info/id/74400008"
-          ],
+          "const": ["http://snomed.info/id/74400008"],
+          "default": ["http://snomed.info/id/74400008"],
           "description": "URIs referencing this condition in standard ontologies"
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris"
-      ],
+      "required": ["id", "name", "standardOntologyUris"],
       "additionalProperties": false
     },
     "9a40d00e1b3ae580a85fb303778873ca": {
@@ -620,20 +541,12 @@
           "description": "Condition name"
         },
         "standardOntologyUris": {
-          "const": [
-            "http://snomed.info/id/34801009"
-          ],
-          "default": [
-            "http://snomed.info/id/34801009"
-          ],
+          "const": ["http://snomed.info/id/34801009"],
+          "default": ["http://snomed.info/id/34801009"],
           "description": "URIs referencing this condition in standard ontologies"
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris"
-      ],
+      "required": ["id", "name", "standardOntologyUris"],
       "additionalProperties": false
     },
     "715d4aa3c75953768e71eb85c74a79d6": {
@@ -651,20 +564,12 @@
           "description": "Condition name"
         },
         "standardOntologyUris": {
-          "const": [
-            "http://snomed.info/id/10743008"
-          ],
-          "default": [
-            "http://snomed.info/id/10743008"
-          ],
+          "const": ["http://snomed.info/id/10743008"],
+          "default": ["http://snomed.info/id/10743008"],
           "description": "URIs referencing this condition in standard ontologies"
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris"
-      ],
+      "required": ["id", "name", "standardOntologyUris"],
       "additionalProperties": false
     },
     "b94c486b512b29cfcece35fcf417ecfd": {
@@ -682,20 +587,12 @@
           "description": "Condition name"
         },
         "standardOntologyUris": {
-          "const": [
-            "http://snomed.info/id/36689008"
-          ],
-          "default": [
-            "http://snomed.info/id/36689008"
-          ],
+          "const": ["http://snomed.info/id/36689008"],
+          "default": ["http://snomed.info/id/36689008"],
           "description": "URIs referencing this condition in standard ontologies"
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris"
-      ],
+      "required": ["id", "name", "standardOntologyUris"],
       "additionalProperties": false
     },
     "e158fc5e03298d772a8b7db69517800e": {
@@ -713,20 +610,12 @@
           "description": "Condition name"
         },
         "standardOntologyUris": {
-          "const": [
-            "http://snomed.info/id/21522001"
-          ],
-          "default": [
-            "http://snomed.info/id/21522001"
-          ],
+          "const": ["http://snomed.info/id/21522001"],
+          "default": ["http://snomed.info/id/21522001"],
           "description": "URIs referencing this condition in standard ontologies"
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris"
-      ],
+      "required": ["id", "name", "standardOntologyUris"],
       "additionalProperties": false
     },
     "f531a0d969119b7ab1f8e76424516fed": {
@@ -744,12 +633,8 @@
           "description": "Clinical finding name"
         },
         "standardOntologyUris": {
-          "const": [
-            "http://snomed.info/id/21522001"
-          ],
-          "default": [
-            "http://snomed.info/id/21522001"
-          ],
+          "const": ["http://snomed.info/id/21522001"],
+          "default": ["http://snomed.info/id/21522001"],
           "description": "URIs referencing this clinical finding in standard ontologies"
         },
         "state": {
@@ -780,13 +665,7 @@
           "uniqueItems": true
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris",
-        "state",
-        "attributes"
-      ],
+      "required": ["id", "name", "standardOntologyUris", "state", "attributes"],
       "additionalProperties": false
     },
     "28fed1c97d4a2c644da4d56f1e56368c": {
@@ -804,12 +683,8 @@
           "description": "Attribute name"
         },
         "standardOntologyUris": {
-          "const": [
-            "http://snomed.info/id/363698007"
-          ],
-          "default": [
-            "http://snomed.info/id/363698007"
-          ],
+          "const": ["http://snomed.info/id/363698007"],
+          "default": ["http://snomed.info/id/363698007"],
           "description": "URIs referencing this attribute in standard ontologies"
         },
         "values": {
@@ -860,12 +735,7 @@
           "description": "ID of clinical finding this attribute is scoped to"
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris",
-        "values"
-      ],
+      "required": ["id", "name", "standardOntologyUris", "values"],
       "additionalProperties": false
     },
     "7ede29da24bd64547ef1eb7cd5ae2d8e": {
@@ -883,12 +753,8 @@
           "description": "Attribute name"
         },
         "standardOntologyUris": {
-          "const": [
-            "http://snomed.info/id/364625007"
-          ],
-          "default": [
-            "http://snomed.info/id/364625007"
-          ],
+          "const": ["http://snomed.info/id/364625007"],
+          "default": ["http://snomed.info/id/364625007"],
           "description": "URIs referencing this attribute in standard ontologies"
         },
         "value": {
@@ -909,12 +775,7 @@
           ]
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris",
-        "value"
-      ],
+      "required": ["id", "name", "standardOntologyUris", "value"],
       "additionalProperties": false
     },
     "0908b0d8834918b9586a70bca644dcee": {
@@ -932,12 +793,8 @@
           "description": "Attribute name"
         },
         "standardOntologyUris": {
-          "const": [
-            "http://snomed.info/id/406127006"
-          ],
-          "default": [
-            "http://snomed.info/id/406127006"
-          ],
+          "const": ["http://snomed.info/id/406127006"],
+          "default": ["http://snomed.info/id/406127006"],
           "description": "URIs referencing this attribute in standard ontologies"
         },
         "value": {
@@ -958,12 +815,7 @@
           ]
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris",
-        "value"
-      ],
+      "required": ["id", "name", "standardOntologyUris", "value"],
       "additionalProperties": false
     },
     "7a0ca5ec6baf2cfb7e516f031a9e5d3c": {
@@ -1015,12 +867,7 @@
           ]
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris",
-        "value"
-      ],
+      "required": ["id", "name", "standardOntologyUris", "value"],
       "additionalProperties": false
     },
     "0ef0fec76d1338c74680ae2b685c2d87": {
@@ -1038,12 +885,8 @@
           "description": "Clinical finding name"
         },
         "standardOntologyUris": {
-          "const": [
-            "http://snomed.info/id/62315008"
-          ],
-          "default": [
-            "http://snomed.info/id/62315008"
-          ],
+          "const": ["http://snomed.info/id/62315008"],
+          "default": ["http://snomed.info/id/62315008"],
           "description": "URIs referencing this clinical finding in standard ontologies"
         },
         "state": {
@@ -1066,13 +909,7 @@
           "uniqueItems": true
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris",
-        "state",
-        "attributes"
-      ],
+      "required": ["id", "name", "standardOntologyUris", "state", "attributes"],
       "additionalProperties": false
     },
     "007f56da752f6cda2cfc689947361040": {
@@ -1090,12 +927,8 @@
           "description": "Attribute name"
         },
         "standardOntologyUris": {
-          "const": [
-            "http://snomed.info/id/249622004"
-          ],
-          "default": [
-            "http://snomed.info/id/249622004"
-          ],
+          "const": ["http://snomed.info/id/249622004"],
+          "default": ["http://snomed.info/id/249622004"],
           "description": "URIs referencing this attribute in standard ontologies"
         },
         "values": {
@@ -1121,12 +954,7 @@
           "minItems": 1
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris",
-        "values"
-      ],
+      "required": ["id", "name", "standardOntologyUris", "values"],
       "additionalProperties": false
     },
     "356aee0186422335720c9763ac4ca492": {
@@ -1144,12 +972,8 @@
           "description": "Clinical finding name"
         },
         "standardOntologyUris": {
-          "const": [
-            "http://snomed.info/id/422400008"
-          ],
-          "default": [
-            "http://snomed.info/id/422400008"
-          ],
+          "const": ["http://snomed.info/id/422400008"],
+          "default": ["http://snomed.info/id/422400008"],
           "description": "URIs referencing this clinical finding in standard ontologies"
         },
         "state": {
@@ -1168,13 +992,7 @@
           "uniqueItems": true
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris",
-        "state",
-        "attributes"
-      ],
+      "required": ["id", "name", "standardOntologyUris", "state", "attributes"],
       "additionalProperties": false
     },
     "b2003899e659fd3b4b9ccfdcc731d5e8": {
@@ -1192,12 +1010,8 @@
           "description": "Clinical finding name"
         },
         "standardOntologyUris": {
-          "const": [
-            "http://snomed.info/id/49650001"
-          ],
-          "default": [
-            "http://snomed.info/id/49650001"
-          ],
+          "const": ["http://snomed.info/id/49650001"],
+          "default": ["http://snomed.info/id/49650001"],
           "description": "URIs referencing this clinical finding in standard ontologies"
         },
         "state": {
@@ -1216,13 +1030,7 @@
           "uniqueItems": true
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris",
-        "state",
-        "attributes"
-      ],
+      "required": ["id", "name", "standardOntologyUris", "state", "attributes"],
       "additionalProperties": false
     },
     "5d60ebfd3b9ee2a12b816a66cd0d98e6": {
@@ -1240,12 +1048,8 @@
           "description": "Clinical finding name"
         },
         "standardOntologyUris": {
-          "const": [
-            "http://snomed.info/id/162116003"
-          ],
-          "default": [
-            "http://snomed.info/id/162116003"
-          ],
+          "const": ["http://snomed.info/id/162116003"],
+          "default": ["http://snomed.info/id/162116003"],
           "description": "URIs referencing this clinical finding in standard ontologies"
         },
         "state": {
@@ -1257,13 +1061,7 @@
           "const": []
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris",
-        "state",
-        "attributes"
-      ],
+      "required": ["id", "name", "standardOntologyUris", "state", "attributes"],
       "additionalProperties": false
     },
     "1eac2373d00170c7eff9aa2ce2c683ce": {
@@ -1281,12 +1079,8 @@
           "description": "Clinical finding name"
         },
         "standardOntologyUris": {
-          "const": [
-            "http://snomed.info/id/34436003"
-          ],
-          "default": [
-            "http://snomed.info/id/34436003"
-          ],
+          "const": ["http://snomed.info/id/34436003"],
+          "default": ["http://snomed.info/id/34436003"],
           "description": "URIs referencing this clinical finding in standard ontologies"
         },
         "state": {
@@ -1305,13 +1099,7 @@
           "uniqueItems": true
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris",
-        "state",
-        "attributes"
-      ],
+      "required": ["id", "name", "standardOntologyUris", "state", "attributes"],
       "additionalProperties": false
     },
     "14026f513eaff27d02b60f2247322d82": {
@@ -1329,12 +1117,8 @@
           "description": "Clinical finding name"
         },
         "standardOntologyUris": {
-          "const": [
-            "http://snomed.info/id/89362005"
-          ],
-          "default": [
-            "http://snomed.info/id/89362005"
-          ],
+          "const": ["http://snomed.info/id/89362005"],
+          "default": ["http://snomed.info/id/89362005"],
           "description": "URIs referencing this clinical finding in standard ontologies"
         },
         "state": {
@@ -1346,13 +1130,7 @@
           "const": []
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris",
-        "state",
-        "attributes"
-      ],
+      "required": ["id", "name", "standardOntologyUris", "state", "attributes"],
       "additionalProperties": false
     },
     "3e9a9aad2f3ad7fc49aa1a8b165e146b": {
@@ -1370,12 +1148,8 @@
           "description": "Clinical finding name"
         },
         "standardOntologyUris": {
-          "const": [
-            "http://snomed.info/id/386661006"
-          ],
-          "default": [
-            "http://snomed.info/id/386661006"
-          ],
+          "const": ["http://snomed.info/id/386661006"],
+          "default": ["http://snomed.info/id/386661006"],
           "description": "URIs referencing this clinical finding in standard ontologies"
         },
         "state": {
@@ -1387,13 +1161,7 @@
           "const": []
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris",
-        "state",
-        "attributes"
-      ],
+      "required": ["id", "name", "standardOntologyUris", "state", "attributes"],
       "additionalProperties": false
     },
     "bed900f01bde98f8d8a9d5a10bcca20e": {
@@ -1411,12 +1179,8 @@
           "description": "Clinical finding name"
         },
         "standardOntologyUris": {
-          "const": [
-            "http://snomed.info/id/16331000"
-          ],
-          "default": [
-            "http://snomed.info/id/16331000"
-          ],
+          "const": ["http://snomed.info/id/16331000"],
+          "default": ["http://snomed.info/id/16331000"],
           "description": "URIs referencing this clinical finding in standard ontologies"
         },
         "state": {
@@ -1435,13 +1199,7 @@
           "uniqueItems": true
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris",
-        "state",
-        "attributes"
-      ],
+      "required": ["id", "name", "standardOntologyUris", "state", "attributes"],
       "additionalProperties": false
     },
     "aa4a9df97b79106fafcf9104b43836fd": {
@@ -1459,12 +1217,8 @@
           "description": "Clinical finding name"
         },
         "standardOntologyUris": {
-          "const": [
-            "http://snomed.info/id/84292000"
-          ],
-          "default": [
-            "http://snomed.info/id/84292000"
-          ],
+          "const": ["http://snomed.info/id/84292000"],
+          "default": ["http://snomed.info/id/84292000"],
           "description": "URIs referencing this clinical finding in standard ontologies"
         },
         "state": {
@@ -1476,13 +1230,7 @@
           "const": []
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris",
-        "state",
-        "attributes"
-      ],
+      "required": ["id", "name", "standardOntologyUris", "state", "attributes"],
       "additionalProperties": false
     },
     "fd243e61e9915e6b4b7066ec46981383": {
@@ -1500,20 +1248,12 @@
           "description": "Value name"
         },
         "standardOntologyUris": {
-          "const": [
-            "http://snomed.info/id/68505006"
-          ],
-          "default": [
-            "http://snomed.info/id/68505006"
-          ],
+          "const": ["http://snomed.info/id/68505006"],
+          "default": ["http://snomed.info/id/68505006"],
           "description": "URIs referencing this value in standard ontologies"
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris"
-      ],
+      "required": ["id", "name", "standardOntologyUris"],
       "additionalProperties": false
     },
     "f834c45b83b879a4fdb7adb92a65b6e2": {
@@ -1531,20 +1271,12 @@
           "description": "Value name"
         },
         "standardOntologyUris": {
-          "const": [
-            "http://snomed.info/id/48544008"
-          ],
-          "default": [
-            "http://snomed.info/id/48544008"
-          ],
+          "const": ["http://snomed.info/id/48544008"],
+          "default": ["http://snomed.info/id/48544008"],
           "description": "URIs referencing this value in standard ontologies"
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris"
-      ],
+      "required": ["id", "name", "standardOntologyUris"],
       "additionalProperties": false
     },
     "0593d23b912f73beb47f64386194fd88": {
@@ -1562,20 +1294,12 @@
           "description": "Value name"
         },
         "standardOntologyUris": {
-          "const": [
-            "http://snomed.info/id/86367003"
-          ],
-          "default": [
-            "http://snomed.info/id/86367003"
-          ],
+          "const": ["http://snomed.info/id/86367003"],
+          "default": ["http://snomed.info/id/86367003"],
           "description": "URIs referencing this value in standard ontologies"
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris"
-      ],
+      "required": ["id", "name", "standardOntologyUris"],
       "additionalProperties": false
     },
     "6d348cc3aa90f56f84564b358a81c28a": {
@@ -1593,20 +1317,12 @@
           "description": "Value name"
         },
         "standardOntologyUris": {
-          "const": [
-            "http://snomed.info/id/50519007"
-          ],
-          "default": [
-            "http://snomed.info/id/50519007"
-          ],
+          "const": ["http://snomed.info/id/50519007"],
+          "default": ["http://snomed.info/id/50519007"],
           "description": "URIs referencing this value in standard ontologies"
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris"
-      ],
+      "required": ["id", "name", "standardOntologyUris"],
       "additionalProperties": false
     },
     "da195f5b52f1469507c21cb0059c60a5": {
@@ -1624,20 +1340,12 @@
           "description": "Value name"
         },
         "standardOntologyUris": {
-          "const": [
-            "http://snomed.info/id/11708003"
-          ],
-          "default": [
-            "http://snomed.info/id/11708003"
-          ],
+          "const": ["http://snomed.info/id/11708003"],
+          "default": ["http://snomed.info/id/11708003"],
           "description": "URIs referencing this value in standard ontologies"
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris"
-      ],
+      "required": ["id", "name", "standardOntologyUris"],
       "additionalProperties": false
     },
     "d436501e79fdb70236cfe7c03d7e9140": {
@@ -1655,20 +1363,12 @@
           "description": "Value name"
         },
         "standardOntologyUris": {
-          "const": [
-            "http://snomed.info/id/27947004"
-          ],
-          "default": [
-            "http://snomed.info/id/27947004"
-          ],
+          "const": ["http://snomed.info/id/27947004"],
+          "default": ["http://snomed.info/id/27947004"],
           "description": "URIs referencing this value in standard ontologies"
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris"
-      ],
+      "required": ["id", "name", "standardOntologyUris"],
       "additionalProperties": false
     },
     "bd1eb6360249ffebc075eedf8f2483a0": {
@@ -1686,20 +1386,12 @@
           "description": "Value name"
         },
         "standardOntologyUris": {
-          "const": [
-            "http://snomed.info/id/818983003"
-          ],
-          "default": [
-            "http://snomed.info/id/818983003"
-          ],
+          "const": ["http://snomed.info/id/818983003"],
+          "default": ["http://snomed.info/id/818983003"],
           "description": "URIs referencing this value in standard ontologies"
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris"
-      ],
+      "required": ["id", "name", "standardOntologyUris"],
       "additionalProperties": false
     },
     "29c2257603fdaa44f9bc3f06d30bfa58": {
@@ -1717,20 +1409,12 @@
           "description": "Value name"
         },
         "standardOntologyUris": {
-          "const": [
-            "http://snomed.info/id/422314007"
-          ],
-          "default": [
-            "http://snomed.info/id/422314007"
-          ],
+          "const": ["http://snomed.info/id/422314007"],
+          "default": ["http://snomed.info/id/422314007"],
           "description": "URIs referencing this value in standard ontologies"
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris"
-      ],
+      "required": ["id", "name", "standardOntologyUris"],
       "additionalProperties": false
     },
     "85e41619889e1675f5924245896ad38a": {
@@ -1748,20 +1432,12 @@
           "description": "Value name"
         },
         "standardOntologyUris": {
-          "const": [
-            "http://snomed.info/id/410707003"
-          ],
-          "default": [
-            "http://snomed.info/id/410707003"
-          ],
+          "const": ["http://snomed.info/id/410707003"],
+          "default": ["http://snomed.info/id/410707003"],
           "description": "URIs referencing this value in standard ontologies"
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris"
-      ],
+      "required": ["id", "name", "standardOntologyUris"],
       "additionalProperties": false
     },
     "4403bcc436c90f18e489150ca0e37ab9": {
@@ -1779,20 +1455,12 @@
           "description": "Value name"
         },
         "standardOntologyUris": {
-          "const": [
-            "http://snomed.info/id/410709000"
-          ],
-          "default": [
-            "http://snomed.info/id/410709000"
-          ],
+          "const": ["http://snomed.info/id/410709000"],
+          "default": ["http://snomed.info/id/410709000"],
           "description": "URIs referencing this value in standard ontologies"
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris"
-      ],
+      "required": ["id", "name", "standardOntologyUris"],
       "additionalProperties": false
     },
     "d307bfff5a7c185189e1a364c8ec0878": {
@@ -1810,20 +1478,12 @@
           "description": "Value name"
         },
         "standardOntologyUris": {
-          "const": [
-            "http://snomed.info/id/410708008"
-          ],
-          "default": [
-            "http://snomed.info/id/410708008"
-          ],
+          "const": ["http://snomed.info/id/410708008"],
+          "default": ["http://snomed.info/id/410708008"],
           "description": "URIs referencing this value in standard ontologies"
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris"
-      ],
+      "required": ["id", "name", "standardOntologyUris"],
       "additionalProperties": false
     },
     "dfe94145865b065bd5341aa7e3cbbde3": {
@@ -1841,20 +1501,12 @@
           "description": "Value name"
         },
         "standardOntologyUris": {
-          "const": [
-            "http://snomed.info/id/255604002"
-          ],
-          "default": [
-            "http://snomed.info/id/255604002"
-          ],
+          "const": ["http://snomed.info/id/255604002"],
+          "default": ["http://snomed.info/id/255604002"],
           "description": "URIs referencing this value in standard ontologies"
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris"
-      ],
+      "required": ["id", "name", "standardOntologyUris"],
       "additionalProperties": false
     },
     "5622e2233ff9944412b2161ae720fff9": {
@@ -1872,20 +1524,12 @@
           "description": "Value name"
         },
         "standardOntologyUris": {
-          "const": [
-            "http://snomed.info/id/6736007"
-          ],
-          "default": [
-            "http://snomed.info/id/6736007"
-          ],
+          "const": ["http://snomed.info/id/6736007"],
+          "default": ["http://snomed.info/id/6736007"],
           "description": "URIs referencing this value in standard ontologies"
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris"
-      ],
+      "required": ["id", "name", "standardOntologyUris"],
       "additionalProperties": false
     },
     "a95ec8ac80d2ea45f314b7224da6a7e6": {
@@ -1903,20 +1547,12 @@
           "description": "Value name"
         },
         "standardOntologyUris": {
-          "const": [
-            "http://snomed.info/id/24484000"
-          ],
-          "default": [
-            "http://snomed.info/id/24484000"
-          ],
+          "const": ["http://snomed.info/id/24484000"],
+          "default": ["http://snomed.info/id/24484000"],
           "description": "URIs referencing this value in standard ontologies"
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris"
-      ],
+      "required": ["id", "name", "standardOntologyUris"],
       "additionalProperties": false
     },
     "15fb0cb28034c1adb8ab0703eff7720f": {
@@ -1939,11 +1575,7 @@
           "description": "URIs referencing this value in standard ontologies"
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris"
-      ],
+      "required": ["id", "name", "standardOntologyUris"],
       "additionalProperties": false
     },
     "f6b731832f9c37cd8583c6297105603f": {
@@ -1966,11 +1598,7 @@
           "description": "URIs referencing this value in standard ontologies"
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris"
-      ],
+      "required": ["id", "name", "standardOntologyUris"],
       "additionalProperties": false
     },
     "4395912053989fa30a3b041f1fb90a23": {
@@ -1993,11 +1621,7 @@
           "description": "URIs referencing this value in standard ontologies"
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris"
-      ],
+      "required": ["id", "name", "standardOntologyUris"],
       "additionalProperties": false
     },
     "5c11d4b071bd042b5123c52d80c07d84": {
@@ -2020,11 +1644,7 @@
           "description": "URIs referencing this value in standard ontologies"
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris"
-      ],
+      "required": ["id", "name", "standardOntologyUris"],
       "additionalProperties": false
     },
     "41c86c25696136347b84354a5e120cbf": {
@@ -2047,11 +1667,7 @@
           "description": "URIs referencing this value in standard ontologies"
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris"
-      ],
+      "required": ["id", "name", "standardOntologyUris"],
       "additionalProperties": false
     },
     "b505858ef0a749e5d6dca106cd31ae52": {
@@ -2074,11 +1690,7 @@
           "description": "URIs referencing this value in standard ontologies"
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris"
-      ],
+      "required": ["id", "name", "standardOntologyUris"],
       "additionalProperties": false
     },
     "413a0ad1b7bc7a981570c381eec775ce": {
@@ -2096,20 +1708,12 @@
           "description": "Value name"
         },
         "standardOntologyUris": {
-          "const": [
-            "http://snomed.info/id/87612001"
-          ],
-          "default": [
-            "http://snomed.info/id/87612001"
-          ],
+          "const": ["http://snomed.info/id/87612001"],
+          "default": ["http://snomed.info/id/87612001"],
           "description": "URIs referencing this value in standard ontologies"
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris"
-      ],
+      "required": ["id", "name", "standardOntologyUris"],
       "additionalProperties": false
     },
     "0eb1f3b8c62c0393cfad9b2c1dea44c7": {
@@ -2127,20 +1731,12 @@
           "description": "Value name"
         },
         "standardOntologyUris": {
-          "const": [
-            "http://snomed.info/id/11713004"
-          ],
-          "default": [
-            "http://snomed.info/id/11713004"
-          ],
+          "const": ["http://snomed.info/id/11713004"],
+          "default": ["http://snomed.info/id/11713004"],
           "description": "URIs referencing this value in standard ontologies"
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris"
-      ],
+      "required": ["id", "name", "standardOntologyUris"],
       "additionalProperties": false
     },
     "cac61882e362c96310043bd2628d7201": {
@@ -2158,20 +1754,12 @@
           "description": "Value name"
         },
         "standardOntologyUris": {
-          "const": [
-            "http://snomed.info/id/49909006"
-          ],
-          "default": [
-            "http://snomed.info/id/49909006"
-          ],
+          "const": ["http://snomed.info/id/49909006"],
+          "default": ["http://snomed.info/id/49909006"],
           "description": "URIs referencing this value in standard ontologies"
         }
       },
-      "required": [
-        "id",
-        "name",
-        "standardOntologyUris"
-      ],
+      "required": ["id", "name", "standardOntologyUris"],
       "additionalProperties": false
     }
   }

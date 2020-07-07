@@ -1,6 +1,6 @@
-import React from 'react'
-import styled from 'styled-components'
-import { AutoPrefix } from './PrefixContext'
+import React from "react";
+import styled from "styled-components";
+import { AutoPrefix } from "./PrefixContext";
 
 const FormBlockContainer = styled.div<{ color: string; group: boolean }>`
   border-left: 2px solid ${({ color }): string => color};
@@ -10,22 +10,22 @@ const FormBlockContainer = styled.div<{ color: string; group: boolean }>`
   &:not(:last-child) {
     margin-bottom: 1rem;
   }
-`
+`;
 const FormBlockTitle = styled.div<{ color: string }>`
   color: ${({ color }): string => color};
   text-transform: uppercase;
   margin-bottom: 0.1rem;
-`
+`;
 const FormBlockFlexChildren = styled.div`
   display: flex;
   align-items: flex-start;
-`
+`;
 
 const FormBlock: React.FC<{
-  name: string
-  color: string
-  title?: string
-  group?: boolean
+  name: string;
+  color: string;
+  title?: string;
+  group?: boolean;
 }> = ({ name, color, title, group, children }) => {
   return (
     <AutoPrefix name={name}>
@@ -38,7 +38,7 @@ const FormBlock: React.FC<{
         )}
       </FormBlockContainer>
     </AutoPrefix>
-  )
-}
+  );
+};
 
-export default FormBlock
+export default FormBlock;

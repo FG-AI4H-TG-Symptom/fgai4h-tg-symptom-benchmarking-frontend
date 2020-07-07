@@ -1,32 +1,32 @@
-import dotProp from 'dot-prop-immutable'
+import dotProp from "dot-prop-immutable";
 
 import {
   DataActionBaseState,
   dataActionBaseStateInitial,
   DataState,
   ID_PLACEHOLDER_NEW,
-  IdPlaceholderNew,
-} from '../util/dataState/dataStateTypes'
+  IdPlaceholderNew
+} from "../util/dataState/dataStateTypes";
 import dataStateGenericReducer, {
   createOptions,
   dataStateSaveReducer,
-  deleteOptions,
-} from '../util/dataState/dataStateGenericReducer'
-import { CallbackMetadata } from '../util/dataState/generateDataStateActions'
+  deleteOptions
+} from "../util/dataState/dataStateGenericReducer";
+import { CallbackMetadata } from "../util/dataState/generateDataStateActions";
 
-import { CaseSetInfo } from './caseSetDataType'
-import { CaseSetActionTypes } from './caseSetActions'
-import { CaseDataType } from './caseDataType'
+import { CaseSetInfo } from "./caseSetDataType";
+import { CaseSetActionTypes } from "./caseSetActions";
+import { CaseDataType } from "./caseDataType";
 
-export type CaseSetsState = DataActionBaseState<CaseSetInfo>
+export type CaseSetsState = DataActionBaseState<CaseSetInfo>;
 
-const caseSetsInitialState: CaseSetsState = dataActionBaseStateInitial()
+const caseSetsInitialState: CaseSetsState = dataActionBaseStateInitial();
 
 const actionHandlers: {
-  [key in CaseSetActionTypes]: (state: CaseSetsState, action) => CaseSetsState
+  [key in CaseSetActionTypes]: (state: CaseSetsState, action) => CaseSetsState;
 } = {
   [CaseSetActionTypes.CASE_SET_LIST_DATA_ACTION]: dataStateGenericReducer({
-    path: 'overview',
+    path: "overview"
   }),
   [CaseSetActionTypes.CREATE_CASE_SET_DATA_ACTION]: dataStateGenericReducer<
     CaseSetsState,
@@ -44,71 +44,69 @@ const actionHandlers: {
     CaseSetInfo,
     CaseSetsState,
     { caseSetId: string | IdPlaceholderNew }
-  >('caseSetId'),
+  >("caseSetId"),
   [CaseSetActionTypes.CASE_SET_DELETE_DATA_ACTION]: dataStateGenericReducer<
     CaseSetsState,
     void,
     void,
     { caseSetId: string } & CallbackMetadata<void>
-  >(deleteOptions<CaseSetInfo, CaseSetsState>('caseSetId')),
+  >(deleteOptions<CaseSetInfo, CaseSetsState>("caseSetId")),
   [CaseSetActionTypes.CASE_SET_SAVE_CASE_DATA_ACTION]: dataStateSaveReducer<
     CaseSetInfo,
     CaseSetsState,
     { caseSetId: string; caseId: string | IdPlaceholderNew },
     CaseDataType
-  >('caseId', {
+  >("caseId", {
     updateEntry(state, action) {
-      const entry = state.entries[action.meta.caseSetId]
+      const entry = state.entries[action.meta.caseSetId];
       if (!entry || entry.state !== DataState.READY) {
-        return state
+        return state;
       }
       const caseIndex =
         action.meta.caseId === ID_PLACEHOLDER_NEW
           ? entry.data.cases.length // append
-          : entry.data.cases.findIndex(({ id }) => id === action.meta.caseId)
+          : entry.data.cases.findIndex(({ id }) => id === action.meta.caseId);
 
       return dotProp.set(
         state,
         `entries.${action.meta.caseSetId}.data.cases[${caseIndex}]`,
-        action.payload.data,
-      )
+        action.payload.data
+      );
     },
     /*
       in the overview the case sets only have the cases as IDs
      */
     updateOverview(state, action) {
       if (state.overview.state !== DataState.READY) {
-        return state
+        return state;
       }
 
-      const overview = state.overview.data
+      const overview = state.overview.data;
 
       const caseSetIndex = overview.findIndex(
-        ({ id }) => id === action.meta.caseSetId,
-      )
-      const caseSet = overview[caseSetIndex]
+        ({ id }) => id === action.meta.caseSetId
+      );
+      const caseSet = overview[caseSetIndex];
 
-      /* eslint-disable @typescript-eslint/no-explicit-any */
       const caseIndex =
         action.meta.caseId === ID_PLACEHOLDER_NEW
           ? caseSet.cases.length // append
           : ((caseSet.cases as any) as Array<string>).indexOf(
-              action.meta.caseId,
-            )
-      /* eslint-enable @typescript-eslint/no-explicit-any */
+              action.meta.caseId
+            );
 
       return dotProp.set(
         state,
         `overview.data[${caseSetIndex}].cases[${caseIndex}]`,
-        action.payload.data.id,
-      )
-    },
-  }),
-}
+        action.payload.data.id
+      );
+    }
+  })
+};
 
 const caseSetReducer = (state = caseSetsInitialState, action): CaseSetsState =>
   actionHandlers[action.type]
     ? actionHandlers[action.type](state, action)
-    : state
+    : state;
 
-export default caseSetReducer
+export default caseSetReducer;

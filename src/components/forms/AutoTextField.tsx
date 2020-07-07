@@ -1,15 +1,15 @@
-import React from 'react'
-import { useFormContext } from 'react-hook-form'
-import { TextField } from '@material-ui/core'
+import React from "react";
+import { useFormContext } from "react-hook-form";
+import { TextField } from "@material-ui/core";
 
-import { usePrefix } from './PrefixContext'
+import { usePrefix } from "./PrefixContext";
 
 interface AutoTextFieldProps {
-  name: string
-  type: 'text' | 'number' | 'hidden'
-  label: string
-  autoComplete?: 'off'
-  optional?: boolean
+  name: string;
+  type: "text" | "number" | "hidden";
+  label: string;
+  autoComplete?: "off";
+  optional?: boolean;
 }
 
 const AutoTextField: React.FC<AutoTextFieldProps> = ({
@@ -17,10 +17,10 @@ const AutoTextField: React.FC<AutoTextFieldProps> = ({
   type,
   label,
   autoComplete,
-  optional,
+  optional
 }) => {
-  const { register, errors } = useFormContext()
-  const prefixedName = usePrefix() + name
+  const { register, errors } = useFormContext();
+  const prefixedName = usePrefix() + name;
   return (
     <TextField
       inputRef={register}
@@ -28,12 +28,12 @@ const AutoTextField: React.FC<AutoTextFieldProps> = ({
       label={label}
       type={type}
       autoComplete={autoComplete}
-      defaultValue=''
+      defaultValue=""
       error={Boolean(errors[prefixedName])}
-      helperText={errors[prefixedName] || (optional ? 'optional' : '')}
+      helperText={errors[prefixedName] || (optional ? "optional" : "")}
       fullWidth
     />
-  )
-}
+  );
+};
 
-export default AutoTextField
+export default AutoTextField;

@@ -1,36 +1,36 @@
-import dataStateActionSagaWrapperLoadOnly from '../../util/dataState/dataStateActionSagaWrapperLoadOnly'
-import { CaseSetActionTypes } from '../caseSetActions'
-import fetchCaseSetList from './fetchCaseSetList'
-import fetchCaseSet from './fetchCaseSet'
-import createCaseSet from './createCaseSet'
-import deleteCaseSet from './deleteCaseSet'
-import saveCaseSet from './saveCaseSet'
-import saveCase from './saveCase'
+import dataStateActionSagaWrapperLoadOnly from "../../util/dataState/dataStateActionSagaWrapperLoadOnly";
+import { CaseSetActionTypes } from "../caseSetActions";
+import fetchCaseSetList from "./fetchCaseSetList";
+import fetchCaseSet from "./fetchCaseSet";
+import createCaseSet from "./createCaseSet";
+import deleteCaseSet from "./deleteCaseSet";
+import saveCaseSet from "./saveCaseSet";
+import saveCase from "./saveCase";
 
 const caseSetsSagas = [
   dataStateActionSagaWrapperLoadOnly(
     CaseSetActionTypes.CASE_SET_LIST_DATA_ACTION,
-    fetchCaseSetList,
+    fetchCaseSetList
   ),
   dataStateActionSagaWrapperLoadOnly(
     CaseSetActionTypes.CASE_SET_DATA_ACTION,
-    fetchCaseSet,
+    fetchCaseSet
   ),
   dataStateActionSagaWrapperLoadOnly(
     CaseSetActionTypes.CREATE_CASE_SET_DATA_ACTION,
-    createCaseSet,
+    createCaseSet
   ),
   dataStateActionSagaWrapperLoadOnly(
     CaseSetActionTypes.CASE_SET_SAVE_DATA_ACTION,
-    saveCaseSet,
+    saveCaseSet
   ),
   dataStateActionSagaWrapperLoadOnly(
     CaseSetActionTypes.CASE_SET_DELETE_DATA_ACTION,
-    deleteCaseSet,
+    deleteCaseSet
   ),
   dataStateActionSagaWrapperLoadOnly(
     CaseSetActionTypes.CASE_SET_SAVE_CASE_DATA_ACTION,
-    saveCase,
-  ),
-]
-export default caseSetsSagas
+    saveCase
+  )
+];
+export default caseSetsSagas;

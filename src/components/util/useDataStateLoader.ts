@@ -1,14 +1,14 @@
-import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import { RootState, RootStateEntries } from '../../data/rootReducer'
+import { RootState, RootStateEntries } from "../../data/rootReducer";
 import {
   DataActionBaseState,
   DataState,
   InitialState,
-  Loadable,
-} from '../../data/util/dataState/dataStateTypes'
-import { DataActionLoad } from '../../data/util/dataState/dataActionTypes'
+  Loadable
+} from "../../data/util/dataState/dataStateTypes";
+import { DataActionLoad } from "../../data/util/dataState/dataActionTypes";
 
 /**
  * A hook to load data by triggering an action and selecting from the store
@@ -19,59 +19,57 @@ import { DataActionLoad } from '../../data/util/dataState/dataActionTypes'
  */
 const useDataStateLoader = <LoadableType>(
   selector: RootStateEntries | ((state: RootState) => Loadable<LoadableType>),
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   action: DataActionLoad<any, any, any>,
   options: {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    loadAfter?: Loadable<any>
-    getSingleEntryForId?: string
-  } = {},
+    loadAfter?: Loadable<any>;
+    getSingleEntryForId?: string;
+  } = {}
 ): Loadable<LoadableType> => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const deletion = useSelector<RootState, Loadable<void>>(
-    typeof selector === 'string' && options.getSingleEntryForId
+    typeof selector === "string" && options.getSingleEntryForId
       ? (state: RootState): Loadable<void> =>
           (state[selector] as DataActionBaseState<LoadableType>).deletions[
             options.getSingleEntryForId
           ]
-      : (): null => null,
-  )
+      : (): null => null
+  );
 
   const dependenciesSatisfied =
     (!options.loadAfter || options.loadAfter.state === DataState.READY) &&
-    (!deletion || deletion.state !== DataState.READY)
+    (!deletion || deletion.state !== DataState.READY);
 
-  let inferredSelector
-  if (typeof selector === 'string') {
+  let inferredSelector;
+  if (typeof selector === "string") {
     if (options.getSingleEntryForId) {
       inferredSelector = (state: RootState): Loadable<LoadableType> =>
         (state[selector] as DataActionBaseState<LoadableType>).entries[
           options.getSingleEntryForId
-        ]
+        ];
     } else {
       inferredSelector = (state: RootState): Loadable<LoadableType[]> =>
-        (state[selector] as DataActionBaseState<LoadableType>).overview
+        (state[selector] as DataActionBaseState<LoadableType>).overview;
     }
   } else {
-    inferredSelector = selector
+    inferredSelector = selector;
   }
 
   const loadedData =
     useSelector<RootState, Loadable<LoadableType>>(
-      dependenciesSatisfied ? inferredSelector : (): null => null,
-    ) || InitialState
+      dependenciesSatisfied ? inferredSelector : (): null => null
+    ) || InitialState;
 
   useEffect(() => {
     if (!dependenciesSatisfied) {
-      return
+      return;
     }
     if (loadedData.state === DataState.INITIAL) {
-      dispatch(action)
+      dispatch(action);
     }
-  }, [dependenciesSatisfied, action, loadedData.state, dispatch])
+  }, [dependenciesSatisfied, action, loadedData.state, dispatch]);
 
-  return loadedData
-}
+  return loadedData;
+};
 
-export default useDataStateLoader
+export default useDataStateLoader;

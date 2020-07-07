@@ -1,12 +1,12 @@
-import React from 'react'
-import { Tooltip } from '@material-ui/core'
-import { Warning as WarningIcon } from '@material-ui/icons'
+import React from "react";
+import { Tooltip } from "@material-ui/core";
+import { Warning as WarningIcon } from "@material-ui/icons";
 
 const ErrorIndicator: React.FC<{ error: string }> = ({ error }) =>
   error ? (
     <Tooltip title={error}>
-      <WarningIcon color='error' />
+      <WarningIcon color="error" />
     </Tooltip>
-  ) : null
+  ) : null;
 
-export default ErrorIndicator
+export default ErrorIndicator;

@@ -1,6 +1,6 @@
-import React, { useRef, useState } from 'react'
-import { IconButton, Tooltip } from '@material-ui/core'
-import styled from 'styled-components'
+import React, { useRef, useState } from "react";
+import { IconButton, Tooltip } from "@material-ui/core";
+import styled from "styled-components";
 
 const IconButtonForProgressIndicator = styled(IconButton)`
   svg:nth-child(1) {
@@ -9,36 +9,37 @@ const IconButtonForProgressIndicator = styled(IconButton)`
   svg:nth-child(2) {
     z-index: 2;
   }
-`
+`;
 
-const SVG_VIRTUAL_SIZE = 100
-const PROGRESS_CIRCLE_STROKE_WIDTH = 8
-const circleLength = (SVG_VIRTUAL_SIZE - PROGRESS_CIRCLE_STROKE_WIDTH) * Math.PI
+const SVG_VIRTUAL_SIZE = 100;
+const PROGRESS_CIRCLE_STROKE_WIDTH = 8;
+const circleLength =
+  (SVG_VIRTUAL_SIZE - PROGRESS_CIRCLE_STROKE_WIDTH) * Math.PI;
 
 const ProgressBackgroundContainer = styled.svg`
   width: 2em;
   height: 2em;
   position: absolute;
   transform: rotate(-90deg);
-`
+`;
 
 const ProgressBackgroundCircle = styled.circle<{
-  color: string
-  progress: number
-  r: number
+  color: string;
+  progress: number;
+  r: number;
 }>`
   fill: transparent;
   stroke: ${({ color }): string => color};
   stroke-width: ${PROGRESS_CIRCLE_STROKE_WIDTH}px;
   stroke-dasharray: ${({ progress }): number => (progress / 100) * circleLength}
     ${circleLength};
-`
+`;
 
 interface ConfirmationIconButtonProps {
-  onConfirmed: () => void
-  color: string
-  label: string
-  disabled?: boolean
+  onConfirmed: () => void;
+  color: string;
+  label: string;
+  disabled?: boolean;
 }
 
 const ConfirmationIconButton: React.FC<ConfirmationIconButtonProps> = ({
@@ -46,30 +47,30 @@ const ConfirmationIconButton: React.FC<ConfirmationIconButtonProps> = ({
   color,
   children,
   label,
-  disabled,
+  disabled
 }) => {
-  const [progress, setProgress] = useState(0)
-  const animationInterval = useRef<number>()
+  const [progress, setProgress] = useState(0);
+  const animationInterval = useRef<number>();
   const startConfirmation = (): void => {
-    let currentProgress = 0
+    let currentProgress = 0;
     animationInterval.current = setInterval(() => {
       if (currentProgress > 100) {
-        onConfirmed()
-        clearInterval(animationInterval.current)
-        animationInterval.current = null
-        setProgress(0)
-        return
+        onConfirmed();
+        clearInterval(animationInterval.current);
+        animationInterval.current = null;
+        setProgress(0);
+        return;
       }
-      setProgress(currentProgress)
-      currentProgress += 1
-    }, 10)
-  }
+      setProgress(currentProgress);
+      currentProgress += 1;
+    }, 10);
+  };
   const abortConfirmation = (): void => {
     if (animationInterval.current) {
-      clearInterval(animationInterval.current)
+      clearInterval(animationInterval.current);
     }
-    setProgress(0)
-  }
+    setProgress(0);
+  };
 
   return (
     <Tooltip title={label}>
@@ -95,7 +96,7 @@ const ConfirmationIconButton: React.FC<ConfirmationIconButtonProps> = ({
         </IconButtonForProgressIndicator>
       </span>
     </Tooltip>
-  )
-}
+  );
+};
 
-export default ConfirmationIconButton
+export default ConfirmationIconButton;

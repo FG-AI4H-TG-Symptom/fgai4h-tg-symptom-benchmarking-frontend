@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import {
   IconButton,
   Paper,
@@ -9,56 +9,56 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  Tooltip,
-} from '@material-ui/core'
+  Tooltip
+} from "@material-ui/core";
 import {
   Delete as DeleteIcon,
   PlayCircleOutline as StartBenchmarkIcon,
-  ViewList as OpenIcon,
-} from '@material-ui/icons'
+  ViewList as OpenIcon
+} from "@material-ui/icons";
 
 import {
   BenchmarkingSession,
-  BenchmarkingSessionStatus,
-} from '../../../data/benchmarks/benchmarkManagerDataType'
-import LinkWrapper from '../../common/LinkWrapper'
-import { paths } from '../../../routes'
+  BenchmarkingSessionStatus
+} from "../../../data/benchmarks/benchmarkManagerDataType";
+import LinkWrapper from "../../common/LinkWrapper";
+import { paths } from "../../../routes";
 
-import * as Styled from './BenchmarkingSessionManagerComponent.style'
-import * as CommonStyled from '../../common/CommonStyles'
-import BenchmarkingSessionStatusIcon from './BenchmarkingSessionStatusIcon'
-import ConfirmationIconButton from '../../common/ConfirmationIconButton'
+import * as Styled from "./BenchmarkingSessionManagerComponent.style";
+import * as CommonStyled from "../../common/CommonStyles";
+import BenchmarkingSessionStatusIcon from "./BenchmarkingSessionStatusIcon";
+import ConfirmationIconButton from "../../common/ConfirmationIconButton";
 
-const rowsPerPageOptions = [10, 20, 50, 100]
+const rowsPerPageOptions = [10, 20, 50, 100];
 
 interface CaseSetManagerComponentProps {
-  benchmarkingSessions: BenchmarkingSession[]
-  deleteBenchmarkingSession: (benchmarkingSessionId: string) => void
+  benchmarkingSessions: BenchmarkingSession[];
+  deleteBenchmarkingSession: (benchmarkingSessionId: string) => void;
 }
 
 const BenchmarkingSessionManagerComponent: React.FC<CaseSetManagerComponentProps> = ({
   benchmarkingSessions,
-  deleteBenchmarkingSession,
+  deleteBenchmarkingSession
 }) => {
   const activeRowsPerPageOptions = rowsPerPageOptions.filter(
-    rowsPerPageOption => rowsPerPageOption <= benchmarkingSessions.length,
-  )
-  const [page, setPage] = useState(0)
-  const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageOptions[0])
+    rowsPerPageOption => rowsPerPageOption <= benchmarkingSessions.length
+  );
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageOptions[0]);
 
   return (
     <Paper>
       {benchmarkingSessions.length > rowsPerPageOptions[0] ? (
         <TablePagination
-          component='div'
+          component="div"
           count={benchmarkingSessions.length}
           page={page}
           onChangePage={(event, newPage): void => setPage(newPage)}
           rowsPerPage={rowsPerPage}
           rowsPerPageOptions={activeRowsPerPageOptions}
           onChangeRowsPerPage={(event): void => {
-            setPage(0)
-            setRowsPerPage(parseInt(event.target.value, 10))
+            setPage(0);
+            setRowsPerPage(parseInt(event.target.value, 10));
           }}
         />
       ) : null}
@@ -89,11 +89,11 @@ const BenchmarkingSessionManagerComponent: React.FC<CaseSetManagerComponentProps
                     <BenchmarkingSessionStatusIcon status={status} />
                   </CommonStyled.CenteredTableCell>
                   <CommonStyled.CenteredTableCell>
-                    <Tooltip title='Start benchmarking session'>
+                    <Tooltip title="Start benchmarking session">
                       <span>
                         {/* todo: integrate this behavior */}
                         <IconButton
-                          aria-label='start benchmark'
+                          aria-label="start benchmark"
                           disabled={
                             status !== BenchmarkingSessionStatus.CREATED
                           }
@@ -102,7 +102,7 @@ const BenchmarkingSessionManagerComponent: React.FC<CaseSetManagerComponentProps
                         </IconButton>
                       </span>
                     </Tooltip>
-                    <Tooltip title='View results'>
+                    <Tooltip title="View results">
                       <span>
                         <LinkWrapper
                           to={paths.benchmarkEvaluate(id)}
@@ -111,7 +111,7 @@ const BenchmarkingSessionManagerComponent: React.FC<CaseSetManagerComponentProps
                           }
                         >
                           <IconButton
-                            aria-label='view'
+                            aria-label="view"
                             disabled={
                               status !== BenchmarkingSessionStatus.FINISHED
                             }
@@ -123,8 +123,8 @@ const BenchmarkingSessionManagerComponent: React.FC<CaseSetManagerComponentProps
                     </Tooltip>
                     <ConfirmationIconButton
                       onConfirmed={(): void => deleteBenchmarkingSession(id)}
-                      color='darkred'
-                      label='Hold to delete'
+                      color="darkred"
+                      label="Hold to delete"
                     >
                       <DeleteIcon />
                     </ConfirmationIconButton>
@@ -135,7 +135,7 @@ const BenchmarkingSessionManagerComponent: React.FC<CaseSetManagerComponentProps
         </Table>
       </TableContainer>
     </Paper>
-  )
-}
+  );
+};
 
-export default BenchmarkingSessionManagerComponent
+export default BenchmarkingSessionManagerComponent;

@@ -87,7 +87,6 @@ const BenchmarkCreatorComponent: React.FC<BenchmarkCreatorComponentProps> = ({
             <CardHeader
               title="Case set"
               subheader={`${caseSetList.length} available`}
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               action={<ErrorIndicator error={errors.caseSetId as any} />}
             />
             <CardContent>
@@ -119,7 +118,6 @@ const BenchmarkCreatorComponent: React.FC<BenchmarkCreatorComponentProps> = ({
               title="AI implementations"
               subheader={`${aiImplementationsSelectedCount} selected, ${aiImplementations.length} available`}
               action={
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 <ErrorIndicator error={errors.aiImplementations as any} />
               }
             />

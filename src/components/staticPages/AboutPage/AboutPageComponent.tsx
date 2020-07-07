@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from "react";
 
 import {
   Box,
@@ -6,21 +6,21 @@ import {
   CardContent,
   CardHeader,
   Link,
-  Typography,
-} from '@material-ui/core'
+  Typography
+} from "@material-ui/core";
 
-import * as Styled from './AboutPageComponent.style'
-import PageWrapper, { PageWidth } from '../../common/PageWrapper'
-import logo from '../../../logo.svg'
+import * as Styled from "./AboutPageComponent.style";
+import PageWrapper, { PageWidth } from "../../common/PageWrapper";
+import logo from "../../../logo.svg";
 
 const AboutPageComponent: React.FC<{}> = () => {
   return (
     <PageWrapper pageWidth={PageWidth.NARROW}>
       <Styled.LogoWrapper>
-        <Styled.Logo src={logo} alt='FG AI4H logo' />
+        <Styled.Logo src={logo} alt="FG AI4H logo" />
       </Styled.LogoWrapper>
 
-      <Typography variant='h1'>
+      <Typography variant="h1">
         &quot;Symptom assessment&quot; FG MMVB for AI4H (WHO/ITU)
       </Typography>
       <Box marginTop={2} marginBottom={4}>
@@ -40,7 +40,7 @@ const AboutPageComponent: React.FC<{}> = () => {
 
       <Box marginBottom={2}>
         <Card>
-          <CardHeader title='Note' />
+          <CardHeader title="Note" />
           <CardContent>
             <Typography gutterBottom>
               This is the minimal minimal viable benchmark designed and
@@ -66,7 +66,7 @@ const AboutPageComponent: React.FC<{}> = () => {
         </Card>
       </Box>
       <Card>
-        <CardHeader title='Copyright and Licence' />
+        <CardHeader title="Copyright and Licence" />
         <CardContent>
           <Typography gutterBottom>
             Copyright 2019–{new Date().getFullYear()}, created jointly by the
@@ -77,12 +77,12 @@ const AboutPageComponent: React.FC<{}> = () => {
           </Typography>
           <Typography gutterBottom>
             All parts of this benchmark are free software. This component (the
-            frontend) is licensed under the{' '}
+            frontend) is licensed under the{" "}
             <Link
-              href='https://www.apache.org/licenses/LICENSE-2.0'
-              target='_blank'
-              rel='noopener noreferrer'
-              color='secondary'
+              href="https://www.apache.org/licenses/LICENSE-2.0"
+              target="_blank"
+              rel="noopener noreferrer"
+              color="secondary"
             >
               Apache License 2.0
             </Link>
@@ -90,7 +90,7 @@ const AboutPageComponent: React.FC<{}> = () => {
         </CardContent>
       </Card>
     </PageWrapper>
-  )
-}
+  );
+};
 
-export default AboutPageComponent
+export default AboutPageComponent;

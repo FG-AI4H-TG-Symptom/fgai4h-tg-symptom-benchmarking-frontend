@@ -1,34 +1,34 @@
-import React, { useEffect, useState } from 'react'
-import { useFormContext } from 'react-hook-form'
-import { FormControlLabel, Switch } from '@material-ui/core'
+import React, { useEffect, useState } from "react";
+import { useFormContext } from "react-hook-form";
+import { FormControlLabel, Switch } from "@material-ui/core";
 
-import { usePrefix } from './PrefixContext'
+import { usePrefix } from "./PrefixContext";
 
 const AutoSwitchArrayEntry: React.FC<{
-  name: string
-  label: string
-  valueToSet: string
-  defaultValue?: boolean
-  onChange: (checked: boolean) => void
+  name: string;
+  label: string;
+  valueToSet: string;
+  defaultValue?: boolean;
+  onChange: (checked: boolean) => void;
 }> = ({ name, valueToSet, defaultValue, label, onChange }) => {
-  const prefixedName = usePrefix() + name
-  const { register, unregister, setValue, watch } = useFormContext()
-  const [selected, setSelected] = useState(defaultValue)
+  const prefixedName = usePrefix() + name;
+  const { register, unregister, setValue, watch } = useFormContext();
+  const [selected, setSelected] = useState(defaultValue);
 
   useEffect(() => {
-    onChange(selected)
+    onChange(selected);
     if (selected) {
-      register({ name: prefixedName })
-      setValue(prefixedName, valueToSet)
+      register({ name: prefixedName });
+      setValue(prefixedName, valueToSet);
       // trigger an update for other watchers
-      watch(prefixedName)
+      watch(prefixedName);
     } else {
-      unregister(prefixedName)
+      unregister(prefixedName);
     }
 
     return (): void => {
-      unregister(prefixedName)
-    }
+      unregister(prefixedName);
+    };
   }, [
     onChange,
     selected,
@@ -37,8 +37,8 @@ const AutoSwitchArrayEntry: React.FC<{
     prefixedName,
     valueToSet,
     watch,
-    unregister,
-  ])
+    unregister
+  ]);
 
   return (
     <FormControlLabel
@@ -50,7 +50,7 @@ const AutoSwitchArrayEntry: React.FC<{
       }
       label={label}
     />
-  )
-}
+  );
+};
 
-export default AutoSwitchArrayEntry
+export default AutoSwitchArrayEntry;

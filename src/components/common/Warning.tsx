@@ -1,14 +1,14 @@
-import React from 'react'
-import { Button, Card, CardContent, CardHeader } from '@material-ui/core'
+import React from "react";
+import { Button, Card, CardContent, CardHeader } from "@material-ui/core";
 
-import PageWrapper, { PageWidth } from './PageWrapper'
-import LinkWrapper from './LinkWrapper'
+import PageWrapper, { PageWidth } from "./PageWrapper";
+import LinkWrapper from "./LinkWrapper";
 
-import * as CommonStyled from './CommonStyles'
+import * as CommonStyled from "./CommonStyles";
 
 const Warning: React.FC<{
-  title: string
-  actions: Array<{ text: string; targetUrl: string }>
+  title: string;
+  actions: Array<{ text: string; targetUrl: string }>;
 }> = ({ title, actions, children }) => (
   <PageWrapper pageWidth={PageWidth.ULTRA_NARROW}>
     <Card>
@@ -17,8 +17,8 @@ const Warning: React.FC<{
       <CommonStyled.CardActionsEnd>
         {actions.map(({ text, targetUrl }) => (
           <LinkWrapper key={text} to={targetUrl}>
-            {' '}
-            <Button color='primary' size='small'>
+            {" "}
+            <Button color="primary" size="small">
               {text}
             </Button>
           </LinkWrapper>
@@ -26,6 +26,6 @@ const Warning: React.FC<{
       </CommonStyled.CardActionsEnd>
     </Card>
   </PageWrapper>
-)
+);
 
-export default Warning
+export default Warning;

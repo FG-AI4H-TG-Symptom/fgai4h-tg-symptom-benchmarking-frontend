@@ -35,7 +35,7 @@ export const aiImplementationHealthDataAction = generateDataStateActions<
 >(AiImplementationsActionTypes.AI_IMPLEMENTATION_HEALTH_DATA_ACTION);
 
 // ACTION CREATORS
-export const aiDeleted_LOAD = aiId => {
+export const aiDeletedLoad = aiId => {
   return {
     type: "AI_IMPLEMENTATION_DELETE_DATA_ACTION",
     payload: {
@@ -48,8 +48,7 @@ export const aiDeleted_LOAD = aiId => {
   };
 };
 
-//wtf there is intent instead of type
-export const aiDeleted_STORE = metadata => {
+export const aiDeletedStore = metadata => {
   return {
     type: "AI_IMPLEMENTATION_DELETE_DATA_ACTION",
     payload: {
