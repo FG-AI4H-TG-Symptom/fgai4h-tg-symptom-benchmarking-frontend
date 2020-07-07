@@ -175,19 +175,19 @@ function* addAIworker(action) {
 }
 
 // WATCHERS
-export function* addAiWatcher() {
+function* addAiWatcher() {
   yield takeEvery(addAI.type, addAIworker);
 }
 
-export function* deleteAiWatcher() {
+function* deleteAiWatcher() {
   yield takeEvery(deleteAI.type, deleteAIworker);
 }
 
-export function* fetchAIsWatcher() {
+function* fetchAIsWatcher() {
   yield takeEvery(fetchAIs.type, fetchAIsWorker);
 }
 
-export function* fetchAiHealthWatcher() {
+function* fetchAiHealthWatcher() {
   yield takeEvery(fetchAiHealth.type, fetchAIHealthWorker);
 }
 

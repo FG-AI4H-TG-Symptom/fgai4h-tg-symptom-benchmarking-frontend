@@ -269,23 +269,23 @@ function* fetchEvaluationWorker(action) {
 }
 
 // WATCHERS
-export function* fetchSessionsWatcher() {
+function* fetchSessionsWatcher() {
   yield takeEvery(fetchSessions.type, fetchSessionsWorker);
 }
 
-export function* addSessionWatcher() {
+function* addSessionWatcher() {
   yield takeEvery(addSession.type, addSessionWorker);
 }
 
-export function* deleteSessionWatcher() {
+function* deleteSessionWatcher() {
   yield takeEvery(deleteSession.type, deleteSessionWorker);
 }
 
-export function* observeSessionStatusWatcher() {
+function* observeSessionStatusWatcher() {
   yield takeEvery(observeSessionStatus.type, observeSessionStatusWorker);
 }
 
-export function* fetchEvaluationWatcher() {
+function* fetchEvaluationWatcher() {
   yield takeEvery(fetchEvaluation.type, fetchEvaluationWorker);
 }
 
