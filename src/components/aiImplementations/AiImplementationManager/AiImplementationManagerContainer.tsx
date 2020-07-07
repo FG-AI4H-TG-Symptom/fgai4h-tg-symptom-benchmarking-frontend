@@ -1,43 +1,35 @@
-import React from 'react'
-import { useDispatch } from 'react-redux'
-import { IconButton, Tooltip } from '@material-ui/core'
-import { Add as CreateIcon } from '@material-ui/icons'
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { IconButton, Tooltip, Button } from "@material-ui/core";
+import { Add as CreateIcon } from "@material-ui/icons";
+import { paths } from "../../../routes";
+import { fetchAIs, addAI, deleteAI } from "../../../data/aiDuck";
 
-import { paths } from '../../../routes'
-import {
-  aiImplementationDeleteDataAction,
-  aiImplementationOverviewDataAction,
-} from '../../../data/aiImplementations/aiImplementationsActions'
-import { AiImplementationInfo } from '../../../data/aiImplementations/aiImplementationDataType'
-import useDataStateLoader from '../../util/useDataStateLoader'
-import DataStateManager from '../../common/DataStateManager'
-import BasicPageLayout from '../../common/BasicPageLayout'
-import LinkWrapper from '../../common/LinkWrapper'
-
-import AiImplementationManagerComponent from './AiImplementationManagerComponent'
+import BasicPageLayout from "../../common/BasicPageLayout";
+import LinkWrapper from "../../common/LinkWrapper";
+import AiImplementationManagerComponent from "./AiImplementationManagerComponent";
 
 const AiImplementationManagerContainer: React.FC<{}> = () => {
-  const dispatch = useDispatch()
-  const aiImplementationList = useDataStateLoader<AiImplementationInfo[]>(
-    'aiImplementations',
-    aiImplementationOverviewDataAction.load({
-      withHealth: true,
-    }),
-  )
-  const deleteAiImplementation = (aiImplementationId: string): void => {
-    dispatch(
-      aiImplementationDeleteDataAction.load(aiImplementationId, {
-        aiImplementationId,
-      }),
-    )
-  }
+  const dispatch = useDispatch();
+
+  const deleteAiImplementation = aiId => {
+    dispatch(deleteAI(aiId));
+  };
+
+  // fetch AIs once, when the component is mounted
+  useEffect(() => {
+    dispatch(fetchAIs());
+  }, []);
+
+  const aisList = useSelector((state: any) => state.AIs.list);
+  const aisHealth = useSelector((state: any) => state.AIs.health);
 
   return (
     <BasicPageLayout
-      title='AI implementations'
+      title="AI implementations"
       action={
         <LinkWrapper to={paths.aiImplementationRegistration()}>
-          <Tooltip title='Register new AI implementation'>
+          <Tooltip title="Register new AI implementation">
             <IconButton>
               <CreateIcon />
             </IconButton>
@@ -45,17 +37,13 @@ const AiImplementationManagerContainer: React.FC<{}> = () => {
         </LinkWrapper>
       }
     >
-      <DataStateManager<AiImplementationInfo[]>
-        data={aiImplementationList}
-        componentFunction={(aiImplementationListData): JSX.Element => (
-          <AiImplementationManagerComponent
-            aiImplementations={aiImplementationListData}
-            deleteAiImplementation={deleteAiImplementation}
-          />
-        )}
+      <AiImplementationManagerComponent
+        aiImplementations={aisList}
+        aisHealth={aisHealth}
+        deleteAiImplementation={deleteAiImplementation}
       />
     </BasicPageLayout>
-  )
-}
+  );
+};
 
-export default AiImplementationManagerContainer
+export default AiImplementationManagerContainer;

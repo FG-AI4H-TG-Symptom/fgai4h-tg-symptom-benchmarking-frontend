@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import {
   Table,
   TableBody,
@@ -7,52 +7,51 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  Tooltip,
-} from '@material-ui/core'
-import { Check as CheckIcon, Clear as ClearIcon } from '@material-ui/icons'
+  Tooltip
+} from "@material-ui/core";
+import { Check as CheckIcon, Clear as ClearIcon } from "@material-ui/icons";
 
-import { CaseSetInfo } from '../../../data/caseSets/caseSetDataType'
-import { ClinicalFindingState } from '../../../data/caseSets/berlinModelTypes'
-import TextWithTooltipSelf from '../../common/TextWithTooltipSelf'
+import { CaseSetInfo } from "../../../data/caseSets/caseSetDataType";
+import { ClinicalFindingState } from "../../../data/caseSets/berlinModelTypes";
+import TextWithTooltipSelf from "../../common/TextWithTooltipSelf";
 
-import * as Styled from './CaseSetViewerTable.style'
+import * as Styled from "./CaseSetViewerTable.style";
 
 const PresenceIcon: React.FC<{ presence: ClinicalFindingState }> = ({
-  presence,
+  presence
 }) => (
   <Tooltip title={presence}>
-    {presence === 'present' ? <CheckIcon /> : <ClearIcon />}
+    {presence === "present" ? <CheckIcon /> : <ClearIcon />}
   </Tooltip>
-)
+);
 
-const rowsPerPageOptions = [10, 20, 50, 100]
+const rowsPerPageOptions = [10, 20, 50, 100];
 
 export interface CaseSetComponentProps {
-  caseSet: CaseSetInfo
+  caseSet: CaseSetInfo;
 }
 
 const CaseSetViewerTable: React.FC<CaseSetComponentProps> = ({
-  caseSet: { cases },
+  caseSet: { cases }
 }) => {
   const activeRowsPerPageOptions = rowsPerPageOptions.filter(
-    rowsPerPageOption => rowsPerPageOption <= cases.length,
-  )
-  const [page, setPage] = useState(0)
-  const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageOptions[0])
-
+    rowsPerPageOption => rowsPerPageOption <= cases.length
+  );
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageOptions[0]);
   return (
     <>
       {cases.length > rowsPerPageOptions[0] ? (
         <TablePagination
-          component='div'
+          component="div"
           count={cases.length}
           page={page}
           onChangePage={(event, newPage): void => setPage(newPage)}
           rowsPerPage={rowsPerPage}
           rowsPerPageOptions={activeRowsPerPageOptions}
           onChangeRowsPerPage={(event): void => {
-            setPage(0)
-            setRowsPerPage(parseInt(event.target.value, 10))
+            setPage(0);
+            setRowsPerPage(parseInt(event.target.value, 10));
           }}
         />
       ) : null}
@@ -76,22 +75,26 @@ const CaseSetViewerTable: React.FC<CaseSetComponentProps> = ({
           <TableBody>
             {cases
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map(
-                ({
-                  id: caseId,
-                  data: { metaData, caseData, valuesToPredict },
-                }) => (
-                  <TableRow key={caseId}>
+              .map(case_ => {
+                const { caseData } = case_.data;
+                return (
+                  <TableRow key={case_.id}>
                     <Styled.CaseIdCell>
-                      <TextWithTooltipSelf>{caseId}</TextWithTooltipSelf>
+                      <TextWithTooltipSelf>{case_.id}</TextWithTooltipSelf>
                     </Styled.CaseIdCell>
-                    <TableCell>{metaData.caseCreator}</TableCell>
+
+                    <TableCell>
+                      WhatIsCaseCreator?
+                      {/* {case_.data.metaData.caseCreator} */}
+                    </TableCell>
+
                     <Styled.CaseDescriptionCell>
                       <TextWithTooltipSelf>
-                        {metaData.description}
+                        {caseData.metaData.description}
                       </TextWithTooltipSelf>
                     </Styled.CaseDescriptionCell>
-                    <TableCell>{metaData.spreadsheetCaseId}</TableCell>
+
+                    <TableCell>{caseData.metaData.spreadsheetCaseId}</TableCell>
                     <TableCell>{caseData.profileInformation.age}</TableCell>
                     <TableCell>
                       {caseData.profileInformation.biologicalSex}
@@ -100,38 +103,40 @@ const CaseSetViewerTable: React.FC<CaseSetComponentProps> = ({
                       {caseData.presentingComplaints.map(
                         ({ id: presentingComplaintId, name, state }) => (
                           <Styled.IconWrapper
-                            key={`${caseId}_${presentingComplaintId}`}
+                            key={`${case_.id}_${presentingComplaintId}`}
                           >
                             <PresenceIcon presence={state} />
                             {name}
                           </Styled.IconWrapper>
-                        ),
+                        )
                       )}
                     </TableCell>
                     <TableCell>
                       {caseData.otherFeatures.map(
                         ({ id: otherFeatureId, name, state }) => (
                           <Styled.IconWrapper
-                            key={`${caseId}_${otherFeatureId}`}
+                            key={`${case_.id}_${otherFeatureId}`}
                           >
                             <PresenceIcon presence={state} />
                             {name}
                           </Styled.IconWrapper>
-                        ),
+                        )
                       )}
                     </TableCell>
                     <TableCell>
-                      {valuesToPredict.correctCondition.name}
+                      {case_.data.valuesToPredict.condition.name}
                     </TableCell>
-                    <TableCell>{valuesToPredict.expectedTriageLevel}</TableCell>
+                    <TableCell>
+                      {case_.data.valuesToPredict.expectedTriageLevel}
+                    </TableCell>
                   </TableRow>
-                ),
-              )}
+                );
+              })}
           </TableBody>
         </Table>
       </TableContainer>
     </>
-  )
-}
+  );
+};
 
-export default CaseSetViewerTable
+export default CaseSetViewerTable;

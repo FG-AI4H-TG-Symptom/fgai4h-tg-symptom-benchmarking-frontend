@@ -1,28 +1,27 @@
-import { put } from 'redux-saga/effects'
+import { put } from "redux-saga/effects";
 
-import urlBuilder from '../../util/urlBuilder'
-import httpResponseErrorMessage from '../../util/httpResponseErrorMessage'
-import { caseSetListDataActions } from '../caseSetActions'
+import urlBuilder from "../../util/urlBuilder";
+import httpResponseErrorMessage from "../../util/httpResponseErrorMessage";
+import { caseSetListDataActions } from "../caseSetActions";
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function* fetchCaseSetList() {
   try {
-    const response: Response = yield fetch(urlBuilder('case-sets'))
+    const response: Response = yield fetch(urlBuilder("case-sets"));
 
     if (!response.ok) {
-      throw new Error(httpResponseErrorMessage(response))
+      throw new Error(httpResponseErrorMessage(response));
     }
 
-    const data = yield response.json()
+    const data = yield response.json();
 
-    yield put(caseSetListDataActions.store(data))
+    yield put(caseSetListDataActions.store(data));
   } catch (error) {
     yield put(
       caseSetListDataActions.errored(
-        `Failed to fetch case set list: ${error.message}`,
-      ),
-    )
+        `Failed to fetch case set list: ${error.message}`
+      )
+    );
   }
 }
 
-export default fetchCaseSetList
+export default fetchCaseSetList;

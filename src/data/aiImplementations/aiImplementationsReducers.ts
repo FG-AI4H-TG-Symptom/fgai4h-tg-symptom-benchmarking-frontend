@@ -2,29 +2,29 @@ import {
   DataActionBaseState,
   dataActionBaseStateInitial,
   DataReady,
-  DataState,
-} from '../util/dataState/dataStateTypes'
+  DataState
+} from "../util/dataState/dataStateTypes";
 import dataStateGenericReducer, {
   createOptions,
-  deleteOptions,
-} from '../util/dataState/dataStateGenericReducer'
+  deleteOptions
+} from "../util/dataState/dataStateGenericReducer";
 
-import { AiImplementationsActionTypes } from './aiImplementationsActions'
+import { AiImplementationsActionTypes } from "./aiImplementationsActions";
 import {
   AiImplementationHealth,
-  AiImplementationInfo,
-} from './aiImplementationDataType'
-import { CallbackMetadata } from '../util/dataState/generateDataStateActions'
+  AiImplementationInfo
+} from "./aiImplementationDataType";
+import { CallbackMetadata } from "../util/dataState/generateDataStateActions";
 
-export type AiImplementationsState = DataActionBaseState<AiImplementationInfo>
+export type AiImplementationsState = DataActionBaseState<AiImplementationInfo>;
 
-const aiImplementationsInitialState: AiImplementationsState = dataActionBaseStateInitial()
+const aiImplementationsInitialState: AiImplementationsState = dataActionBaseStateInitial();
 
 const actionHandlers: {
   [key in AiImplementationsActionTypes]: (
     state: AiImplementationsState,
-    action,
-  ) => AiImplementationsState
+    action
+  ) => AiImplementationsState;
 } = {
   [AiImplementationsActionTypes.AI_IMPLEMENTATION_CREATE_DATA_ACTION]: dataStateGenericReducer<
     AiImplementationsState,
@@ -37,7 +37,7 @@ const actionHandlers: {
     AiImplementationInfo[],
     { [id: string]: AiImplementationInfo }
   >({
-    path: 'overview',
+    path: "overview"
   }),
   [AiImplementationsActionTypes.AI_IMPLEMENTATION_HEALTH_DATA_ACTION]: dataStateGenericReducer<
     AiImplementationsState,
@@ -47,17 +47,17 @@ const actionHandlers: {
   >({
     preflightCheck: state => {
       if (state.overview.state !== DataState.READY) {
-        throw Error('Trying to load AI health before AI list is loaded')
+        throw Error("Trying to load AI health before AI list is loaded");
       }
-      return true
+      return true;
     },
     path: (action, state) => {
       // overview readiness is asserted through the preflight check
       const aiImplementationIndex = (state.overview as DataReady<
         AiImplementationInfo[]
-      >).data.findIndex(({ id }) => id === action.meta.aiImplementationId)
-      return `overview.data.${aiImplementationIndex}.health`
-    },
+      >).data.findIndex(({ id }) => id === action.meta.aiImplementationId);
+      return `overview.data.${aiImplementationIndex}.health`;
+    }
   }),
   [AiImplementationsActionTypes.AI_IMPLEMENTATION_DELETE_DATA_ACTION]: dataStateGenericReducer<
     AiImplementationsState,
@@ -66,17 +66,17 @@ const actionHandlers: {
     { aiImplementationId: string } & CallbackMetadata<void>
   >(
     deleteOptions<AiImplementationInfo, AiImplementationsState>(
-      'aiImplementationId',
-    ),
-  ),
-}
+      "aiImplementationId"
+    )
+  )
+};
 
 const aiImplementationListReducer = (
   state = aiImplementationsInitialState,
-  action,
+  action
 ): AiImplementationsState =>
   actionHandlers[action.type]
     ? actionHandlers[action.type](state, action)
-    : state
+    : state;
 
-export default aiImplementationListReducer
+export default aiImplementationListReducer;

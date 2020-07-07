@@ -1,98 +1,62 @@
-import React from 'react'
-import { useParams, useHistory } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { Delete as DeleteIcon } from '@material-ui/icons'
+import React, { useEffect } from "react";
+import { useParams, useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Delete as DeleteIcon } from "@material-ui/icons";
 
-import { aiImplementationOverviewDataAction } from '../../../data/aiImplementations/aiImplementationsActions'
-import { AiImplementationInfo } from '../../../data/aiImplementations/aiImplementationDataType'
-import {
-  benchmarkEvaluationDataAction,
-  benchmarkingSessionDataAction,
-  benchmarkingSessionDeleteDataAction,
-} from '../../../data/benchmarks/benchmarkActions'
-import { BenchmarkEvaluation } from '../../../data/benchmarks/benchmarkEvaluationDataType'
-import { BenchmarkingSession } from '../../../data/benchmarks/benchmarkManagerDataType'
-import useDataStateLoader from '../../util/useDataStateLoader'
-import { DataReady } from '../../../data/util/dataState/dataStateTypes'
-import DataStateManager from '../../common/DataStateManager'
-import BasicPageLayout from '../../common/BasicPageLayout'
-import ConfirmationIconButton from '../../common/ConfirmationIconButton'
-import { paths } from '../../../routes'
+import { benchmarkingSessionDeleteDataAction } from "../../../data/benchmarks/benchmarkActions";
+import BasicPageLayout from "../../common/BasicPageLayout";
+import ConfirmationIconButton from "../../common/ConfirmationIconButton";
+import { paths } from "../../../routes";
 
-import BenchmarkEvaluatorComponent from './BenchmarkEvaluatorComponent'
-import useConceptIdMap from '../../util/useConceptIdMap'
+import BenchmarkEvaluatorComponent from "./BenchmarkEvaluatorComponent";
+import { fetchEvaluation } from "../../../data/sessionsDuck";
+import { fetchAIs } from "../../../data/aiDuck";
 
 const BenchmarkEvaluatorContainer: React.FC<{}> = () => {
-  const dispatch = useDispatch()
-  const history = useHistory()
-  const { benchmarkId: benchmarkingSessionId } = useParams()
+  const dispatch = useDispatch();
+  const history = useHistory();
 
-  const benchmarkingSession = useDataStateLoader<BenchmarkingSession>(
-    'benchmark',
-    benchmarkingSessionDataAction.load(benchmarkingSessionId, {
-      benchmarkingSessionId,
-    }),
-    {
-      getSingleEntryForId: benchmarkingSessionId,
-    },
-  )
+  const { benchmarkId: benchmarkingSessionId } = useParams();
 
-  const benchmarkingSessionResults = useDataStateLoader<BenchmarkEvaluation>(
-    state =>
-      (state.benchmark.entries[benchmarkingSessionId] as DataReady<
-        BenchmarkingSession
-      >).data.results,
-    benchmarkEvaluationDataAction.load(benchmarkingSessionId, {
-      benchmarkingSessionId,
-    }),
-    {
-      loadAfter: benchmarkingSession,
-    },
-  )
+  // fetch evaluation once, when the component is mounted
+  useEffect(() => {
+    dispatch(fetchAIs());
+    dispatch(fetchEvaluation(benchmarkingSessionId));
+  }, []);
 
-  const aiImplementationList = useDataStateLoader<AiImplementationInfo[]>(
-    'aiImplementations',
-    aiImplementationOverviewDataAction.load({
-      withHealth: false,
-    }),
-  )
-  const aiImplementationsMap = useConceptIdMap<AiImplementationInfo>(
-    aiImplementationList,
-  )
+  const AIs = useSelector((state: any) => state.AIs);
+  const evaluation = useSelector((state: any) => state.sessions.evaluation);
 
   const deleteBenchmarkingSession = (): void => {
     dispatch(
       benchmarkingSessionDeleteDataAction.load(benchmarkingSessionId, {
         benchmarkingSessionId,
-        onSuccess: () => history.push(paths.benchmarkingSessions()),
-      }),
-    )
-  }
+        onSuccess: () => history.push(paths.benchmarkingSessions())
+      })
+    );
+  };
 
   return (
     <BasicPageLayout
-      title='Benchmark evaluation'
+      title="Benchmark evaluation"
       action={
         <ConfirmationIconButton
           onConfirmed={deleteBenchmarkingSession}
-          color='darkred'
-          label='Hold to delete benchmarking session'
+          color="darkred"
+          label="Hold to delete benchmarking session"
         >
           <DeleteIcon />
         </ConfirmationIconButton>
       }
     >
-      <DataStateManager<BenchmarkEvaluation>
-        data={benchmarkingSessionResults}
-        componentFunction={(evaluation): JSX.Element => (
-          <BenchmarkEvaluatorComponent
-            evaluation={evaluation}
-            aiImplementations={aiImplementationsMap}
-          />
-        )}
-      />
+      {evaluation && (
+        <BenchmarkEvaluatorComponent
+          evaluation={evaluation}
+          aiImplementations={AIs.list}
+        />
+      )}
     </BasicPageLayout>
-  )
-}
+  );
+};
 
-export default BenchmarkEvaluatorContainer
+export default BenchmarkEvaluatorContainer;

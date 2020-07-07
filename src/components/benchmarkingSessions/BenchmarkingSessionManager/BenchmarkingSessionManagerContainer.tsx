@@ -1,40 +1,35 @@
-import React from 'react'
-import { useDispatch } from 'react-redux'
-import { IconButton, Tooltip } from '@material-ui/core'
-import { Add as CreateIcon } from '@material-ui/icons'
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { IconButton, Tooltip } from "@material-ui/core";
+import { Add as CreateIcon } from "@material-ui/icons";
 
-import BenchmarkingSessionManagerComponent from './BenchmarkingSessionManagerComponent'
-import DataStateManager from '../../common/DataStateManager'
-import BasicPageLayout from '../../common/BasicPageLayout'
-import LinkWrapper from '../../common/LinkWrapper'
-import { paths } from '../../../routes'
-import useDataStateLoader from '../../util/useDataStateLoader'
-import { BenchmarkingSession } from '../../../data/benchmarks/benchmarkManagerDataType'
-import {
-  benchmarkingSessionDeleteDataAction,
-  benchmarkingSessionListDataAction,
-} from '../../../data/benchmarks/benchmarkActions'
+import BenchmarkingSessionManagerComponent from "./BenchmarkingSessionManagerComponent";
+import BasicPageLayout from "../../common/BasicPageLayout";
+import LinkWrapper from "../../common/LinkWrapper";
+import { paths } from "../../../routes";
+
+import { fetchSessions, deleteSession } from "../../../data/sessionsDuck";
 
 const BenchmarkingSessionManagerContainer: React.FC<{}> = () => {
-  const dispatch = useDispatch()
-  const benchmarkingSessions = useDataStateLoader<BenchmarkingSession[]>(
-    'benchmark',
-    benchmarkingSessionListDataAction.load(),
-  )
-  const deleteBenchmarkingSession = (benchmarkingSessionId): void => {
-    dispatch(
-      benchmarkingSessionDeleteDataAction.load(benchmarkingSessionId, {
-        benchmarkingSessionId,
-      }),
-    )
-  }
+  const dispatch = useDispatch();
+
+  const deleteBenchmarkingSession = (sessionId): void => {
+    dispatch(deleteSession({ sessionId }));
+  };
+
+  // fetch sessions once, when the component is mounted
+  useEffect(() => {
+    dispatch(fetchSessions());
+  }, []);
+
+  const sessionsList = useSelector((state: any) => state.sessions.list);
 
   return (
     <BasicPageLayout
-      title='Benchmarking sessions'
+      title="Benchmarking sessions"
       action={
         <LinkWrapper to={paths.benchmarkCreate()}>
-          <Tooltip title='Create benchmarking session'>
+          <Tooltip title="Create benchmarking session">
             <IconButton>
               <CreateIcon />
             </IconButton>
@@ -42,17 +37,12 @@ const BenchmarkingSessionManagerContainer: React.FC<{}> = () => {
         </LinkWrapper>
       }
     >
-      <DataStateManager<BenchmarkingSession[]>
-        data={benchmarkingSessions}
-        componentFunction={(benchmarkingSessionsData): JSX.Element => (
-          <BenchmarkingSessionManagerComponent
-            benchmarkingSessions={benchmarkingSessionsData}
-            deleteBenchmarkingSession={deleteBenchmarkingSession}
-          />
-        )}
+      <BenchmarkingSessionManagerComponent
+        benchmarkingSessions={sessionsList}
+        deleteBenchmarkingSession={deleteBenchmarkingSession}
       />
     </BasicPageLayout>
-  )
-}
+  );
+};
 
-export default BenchmarkingSessionManagerContainer
+export default BenchmarkingSessionManagerContainer;

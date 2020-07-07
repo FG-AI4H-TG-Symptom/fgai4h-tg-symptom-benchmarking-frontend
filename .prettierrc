@@ -1,7 +1,0 @@
-{
-  "parser": "typescript",
-  "singleQuote": true,
-  "semi": false,
-  "jsxSingleQuote": true,
-  "trailingComma": "all"
-}

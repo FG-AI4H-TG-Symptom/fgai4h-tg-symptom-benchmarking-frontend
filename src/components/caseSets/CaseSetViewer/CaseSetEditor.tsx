@@ -1,6 +1,6 @@
-import React from 'react'
-import { FormContext, useForm, ValidationResolver } from 'react-hook-form'
-import Ajv from 'ajv'
+import React from "react";
+import { FormContext, useForm, ValidationResolver } from "react-hook-form";
+import Ajv from "ajv";
 import {
   Avatar,
   Box,
@@ -10,52 +10,52 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemSecondaryAction,
-  ListItemText,
-} from '@material-ui/core'
+  ListItemText
+} from "@material-ui/core";
 import {
   Delete as DeleteIcon,
   Edit as EditIcon,
   LinkOff as UnlinkIcon,
-  Save as SaveIcon,
-} from '@material-ui/icons'
+  Save as SaveIcon
+} from "@material-ui/icons";
 
-import berlinModelSchema from '../../../data/caseSets/berlinModel.schema.json'
-import { CaseSetInfo } from '../../../data/caseSets/caseSetDataType'
-import { paths } from '../../../routes'
-import AllErrors from '../../forms/AllErrors'
-import AutoTextField from '../../forms/AutoTextField'
-import { validateAgainstSchema } from '../../forms/utils'
-import ConfirmationIconButton from '../../common/ConfirmationIconButton'
-import Fab from '../../common/Fab'
-import LinkWrapper from '../../common/LinkWrapper'
+import berlinModelSchema from "../../../data/caseSets/berlinModel.schema.json";
+import { CaseSetInfo } from "../../../data/caseSets/caseSetDataType";
+import { paths } from "../../../routes";
+import AllErrors from "../../forms/AllErrors";
+import AutoTextField from "../../forms/AutoTextField";
+import { validateAgainstSchema } from "../../forms/utils";
+import ConfirmationIconButton from "../../common/ConfirmationIconButton";
+import Fab from "../../common/Fab";
+import LinkWrapper from "../../common/LinkWrapper";
 
 // we're not editing the cases in this form, so it's easiest to remove them from the schema
-delete berlinModelSchema.properties.cases
+delete berlinModelSchema.properties.cases;
 berlinModelSchema.required = berlinModelSchema.required.filter(
-  propertyName => propertyName !== 'cases',
-)
+  propertyName => propertyName !== "cases"
+);
 const caseSetSchemaValidator = new Ajv({
   coerceTypes: true,
-  allErrors: true,
-}).compile(berlinModelSchema)
+  allErrors: true
+}).compile(berlinModelSchema);
 
 const validationResolver: ValidationResolver<CaseSetInfo> = values =>
-  validateAgainstSchema(values, caseSetSchemaValidator)
+  validateAgainstSchema(values, caseSetSchemaValidator);
 
 export interface CaseSetEditorProps {
-  caseSet: CaseSetInfo
-  saveCaseSet: (caseSet: CaseSetInfo) => void
+  caseSet: CaseSetInfo;
+  saveCaseSet: (caseSet: CaseSetInfo) => void;
 }
 
 const CaseSetEditor: React.FC<CaseSetEditorProps> = ({
   caseSet,
-  saveCaseSet,
+  saveCaseSet
 }) => {
   const { handleSubmit, errors, ...formMethods } = useForm<CaseSetInfo>({
     defaultValues: caseSet,
     validationResolver,
-    validationContext: caseSet,
-  })
+    validationContext: caseSet
+  });
 
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading
@@ -63,7 +63,7 @@ const CaseSetEditor: React.FC<CaseSetEditorProps> = ({
       <form
         onSubmit={handleSubmit(data => saveCaseSet({ ...caseSet, ...data }))}
       >
-        <Fab label='Save' type='submit'>
+        <Fab label="Save" type="submit">
           <SaveIcon />
         </Fab>
 
@@ -71,10 +71,10 @@ const CaseSetEditor: React.FC<CaseSetEditorProps> = ({
           <AllErrors />
 
           <AutoTextField
-            name='name'
-            label='Case set name'
-            type='text'
-            autoComplete='off'
+            name="name"
+            label="Case set name"
+            type="text"
+            autoComplete="off"
           />
         </Box>
 
@@ -86,11 +86,11 @@ const CaseSetEditor: React.FC<CaseSetEditorProps> = ({
                   <Avatar>{index + 1}</Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary={item.data.metaData.description}
+                  primary={item.data.caseData.metaData.description}
                   secondary={
                     <>
-                      {item.data.caseData.presentingComplaints[0].name} –{' '}
-                      {item.data.valuesToPredict.correctCondition.name}
+                      {item.data.caseData.presentingComplaints[0].name} –{" "}
+                      {item.data.valuesToPredict.condition.name}
                     </>
                   }
                 />
@@ -100,8 +100,8 @@ const CaseSetEditor: React.FC<CaseSetEditorProps> = ({
                       onConfirmed={(): void => {
                         // todo: implement deleting cases
                       }}
-                      color='darkred'
-                      label='Hold to delete case'
+                      color="darkred"
+                      label="Hold to delete case"
                       disabled
                     >
                       <DeleteIcon />
@@ -110,8 +110,8 @@ const CaseSetEditor: React.FC<CaseSetEditorProps> = ({
                       onConfirmed={(): void => {
                         // todo: implement removing cases from case sets
                       }}
-                      color='darkred'
-                      label='Hold to remove case from case set'
+                      color="darkred"
+                      label="Hold to remove case from case set"
                       disabled
                     >
                       <UnlinkIcon />
@@ -126,7 +126,7 @@ const CaseSetEditor: React.FC<CaseSetEditorProps> = ({
                   </>
                 </ListItemSecondaryAction>
               </ListItem>
-            )
+            );
           })}
         </List>
         <Box padding={2}>
@@ -141,7 +141,7 @@ const CaseSetEditor: React.FC<CaseSetEditorProps> = ({
         </Box>
       </form>
     </FormContext>
-  )
-}
+  );
+};
 
-export default CaseSetEditor
+export default CaseSetEditor;

@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
-import { Switch, Route, useLocation } from 'react-router-dom'
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { Switch, Route, useLocation } from "react-router-dom";
 import {
   AppBar,
   Drawer,
@@ -9,50 +9,50 @@ import {
   ListItemIcon,
   ListItemSecondaryAction,
   ListItemText,
-  Toolbar,
-} from '@material-ui/core'
-import { Menu as MenuIcon } from '@material-ui/icons'
+  Toolbar
+} from "@material-ui/core";
+import { Menu as MenuIcon } from "@material-ui/icons";
 
-import * as Styled from './App.style'
-import { routes } from './routes'
-import LinkWrapper from './components/common/LinkWrapper'
-import NotFound from './components/common/NotFound'
-import logo from './logo.svg'
-import { RootState } from './data/rootReducer'
-import Error from './components/common/Error'
-import Notifications from './components/common/Notifications'
+import * as Styled from "./App.style";
+import { routes } from "./routes";
+import LinkWrapper from "./components/common/LinkWrapper";
+import NotFound from "./components/common/NotFound";
+import logo from "./logo.svg";
+import { RootState } from "./data/rootReducer";
+import Error from "./components/common/Error";
+import Notifications from "./components/common/Notifications";
 
 const App: React.FC<{}> = () => {
-  const location = useLocation()
+  const location = useLocation();
 
   const fatalError = useSelector<RootState, string>(
-    state => state.application.fatalError,
-  )
-  const [menuOpen, setMenuOpen] = useState(false)
+    state => state.application.fatalError
+  );
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const currentRoute = routes.filter(route =>
-    route.path.includes(':')
-      ? location.pathname.startsWith(route.path.split(':')[0])
-      : route.path === location.pathname,
-  )[0]
-  const title = currentRoute ? currentRoute.displayName : ''
+    route.path.includes(":")
+      ? location.pathname.startsWith(route.path.split(":")[0])
+      : route.path === location.pathname
+  )[0];
+  const title = currentRoute ? currentRoute.displayName : "";
 
   return (
     <>
       <Notifications />
-      <AppBar position='sticky'>
+      <AppBar position="sticky">
         <Toolbar>
           <IconButton
-            edge='start'
-            color='inherit'
-            aria-label='menu'
+            edge="start"
+            color="inherit"
+            aria-label="menu"
             onClick={(): void => setMenuOpen(true)}
           >
             <MenuIcon />
           </IconButton>
-          <Styled.Title id='app-title'>{title}</Styled.Title>
+          <Styled.Title id="app-title">{title}</Styled.Title>
           &quot;Symptom assessment&quot; FG MMVB for AI4H (WHO/ITU)
-          <Styled.Logo src={logo} alt='FG AI4H logo' />
+          <Styled.Logo src={logo} alt="FG AI4H logo" />
         </Toolbar>
       </AppBar>
       <Drawer open={menuOpen} onClose={(): void => setMenuOpen(false)}>
@@ -64,25 +64,25 @@ const App: React.FC<{}> = () => {
                 <ListItem
                   button
                   onClick={(): void => {
-                    setMenuOpen(false)
+                    setMenuOpen(false);
                   }}
                 >
                   <ListItemIcon>{Icon ? <Icon /> : <></>}</ListItemIcon>
                   <ListItemText>
-                    {displayName.replace('manager', '')}
+                    {displayName.replace("manager", "")}
                   </ListItemText>
                   {action && (
                     <ListItemSecondaryAction
                       onClick={(): void => {
-                        setMenuOpen(false)
+                        setMenuOpen(false);
                       }}
                     >
                       {/* todo: this is illegal HTML since it's a link inside a link */}
-                      <LinkWrapper to={action.targetPath}>
+                      {/* <LinkWrapper to={action.targetPath}>
                         <IconButton>
                           <action.icon />
                         </IconButton>
-                      </LinkWrapper>
+                      </LinkWrapper> */}
                     </ListItemSecondaryAction>
                   )}
                 </ListItem>
@@ -103,7 +103,7 @@ const App: React.FC<{}> = () => {
         )}
       </Styled.Main>
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;

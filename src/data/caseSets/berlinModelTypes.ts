@@ -111,25 +111,25 @@ export interface BerlinModelCasesSchema {
  * via the `definition` "case".
  */
 export interface Case {
-  metaData: {
-    /**
-     * Short human readable case name
-     */
-    name: string;
-    /**
-     * Human readable case description
-     */
-    description?: string;
-    /**
-     * Company and/or individual identifier of the case's creator
-     */
-    caseCreator?: string;
-    /**
-     * Identifier of this case in the originating spreadsheet
-     */
-    spreadsheetCaseId?: string;
-  };
   caseData: {
+    metaData?: {
+      /**
+       * Short human readable case name
+       */
+      name: string;
+      /**
+       * Human readable case description
+       */
+      description?: string;
+      /**
+       * Company and/or individual identifier of the case's creator
+       */
+      caseCreator?: string;
+      /**
+       * Identifier of this case in the originating spreadsheet
+       */
+      spreadsheetCaseId?: string;
+    };
     /**
      * Patient profile information
      */
@@ -154,7 +154,7 @@ export interface Case {
     expectedCondition: Condition;
     otherRelevantDifferentials: Condition[];
     impossibleConditions: Condition[];
-    correctCondition?: Condition;
+    condition?: Condition;
   };
 }
 export interface AbdominalPainFinding {

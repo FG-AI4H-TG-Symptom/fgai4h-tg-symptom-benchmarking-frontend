@@ -1,95 +1,76 @@
-import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useHistory, useLocation } from 'react-router-dom'
-import queryString from 'qs'
-import { CircularProgress, Typography } from '@material-ui/core'
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory, useLocation } from "react-router-dom";
+import queryString from "qs";
+import { CircularProgress } from "@material-ui/core";
 
-import { aiImplementationOverviewDataAction } from '../../../data/aiImplementations/aiImplementationsActions'
-import { AiImplementationInfo } from '../../../data/aiImplementations/aiImplementationDataType'
-import { createBenchmarkingSessionDataAction } from '../../../data/benchmarks/benchmarkActions'
-import { CaseSetInfo } from '../../../data/caseSets/caseSetDataType'
-import { caseSetListDataActions } from '../../../data/caseSets/caseSetActions'
-import {
-  DataState,
-  ID_PLACEHOLDER_NEW,
-  InitialState,
-  LoadableCreateOnly,
-} from '../../../data/util/dataState/dataStateTypes'
-import useDataStateLoader from '../../util/useDataStateLoader'
-import { RootState } from '../../../data/rootReducer'
-import { paths } from '../../../routes'
-import Error from '../../common/Error'
-import BasicPageLayout from '../../common/BasicPageLayout'
+import Error from "../../common/Error";
+import BasicPageLayout from "../../common/BasicPageLayout";
 
-import BenchmarkCreatorComponent from './BenchmarkCreatorComponent'
+import BenchmarkCreatorComponent from "./BenchmarkCreatorComponent";
+
+import { fetchDatasets } from "../../../data/datasetDuck";
+import { fetchAIs } from "../../../data/aiDuck";
+import { addSession } from "../../../data/sessionsDuck";
 
 const BenchmarkCreatorContainer: React.FC<{}> = () => {
-  const history = useHistory()
-  const dispatch = useDispatch()
+  const history = useHistory();
+  const dispatch = useDispatch();
 
-  const aiImplementationList = useDataStateLoader<AiImplementationInfo[]>(
-    'aiImplementations',
-    aiImplementationOverviewDataAction.load({
-      withHealth: false,
-    }),
-  )
-  const caseSetList = useDataStateLoader<CaseSetInfo[]>(
-    state => state.caseSets.overview,
-    caseSetListDataActions.load(),
-  )
+  // fetch AIs and Datasets once when the component is mounted
+  useEffect(() => {
+    dispatch(fetchAIs());
+    dispatch(fetchDatasets());
+  }, []);
+
+  const AIs = useSelector((state: any) => state.AIs);
+  const datasets = useSelector((state: any) => state.datasets);
 
   const searchParams = queryString.parse(useLocation().search, {
-    ignoreQueryPrefix: true,
-  })
+    ignoreQueryPrefix: true
+  });
 
-  const newBenchmarkingSession = useSelector<RootState, LoadableCreateOnly>(
-    state => state.benchmark[ID_PLACEHOLDER_NEW] || InitialState,
-  )
+  // const newBenchmarkingSession = useSelector<RootState, LoadableCreateOnly>(
+  //   (state) => state.benchmark[ID_PLACEHOLDER_NEW] || InitialState
+  // );
 
-  if (newBenchmarkingSession.state === DataState.LOADING) {
-    return (
-      <>
-        <Typography variant='h2' gutterBottom>
-          Creating benchmark...
-        </Typography>
-        <CircularProgress />
-      </>
-    )
-  }
+  const onCreateBenchmark = benchmarkParameters => {
+    dispatch(addSession({ benchmarkParameters, history }));
+  };
 
-  let content = <CircularProgress />
+  // if (newBenchmarkingSession.state === DataState.LOADING) {
+  //   return (
+  //     <>
+  //       <Typography variant="h2" gutterBottom>
+  //         Creating benchmark...
+  //       </Typography>
+  //       <CircularProgress />
+  //     </>
+  //   );
+  // }
 
-  if (aiImplementationList.state === DataState.ERRORED) {
-    content = <Error error={aiImplementationList.error} />
-  } else if (caseSetList.state === DataState.ERRORED) {
-    content = <Error error={caseSetList.error} />
-  } else if (
-    aiImplementationList.state === DataState.READY &&
-    caseSetList.state === DataState.READY
-  ) {
+  let content = <CircularProgress />;
+
+  if (AIs.error) {
+    content = <Error error={AIs.error} />;
+  } else if (datasets.error) {
+    content = <Error error={datasets.error} />;
+  } else {
     content = (
       <BenchmarkCreatorComponent
-        aiImplementations={aiImplementationList.data}
-        caseSetList={caseSetList.data}
+        aiImplementations={AIs.list}
+        caseSetList={datasets.list}
         defaultCaseSetId={searchParams.caseSetId}
-        onCreateBenchmark={(benchmarkParameters): void => {
-          dispatch(
-            createBenchmarkingSessionDataAction.load(benchmarkParameters, {
-              onSuccess: createdBenchmarkingSession => {
-                history.push(paths.benchmarkRun(createdBenchmarkingSession.id))
-              },
-            }),
-          )
-        }}
+        onCreateBenchmark={onCreateBenchmark}
       />
-    )
+    );
   }
 
   return (
-    <BasicPageLayout title='Select settings for a new benchmark'>
+    <BasicPageLayout title="Select settings for a new benchmark">
       {content}
     </BasicPageLayout>
-  )
-}
+  );
+};
 
-export default BenchmarkCreatorContainer
+export default BenchmarkCreatorContainer;

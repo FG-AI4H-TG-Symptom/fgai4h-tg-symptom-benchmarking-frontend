@@ -33,39 +33,39 @@
     "case": {
       "type": "object",
       "properties": {
-        "metaData": {
-          "type": "object",
-          "properties": {
-            "name": {
-              "type": "string",
-              "minLength": 1,
-              "maxLength": 50,
-              "description": "Short human readable case name"
-            },
-            "description": {
-              "type": "string",
-              "minLength": 1,
-              "description": "Human readable case description"
-            },
-            "caseCreator": {
-              "type": "string",
-              "minLength": 1,
-              "description": "Company and/or individual identifier of the case's creator"
-            },
-            "spreadsheetCaseId": {
-              "type": "string",
-              "minLength": 1,
-              "description": "Identifier of this case in the originating spreadsheet"
-            }
-          },
-          "required": [
-            "name"
-          ],
-          "additionalProperties": false
-        },
         "caseData": {
           "type": "object",
           "properties": {
+            "metaData": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 50,
+                  "description": "Short human readable case name"
+                },
+                "description": {
+                  "type": "string",
+                  "minLength": 1,
+                  "description": "Human readable case description"
+                },
+                "caseCreator": {
+                  "type": "string",
+                  "minLength": 1,
+                  "description": "Company and/or individual identifier of the case's creator"
+                },
+                "spreadsheetCaseId": {
+                  "type": "string",
+                  "minLength": 1,
+                  "description": "Identifier of this case in the originating spreadsheet"
+                }
+              },
+              "required": [
+                "name"
+              ],
+              "additionalProperties": false
+            },
             "profileInformation": {
               "type": "object",
               "description": "Patient profile information",
@@ -109,6 +109,7 @@
           ],
           "additionalProperties": false
         },
+
         "valuesToPredict": {
           "type": "object",
           "properties": {
@@ -131,7 +132,7 @@
                 "$ref": "#/definitions/condition"
               }
             },
-            "correctCondition": {
+            "condition": {
               "$ref": "#/definitions/condition"
             }
           },

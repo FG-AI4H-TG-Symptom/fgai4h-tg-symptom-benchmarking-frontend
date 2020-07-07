@@ -1,112 +1,59 @@
-import React, { useEffect } from 'react'
-import { useHistory, useParams } from 'react-router-dom'
-import { CircularProgress } from '@material-ui/core'
+import React from "react";
+import { useSelector } from "react-redux";
 
-import { paths } from '../../../routes'
-import { AiImplementationInfo } from '../../../data/aiImplementations/aiImplementationDataType'
-import { aiImplementationOverviewDataAction } from '../../../data/aiImplementations/aiImplementationsActions'
-import {
-  BenchmarkingSession,
-  BenchmarkingSessionStatus,
-} from '../../../data/benchmarks/benchmarkManagerDataType'
-import {
-  benchmarkingSessionDataAction,
-  observeRunningBenchmarkDataAction,
-} from '../../../data/benchmarks/benchmarkActions'
-import { RunningBenchmarkReport } from '../../../data/benchmarks/benchmarkInfoDataType'
-import {
-  DataReady,
-  DataState,
-} from '../../../data/util/dataState/dataStateTypes'
-import useDataStateLoader from '../../util/useDataStateLoader'
-import useConceptIdMap from '../../util/useConceptIdMap'
-import DataStateManager from '../../common/DataStateManager'
-import BasicPageLayout from '../../common/BasicPageLayout'
+import { useHistory, useParams } from "react-router-dom";
+import { LinearProgress, Button, Box } from "@material-ui/core";
 
-import BenchmarkRunnerComponent from './BenchmarkRunnerComponent'
+import BasicPageLayout from "../../common/BasicPageLayout";
+
+import BenchmarkRunnerComponent from "./BenchmarkRunnerComponent";
+
+import { BenchmarkingSessionStatus } from "../../../data/benchmarks/benchmarkManagerDataType";
+import { paths } from "../../../routes";
 
 const BenchmarkRunnerContainer: React.FC<{}> = () => {
-  const { benchmarkId } = useParams()
-  const history = useHistory()
+  const { benchmarkId } = useParams();
+  const history = useHistory();
+  const AIs = useSelector((state: any) => state.AIs);
+  const sessions = useSelector((state: any) => state.sessions);
 
-  const aiImplementationList = useDataStateLoader<AiImplementationInfo[]>(
-    'aiImplementations',
-    aiImplementationOverviewDataAction.load({
-      withHealth: false,
-    }),
-  )
-  const aiImplementationsMap = useConceptIdMap<AiImplementationInfo>(
-    aiImplementationList,
-  )
+  const runningSession = sessions.list.find(
+    session => session.id === benchmarkId
+  );
 
-  const benchmarkingSession = useDataStateLoader<BenchmarkingSession>(
-    state => state.benchmark.entries[benchmarkId],
-    benchmarkingSessionDataAction.load(benchmarkId, {
-      benchmarkingSessionId: benchmarkId,
-    }),
-  )
-
-  const runningBenchmarkReport = useDataStateLoader<RunningBenchmarkReport>(
-    state => state.benchmark.runningBenchmarkStatus,
-    observeRunningBenchmarkDataAction.load(benchmarkId),
-  )
-
-  useEffect(() => {
-    if (
-      benchmarkingSession.state === DataState.READY &&
-      benchmarkingSession.data.status === BenchmarkingSessionStatus.FINISHED
-    ) {
-      history.push(paths.benchmarkEvaluate(benchmarkId))
-    }
-  }, [benchmarkId, benchmarkingSession, history])
+  let progress = sessions.report
+    ? (sessions.report.statistics.currentCaseIndex /
+        sessions.report.statistics.totalCaseCount) *
+      100
+    : 0;
+  if (runningSession.status === BenchmarkingSessionStatus.FINISHED) {
+    progress = 100;
+  }
 
   return (
-    <BasicPageLayout
-      title={
-        <>
-          Running benchmark{' '}
-          <DataStateManager<BenchmarkingSession>
-            data={benchmarkingSession}
-            componentFunction={(data): string => data.id}
-          />
-        </>
-      }
-      action={
-        <DataStateManager<RunningBenchmarkReport>
-          data={runningBenchmarkReport}
-          componentFunction={({ statistics }): JSX.Element => (
-            <CircularProgress
-              variant='static'
-              value={
-                (statistics.currentCaseIndex / statistics.totalCaseCount) * 100
-              }
-            />
-          )}
-          loading={
-            runningBenchmarkReport.state === DataState.READY &&
-            runningBenchmarkReport.data.status ===
-              BenchmarkingSessionStatus.INTERMEDIATE
-          }
-        />
-      }
-    >
-      <DataStateManager<BenchmarkingSession>
-        // todo: enable `DataStateManager` to consume and pass an array of `Loadable`s
-        data={benchmarkingSession}
-        componentFunction={(benchmarkManagerData): JSX.Element => (
-          <BenchmarkRunnerComponent
-            benchmarkingSession={benchmarkManagerData}
-            report={
-              // loading is handled manually, see below
-              (runningBenchmarkReport as DataReady<RunningBenchmarkReport>).data
-            }
-            aiImplementations={aiImplementationsMap}
-          />
-        )}
-        loading={runningBenchmarkReport.state !== DataState.READY}
-      />
-    </BasicPageLayout>
-  )
-}
+    <BasicPageLayout title={<>Running benchmark {runningSession.id}</>}>
+      <LinearProgress variant="determinate" value={progress} />
 
-export default BenchmarkRunnerContainer
+      <BenchmarkRunnerComponent
+        benchmarkingSession={runningSession}
+        report={sessions.report}
+        AIs={AIs.list}
+      />
+      {runningSession.status === BenchmarkingSessionStatus.FINISHED && (
+        <Box display="flex" justifyContent="flex-end" marginTop={4}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              history.push(paths.benchmarkEvaluate(benchmarkId));
+            }}
+          >
+            View Evaluation
+          </Button>
+        </Box>
+      )}
+    </BasicPageLayout>
+  );
+};
+
+export default BenchmarkRunnerContainer;

@@ -1,32 +1,29 @@
-import React from 'react'
-import { useDispatch } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
-import {
-  caseSetDataAction,
-  caseSetSaveDataAction,
-} from '../../../data/caseSets/caseSetActions'
-import { Notification } from '../../../data/application/applicationReducers'
-import { queueNotification as queueNotificationAction } from '../../../data/application/applicationActions'
-import { CaseSetInfo } from '../../../data/caseSets/caseSetDataType'
-import useDataStateLoader from '../../util/useDataStateLoader'
-import DataStateManager from '../../common/DataStateManager'
-import BasicPageLayout from '../../common/BasicPageLayout'
+import { caseSetSaveDataAction } from "../../../data/caseSets/caseSetActions";
+import { Notification } from "../../../data/application/applicationReducers";
+import { queueNotification as queueNotificationAction } from "../../../data/application/applicationActions";
+import { CaseSetInfo } from "../../../data/caseSets/caseSetDataType";
+import BasicPageLayout from "../../common/BasicPageLayout";
 
-import CaseSetViewerComponent from './CaseSetViewerComponent'
+import CaseSetViewerComponent from "./CaseSetViewerComponent";
+import { fetchFullDataset } from "../../../data/datasetDuck";
 
 const CaseSetViewerContainer: React.FC<{}> = () => {
-  const dispatch = useDispatch()
-  const { caseSetId } = useParams()
+  const dispatch = useDispatch();
+  const { caseSetId } = useParams();
 
-  const caseSet = useDataStateLoader<CaseSetInfo>(
-    state => state.caseSets.entries[caseSetId],
-    caseSetDataAction.load(caseSetId, { caseSetId }),
-  )
+  useEffect(() => {
+    dispatch(fetchFullDataset(caseSetId));
+  }, []);
+
+  const fullDataset = useSelector((state: any) => state.datasets.fullDataset);
 
   const queueNotification = (notification: Notification): void => {
-    dispatch(queueNotificationAction(notification))
-  }
+    dispatch(queueNotificationAction(notification));
+  };
 
   const saveCaseSet = (editedCaseSet: CaseSetInfo): void => {
     dispatch(
@@ -34,27 +31,24 @@ const CaseSetViewerContainer: React.FC<{}> = () => {
         caseSetId,
         onSuccess: () => {
           queueNotification({
-            message: 'Case set saved',
-            type: 'success',
-          })
-        },
-      }),
-    )
-  }
+            message: "Case set saved",
+            type: "success"
+          });
+        }
+      })
+    );
+  };
 
   return (
     <BasicPageLayout title={`Cases in '${caseSetId}'`}>
-      <DataStateManager<CaseSetInfo>
-        data={caseSet}
-        componentFunction={(caseSetData): JSX.Element => (
-          <CaseSetViewerComponent
-            caseSet={caseSetData}
-            saveCaseSet={saveCaseSet}
-          />
-        )}
-      />
+      {fullDataset && (
+        <CaseSetViewerComponent
+          caseSet={fullDataset}
+          saveCaseSet={saveCaseSet}
+        />
+      )}
     </BasicPageLayout>
-  )
-}
+  );
+};
 
-export default CaseSetViewerContainer
+export default CaseSetViewerContainer;
