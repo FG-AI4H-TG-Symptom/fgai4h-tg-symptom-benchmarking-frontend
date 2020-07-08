@@ -39,6 +39,7 @@ const BenchmarkRunnerContainer: React.FC<{}> = () => {
         report={sessions.report}
         AIs={AIs.list}
       />
+
       {runningSession.status === BenchmarkingSessionStatus.FINISHED && (
         <Box display="flex" justifyContent="flex-end" marginTop={4}>
           <Button

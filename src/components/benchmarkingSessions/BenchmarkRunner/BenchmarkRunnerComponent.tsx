@@ -11,8 +11,7 @@ import {
 
 import {
   BenchmarkResultStatus,
-  BenchmarkStepError,
-  RunningBenchmarkReport
+  BenchmarkStepError
 } from "../../../data/benchmarks/benchmarkInfoDataType";
 import { BenchmarkingSession } from "../../../data/benchmarks/benchmarkManagerDataType";
 
@@ -20,7 +19,7 @@ import * as Styled from "./BenchmarkRunnerComponent.style";
 
 interface AiImplementationManagerComponentProps {
   benchmarkingSession: BenchmarkingSession;
-  report: RunningBenchmarkReport;
+  report: any;
   AIs: any;
 }
 
@@ -43,10 +42,12 @@ const BenchmarkRunnerComponent: React.FC<AiImplementationManagerComponentProps> 
             <TableCell />
             <TableCell />
             <TableCell />
+            <TableCell />
           </Styled.GroupingTableRow>
           <TableRow>
             <TableCell>AI implementation name</TableCell>
             <TableCell>Errors</TableCell>
+            <TableCell>Completed</TableCell>
             <TableCell>Timeouts</TableCell>
           </TableRow>
         </TableHead>
@@ -56,6 +57,7 @@ const BenchmarkRunnerComponent: React.FC<AiImplementationManagerComponentProps> 
               <TableCell>
                 {AIs.find(ai => ai.id === aiImplementationId).name}
               </TableCell>
+
               <TableCell>
                 {
                   responses.filter(caseReport => {
@@ -68,6 +70,17 @@ const BenchmarkRunnerComponent: React.FC<AiImplementationManagerComponentProps> 
                   }).length
                 }
               </TableCell>
+
+              <TableCell>
+                {
+                  responses.filter(caseReport => {
+                    const response = caseReport.responses[aiImplementationId];
+
+                    return response.status === BenchmarkResultStatus.COMPLETED;
+                  }).length
+                }
+              </TableCell>
+
               <TableCell>
                 {
                   responses.filter(caseReport => {

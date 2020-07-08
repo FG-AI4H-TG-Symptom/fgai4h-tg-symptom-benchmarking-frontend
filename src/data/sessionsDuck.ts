@@ -35,7 +35,7 @@ const slice = createSlice({
     },
     // Add Session
     addSession: (sessions, action) => {},
-    addSessionsuccess: (sessions, action) => {
+    addSessionSuccess: (sessions, action) => {
       sessions.list.push(action.payload);
     },
     addSessionFailure: (sessions, action) => {
@@ -55,8 +55,14 @@ const slice = createSlice({
     fetchEvaluation: (sessions, action) => {},
     fetchEvaluationSuccess: (sessions, action) => {
       sessions.evaluation = action.payload;
+      sessions.report.responses = action.payload.responses;
     },
     fetchEvaluationFailure: (sessions, action) => {
+      sessions.error = action.payload;
+    },
+    // Running Session
+    runSession: (sessions, action) => {},
+    runSessionFailure: (sessions, action) => {
       sessions.error = action.payload;
     },
     // Session Status
@@ -90,13 +96,15 @@ const {
   saveReport,
   fetchSessionsSuccess,
   fetchSessionsFailure,
-  addSessionsuccess,
+  addSessionSuccess,
   addSessionFailure,
   deleteSessionSuccess,
   deleteSessionFailure,
   setSessionStatus,
   observeSessionStatus,
-  observeSessionStatusFailure
+  observeSessionStatusFailure,
+  runSession,
+  runSessionFailure
 } = slice.actions;
 
 // SAGAS /////////////////////////
@@ -148,12 +156,22 @@ function* addSessionWorker(action) {
     }
 
     const benchmarkingSession = yield response.json();
-    yield put(addSessionsuccess(benchmarkingSession));
+    yield put(addSessionSuccess(benchmarkingSession));
 
+    // currently we run the session right after it was created
+    yield put(runSession(benchmarkingSession));
     history.push(paths.benchmarkRun(benchmarkingSession.id));
+  } catch (error) {
+    yield put(
+      addSessionFailure(`Failed to run benchmark on case set: ${error.message}`)
+    );
+  }
+}
 
-    yield put(observeSessionStatus(benchmarkingSession.id));
+function* runSessionWorker(action) {
+  const benchmarkingSession = action.payload;
 
+  try {
     const startBenchmarkingResponse = yield fetch(
       urlBuilder(`benchmarking-sessions/${benchmarkingSession.id}/run`),
       {
@@ -162,17 +180,22 @@ function* addSessionWorker(action) {
     );
 
     if (!startBenchmarkingResponse.ok) {
-      throw new Error(httpResponseErrorMessage(response, "start benchmark"));
+      throw new Error(
+        httpResponseErrorMessage(startBenchmarkingResponse, "start benchmark")
+      );
     }
+
     yield put(
       setSessionStatus({
         id: benchmarkingSession.id,
         status: BenchmarkingSessionStatus.RUNNING
       })
     );
+
+    yield put(observeSessionStatus(benchmarkingSession.id));
   } catch (error) {
     yield put(
-      addSessionFailure(`Failed to run benchmark on case set: ${error.message}`)
+      runSessionFailure(`Error running benchmark sessions: ${error.message}`)
     );
   }
 }
@@ -191,17 +214,17 @@ function* observeSessionStatusWorker(action) {
 
       const benchmarkInfo = yield response.json();
 
+      yield put(
+        setSessionStatus({
+          id: benchmarkId,
+          status: benchmarkInfo.status
+        })
+      );
+
       if (benchmarkInfo.status === BenchmarkingSessionStatus.RUNNING) {
         yield put(saveReport(benchmarkInfo.report));
-        // yield put(observeRunningBenchmarkDataAction.store(benchmarkInfo.report))
       } else if (benchmarkInfo.status === BenchmarkingSessionStatus.FINISHED) {
-        // yield put(saveReport(benchmarkInfo.report));
-        yield put(
-          setSessionStatus({
-            id: benchmarkId,
-            status: BenchmarkingSessionStatus.FINISHED
-          })
-        );
+        yield put(fetchEvaluation(benchmarkId));
         break;
       }
 
@@ -289,12 +312,17 @@ function* fetchEvaluationWatcher() {
   yield takeEvery(fetchEvaluation.type, fetchEvaluationWorker);
 }
 
+function* runSessionWatcher() {
+  yield takeEvery(runSession.type, runSessionWorker);
+}
+
 export function* rootSessionsSaga() {
   yield all([
     fetchSessionsWatcher(),
     addSessionWatcher(),
     observeSessionStatusWatcher(),
     deleteSessionWatcher(),
-    fetchEvaluationWatcher()
+    fetchEvaluationWatcher(),
+    runSessionWatcher()
   ]);
 }
