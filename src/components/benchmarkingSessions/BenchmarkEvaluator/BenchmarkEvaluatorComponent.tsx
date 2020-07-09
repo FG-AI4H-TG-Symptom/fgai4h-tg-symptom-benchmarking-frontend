@@ -6,7 +6,7 @@ import {
   TableCell,
   TableContainer,
   TableHead,
-  TableRow
+  TableRow,
 } from "@material-ui/core";
 
 import { BenchmarkEvaluation } from "../../../data/benchmarks/benchmarkEvaluationDataType";
@@ -20,7 +20,7 @@ interface AiImplementationManagerComponentProps {
 
 const BenchmarkEvaluatorComponent: React.FC<AiImplementationManagerComponentProps> = ({
   evaluation,
-  aiImplementations
+  aiImplementations,
 }) => {
   return (
     <>
@@ -42,17 +42,18 @@ const BenchmarkEvaluatorComponent: React.FC<AiImplementationManagerComponentProp
             </TableRow>
           </TableHead>
           <TableBody>
-            {evaluation.aiImplementations.map(aiImplementationId => (
+            {evaluation.aiImplementations.map((aiImplementationId) => (
               <TableRow key={aiImplementationId}>
                 <TableCell>
                   {
-                    aiImplementations.find(ai => ai.id === aiImplementationId)
+                    aiImplementations.find((ai) => ai.id === aiImplementationId)
                       .name
                   }
                 </TableCell>
                 {evaluation.metrics.map(({ id, aggregatedValues }) => (
                   <CommonStyled.CenteredTableCell key={id}>
-                    {aggregatedValues[aiImplementationId]}
+                    {Math.round(aggregatedValues[aiImplementationId] * 100) /
+                      100}
                   </CommonStyled.CenteredTableCell>
                 ))}
               </TableRow>
