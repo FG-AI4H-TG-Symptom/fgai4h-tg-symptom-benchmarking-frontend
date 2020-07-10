@@ -12,7 +12,7 @@ import {
   FormHelperText,
   Grid,
   Radio,
-  RadioGroup
+  RadioGroup,
 } from "@material-ui/core";
 import { ArrowForward as StartIcon } from "@material-ui/icons";
 import { useForm, ValidationResolver } from "react-hook-form";
@@ -26,13 +26,13 @@ interface FormData {
   caseSetId: string;
 }
 
-const validationResolver: ValidationResolver<FormData> = values => {
+const validationResolver: ValidationResolver<FormData> = (values) => {
   const errors = {};
   if (!values.caseSetId) {
     // eslint-disable-next-line dot-notation
     errors["caseSetId"] = "Select a case set";
   }
-  if (!values.aiImplementations.some(aiImplementation => aiImplementation)) {
+  if (!values.aiImplementations.some((aiImplementation) => aiImplementation)) {
     // eslint-disable-next-line dot-notation
     errors["aiImplementations"] = "Select at least one AI implementation";
   }
@@ -53,30 +53,30 @@ const BenchmarkCreatorComponent: React.FC<BenchmarkCreatorComponentProps> = ({
   aiImplementations,
   caseSetList,
   defaultCaseSetId,
-  onCreateBenchmark
+  onCreateBenchmark,
 }) => {
   const { register, handleSubmit, errors, watch } = useForm<FormData>({
     validationResolver,
     defaultValues: {
       aiImplementations: Object.keys(aiImplementations).map(() => true),
-      caseSetId: defaultCaseSetId
-    }
+      caseSetId: defaultCaseSetId,
+    },
   });
 
   const onSubmit = ({
     caseSetId,
-    aiImplementations: selectedAiImplementations
+    aiImplementations: selectedAiImplementations,
   }: FormData): void => {
     onCreateBenchmark({
       caseSetId,
       aiImplementationIds: aiImplementations
         .filter((_, index) => selectedAiImplementations[index])
-        .map(({ id }) => id)
+        .map(({ id }) => id),
     });
   };
 
   const aiImplementationsSelectedCount = watch("aiImplementations")?.filter(
-    x => x
+    (x) => x
   ).length;
 
   return (
@@ -150,7 +150,7 @@ const BenchmarkCreatorComponent: React.FC<BenchmarkCreatorComponentProps> = ({
           endIcon={<StartIcon />}
           type="submit"
         >
-          Run benchmark
+          Create benchmark
         </Button>
       </Box>
     </form>

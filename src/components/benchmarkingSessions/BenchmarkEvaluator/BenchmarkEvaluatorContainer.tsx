@@ -31,7 +31,7 @@ const BenchmarkEvaluatorContainer: React.FC<{}> = () => {
     dispatch(
       benchmarkingSessionDeleteDataAction.load(benchmarkingSessionId, {
         benchmarkingSessionId,
-        onSuccess: () => history.push(paths.benchmarkingSessions())
+        onSuccess: () => history.push(paths.benchmarkingSessions()),
       })
     );
   };

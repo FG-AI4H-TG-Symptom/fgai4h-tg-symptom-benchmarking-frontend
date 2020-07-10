@@ -8,13 +8,21 @@ import BasicPageLayout from "../../common/BasicPageLayout";
 import LinkWrapper from "../../common/LinkWrapper";
 import { paths } from "../../../routes";
 
-import { fetchSessions, deleteSession } from "../../../data/sessionsDuck";
+import {
+  fetchSessions,
+  deleteSession,
+  runSession,
+} from "../../../data/sessionsDuck";
 
 const BenchmarkingSessionManagerContainer: React.FC<{}> = () => {
   const dispatch = useDispatch();
 
   const deleteBenchmarkingSession = (sessionId): void => {
     dispatch(deleteSession({ sessionId }));
+  };
+
+  const runBenchmarkingSession = (sessionId): void => {
+    dispatch(runSession(sessionId));
   };
 
   // fetch sessions once, when the component is mounted
@@ -40,6 +48,7 @@ const BenchmarkingSessionManagerContainer: React.FC<{}> = () => {
       <BenchmarkingSessionManagerComponent
         benchmarkingSessions={sessionsList}
         deleteBenchmarkingSession={deleteBenchmarkingSession}
+        runBenchmarkingSession={runBenchmarkingSession}
       />
     </BasicPageLayout>
   );

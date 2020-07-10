@@ -18,10 +18,10 @@ const BenchmarkRunnerContainer: React.FC<{}> = () => {
   const sessions = useSelector((state: any) => state.sessions);
 
   const runningSession = sessions.list.find(
-    session => session.id === benchmarkId
+    (session) => session.id === benchmarkId
   );
 
-  let progress = sessions.report
+  let progress = sessions.report.statistics
     ? (sessions.report.statistics.currentCaseIndex /
         sessions.report.statistics.totalCaseCount) *
       100

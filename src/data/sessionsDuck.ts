@@ -15,8 +15,8 @@ const initialState = {
   list: [],
   loading: false,
   error: null,
-  report: null,
-  evaluation: null
+  report: { responses: [] },
+  evaluation: null,
 };
 
 const slice = createSlice({
@@ -45,7 +45,7 @@ const slice = createSlice({
     deleteSession: (sessions, action) => {},
     deleteSessionSuccess: (sessions, action) => {
       sessions.list = sessions.list.filter(
-        sessions => sessions.id !== action.payload.id
+        (sessions) => sessions.id !== action.payload.id
       );
     },
     deleteSessionFailure: (sessions, action) => {
@@ -68,7 +68,7 @@ const slice = createSlice({
     // Session Status
     setSessionStatus: (sessions, action) => {
       const { id, status } = action.payload;
-      let session = sessions.list.find(session => session.id === id);
+      let session = sessions.list.find((session) => session.id === id);
       session.status = status;
     },
     observeSessionStatus: (sessions, action) => {},
@@ -78,15 +78,16 @@ const slice = createSlice({
     // Report
     saveReport: (sessions, action) => {
       sessions.report = action.payload;
-    }
-  }
+    },
+  },
 });
 
 export const {
   fetchSessions,
   addSession,
   deleteSession,
-  fetchEvaluation
+  fetchEvaluation,
+  runSession,
 } = slice.actions;
 export default slice.reducer;
 
@@ -103,8 +104,8 @@ const {
   setSessionStatus,
   observeSessionStatus,
   observeSessionStatusFailure,
-  runSession,
-  runSessionFailure
+
+  runSessionFailure,
 } = slice.actions;
 
 // SAGAS /////////////////////////
@@ -133,7 +134,7 @@ function* addSessionWorker(action) {
   try {
     const {
       caseSetId,
-      aiImplementationIds
+      aiImplementationIds,
     } = action.payload.benchmarkParameters;
 
     const { history } = action.payload;
@@ -141,12 +142,12 @@ function* addSessionWorker(action) {
     const response = yield fetch(urlBuilder("benchmarking-sessions"), {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         caseSet: caseSetId,
-        aiImplementations: aiImplementationIds
-      })
+        aiImplementations: aiImplementationIds,
+      }),
     });
 
     if (!response.ok) {
@@ -157,10 +158,6 @@ function* addSessionWorker(action) {
 
     const benchmarkingSession = yield response.json();
     yield put(addSessionSuccess(benchmarkingSession));
-
-    // currently we run the session right after it was created
-    yield put(runSession(benchmarkingSession));
-    history.push(paths.benchmarkRun(benchmarkingSession.id));
   } catch (error) {
     yield put(
       addSessionFailure(`Failed to run benchmark on case set: ${error.message}`)
@@ -169,13 +166,13 @@ function* addSessionWorker(action) {
 }
 
 function* runSessionWorker(action) {
-  const benchmarkingSession = action.payload;
+  const benchmarkId = action.payload;
 
   try {
     const startBenchmarkingResponse = yield fetch(
-      urlBuilder(`benchmarking-sessions/${benchmarkingSession.id}/run`),
+      urlBuilder(`benchmarking-sessions/${benchmarkId}/run`),
       {
-        method: "POST"
+        method: "POST",
       }
     );
 
@@ -187,12 +184,12 @@ function* runSessionWorker(action) {
 
     yield put(
       setSessionStatus({
-        id: benchmarkingSession.id,
-        status: BenchmarkingSessionStatus.RUNNING
+        id: benchmarkId,
+        status: BenchmarkingSessionStatus.RUNNING,
       })
     );
 
-    yield put(observeSessionStatus(benchmarkingSession.id));
+    yield put(observeSessionStatus(benchmarkId));
   } catch (error) {
     yield put(
       runSessionFailure(`Error running benchmark sessions: ${error.message}`)
@@ -217,7 +214,7 @@ function* observeSessionStatusWorker(action) {
       yield put(
         setSessionStatus({
           id: benchmarkId,
-          status: benchmarkInfo.status
+          status: benchmarkInfo.status,
         })
       );
 
@@ -246,7 +243,7 @@ function* deleteSessionWorker(action) {
     const response = yield fetch(
       urlBuilder(`benchmarking-sessions/${sessionId}`),
       {
-        method: "DELETE"
+        method: "DELETE",
       }
     );
 
@@ -323,6 +320,6 @@ export function* rootSessionsSaga() {
     observeSessionStatusWatcher(),
     deleteSessionWatcher(),
     fetchEvaluationWatcher(),
-    runSessionWatcher()
+    runSessionWatcher(),
   ]);
 }

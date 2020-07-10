@@ -12,6 +12,7 @@ import BenchmarkCreatorComponent from "./BenchmarkCreatorComponent";
 import { fetchDatasets } from "../../../data/datasetDuck";
 import { fetchAIs } from "../../../data/aiDuck";
 import { addSession } from "../../../data/sessionsDuck";
+import { paths } from "../../../routes";
 
 const BenchmarkCreatorContainer: React.FC<{}> = () => {
   const history = useHistory();
@@ -27,15 +28,16 @@ const BenchmarkCreatorContainer: React.FC<{}> = () => {
   const datasets = useSelector((state: any) => state.datasets);
 
   const searchParams = queryString.parse(useLocation().search, {
-    ignoreQueryPrefix: true
+    ignoreQueryPrefix: true,
   });
 
   // const newBenchmarkingSession = useSelector<RootState, LoadableCreateOnly>(
   //   (state) => state.benchmark[ID_PLACEHOLDER_NEW] || InitialState
   // );
 
-  const onCreateBenchmark = benchmarkParameters => {
+  const onCreateBenchmark = (benchmarkParameters) => {
     dispatch(addSession({ benchmarkParameters, history }));
+    history.push(paths.benchmarkingSessions());
   };
 
   // if (newBenchmarkingSession.state === DataState.LOADING) {

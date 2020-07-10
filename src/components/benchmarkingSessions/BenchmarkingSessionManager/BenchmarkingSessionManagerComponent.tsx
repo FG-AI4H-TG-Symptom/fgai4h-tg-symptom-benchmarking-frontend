@@ -9,17 +9,17 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  Tooltip
+  Tooltip,
 } from "@material-ui/core";
 import {
   Delete as DeleteIcon,
   PlayCircleOutline as StartBenchmarkIcon,
-  ViewList as OpenIcon
+  ViewList as OpenIcon,
 } from "@material-ui/icons";
 
 import {
   BenchmarkingSession,
-  BenchmarkingSessionStatus
+  BenchmarkingSessionStatus,
 } from "../../../data/benchmarks/benchmarkManagerDataType";
 import LinkWrapper from "../../common/LinkWrapper";
 import { paths } from "../../../routes";
@@ -34,14 +34,16 @@ const rowsPerPageOptions = [10, 20, 50, 100];
 interface CaseSetManagerComponentProps {
   benchmarkingSessions: BenchmarkingSession[];
   deleteBenchmarkingSession: (benchmarkingSessionId: string) => void;
+  runBenchmarkingSession: any;
 }
 
 const BenchmarkingSessionManagerComponent: React.FC<CaseSetManagerComponentProps> = ({
   benchmarkingSessions,
-  deleteBenchmarkingSession
+  deleteBenchmarkingSession,
+  runBenchmarkingSession,
 }) => {
   const activeRowsPerPageOptions = rowsPerPageOptions.filter(
-    rowsPerPageOption => rowsPerPageOption <= benchmarkingSessions.length
+    (rowsPerPageOption) => rowsPerPageOption <= benchmarkingSessions.length
   );
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageOptions[0]);
@@ -68,7 +70,9 @@ const BenchmarkingSessionManagerComponent: React.FC<CaseSetManagerComponentProps
           <TableHead>
             <TableRow>
               <TableCell>Benchmarking session ID</TableCell>
+
               <TableCell>Status</TableCell>
+
               <Styled.ActionHeaderTableCell>
                 Actions
               </Styled.ActionHeaderTableCell>
@@ -85,21 +89,32 @@ const BenchmarkingSessionManagerComponent: React.FC<CaseSetManagerComponentProps
                       {aiImplementations.length} AI implementations
                     </CommonStyled.SecondaryTextInCell>
                   </TableCell>
-                  <CommonStyled.CenteredTableCell>
+
+                  <TableCell>
                     <BenchmarkingSessionStatusIcon status={status} />
-                  </CommonStyled.CenteredTableCell>
+                  </TableCell>
+
                   <CommonStyled.CenteredTableCell>
                     <Tooltip title="Start benchmarking session">
                       <span>
-                        {/* todo: integrate this behavior */}
-                        <IconButton
-                          aria-label="start benchmark"
+                        <LinkWrapper
+                          to={paths.benchmarkRun(id)}
+                          // history.push(paths.benchmarkRun(benchmarkingSession.id));
+
                           disabled={
                             status !== BenchmarkingSessionStatus.CREATED
                           }
                         >
-                          <StartBenchmarkIcon />
-                        </IconButton>
+                          <IconButton
+                            aria-label="start benchmark"
+                            onClick={() => runBenchmarkingSession(id)}
+                            disabled={
+                              status !== BenchmarkingSessionStatus.CREATED
+                            }
+                          >
+                            <StartBenchmarkIcon />
+                          </IconButton>
+                        </LinkWrapper>
                       </span>
                     </Tooltip>
                     <Tooltip title="View results">
