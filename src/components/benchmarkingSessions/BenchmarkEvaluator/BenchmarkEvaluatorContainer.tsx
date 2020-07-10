@@ -1,11 +1,8 @@
 import React, { useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Delete as DeleteIcon } from "@material-ui/icons";
-
-import { benchmarkingSessionDeleteDataAction } from "../../../data/benchmarks/benchmarkActions";
+import { Box, Button } from "@material-ui/core";
 import BasicPageLayout from "../../common/BasicPageLayout";
-import ConfirmationIconButton from "../../common/ConfirmationIconButton";
 import { paths } from "../../../routes";
 
 import BenchmarkEvaluatorComponent from "./BenchmarkEvaluatorComponent";
@@ -27,34 +24,26 @@ const BenchmarkEvaluatorContainer: React.FC<{}> = () => {
   const AIs = useSelector((state: any) => state.AIs);
   const evaluation = useSelector((state: any) => state.sessions.evaluation);
 
-  const deleteBenchmarkingSession = (): void => {
-    dispatch(
-      benchmarkingSessionDeleteDataAction.load(benchmarkingSessionId, {
-        benchmarkingSessionId,
-        onSuccess: () => history.push(paths.benchmarkingSessions()),
-      })
-    );
-  };
-
   return (
-    <BasicPageLayout
-      title="Benchmark evaluation"
-      action={
-        <ConfirmationIconButton
-          onConfirmed={deleteBenchmarkingSession}
-          color="darkred"
-          label="Hold to delete benchmarking session"
-        >
-          <DeleteIcon />
-        </ConfirmationIconButton>
-      }
-    >
+    <BasicPageLayout title="Benchmark evaluation">
       {evaluation && (
         <BenchmarkEvaluatorComponent
           evaluation={evaluation}
           aiImplementations={AIs.list}
         />
       )}
+
+      <Box display="flex" justifyContent="flex-end" marginTop={4}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            history.push(paths.benchmarkingSessions());
+          }}
+        >
+          Back to Overview
+        </Button>
+      </Box>
     </BasicPageLayout>
   );
 };

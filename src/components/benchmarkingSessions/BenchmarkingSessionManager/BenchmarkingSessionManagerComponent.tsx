@@ -33,12 +33,16 @@ const rowsPerPageOptions = [10, 20, 50, 100];
 
 interface CaseSetManagerComponentProps {
   benchmarkingSessions: BenchmarkingSession[];
+  datasets: any;
+  AIs: any;
   deleteBenchmarkingSession: (benchmarkingSessionId: string) => void;
   runBenchmarkingSession: any;
 }
 
 const BenchmarkingSessionManagerComponent: React.FC<CaseSetManagerComponentProps> = ({
   benchmarkingSessions,
+  datasets,
+  AIs,
   deleteBenchmarkingSession,
   runBenchmarkingSession,
 }) => {
@@ -71,6 +75,14 @@ const BenchmarkingSessionManagerComponent: React.FC<CaseSetManagerComponentProps
             <TableRow>
               <TableCell>Benchmarking session ID</TableCell>
 
+              <CommonStyled.CenteredTableCell>
+                AIs
+              </CommonStyled.CenteredTableCell>
+
+              <CommonStyled.CenteredTableCell>
+                Dataset
+              </CommonStyled.CenteredTableCell>
+
               <TableCell>Status</TableCell>
 
               <Styled.ActionHeaderTableCell>
@@ -81,13 +93,27 @@ const BenchmarkingSessionManagerComponent: React.FC<CaseSetManagerComponentProps
           <TableBody>
             {benchmarkingSessions
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map(({ id, aiImplementations, status }) => (
+              .map(({ id, aiImplementations, status, caseSet }) => (
                 <TableRow key={id}>
                   <TableCell>
                     {id}
                     <CommonStyled.SecondaryTextInCell>
                       {aiImplementations.length} AI implementations
                     </CommonStyled.SecondaryTextInCell>
+                  </TableCell>
+
+                  <TableCell>
+                    <ul>
+                      {aiImplementations.map((aiID) => (
+                        <li key={aiID}>
+                          {AIs.find((ai_) => ai_.id === aiID).name}
+                        </li>
+                      ))}
+                    </ul>
+                  </TableCell>
+
+                  <TableCell>
+                    {datasets.find((dataset) => dataset.id === caseSet).name}
                   </TableCell>
 
                   <TableCell>

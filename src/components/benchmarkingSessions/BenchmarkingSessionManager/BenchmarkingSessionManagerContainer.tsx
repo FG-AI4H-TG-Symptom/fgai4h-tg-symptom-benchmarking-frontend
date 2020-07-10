@@ -13,6 +13,8 @@ import {
   deleteSession,
   runSession,
 } from "../../../data/sessionsDuck";
+import { fetchAIs } from "../../../data/aiDuck";
+import { fetchDatasets } from "../../../data/datasetDuck";
 
 const BenchmarkingSessionManagerContainer: React.FC<{}> = () => {
   const dispatch = useDispatch();
@@ -25,12 +27,15 @@ const BenchmarkingSessionManagerContainer: React.FC<{}> = () => {
     dispatch(runSession(sessionId));
   };
 
-  // fetch sessions once, when the component is mounted
   useEffect(() => {
+    dispatch(fetchAIs());
+    dispatch(fetchDatasets());
     dispatch(fetchSessions());
   }, []);
 
   const sessionsList = useSelector((state: any) => state.sessions.list);
+  const datasetsList = useSelector((state: any) => state.datasets.list);
+  const aisList = useSelector((state: any) => state.AIs.list);
 
   return (
     <BasicPageLayout
@@ -45,11 +50,15 @@ const BenchmarkingSessionManagerContainer: React.FC<{}> = () => {
         </LinkWrapper>
       }
     >
-      <BenchmarkingSessionManagerComponent
-        benchmarkingSessions={sessionsList}
-        deleteBenchmarkingSession={deleteBenchmarkingSession}
-        runBenchmarkingSession={runBenchmarkingSession}
-      />
+      {datasetsList && (
+        <BenchmarkingSessionManagerComponent
+          benchmarkingSessions={sessionsList}
+          datasets={datasetsList}
+          AIs={aisList}
+          deleteBenchmarkingSession={deleteBenchmarkingSession}
+          runBenchmarkingSession={runBenchmarkingSession}
+        />
+      )}
     </BasicPageLayout>
   );
 };
