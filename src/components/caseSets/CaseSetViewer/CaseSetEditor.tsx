@@ -10,13 +10,13 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemSecondaryAction,
-  ListItemText
+  ListItemText,
 } from "@material-ui/core";
 import {
   Delete as DeleteIcon,
   Edit as EditIcon,
   LinkOff as UnlinkIcon,
-  Save as SaveIcon
+  Save as SaveIcon,
 } from "@material-ui/icons";
 
 import berlinModelSchema from "../../../data/caseSets/berlinModel.schema.json";
@@ -32,14 +32,14 @@ import LinkWrapper from "../../common/LinkWrapper";
 // we're not editing the cases in this form, so it's easiest to remove them from the schema
 delete berlinModelSchema.properties.cases;
 berlinModelSchema.required = berlinModelSchema.required.filter(
-  propertyName => propertyName !== "cases"
+  (propertyName) => propertyName !== "cases"
 );
 const caseSetSchemaValidator = new Ajv({
   coerceTypes: true,
-  allErrors: true
+  allErrors: true,
 }).compile(berlinModelSchema);
 
-const validationResolver: ValidationResolver<CaseSetInfo> = values =>
+const validationResolver: ValidationResolver<CaseSetInfo> = (values) =>
   validateAgainstSchema(values, caseSetSchemaValidator);
 
 export interface CaseSetEditorProps {
@@ -49,19 +49,19 @@ export interface CaseSetEditorProps {
 
 const CaseSetEditor: React.FC<CaseSetEditorProps> = ({
   caseSet,
-  saveCaseSet
+  saveCaseSet,
 }) => {
   const { handleSubmit, errors, ...formMethods } = useForm<CaseSetInfo>({
     defaultValues: caseSet,
     validationResolver,
-    validationContext: caseSet
+    validationContext: caseSet,
   });
 
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading
     <FormContext handleSubmit={handleSubmit} errors={errors} {...formMethods}>
       <form
-        onSubmit={handleSubmit(data => saveCaseSet({ ...caseSet, ...data }))}
+        onSubmit={handleSubmit((data) => saveCaseSet({ ...caseSet, ...data }))}
       >
         <Fab label="Save" type="submit">
           <SaveIcon />
@@ -116,9 +116,7 @@ const CaseSetEditor: React.FC<CaseSetEditorProps> = ({
                     >
                       <UnlinkIcon />
                     </ConfirmationIconButton>
-                    <LinkWrapper
-                      to={paths.caseSetCaseEditor(caseSet.id, item.id)}
-                    >
+                    <LinkWrapper to={paths.CaseEditor(caseSet.id, item.id)}>
                       <IconButton>
                         <EditIcon />
                       </IconButton>

@@ -18,7 +18,7 @@ import CaseEditor from "./CaseEditor";
 
 const caseSchemaValidator = new Ajv({
   coerceTypes: true,
-  allErrors: true
+  allErrors: true,
 })
   .addSchema(berlinModelSchema)
   .compile({
@@ -28,13 +28,13 @@ const caseSchemaValidator = new Ajv({
     properties: {
       case: {
         $ref:
-          "https://raw.githubusercontent.com/FG-AI4H-TG-Symptom/fgai4h-tg-symptom-models-schemas/master/schemas/berlin-model.schema.json#/definitions/case"
-      }
+          "https://raw.githubusercontent.com/FG-AI4H-TG-Symptom/fgai4h-tg-symptom-models-schemas/master/schemas/berlin-model.schema.json#/definitions/case",
+      },
     },
-    required: ["case"]
+    required: ["case"],
   });
 
-const validationResolver: ValidationResolver<{ case: Case }> = rawValues => {
+const validationResolver: ValidationResolver<{ case: Case }> = (rawValues) => {
   // todo: replace by a flexible and efficient solution
   const values = extendWithModelInformationFromIds(rawValues);
 
@@ -48,12 +48,12 @@ const validationResolver: ValidationResolver<{ case: Case }> = rawValues => {
     delete values.case.metaData.caseCreator;
   }
   // eslint-disable-next-line no-unused-expressions
-  values.case.caseData.presentingComplaints?.forEach(presentingComplaint => {
+  values.case.caseData.presentingComplaints?.forEach((presentingComplaint) => {
     presentingComplaint.attributes = presentingComplaint.attributes || [];
   });
   values.case.caseData.otherFeatures = values.case.caseData.otherFeatures || [];
   // eslint-disable-next-line no-unused-expressions
-  values.case.caseData.otherFeatures?.forEach(otherFeature => {
+  values.case.caseData.otherFeatures?.forEach((otherFeature) => {
     otherFeature.attributes = otherFeature.attributes || [];
   });
   values.case.valuesToPredict.impossibleConditions =
@@ -74,13 +74,13 @@ export interface CaseSetEditorProps {
   saveCase: (case_: CaseDataType) => void;
 }
 
-const CaseSetCaseEditorComponent: React.FC<CaseSetEditorProps> = ({
+const CaseEditorComponent: React.FC<CaseSetEditorProps> = ({
   caseData,
-  saveCase
+  saveCase,
 }) => {
   const { errors, handleSubmit, ...formMethods } = useForm<FormValues>({
     validationResolver,
-    defaultValues: { case: caseData.data }
+    defaultValues: { case: caseData.data },
   });
 
   return (
@@ -111,4 +111,4 @@ const CaseSetCaseEditorComponent: React.FC<CaseSetEditorProps> = ({
   );
 };
 
-export default CaseSetCaseEditorComponent;
+export default CaseEditorComponent;

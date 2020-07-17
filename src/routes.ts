@@ -19,7 +19,7 @@ import BenchmarkRunner from "./components/benchmarkingSessions/BenchmarkRunner";
 import BenchmarkCreator from "./components/benchmarkingSessions/BenchmarkCreator";
 import BenchmarkEvaluator from "./components/benchmarkingSessions/BenchmarkEvaluator";
 import BenchmarkingSessionManager from "./components/benchmarkingSessions/BenchmarkingSessionManager";
-import CaseSetCaseEditor from "./components/caseSets/CaseEditor";
+import CaseEditor from "./components/caseSets/CaseEditor";
 
 const AI_IMPLEMENTATIONS_PATH = "ai-implementations";
 const CASE_SETS_PATH = "case-sets";
@@ -35,7 +35,7 @@ export const paths = {
   caseSetManager: (): string => `/${CASE_SETS_PATH}`,
   caseSetViewer: (caseSetId: string): string =>
     `/${CASE_SETS_PATH}/${caseSetId}`, // /cases/:caseSetId
-  caseSetCaseEditor: (caseSetId: string, caseId: string): string =>
+  CaseEditor: (caseSetId: string, caseId: string): string =>
     `/${CASE_SETS_PATH}/${caseSetId}/edit/${caseId}`, // /cases/:caseSetId/edit/:caseId
   caseSetCreator: (): string => `/${CASE_SETS_PATH}/create`,
   benchmarkingSessions: (): string => `/${BENCHMARKING_SESSIONS_PATH}`,
@@ -134,8 +134,8 @@ export const routes: Array<Route> = [
   {
     id: "case-set-case-editor",
     displayName: "Case editor",
-    path: paths.caseSetCaseEditor(":caseSetId", ":caseId"),
-    component: CaseSetCaseEditor,
+    path: paths.CaseEditor(":caseSetId", ":caseId"),
+    component: CaseEditor,
     exact: true,
     visibleInMenu: false,
   },

@@ -8,10 +8,10 @@ import { queueNotification as queueNotificationAction } from "../../../data/appl
 import { CaseDataType } from "../../../data/caseSets/caseDataType";
 import BasicPageLayout from "../../common/BasicPageLayout";
 
-import CaseSetCaseEditorComponent from "./CaseEditorComponent";
+import CaseEditorComponent from "./CaseEditorComponent";
 import { fetchFullDataset } from "../../../data/datasetDuck";
 
-const CaseSetCaseEditorContainer: React.FC<{}> = () => {
+const CaseEditorContainer: React.FC<{}> = () => {
   const dispatch = useDispatch();
   const { caseId, caseSetId } = useParams();
 
@@ -52,7 +52,7 @@ const CaseSetCaseEditorContainer: React.FC<{}> = () => {
       }
     >
       {fullDataset && (
-        <CaseSetCaseEditorComponent
+        <CaseEditorComponent
           caseData={fullDataset.cases.find(({ id }) => id === caseId)}
           saveCase={saveCase}
         />
@@ -61,4 +61,4 @@ const CaseSetCaseEditorContainer: React.FC<{}> = () => {
   );
 };
 
-export default CaseSetCaseEditorContainer;
+export default CaseEditorContainer;
