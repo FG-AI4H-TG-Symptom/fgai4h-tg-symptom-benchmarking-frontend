@@ -5,7 +5,7 @@ import {
   Add as AddIcon,
   Memory as AiImplementationIcon,
   Web as CaseSetIcon,
-  Speed as BenchmarkingSessionIcon
+  Speed as BenchmarkingSessionIcon,
 } from "@material-ui/icons";
 
 import DashboardPage from "./components/staticPages/DashboardPage";
@@ -19,7 +19,7 @@ import BenchmarkRunner from "./components/benchmarkingSessions/BenchmarkRunner";
 import BenchmarkCreator from "./components/benchmarkingSessions/BenchmarkCreator";
 import BenchmarkEvaluator from "./components/benchmarkingSessions/BenchmarkEvaluator";
 import BenchmarkingSessionManager from "./components/benchmarkingSessions/BenchmarkingSessionManager";
-import CaseSetCaseEditor from "./components/caseSets/CaseSetCaseEditor";
+import CaseSetCaseEditor from "./components/caseSets/CaseEditor";
 
 const AI_IMPLEMENTATIONS_PATH = "ai-implementations";
 const CASE_SETS_PATH = "case-sets";
@@ -46,7 +46,7 @@ export const paths = {
   benchmarkRun: (benchmarkId: string): string =>
     `/${BENCHMARKING_SESSIONS_PATH}/run/${benchmarkId}`, // /benchmarking-sessions/run/:benchmarkId
   benchmarkEvaluate: (benchmarkId: string): string =>
-    `/${BENCHMARKING_SESSIONS_PATH}/${benchmarkId}/evaluate` // /benchmarking-sessions/:benchmarkId/evaluate
+    `/${BENCHMARKING_SESSIONS_PATH}/${benchmarkId}/evaluate`, // /benchmarking-sessions/:benchmarkId/evaluate
 };
 
 interface Route {
@@ -70,7 +70,7 @@ export const routes: Array<Route> = [
     path: paths.home(),
     component: DashboardPage,
     exact: true,
-    visibleInMenu: true
+    visibleInMenu: true,
   },
   {
     id: "about",
@@ -79,7 +79,7 @@ export const routes: Array<Route> = [
     component: AboutPage,
     exact: true,
     visibleInMenu: true,
-    icon: HomeIcon
+    icon: HomeIcon,
   },
   {
     id: "ai-implementations-manager",
@@ -91,8 +91,8 @@ export const routes: Array<Route> = [
     icon: AiImplementationIcon,
     action: {
       targetPath: paths.aiImplementationRegistration(),
-      icon: AddIcon
-    }
+      icon: AddIcon,
+    },
   },
   {
     id: "ai-implementations-register",
@@ -100,7 +100,7 @@ export const routes: Array<Route> = [
     path: paths.aiImplementationRegistration(),
     component: AiImplementationRegistration,
     exact: true,
-    visibleInMenu: false
+    visibleInMenu: false,
   },
   {
     id: "case-sets-manager",
@@ -112,8 +112,8 @@ export const routes: Array<Route> = [
     icon: CaseSetIcon,
     action: {
       targetPath: paths.caseSetCreator(),
-      icon: AddIcon
-    }
+      icon: AddIcon,
+    },
   },
   {
     id: "case-set-creator",
@@ -121,7 +121,7 @@ export const routes: Array<Route> = [
     path: paths.caseSetCreator(),
     component: CaseSetCreator,
     exact: true,
-    visibleInMenu: false
+    visibleInMenu: false,
   },
   {
     id: "case-set-viewer",
@@ -129,7 +129,7 @@ export const routes: Array<Route> = [
     path: paths.caseSetViewer(":caseSetId"),
     component: CaseSetViewer,
     exact: true,
-    visibleInMenu: false
+    visibleInMenu: false,
   },
   {
     id: "case-set-case-editor",
@@ -137,7 +137,7 @@ export const routes: Array<Route> = [
     path: paths.caseSetCaseEditor(":caseSetId", ":caseId"),
     component: CaseSetCaseEditor,
     exact: true,
-    visibleInMenu: false
+    visibleInMenu: false,
   },
   {
     id: "benchmarking-sessions-manager",
@@ -149,8 +149,8 @@ export const routes: Array<Route> = [
     icon: BenchmarkingSessionIcon,
     action: {
       targetPath: paths.benchmarkCreate(),
-      icon: AddIcon
-    }
+      icon: AddIcon,
+    },
   },
   {
     id: "benchmarking-session-creator",
@@ -158,7 +158,7 @@ export const routes: Array<Route> = [
     path: paths.benchmarkCreate(),
     component: BenchmarkCreator,
     exact: true,
-    visibleInMenu: false
+    visibleInMenu: false,
   },
   {
     id: "benchmarking-session-runner",
@@ -166,7 +166,7 @@ export const routes: Array<Route> = [
     path: paths.benchmarkRun(":benchmarkId"),
     component: BenchmarkRunner,
     exact: true,
-    visibleInMenu: false
+    visibleInMenu: false,
   },
   {
     id: "benchmark-evaluator",
@@ -174,6 +174,6 @@ export const routes: Array<Route> = [
     path: paths.benchmarkEvaluate(":benchmarkId"),
     component: BenchmarkEvaluator,
     exact: true,
-    visibleInMenu: false
-  }
+    visibleInMenu: false,
+  },
 ];

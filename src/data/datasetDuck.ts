@@ -10,7 +10,7 @@ const initialState = {
   list: [],
   loading: false,
   error: null,
-  fullDataset: null
+  fullDataset: null,
 };
 
 const slice = createSlice({
@@ -28,19 +28,19 @@ const slice = createSlice({
       datasets.error = action.payload;
       datasets.loading = false;
     },
-    // Add Dataset
-    addDataset: (datasets, action) => {},
-    addDatasetSuccess: (datasets, action) => {
+    // Synthesize Dataset
+    synthesizeDataset: (datasets, action) => {},
+    synthesizeDatasetSuccess: (datasets, action) => {
       datasets.list.push(action.payload);
     },
-    addDatasetFailure: (datasets, action) => {
+    synthesizeDatasetFailure: (datasets, action) => {
       datasets.error = action.payload;
     },
     // Delete dataset
     deleteDataset: (datasets, action) => {},
     deleteDatasetSuccess: (datasets, action) => {
       datasets.list = datasets.list.filter(
-        dataset => dataset.id !== action.payload.id
+        (dataset) => dataset.id !== action.payload.id
       );
     },
     deleteDatasetFailure: (datasets, action) => {
@@ -63,22 +63,22 @@ const slice = createSlice({
     saveDataset: (datasets, action) => {},
     saveDatasetSuccess: (datasets, action) => {
       const index = datasets.list.findIndex(
-        dataset => dataset.id === action.payload.id
+        (dataset) => dataset.id === action.payload.id
       );
       datasets[index] = action.payload;
     },
     saveDatasetFailure: (datasets, action) => {
       datasets.error = action.payload;
-    }
-  }
+    },
+  },
 });
 
 export const {
   fetchDatasets,
-  addDataset,
+  synthesizeDataset,
   deleteDataset,
   fetchFullDataset,
-  saveDataset
+  saveDataset,
 } = slice.actions;
 
 export default slice.reducer;
@@ -88,12 +88,12 @@ const {
   deleteDatasetFailure,
   fetchDatasetsSuccess,
   fetchDatasetsFailure,
-  addDatasetSuccess,
-  addDatasetFailure,
+  synthesizeDatasetSuccess,
+  synthesizeDatasetFailure,
   fetchFullDatasetSuccess,
   fetchFullDatasetFailure,
   saveDatasetSuccess,
-  saveDatasetFailure
+  saveDatasetFailure,
 } = slice.actions;
 
 // SAGAS /////////////////////////
@@ -116,7 +116,7 @@ function* fetchDatasetsWorker() {
   }
 }
 
-function* addDatasetWorker(action) {
+function* synthesizeDatasetWorker(action) {
   // action has type and payload, the payload contains the number of cases
   const { numberOfCases } = action.payload;
 
@@ -124,12 +124,12 @@ function* addDatasetWorker(action) {
     const response: Response = yield fetch(urlBuilder("case-sets/synthesize"), {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         casesPerCaseset: numberOfCases,
-        quantityOfCasesets: 1
-      })
+        quantityOfCasesets: 1,
+      }),
     });
 
     if (!response.ok) {
@@ -137,9 +137,11 @@ function* addDatasetWorker(action) {
     }
 
     const data = yield response.json();
-    yield put(addDatasetSuccess(data[0]));
+    yield put(synthesizeDatasetSuccess(data[0]));
   } catch (error) {
-    yield put(addDatasetFailure(`Failed to create case set: ${error.message}`));
+    yield put(
+      synthesizeDatasetFailure(`Failed to create case set: ${error.message}`)
+    );
   }
 }
 
@@ -148,7 +150,7 @@ function* deleteDatasetWorker(action) {
 
   try {
     const response = yield fetch(urlBuilder(`case-sets/${caseSetId}`), {
-      method: "DELETE"
+      method: "DELETE",
     });
 
     if (!response.ok) {
@@ -200,9 +202,9 @@ function* saveDatasetWorker(action) {
       {
         method: "PUT",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(backendFormattedCaseSet)
+        body: JSON.stringify(backendFormattedCaseSet),
       }
     );
     if (!response.ok) {
@@ -220,8 +222,8 @@ function* fetchDatasetsWatcher() {
   yield takeEvery(fetchDatasets.type, fetchDatasetsWorker);
 }
 
-function* addDatasetWatcher() {
-  yield takeEvery(addDataset.type, addDatasetWorker);
+function* synthesizeDatasetWatcher() {
+  yield takeEvery(synthesizeDataset.type, synthesizeDatasetWorker);
 }
 
 function* deleteDatasetWatcher() {
@@ -239,9 +241,9 @@ function* saveDatasetWatcher() {
 export function* rootDatasetsSaga() {
   yield all([
     fetchDatasetsWatcher(),
-    addDatasetWatcher(),
+    synthesizeDatasetWatcher(),
     deleteDatasetWatcher(),
     fetchFullDatasetWatcher(),
-    saveDatasetWatcher()
+    saveDatasetWatcher(),
   ]);
 }

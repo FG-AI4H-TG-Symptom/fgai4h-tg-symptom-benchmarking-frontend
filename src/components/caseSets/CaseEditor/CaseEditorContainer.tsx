@@ -8,7 +8,7 @@ import { queueNotification as queueNotificationAction } from "../../../data/appl
 import { CaseDataType } from "../../../data/caseSets/caseDataType";
 import BasicPageLayout from "../../common/BasicPageLayout";
 
-import CaseSetCaseEditorComponent from "./CaseSetCaseEditorComponent";
+import CaseSetCaseEditorComponent from "./CaseEditorComponent";
 import { fetchFullDataset } from "../../../data/datasetDuck";
 
 const CaseSetCaseEditorContainer: React.FC<{}> = () => {
@@ -33,9 +33,9 @@ const CaseSetCaseEditorContainer: React.FC<{}> = () => {
         onSuccess: () => {
           queueNotification({
             message: "Case saved",
-            type: "success"
+            type: "success",
           });
-        }
+        },
       })
     );
   };
