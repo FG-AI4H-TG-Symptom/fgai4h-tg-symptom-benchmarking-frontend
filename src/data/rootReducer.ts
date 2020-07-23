@@ -3,7 +3,7 @@ import { CaseSetsState } from "./caseSets/caseSetReducers";
 import { AiImplementationsState } from "./aiImplementations/aiImplementationsReducers";
 import { BenchmarkState } from "./benchmarks/benchmarkReducers";
 import applicationReducers, {
-  ApplicationState
+  ApplicationState,
 } from "./application/applicationReducers";
 
 import aiReducer from "./aiDuck";
@@ -25,7 +25,7 @@ const reducers = {
   // benchmark: benchmarkReducers,
   AIs: aiReducer,
   datasets: datasetReducer,
-  sessions: sessionsReducer
+  sessions: sessionsReducer,
 };
 const rootReducer = combineReducers(reducers);
 

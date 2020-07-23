@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice } from "@reduxjs/toolkit";
@@ -70,6 +71,45 @@ const slice = createSlice({
     saveDatasetFailure: (datasets, action) => {
       datasets.error = action.payload;
     },
+    // Save Case
+    saveCase: (datasets, action) => {},
+    saveCaseSuccess: (datasets, action) => {
+      const savedCase = action.payload;
+
+      savedCase.caseSets.map((caseSetId) => {
+        const dataset = datasets.list.find(
+          (dataset_) => dataset_.id === caseSetId
+        );
+        dataset.cases.push(savedCase.id);
+      });
+    },
+    saveCaseFailure: (datasets, action) => {
+      datasets.error = action.payload;
+    },
+    // Delete Case
+    deleteCase: (datasets, action) => {},
+    deleteCaseSuccess: (datasets, action) => {
+      const { deletedCaseId, caseSetsIDs } = action.payload;
+
+      datasets.list = datasets.list.map((dataset_) => {
+        if (!caseSetsIDs.includes(dataset_.id)) {
+          return dataset_;
+        }
+        const index = dataset_.cases.indexOf(deletedCaseId);
+        if (index > -1) {
+          dataset_.cases.splice(index, 1);
+        }
+
+        return dataset_;
+      });
+
+      datasets.fullDataset.cases = datasets.fullDataset.cases.filter(
+        (case_) => case_.id !== deletedCaseId
+      );
+    },
+    deleteCaseFailure: (datasets, action) => {
+      datasets.error = action.payload;
+    },
   },
 });
 
@@ -79,6 +119,8 @@ export const {
   deleteDataset,
   fetchFullDataset,
   saveDataset,
+  saveCase,
+  deleteCase,
 } = slice.actions;
 
 export default slice.reducer;
@@ -94,6 +136,10 @@ const {
   fetchFullDatasetFailure,
   saveDatasetSuccess,
   saveDatasetFailure,
+  saveCaseSuccess,
+  saveCaseFailure,
+  deleteCaseSuccess,
+  deleteCaseFailure,
 } = slice.actions;
 
 // SAGAS /////////////////////////
@@ -217,6 +263,64 @@ function* saveDatasetWorker(action) {
   }
 }
 
+function* saveCaseWorker(action) {
+  const { caseData, metaData, valuesToPredict } = action.payload.data;
+  const { caseSetId } = action.payload;
+
+  // replace once berlin model is supported everywhere
+  const requestBody = {
+    data: {
+      caseData: { ...caseData, metaData: metaData },
+      valuesToPredict: {
+        ...valuesToPredict,
+        condition: valuesToPredict.correctCondition,
+      },
+    },
+    caseSets: [caseSetId],
+  };
+
+  try {
+    const response: Response = yield fetch(urlBuilder("cases"), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestBody),
+    });
+
+    if (!response.ok) {
+      throw new Error(httpResponseErrorMessage(response));
+    }
+
+    const savedCase = yield response.json();
+
+    yield put(saveCaseSuccess(savedCase));
+  } catch (error) {
+    yield put(saveCaseFailure(`Failed to create case set: ${error.message}`));
+  }
+}
+
+function* deleteCaseWorker(action) {
+  const { id, caseSets } = action.payload;
+
+  try {
+    const response = yield fetch(urlBuilder(`cases/${id}`), {
+      method: "DELETE",
+    });
+
+    if (!response.ok) {
+      throw new Error(httpResponseErrorMessage(response));
+    }
+
+    yield put(deleteCaseSuccess({ deletedCaseId: id, caseSetsIDs: caseSets }));
+  } catch (error) {
+    console.error(error);
+    yield put(
+      deleteCaseFailure(`Errored while deleting a case: ${error.message}`)
+    );
+  }
+}
+
 // WATCHERS
 function* fetchDatasetsWatcher() {
   yield takeEvery(fetchDatasets.type, fetchDatasetsWorker);
@@ -238,6 +342,14 @@ function* saveDatasetWatcher() {
   yield takeEvery(saveDataset.type, saveDatasetWorker);
 }
 
+function* saveCaseWatcher() {
+  yield takeEvery(saveCase.type, saveCaseWorker);
+}
+
+function* deleteCaseWatcher() {
+  yield takeEvery(deleteCase.type, deleteCaseWorker);
+}
+
 export function* rootDatasetsSaga() {
   yield all([
     fetchDatasetsWatcher(),
@@ -245,5 +357,7 @@ export function* rootDatasetsSaga() {
     deleteDatasetWatcher(),
     fetchFullDatasetWatcher(),
     saveDatasetWatcher(),
+    saveCaseWatcher(),
+    deleteCaseWatcher(),
   ]);
 }

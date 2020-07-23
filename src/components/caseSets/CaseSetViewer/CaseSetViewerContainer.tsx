@@ -5,7 +5,11 @@ import { CaseSetInfo } from "../../../data/caseSets/caseSetDataType";
 import BasicPageLayout from "../../common/BasicPageLayout";
 
 import CaseSetViewerComponent from "./CaseSetViewerComponent";
-import { fetchFullDataset, saveDataset } from "../../../data/datasetDuck";
+import {
+  fetchFullDataset,
+  saveDataset,
+  deleteCase,
+} from "../../../data/datasetDuck";
 
 const CaseSetViewerContainer: React.FC<{}> = () => {
   const dispatch = useDispatch();
@@ -27,6 +31,7 @@ const CaseSetViewerContainer: React.FC<{}> = () => {
         <CaseSetViewerComponent
           caseSet={fullDataset}
           saveCaseSet={saveCaseSet}
+          deleteCase={(case_) => dispatch(deleteCase(case_))}
         />
       )}
     </BasicPageLayout>

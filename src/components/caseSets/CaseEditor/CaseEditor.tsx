@@ -78,7 +78,7 @@ const CaseEditor: React.FC<{}> = () => {
             <Grid item xs={6} md={3} lg={2}>
               <AutoSelect label="Biological sex" name="biologicalSex">
                 {berlinModelSchema.definitions.biologicalSex.enum.map(
-                  biologicalSex => (
+                  (biologicalSex) => (
                     <MenuItem key={biologicalSex} value={biologicalSex}>
                       {biologicalSex}
                     </MenuItem>
@@ -110,7 +110,7 @@ const CaseEditor: React.FC<{}> = () => {
         <Box marginBottom={2}>
           <AutoSelect name="expectedTriageLevel" label="Expected triage level">
             {berlinModelSchema.definitions.expectedTriageLevel.enum.map(
-              expectedTriageLevel => (
+              (expectedTriageLevel) => (
                 <MenuItem key={expectedTriageLevel} value={expectedTriageLevel}>
                   {expectedTriageLevel}
                 </MenuItem>

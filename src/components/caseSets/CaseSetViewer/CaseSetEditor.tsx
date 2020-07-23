@@ -45,11 +45,13 @@ const validationResolver: ValidationResolver<CaseSetInfo> = (values) =>
 export interface CaseSetEditorProps {
   caseSet: CaseSetInfo;
   saveCaseSet: (caseSet: CaseSetInfo) => void;
+  deleteCase: any;
 }
 
 const CaseSetEditor: React.FC<CaseSetEditorProps> = ({
   caseSet,
   saveCaseSet,
+  deleteCase,
 }) => {
   const { handleSubmit, errors, ...formMethods } = useForm<CaseSetInfo>({
     defaultValues: caseSet,
@@ -79,18 +81,18 @@ const CaseSetEditor: React.FC<CaseSetEditorProps> = ({
         </Box>
 
         <List>
-          {caseSet.cases.map((item, index) => {
+          {caseSet.cases.map((case_, index) => {
             return (
-              <ListItem key={item.id}>
+              <ListItem key={case_.id}>
                 <ListItemAvatar>
                   <Avatar>{index + 1}</Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary={item.data.caseData.metaData.description}
+                  primary={case_.data.caseData.metaData?.description}
                   secondary={
                     <>
-                      {item.data.caseData.presentingComplaints[0].name} –{" "}
-                      {item.data.valuesToPredict.condition.name}
+                      {case_.data.caseData.presentingComplaints[0]?.name} –{" "}
+                      {case_.data.valuesToPredict.condition?.name}
                     </>
                   }
                 />
@@ -99,10 +101,10 @@ const CaseSetEditor: React.FC<CaseSetEditorProps> = ({
                     <ConfirmationIconButton
                       onConfirmed={(): void => {
                         // todo: implement deleting cases
+                        deleteCase(case_);
                       }}
                       color="darkred"
                       label="Hold to delete case"
-                      disabled
                     >
                       <DeleteIcon />
                     </ConfirmationIconButton>
@@ -116,7 +118,7 @@ const CaseSetEditor: React.FC<CaseSetEditorProps> = ({
                     >
                       <UnlinkIcon />
                     </ConfirmationIconButton>
-                    <LinkWrapper to={paths.CaseEditor(caseSet.id, item.id)}>
+                    <LinkWrapper to={paths.caseEditor(caseSet.id, case_.id)}>
                       <IconButton>
                         <EditIcon />
                       </IconButton>
@@ -128,14 +130,9 @@ const CaseSetEditor: React.FC<CaseSetEditorProps> = ({
           })}
         </List>
         <Box padding={2}>
-          <Button
-            onClick={(): void => {
-              // todo: implement adding cases
-            }}
-            disabled
-          >
-            Add case
-          </Button>
+          <LinkWrapper to={paths.addCase(caseSet.id)}>
+            <Button>Add case</Button>
+          </LinkWrapper>
         </Box>
       </form>
     </FormContext>

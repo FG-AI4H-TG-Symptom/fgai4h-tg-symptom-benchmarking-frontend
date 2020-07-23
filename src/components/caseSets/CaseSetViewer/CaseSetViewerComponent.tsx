@@ -12,11 +12,13 @@ import CaseSetEditor from "./CaseSetEditor";
 export interface CaseSetComponentProps {
   caseSet: CaseSetInfo;
   saveCaseSet: (caseSet: CaseSetInfo) => void;
+  deleteCase: any;
 }
 
 const CaseSetViewerComponent: React.FC<CaseSetComponentProps> = ({
   caseSet,
-  saveCaseSet
+  saveCaseSet,
+  deleteCase,
 }) => {
   const tabs: TabFactoryEntry[] = [
     {
@@ -25,34 +27,38 @@ const CaseSetViewerComponent: React.FC<CaseSetComponentProps> = ({
       componentCallback: (): JSX.Element => (
         <CaseSetViewerTable caseSet={caseSet} />
       ),
-      noPadding: true
+      noPadding: true,
     },
     {
       id: "editor",
       name: "Editor",
       componentCallback: (): JSX.Element => (
-        <CaseSetEditor caseSet={caseSet} saveCaseSet={saveCaseSet} />
+        <CaseSetEditor
+          caseSet={caseSet}
+          saveCaseSet={saveCaseSet}
+          deleteCase={deleteCase}
+        />
       ),
-      noPadding: true
+      noPadding: true,
     },
     {
       id: "analysis",
       name: "Analysis",
       componentCallback: (): JSX.Element => (
         <CaseSetViewerAnalysis caseSet={caseSet.cases} />
-      )
+      ),
     },
     {
       id: "raw",
       name: "Raw",
-      componentCallback: (): JSX.Element => <ViewRaw data={caseSet} />
+      componentCallback: (): JSX.Element => <ViewRaw data={caseSet} />,
     },
     {
       id: "export",
       name: "Export",
       componentCallback: (): null => null,
-      disabled: true
-    }
+      disabled: true,
+    },
   ];
 
   return (

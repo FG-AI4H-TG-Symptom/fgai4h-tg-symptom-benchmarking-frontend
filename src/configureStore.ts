@@ -19,7 +19,7 @@ export default function configureStore(): Store {
   }
 
   const composeEnhancers = composeWithDevTools({
-    trace: true
+    trace: true,
     // Specify name here, actionsBlacklist, actionsCreators and other options if needed
   });
   const store = createStore(

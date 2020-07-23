@@ -7,7 +7,6 @@ import { Save as SaveIcon } from "@material-ui/icons";
 
 import berlinModelSchema from "../../../data/caseSets/berlinModel.schema.json";
 import { Case } from "../../../data/caseSets/berlinModelTypes";
-import { CaseDataType } from "../../../data/caseSets/caseDataType";
 import { AutoPrefix } from "../../forms/PrefixContext";
 import AllErrors from "../../forms/AllErrors";
 import { validateAgainstSchema } from "../../forms/utils";
@@ -37,7 +36,6 @@ const caseSchemaValidator = new Ajv({
 const validationResolver: ValidationResolver<{ case: Case }> = (rawValues) => {
   // todo: replace by a flexible and efficient solution
   const values = extendWithModelInformationFromIds(rawValues);
-
   if (values.case.metaData?.description?.length === 0) {
     delete values.case.metaData.description;
   }
@@ -60,6 +58,7 @@ const validationResolver: ValidationResolver<{ case: Case }> = (rawValues) => {
     values.case.valuesToPredict.impossibleConditions || [];
   values.case.valuesToPredict.otherRelevantDifferentials =
     values.case.valuesToPredict.otherRelevantDifferentials || [];
+
   // end-todo
 
   return validateAgainstSchema(values, caseSchemaValidator);
@@ -70,17 +69,25 @@ interface FormValues {
 }
 
 export interface CaseSetEditorProps {
-  caseData: CaseDataType;
-  saveCase: (case_: CaseDataType) => void;
+  caseData: any;
+  saveCase: any;
 }
 
 const CaseEditorComponent: React.FC<CaseSetEditorProps> = ({
   caseData,
   saveCase,
 }) => {
-  const { errors, handleSubmit, ...formMethods } = useForm<FormValues>({
+  const defaultValues = { case: { ...caseData.data } };
+
+  // add this to transfrom to correct format
+  // defaultValues.case = {
+  //   ...defaultValues.case,
+  //   metaData: { name: "some name", description: "some description" },
+  // };
+
+  const { errors, handleSubmit, ...formMethods } = useForm({
     validationResolver,
-    defaultValues: { case: caseData.data },
+    defaultValues: defaultValues,
   });
 
   return (

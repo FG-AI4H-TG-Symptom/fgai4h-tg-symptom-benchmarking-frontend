@@ -7,7 +7,7 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  Tooltip
+  Tooltip,
 } from "@material-ui/core";
 import { Check as CheckIcon, Clear as ClearIcon } from "@material-ui/icons";
 
@@ -18,7 +18,7 @@ import TextWithTooltipSelf from "../../common/TextWithTooltipSelf";
 import * as Styled from "./CaseSetViewerTable.style";
 
 const PresenceIcon: React.FC<{ presence: ClinicalFindingState }> = ({
-  presence
+  presence,
 }) => (
   <Tooltip title={presence}>
     {presence === "present" ? <CheckIcon /> : <ClearIcon />}
@@ -32,10 +32,10 @@ export interface CaseSetComponentProps {
 }
 
 const CaseSetViewerTable: React.FC<CaseSetComponentProps> = ({
-  caseSet: { cases }
+  caseSet: { cases },
 }) => {
   const activeRowsPerPageOptions = rowsPerPageOptions.filter(
-    rowsPerPageOption => rowsPerPageOption <= cases.length
+    (rowsPerPageOption) => rowsPerPageOption <= cases.length
   );
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageOptions[0]);
@@ -75,7 +75,7 @@ const CaseSetViewerTable: React.FC<CaseSetComponentProps> = ({
           <TableBody>
             {cases
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map(case_ => {
+              .map((case_) => {
                 const { caseData } = case_.data;
                 return (
                   <TableRow key={case_.id}>
@@ -90,11 +90,13 @@ const CaseSetViewerTable: React.FC<CaseSetComponentProps> = ({
 
                     <Styled.CaseDescriptionCell>
                       <TextWithTooltipSelf>
-                        {caseData.metaData.description}
+                        {caseData.metaData?.description}
                       </TextWithTooltipSelf>
                     </Styled.CaseDescriptionCell>
 
-                    <TableCell>{caseData.metaData.spreadsheetCaseId}</TableCell>
+                    <TableCell>
+                      {caseData.metaData?.spreadsheetCaseId}
+                    </TableCell>
                     <TableCell>{caseData.profileInformation.age}</TableCell>
                     <TableCell>
                       {caseData.profileInformation.biologicalSex}
@@ -124,7 +126,7 @@ const CaseSetViewerTable: React.FC<CaseSetComponentProps> = ({
                       )}
                     </TableCell>
                     <TableCell>
-                      {case_.data.valuesToPredict.condition.name}
+                      {case_.data.valuesToPredict.condition?.name}
                     </TableCell>
                     <TableCell>
                       {case_.data.valuesToPredict.expectedTriageLevel}
