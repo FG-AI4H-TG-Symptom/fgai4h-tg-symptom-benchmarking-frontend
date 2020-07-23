@@ -6,6 +6,7 @@ import {
   Memory as AiImplementationIcon,
   Web as CaseSetIcon,
   Speed as BenchmarkingSessionIcon,
+  Info as InfoIcon,
 } from "@material-ui/icons";
 
 import DashboardPage from "./components/staticPages/DashboardPage";
@@ -73,16 +74,9 @@ export const routes: Array<Route> = [
     component: DashboardPage,
     exact: true,
     visibleInMenu: true,
-  },
-  {
-    id: "about",
-    displayName: "About",
-    path: paths.about(),
-    component: AboutPage,
-    exact: true,
-    visibleInMenu: true,
     icon: HomeIcon,
   },
+
   {
     id: "ai-implementations-manager",
     displayName: "AI implementations manager",
@@ -117,6 +111,7 @@ export const routes: Array<Route> = [
       icon: AddIcon,
     },
   },
+
   {
     id: "case-set-creator",
     displayName: "Create case set",
@@ -185,5 +180,14 @@ export const routes: Array<Route> = [
     component: BenchmarkEvaluator,
     exact: true,
     visibleInMenu: false,
+  },
+  {
+    id: "about",
+    displayName: "About",
+    path: paths.about(),
+    component: AboutPage,
+    exact: true,
+    visibleInMenu: true,
+    icon: InfoIcon,
   },
 ];

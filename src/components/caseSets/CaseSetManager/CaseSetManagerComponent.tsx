@@ -9,12 +9,12 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Tooltip
+  Tooltip,
 } from "@material-ui/core";
 import {
   ViewList as ViewEditIcon,
   PlayCircleOutline as StartBenchmarkIcon,
-  Delete as DeleteIcon
+  Delete as DeleteIcon,
 } from "@material-ui/icons";
 
 import LinkWrapper from "../../common/LinkWrapper";
@@ -34,7 +34,7 @@ interface CaseSetManagerComponentProps {
 
 const CaseSetManagerComponent: React.FC<CaseSetManagerComponentProps> = ({
   datasetsList,
-  deleteCaseSet
+  deleteCaseSet,
 }) => (
   <>
     <TableContainer component={Paper}>
@@ -43,14 +43,16 @@ const CaseSetManagerComponent: React.FC<CaseSetManagerComponentProps> = ({
         <TableHead>
           <TableRow>
             <TableCell>Name</TableCell>
+            <TableCell>Size</TableCell>
             <TableCell>Labels</TableCell>
             <Styled.ActionHeaderTableCell>Actions</Styled.ActionHeaderTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {datasetsList.map(({ id, name }) => (
+          {datasetsList.map(({ id, name, cases }) => (
             <TableRow key={id}>
               <TableCell>{name}</TableCell>
+              <TableCell>{cases.length}</TableCell>
               <TableCell>
                 {id === LONDON_CASE_SET_ID ? (
                   <Chip label="Cases from doctors" color="primary" />
