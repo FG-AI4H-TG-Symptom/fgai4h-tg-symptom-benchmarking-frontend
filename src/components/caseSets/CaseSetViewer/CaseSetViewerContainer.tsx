@@ -1,15 +1,19 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { Button } from "@material-ui/core";
+
 import { CaseSetInfo } from "../../../data/caseSets/caseSetDataType";
 import BasicPageLayout from "../../common/BasicPageLayout";
-
 import CaseSetViewerComponent from "./CaseSetViewerComponent";
+
 import {
   fetchFullDataset,
   saveDataset,
   deleteCase,
 } from "../../../data/datasetDuck";
+import { paths } from "../../../routes";
+import LinkWrapper from "../../common/LinkWrapper";
 
 const CaseSetViewerContainer: React.FC<{}> = () => {
   const dispatch = useDispatch();
@@ -26,13 +30,24 @@ const CaseSetViewerContainer: React.FC<{}> = () => {
   };
 
   return (
-    <BasicPageLayout title={`Cases in '${caseSetId}'`}>
+    <BasicPageLayout
+      title={`Cases in '${caseSetId}'`}
+      action={
+        <LinkWrapper to={paths.caseSetManager()}>
+          <Button variant="contained" color="primary">
+            View Case Sets
+          </Button>
+        </LinkWrapper>
+      }
+    >
       {fullDataset && (
-        <CaseSetViewerComponent
-          caseSet={fullDataset}
-          saveCaseSet={saveCaseSet}
-          deleteCase={(case_) => dispatch(deleteCase(case_))}
-        />
+        <div>
+          <CaseSetViewerComponent
+            caseSet={fullDataset}
+            saveCaseSet={saveCaseSet}
+            deleteCase={(case_) => dispatch(deleteCase(case_))}
+          />
+        </div>
       )}
     </BasicPageLayout>
   );
