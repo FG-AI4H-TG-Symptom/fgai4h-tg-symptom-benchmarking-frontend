@@ -6,13 +6,12 @@ import {
   CardContent,
   CardHeader,
   Grid,
-  TextField
+  TextField,
 } from "@material-ui/core";
 import { ArrowForward as StartIcon } from "@material-ui/icons";
 import { useForm } from "react-hook-form";
 
 import ErrorIndicator from "../../common/ErrorIndicator";
-import { CreateCaseSetParameters } from "../../../data/caseSets/caseSetActions";
 
 interface FormData {
   numberOfCases: number;
@@ -46,22 +45,22 @@ const validationResolver = (rawValues: RawFormData) => {
 };
 
 interface CaseSetCreatorComponentProps {
-  onCreateCaseSet: (caseSetParameters: CreateCaseSetParameters) => void;
+  onCreateCaseSet: (caseSetParameters) => void;
 }
 
-const CaseSetCreatorComponent: React.FC<CaseSetCreatorComponentProps> = ({
-  onCreateCaseSet
+const CaseSetGeneratorComponent: React.FC<CaseSetCreatorComponentProps> = ({
+  onCreateCaseSet,
 }) => {
   const { register, handleSubmit, errors } = useForm<FormData>({
     validationResolver: validationResolver as any,
     defaultValues: {
-      numberOfCases: 10
-    }
+      numberOfCases: 10,
+    },
   });
 
   const onSubmit = ({ numberOfCases }: FormData): void => {
     onCreateCaseSet({
-      numberOfCases
+      numberOfCases,
     });
   };
 
@@ -101,4 +100,4 @@ const CaseSetCreatorComponent: React.FC<CaseSetCreatorComponentProps> = ({
   );
 };
 
-export default CaseSetCreatorComponent;
+export default CaseSetGeneratorComponent;

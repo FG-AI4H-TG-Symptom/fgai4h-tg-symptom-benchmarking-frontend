@@ -7,7 +7,7 @@ import { paths } from "../../../routes";
 
 import { synthesizeDataset } from "../../../data/datasetDuck";
 
-import CaseSetCreatorComponent from "./CaseSetCreatorComponent";
+import CaseSetGeneratorComponent from "./CaseSetGeneratorComponent";
 
 const CaseSetCreatorContainer: React.FC<{}> = () => {
   const dispatch = useDispatch();
@@ -20,7 +20,7 @@ const CaseSetCreatorContainer: React.FC<{}> = () => {
 
   return (
     <BasicPageLayout title="Generate a new case set">
-      <CaseSetCreatorComponent onCreateCaseSet={createCaseSet} />
+      <CaseSetGeneratorComponent onCreateCaseSet={createCaseSet} />
     </BasicPageLayout>
   );
 };

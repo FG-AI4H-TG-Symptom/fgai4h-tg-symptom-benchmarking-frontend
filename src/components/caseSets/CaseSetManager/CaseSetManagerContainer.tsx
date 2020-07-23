@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { IconButton, Tooltip } from "@material-ui/core";
-import { Add as CreateIcon } from "@material-ui/icons";
+import { Button, Box } from "@material-ui/core";
 
 import CaseSetManagerComponent from "./CaseSetManagerComponent";
 import BasicPageLayout from "../../common/BasicPageLayout";
@@ -26,22 +25,28 @@ const CaseSetManagerContainer: React.FC<{}> = () => {
   };
 
   return (
-    <BasicPageLayout
-      title="Case sets"
-      action={
-        <LinkWrapper to={paths.caseSetCreator()}>
-          <Tooltip title="Create case set">
-            <IconButton>
-              <CreateIcon />
-            </IconButton>
-          </Tooltip>
-        </LinkWrapper>
-      }
-    >
+    <BasicPageLayout title="Case sets">
       <CaseSetManagerComponent
         datasetsList={datasetsList}
         deleteCaseSet={deleteCaseSet}
       />
+
+      <Box display="flex" justifyContent="flex-end" mt={2}>
+        <Box>
+          <LinkWrapper to={paths.caseSetGenerator()}>
+            <Button variant="contained" color="primary">
+              Generate
+            </Button>
+          </LinkWrapper>
+        </Box>
+        <Box ml={1}>
+          <LinkWrapper to={paths.caseSetManager()}>
+            <Button variant="contained" color="primary">
+              Create Manually
+            </Button>
+          </LinkWrapper>
+        </Box>
+      </Box>
     </BasicPageLayout>
   );
 };

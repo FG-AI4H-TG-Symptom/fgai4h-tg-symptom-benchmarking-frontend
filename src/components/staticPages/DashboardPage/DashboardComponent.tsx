@@ -26,7 +26,7 @@ const LandingPageComponent: React.FC<{}> = () => {
 
   const section = {
     height: "100%",
-    paddingTop: 5
+    paddingTop: 5,
   };
 
   const StyledContainer = styled.div`
@@ -63,7 +63,7 @@ const LandingPageComponent: React.FC<{}> = () => {
               count={datasets.length}
               link={paths.caseSetManager()}
               image={image2}
-              addNewLink={paths.caseSetCreator()}
+              addNewLink={paths.caseSetGenerator()}
             />
           </div>
         </Grid>
