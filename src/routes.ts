@@ -16,6 +16,7 @@ import AiImplementationRegistration from "./components/aiImplementations/AiImple
 import CaseSetManager from "./components/caseSets/CaseSetManager";
 import CaseSetViewer from "./components/caseSets/CaseSetViewer";
 import CaseSetGenerator from "./components/caseSets/CaseSetGenerator";
+import DatasetCreator from "./components/caseSets/DatasetCreator";
 import BenchmarkRunner from "./components/benchmarkingSessions/BenchmarkRunner";
 import BenchmarkCreator from "./components/benchmarkingSessions/BenchmarkCreator";
 import BenchmarkEvaluator from "./components/benchmarkingSessions/BenchmarkEvaluator";
@@ -40,7 +41,8 @@ export const paths = {
   caseEditor: (caseSetId: string, caseId: string): string =>
     `/${CASE_SETS_PATH}/${caseSetId}/edit/${caseId}`, // /cases/:caseSetId/edit/:caseId
   addCase: (caseSetId: string): string => `/${CASE_SETS_PATH}/${caseSetId}/add`, // /cases/:caseSetId/add,
-  caseSetGenerator: (): string => `/${CASE_SETS_PATH}/create`,
+  caseSetGenerator: (): string => `/${CASE_SETS_PATH}/generate`,
+  datasetCreator: (): string => `/${CASE_SETS_PATH}/create`,
   benchmarkingSessions: (): string => `/${BENCHMARKING_SESSIONS_PATH}`,
   benchmarkCreate: (caseSetId?: string): string =>
     `/${BENCHMARKING_SESSIONS_PATH}/create${
@@ -113,13 +115,22 @@ export const routes: Array<Route> = [
   },
 
   {
-    id: "case-set-creator",
-    displayName: "Create case set",
+    id: "case-set-generator",
+    displayName: "Generate case set",
     path: paths.caseSetGenerator(),
     component: CaseSetGenerator,
     exact: true,
     visibleInMenu: false,
   },
+  {
+    id: "dataset-creator",
+    displayName: "Create dataset",
+    path: paths.datasetCreator(),
+    component: DatasetCreator,
+    exact: true,
+    visibleInMenu: false,
+  },
+
   {
     id: "case-set-viewer",
     displayName: "Case set",

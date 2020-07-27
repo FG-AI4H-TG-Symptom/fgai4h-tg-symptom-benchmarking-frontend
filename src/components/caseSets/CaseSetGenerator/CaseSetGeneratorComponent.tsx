@@ -93,7 +93,7 @@ const CaseSetGeneratorComponent: React.FC<CaseSetCreatorComponentProps> = ({
           endIcon={<StartIcon />}
           type="submit"
         >
-          Create case set
+          Generate case set
         </Button>
       </Box>
     </form>

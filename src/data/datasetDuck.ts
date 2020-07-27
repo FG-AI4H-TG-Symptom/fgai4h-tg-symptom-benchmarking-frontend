@@ -110,6 +110,14 @@ const slice = createSlice({
     deleteCaseFailure: (datasets, action) => {
       datasets.error = action.payload;
     },
+    // Create CaseSet
+    createCaseSet: (datasets, action) => {},
+    createCaseSetSuccess: (datasets, action) => {
+      datasets.list.push(action.payload);
+    },
+    createCaseSetFailure: (datasets, action) => {
+      datasets.error = action.payload;
+    },
   },
 });
 
@@ -121,6 +129,7 @@ export const {
   saveDataset,
   saveCase,
   deleteCase,
+  createCaseSet,
 } = slice.actions;
 
 export default slice.reducer;
@@ -140,6 +149,8 @@ const {
   saveCaseFailure,
   deleteCaseSuccess,
   deleteCaseFailure,
+  createCaseSetSuccess,
+  createCaseSetFailure,
 } = slice.actions;
 
 // SAGAS /////////////////////////
@@ -321,6 +332,36 @@ function* deleteCaseWorker(action) {
   }
 }
 
+function* createCaseSetWorker(action) {
+  const newCaseSetName = action.payload.name;
+
+  const newCaseSet = {
+    name: newCaseSetName,
+    cases: [],
+  };
+
+  try {
+    const response: Response = yield fetch(urlBuilder("case-sets"), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newCaseSet),
+    });
+
+    if (!response.ok) {
+      throw new Error(httpResponseErrorMessage(response));
+    }
+
+    const createdCaseSet = yield response.json();
+    yield put(createCaseSetSuccess(createdCaseSet));
+  } catch (error) {
+    yield put(
+      createCaseSetFailure(`Failed to create case set: ${error.message}`)
+    );
+  }
+}
+
 // WATCHERS
 function* fetchDatasetsWatcher() {
   yield takeEvery(fetchDatasets.type, fetchDatasetsWorker);
@@ -350,6 +391,10 @@ function* deleteCaseWatcher() {
   yield takeEvery(deleteCase.type, deleteCaseWorker);
 }
 
+function* createCaseSetWatcher() {
+  yield takeEvery(createCaseSet.type, createCaseSetWorker);
+}
+
 export function* rootDatasetsSaga() {
   yield all([
     fetchDatasetsWatcher(),
@@ -359,5 +404,6 @@ export function* rootDatasetsSaga() {
     saveDatasetWatcher(),
     saveCaseWatcher(),
     deleteCaseWatcher(),
+    createCaseSetWatcher(),
   ]);
 }
