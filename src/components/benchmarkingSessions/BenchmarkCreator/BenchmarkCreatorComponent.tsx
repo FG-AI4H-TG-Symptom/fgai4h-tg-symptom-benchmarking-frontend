@@ -17,8 +17,6 @@ import {
 import { ArrowForward as StartIcon } from "@material-ui/icons";
 import { useForm, ValidationResolver } from "react-hook-form";
 
-import { CaseSetInfo } from "../../../data/caseSets/caseSetDataType";
-import { CreateBenchmarkManagerParameters } from "../../../data/benchmarks/benchmarkActions";
 import ErrorIndicator from "../../common/ErrorIndicator";
 
 interface FormData {
@@ -40,16 +38,7 @@ const validationResolver: ValidationResolver<FormData> = (values) => {
   return { values: valid ? values : {}, errors: valid ? {} : errors };
 };
 
-interface BenchmarkCreatorComponentProps {
-  aiImplementations: any[];
-  caseSetList: CaseSetInfo[];
-  defaultCaseSetId: string | null;
-  onCreateBenchmark: (
-    benchmarkParameters: CreateBenchmarkManagerParameters
-  ) => void;
-}
-
-const BenchmarkCreatorComponent: React.FC<BenchmarkCreatorComponentProps> = ({
+const BenchmarkCreatorComponent: React.FC<any> = ({
   aiImplementations,
   caseSetList,
   defaultCaseSetId,

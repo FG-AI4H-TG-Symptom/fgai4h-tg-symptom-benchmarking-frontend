@@ -3,9 +3,9 @@ import { Tooltip } from "@material-ui/core";
 import {
   Check as FinishedIcon,
   LinearScale as CreatedIcon,
-  PlayArrow as RunningIcon
+  PlayArrow as RunningIcon,
 } from "@material-ui/icons";
-
+import { green, yellow, cyan } from "@material-ui/core/colors";
 import { BenchmarkingSessionStatus } from "../../../data/benchmarks/benchmarkManagerDataType";
 
 const BenchmarkingSessionStatusIcon: React.FC<{
@@ -14,7 +14,11 @@ const BenchmarkingSessionStatusIcon: React.FC<{
   if (status === BenchmarkingSessionStatus.CREATED) {
     return (
       <Tooltip title="Created">
-        <CreatedIcon />
+        <CreatedIcon
+          color="primary"
+          fontSize="large"
+          style={{ color: yellow[500] }}
+        />
       </Tooltip>
     );
   }
@@ -22,14 +26,14 @@ const BenchmarkingSessionStatusIcon: React.FC<{
   if (status === BenchmarkingSessionStatus.FINISHED) {
     return (
       <Tooltip title="Finished">
-        <FinishedIcon />
+        <FinishedIcon fontSize="large" style={{ color: green[500] }} />
       </Tooltip>
     );
   }
 
   return (
     <Tooltip title="Currently running">
-      <RunningIcon />
+      <RunningIcon fontSize="large" style={{ color: cyan[500] }} />
     </Tooltip>
   );
 };

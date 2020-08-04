@@ -11,39 +11,6 @@ import {
 import { ArrowForward as StartIcon } from "@material-ui/icons";
 import { useForm } from "react-hook-form";
 
-// import ErrorIndicator from "../../common/ErrorIndicator";
-
-interface FormData {
-  name: string;
-}
-type RawFormData = {
-  [fieldName in keyof FormData]?: string;
-};
-
-// const validationResolver = (rawValues: RawFormData) => {
-//   const errors: { [fieldName in keyof FormData]?: string } = {};
-//   const values: Partial<FormData> = {};
-
-//   // try {
-//   //   values.numberOfCases = parseFloat(rawValues.numberOfCases);
-//   // } catch (error) {
-//   //   errors.numberOfCases = "Not a number";
-//   // }
-
-//   // if (values.numberOfCases <= 0) {
-//   //   errors.numberOfCases = "Enter a non-zero number of cases";
-//   // }
-//   // if (values.numberOfCases > 200) {
-//   //   errors.numberOfCases = "Please select a number of cases not exceeding 200";
-//   // }
-
-//   const valid = Object.keys(errors).length === 0;
-
-//   return valid
-//     ? { values: values as FormData, errors: {} }
-//     : { values: {}, errors };
-// };
-
 interface CaseSetCreatorComponentProps {
   onCreateCaseSet: (caseSetParameters) => void;
 }
@@ -51,8 +18,7 @@ interface CaseSetCreatorComponentProps {
 const DatasetCreatorComponent: React.FC<CaseSetCreatorComponentProps> = ({
   onCreateCaseSet,
 }) => {
-  const { register, handleSubmit } = useForm({
-    // validationResolver: validationResolver as any,
+  const { register, handleSubmit, errors } = useForm({
     defaultValues: {
       name: "New Dataset",
     },
@@ -67,18 +33,21 @@ const DatasetCreatorComponent: React.FC<CaseSetCreatorComponentProps> = ({
       <Grid container spacing={2}>
         <Grid item xs={12} md={6}>
           <Card>
-            <CardHeader
-              title="Parameters"
-              // action={<ErrorIndicator error={errors.name as any} />}
-            />
+            <CardHeader title="Parameters" />
             <CardContent>
               <TextField
-                inputRef={register({ required: true, minLength: 6 })}
+                inputRef={register({
+                  required: "Name is required",
+                  minLength: {
+                    value: 6,
+                    message: "Name should be longer than 6 characters",
+                  },
+                })}
                 name="name"
                 label="Dataset Name"
                 type="text"
-                // error={Boolean(errors.name)}
-                // helperText={errors.name}
+                error={Boolean(errors.name)}
+                helperText={errors.name && errors.name.message}
               />
             </CardContent>
           </Card>

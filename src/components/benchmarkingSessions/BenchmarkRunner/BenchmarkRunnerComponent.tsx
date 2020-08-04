@@ -6,12 +6,12 @@ import {
   TableCell,
   TableContainer,
   TableHead,
-  TableRow
+  TableRow,
 } from "@material-ui/core";
 
 import {
   BenchmarkResultStatus,
-  BenchmarkStepError
+  BenchmarkStepError,
 } from "../../../data/benchmarks/benchmarkInfoDataType";
 import { BenchmarkingSession } from "../../../data/benchmarks/benchmarkManagerDataType";
 
@@ -26,7 +26,7 @@ interface AiImplementationManagerComponentProps {
 const BenchmarkRunnerComponent: React.FC<AiImplementationManagerComponentProps> = ({
   benchmarkingSession,
   report,
-  AIs
+  AIs,
 }) => {
   const responses = report ? report.responses : [];
 
@@ -52,15 +52,15 @@ const BenchmarkRunnerComponent: React.FC<AiImplementationManagerComponentProps> 
           </TableRow>
         </TableHead>
         <TableBody>
-          {benchmarkingSession.aiImplementations.map(aiImplementationId => (
+          {benchmarkingSession.aiImplementations.map((aiImplementationId) => (
             <TableRow key={aiImplementationId}>
               <TableCell>
-                {AIs.find(ai => ai.id === aiImplementationId).name}
+                {AIs.find((ai) => ai.id === aiImplementationId).name}
               </TableCell>
 
               <TableCell>
                 {
-                  responses.filter(caseReport => {
+                  responses.filter((caseReport) => {
                     const response = caseReport.responses[aiImplementationId];
 
                     return (
@@ -73,7 +73,7 @@ const BenchmarkRunnerComponent: React.FC<AiImplementationManagerComponentProps> 
 
               <TableCell>
                 {
-                  responses.filter(caseReport => {
+                  responses.filter((caseReport) => {
                     const response = caseReport.responses[aiImplementationId];
 
                     return response.status === BenchmarkResultStatus.COMPLETED;
@@ -83,7 +83,7 @@ const BenchmarkRunnerComponent: React.FC<AiImplementationManagerComponentProps> 
 
               <TableCell>
                 {
-                  responses.filter(caseReport => {
+                  responses.filter((caseReport) => {
                     const response = caseReport.responses[aiImplementationId];
 
                     return (

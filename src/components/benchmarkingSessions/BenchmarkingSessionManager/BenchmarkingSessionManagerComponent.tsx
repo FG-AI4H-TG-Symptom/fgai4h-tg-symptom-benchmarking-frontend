@@ -17,10 +17,7 @@ import {
   ViewList as OpenIcon,
 } from "@material-ui/icons";
 
-import {
-  BenchmarkingSession,
-  BenchmarkingSessionStatus,
-} from "../../../data/benchmarks/benchmarkManagerDataType";
+import { BenchmarkingSessionStatus } from "../../../data/benchmarks/benchmarkManagerDataType";
 import LinkWrapper from "../../common/LinkWrapper";
 import { paths } from "../../../routes";
 
@@ -31,15 +28,7 @@ import ConfirmationIconButton from "../../common/ConfirmationIconButton";
 
 const rowsPerPageOptions = [10, 20, 50, 100];
 
-interface CaseSetManagerComponentProps {
-  benchmarkingSessions: BenchmarkingSession[];
-  datasets: any;
-  AIs: any;
-  deleteBenchmarkingSession: (benchmarkingSessionId: string) => void;
-  runBenchmarkingSession: any;
-}
-
-const BenchmarkingSessionManagerComponent: React.FC<CaseSetManagerComponentProps> = ({
+const BenchmarkingSessionManagerComponent: React.FC<any> = ({
   benchmarkingSessions,
   datasets,
   AIs,
@@ -75,13 +64,13 @@ const BenchmarkingSessionManagerComponent: React.FC<CaseSetManagerComponentProps
             <TableRow>
               <TableCell>Benchmarking session ID</TableCell>
 
+              <TableCell>Created On</TableCell>
+
               <CommonStyled.CenteredTableCell>
                 AIs
               </CommonStyled.CenteredTableCell>
 
-              <CommonStyled.CenteredTableCell>
-                Dataset
-              </CommonStyled.CenteredTableCell>
+              <TableCell>Dataset</TableCell>
 
               <TableCell>Status</TableCell>
 
@@ -93,85 +82,96 @@ const BenchmarkingSessionManagerComponent: React.FC<CaseSetManagerComponentProps
           <TableBody>
             {benchmarkingSessions
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map(({ id, aiImplementations, status, caseSet }) => (
-                <TableRow key={id}>
-                  <TableCell>
-                    {id}
-                    <CommonStyled.SecondaryTextInCell>
-                      {aiImplementations.length} AI implementations
-                    </CommonStyled.SecondaryTextInCell>
-                  </TableCell>
+              .map(({ id, aiImplementations, status, caseSet, createdOn }) => {
+                const date = new Date(createdOn);
 
-                  <TableCell>
-                    <ul>
-                      {aiImplementations.map((aiID) => (
-                        <li key={aiID}>
-                          {AIs.find((ai_) => ai_.id === aiID).name}
-                        </li>
-                      ))}
-                    </ul>
-                  </TableCell>
+                return (
+                  <TableRow key={id}>
+                    <TableCell>
+                      {id}
+                      <CommonStyled.SecondaryTextInCell>
+                        {aiImplementations.length} AI implementations
+                      </CommonStyled.SecondaryTextInCell>
+                    </TableCell>
+                    <TableCell>{date.toLocaleDateString()}</TableCell>
 
-                  <TableCell>
-                    {datasets.find((dataset) => dataset.id === caseSet).name}
-                  </TableCell>
+                    <TableCell>
+                      <ul>
+                        {aiImplementations.map((aiID) => (
+                          <li key={aiID}>
+                            {AIs.find((ai_) => ai_.id === aiID).name}
+                          </li>
+                        ))}
+                      </ul>
+                    </TableCell>
 
-                  <TableCell>
-                    <BenchmarkingSessionStatusIcon status={status} />
-                  </TableCell>
+                    <TableCell>
+                      {datasets.find((dataset) => dataset.id === caseSet).name}
+                    </TableCell>
 
-                  <CommonStyled.CenteredTableCell>
-                    <Tooltip title="Start benchmarking session">
-                      <span>
-                        <LinkWrapper
-                          to={paths.benchmarkRun(id)}
-                          // history.push(paths.benchmarkRun(benchmarkingSession.id));
+                    <TableCell>
+                      <BenchmarkingSessionStatusIcon status={status} />
+                    </TableCell>
 
-                          disabled={
-                            status !== BenchmarkingSessionStatus.CREATED
-                          }
-                        >
-                          <IconButton
-                            aria-label="start benchmark"
-                            onClick={() => runBenchmarkingSession(id)}
+                    <CommonStyled.CenteredTableCell>
+                      <Tooltip title="Start benchmarking session">
+                        <span>
+                          <LinkWrapper
+                            to={paths.benchmarkRun(id)}
+                            // history.push(paths.benchmarkRun(benchmarkingSession.id));
+
                             disabled={
                               status !== BenchmarkingSessionStatus.CREATED
                             }
                           >
-                            <StartBenchmarkIcon />
-                          </IconButton>
-                        </LinkWrapper>
-                      </span>
-                    </Tooltip>
-                    <Tooltip title="View results">
-                      <span>
-                        <LinkWrapper
-                          to={paths.benchmarkEvaluate(id)}
-                          disabled={
-                            status !== BenchmarkingSessionStatus.FINISHED
-                          }
-                        >
-                          <IconButton
-                            aria-label="view"
+                            <IconButton
+                              aria-label="start benchmark"
+                              onClick={() =>
+                                runBenchmarkingSession({
+                                  id,
+                                  aiImplementations,
+                                  caseSet,
+                                })
+                              }
+                              disabled={
+                                status !== BenchmarkingSessionStatus.CREATED
+                              }
+                            >
+                              <StartBenchmarkIcon />
+                            </IconButton>
+                          </LinkWrapper>
+                        </span>
+                      </Tooltip>
+                      <Tooltip title="View results">
+                        <span>
+                          <LinkWrapper
+                            to={paths.benchmarkEvaluate(id)}
                             disabled={
                               status !== BenchmarkingSessionStatus.FINISHED
                             }
                           >
-                            <OpenIcon />
-                          </IconButton>
-                        </LinkWrapper>
-                      </span>
-                    </Tooltip>
-                    <ConfirmationIconButton
-                      onConfirmed={(): void => deleteBenchmarkingSession(id)}
-                      color="darkred"
-                      label="Hold to delete"
-                    >
-                      <DeleteIcon />
-                    </ConfirmationIconButton>
-                  </CommonStyled.CenteredTableCell>
-                </TableRow>
-              ))}
+                            <IconButton
+                              aria-label="view"
+                              disabled={
+                                status !== BenchmarkingSessionStatus.FINISHED
+                              }
+                            >
+                              <OpenIcon />
+                            </IconButton>
+                          </LinkWrapper>
+                        </span>
+                      </Tooltip>
+                      <ConfirmationIconButton
+                        onConfirmed={(): void => deleteBenchmarkingSession(id)}
+                        color="darkred"
+                        label="Hold to delete"
+                      >
+                        <DeleteIcon />
+                      </ConfirmationIconButton>
+                    </CommonStyled.CenteredTableCell>
+                  </TableRow>
+                );
+              })}
           </TableBody>
         </Table>
       </TableContainer>

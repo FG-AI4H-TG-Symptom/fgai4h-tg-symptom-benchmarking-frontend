@@ -8,20 +8,19 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Tooltip
+  Tooltip,
 } from "@material-ui/core";
 import {
   Delete as DeleteIcon,
-  ViewList as ViewEditIcon
+  ViewList as ViewEditIcon,
 } from "@material-ui/icons";
 
-import { AiImplementationInfo } from "../../../data/aiImplementations/aiImplementationDataType";
 import ConfirmationIconButton from "../../common/ConfirmationIconButton";
 
 import AiImplementationHealthComponent from "./AiImplementationHealthComponent";
 
 interface AiImplementationManagerComponentProps {
-  aiImplementations: AiImplementationInfo[];
+  aiImplementations: any[];
   aisHealth: any[];
   deleteAiImplementation: (aiImplementationId: string) => void;
 }
@@ -29,7 +28,7 @@ interface AiImplementationManagerComponentProps {
 const AiImplementationManagerComponent: React.FC<AiImplementationManagerComponentProps> = ({
   aiImplementations,
   aisHealth,
-  deleteAiImplementation
+  deleteAiImplementation,
 }) => {
   return (
     <>
@@ -39,17 +38,20 @@ const AiImplementationManagerComponent: React.FC<AiImplementationManagerComponen
           <TableHead>
             <TableRow>
               <TableCell>Name</TableCell>
+              <TableCell>Created On</TableCell>
               <TableCell>Health</TableCell>
               <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {aiImplementations.map(({ id, name }) => {
+            {aiImplementations.map(({ id, name, createdOn }) => {
               const health = aisHealth ? aisHealth[id] : null;
 
+              const date = new Date(createdOn);
               return (
                 <TableRow key={id}>
                   <TableCell>{name}</TableCell>
+                  <TableCell>{date.toLocaleDateString()}</TableCell>
                   <TableCell>
                     <AiImplementationHealthComponent health={health} />
                   </TableCell>

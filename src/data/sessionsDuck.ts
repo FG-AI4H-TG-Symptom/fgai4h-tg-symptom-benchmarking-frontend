@@ -104,7 +104,6 @@ const {
   setSessionStatus,
   observeSessionStatus,
   observeSessionStatusFailure,
-
   runSessionFailure,
 } = slice.actions;
 
@@ -166,13 +165,18 @@ function* addSessionWorker(action) {
 }
 
 function* runSessionWorker(action) {
-  const benchmarkId = action.payload;
+  // const { id, aiImplementations, caseSet } = action.payload;
+  const session = action.payload;
 
   try {
     const startBenchmarkingResponse = yield fetch(
-      urlBuilder(`benchmarking-sessions/${benchmarkId}/run`),
+      urlBuilder(`benchmarking-sessions/${session.id}/run`),
       {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(session),
       }
     );
 
@@ -184,12 +188,12 @@ function* runSessionWorker(action) {
 
     yield put(
       setSessionStatus({
-        id: benchmarkId,
+        id: session.id,
         status: BenchmarkingSessionStatus.RUNNING,
       })
     );
 
-    yield put(observeSessionStatus(benchmarkId));
+    yield put(observeSessionStatus(session.id));
   } catch (error) {
     yield put(
       runSessionFailure(`Error running benchmark sessions: ${error.message}`)

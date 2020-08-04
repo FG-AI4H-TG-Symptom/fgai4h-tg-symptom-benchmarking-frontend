@@ -19,7 +19,6 @@ import {
 
 import LinkWrapper from "../../common/LinkWrapper";
 import { paths } from "../../../routes";
-import { CaseSetInfo } from "../../../data/caseSets/caseSetDataType";
 
 import * as Styled from "./CaseSetManagerComponent.style";
 import * as CommonStyled from "../../common/CommonStyles";
@@ -27,12 +26,7 @@ import ConfirmationIconButton from "../../common/ConfirmationIconButton";
 
 const LONDON_CASE_SET_ID = "london_model2019_cases_v1";
 
-interface CaseSetManagerComponentProps {
-  datasetsList: CaseSetInfo[];
-  deleteCaseSet: (caseSetId: string) => void;
-}
-
-const CaseSetManagerComponent: React.FC<CaseSetManagerComponentProps> = ({
+const CaseSetManagerComponent: React.FC<any> = ({
   datasetsList,
   deleteCaseSet,
 }) => (
@@ -43,47 +37,53 @@ const CaseSetManagerComponent: React.FC<CaseSetManagerComponentProps> = ({
         <TableHead>
           <TableRow>
             <TableCell>Name</TableCell>
+            <TableCell>Created On</TableCell>
             <TableCell>Size</TableCell>
             <TableCell>Labels</TableCell>
             <Styled.ActionHeaderTableCell>Actions</Styled.ActionHeaderTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {datasetsList.map(({ id, name, cases }) => (
-            <TableRow key={id}>
-              <TableCell>{name}</TableCell>
-              <TableCell>{cases.length}</TableCell>
-              <TableCell>
-                {id === LONDON_CASE_SET_ID ? (
-                  <Chip label="Cases from doctors" color="primary" />
-                ) : null}
-              </TableCell>
-              <CommonStyled.ButtonsTableCell>
-                <LinkWrapper to={paths.caseSetViewer(id)}>
-                  <Tooltip title="View / edit">
-                    <IconButton aria-label="view">
-                      <ViewEditIcon />
-                    </IconButton>
-                  </Tooltip>
-                </LinkWrapper>
-                <LinkWrapper to={paths.benchmarkCreate(id)}>
-                  <Tooltip title="Run benchmark with this case set">
-                    <IconButton aria-label="run-benchmark">
-                      <StartBenchmarkIcon />
-                    </IconButton>
-                  </Tooltip>
-                </LinkWrapper>
+          {datasetsList.map(({ id, name, cases, createdOn }) => {
+            const date = new Date(createdOn);
 
-                <ConfirmationIconButton
-                  onConfirmed={(): void => deleteCaseSet(id)}
-                  color="darkred"
-                  label="Hold to delete"
-                >
-                  <DeleteIcon />
-                </ConfirmationIconButton>
-              </CommonStyled.ButtonsTableCell>
-            </TableRow>
-          ))}
+            return (
+              <TableRow key={id}>
+                <TableCell>{name}</TableCell>
+                <TableCell>{date.toLocaleDateString()}</TableCell>
+                <TableCell>{cases.length}</TableCell>
+                <TableCell>
+                  {id === LONDON_CASE_SET_ID ? (
+                    <Chip label="Cases from doctors" color="primary" />
+                  ) : null}
+                </TableCell>
+                <CommonStyled.ButtonsTableCell>
+                  <LinkWrapper to={paths.caseSetViewer(id)}>
+                    <Tooltip title="View / edit">
+                      <IconButton aria-label="view">
+                        <ViewEditIcon />
+                      </IconButton>
+                    </Tooltip>
+                  </LinkWrapper>
+                  <LinkWrapper to={paths.benchmarkCreate(id)}>
+                    <Tooltip title="Run benchmark with this case set">
+                      <IconButton aria-label="run-benchmark">
+                        <StartBenchmarkIcon />
+                      </IconButton>
+                    </Tooltip>
+                  </LinkWrapper>
+
+                  <ConfirmationIconButton
+                    onConfirmed={(): void => deleteCaseSet(id)}
+                    color="darkred"
+                    label="Hold to delete"
+                  >
+                    <DeleteIcon />
+                  </ConfirmationIconButton>
+                </CommonStyled.ButtonsTableCell>
+              </TableRow>
+            );
+          })}
         </TableBody>
       </Table>
     </TableContainer>

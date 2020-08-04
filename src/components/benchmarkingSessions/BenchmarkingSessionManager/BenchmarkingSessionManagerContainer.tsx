@@ -23,8 +23,8 @@ const BenchmarkingSessionManagerContainer: React.FC<{}> = () => {
     dispatch(deleteSession({ sessionId }));
   };
 
-  const runBenchmarkingSession = (sessionId): void => {
-    dispatch(runSession(sessionId));
+  const runBenchmarkingSession = (session): void => {
+    dispatch(runSession(session));
   };
 
   useEffect(() => {
