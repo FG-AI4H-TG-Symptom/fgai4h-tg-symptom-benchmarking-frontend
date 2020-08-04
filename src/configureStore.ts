@@ -4,7 +4,6 @@ import logger from "redux-logger";
 import { composeWithDevTools } from "redux-devtools-extension";
 
 import reducers from "./data/rootReducer";
-import rootSaga from "./data/rootSaga";
 
 import { rootAiSaga } from "./data/aiDuck";
 import { rootDatasetsSaga } from "./data/datasetDuck";
@@ -30,7 +29,6 @@ export default function configureStore(): Store {
     )
   );
 
-  sagaMiddleware.run(rootSaga);
   sagaMiddleware.run(rootAiSaga);
   sagaMiddleware.run(rootDatasetsSaga);
   sagaMiddleware.run(rootSessionsSaga);

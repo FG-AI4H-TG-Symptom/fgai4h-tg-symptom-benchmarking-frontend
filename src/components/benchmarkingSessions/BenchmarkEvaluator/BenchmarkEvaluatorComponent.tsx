@@ -9,12 +9,11 @@ import {
   TableRow,
 } from "@material-ui/core";
 
-import { BenchmarkEvaluation } from "../../../data/benchmarks/benchmarkEvaluationDataType";
 import ViewRawFooter from "../../common/ViewRawFooter";
 import * as CommonStyled from "../../common/CommonStyles";
 
 interface AiImplementationManagerComponentProps {
-  evaluation: BenchmarkEvaluation;
+  evaluation: any;
   aiImplementations: any;
 }
 

@@ -246,7 +246,6 @@ function* fetchFullDatasetWorker(action) {
 
 function* saveDatasetWorker(action) {
   const caseSet = action.payload;
-  // const createCaseSet = metadata.caseSetId === ID_PLACEHOLDER_NEW;
   const backendFormattedCaseSet = caseSet;
 
   if (caseSet.cases.length > 0 && typeof caseSet.cases[0] !== "string") {

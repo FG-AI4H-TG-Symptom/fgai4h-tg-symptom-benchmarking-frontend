@@ -5,10 +5,14 @@ import {
   Check as StatusGoodIcon,
   Clear as StatusBadIcon,
   HourglassEmpty as TimeoutIcon,
-  HelpOutline as UnknownIcon
+  HelpOutline as UnknownIcon,
 } from "@material-ui/icons";
 
-import { AiImplementationHealth } from "../../../data/aiImplementations/aiImplementationDataType";
+enum AiImplementationHealth {
+  OK = "ok",
+  BAD_RESPONSE = "bad response",
+  TIMEOUT = "timeout",
+}
 
 const AiImplementationHealthComponent: React.FC<{
   health;

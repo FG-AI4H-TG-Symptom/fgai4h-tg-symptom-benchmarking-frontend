@@ -31,25 +31,10 @@ const BenchmarkCreatorContainer: React.FC<{}> = () => {
     ignoreQueryPrefix: true,
   });
 
-  // const newBenchmarkingSession = useSelector<RootState, LoadableCreateOnly>(
-  //   (state) => state.benchmark[ID_PLACEHOLDER_NEW] || InitialState
-  // );
-
   const onCreateBenchmark = (benchmarkParameters) => {
     dispatch(addSession({ benchmarkParameters, history }));
     history.push(paths.benchmarkingSessions());
   };
-
-  // if (newBenchmarkingSession.state === DataState.LOADING) {
-  //   return (
-  //     <>
-  //       <Typography variant="h2" gutterBottom>
-  //         Creating benchmark...
-  //       </Typography>
-  //       <CircularProgress />
-  //     </>
-  //   );
-  // }
 
   let content = <CircularProgress />;
 

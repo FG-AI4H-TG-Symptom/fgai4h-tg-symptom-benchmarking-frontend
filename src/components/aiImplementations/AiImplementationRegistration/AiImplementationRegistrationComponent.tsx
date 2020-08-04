@@ -1,8 +1,6 @@
 import React from "react";
 import { Card, CardContent } from "@material-ui/core";
 import styled from "styled-components";
-
-import { AiImplementationInfo } from "../../../data/aiImplementations/aiImplementationDataType";
 import AiImplementationForm from "../AiImplementationForm";
 
 const LimitedWidthCard = styled(Card)`
@@ -10,11 +8,11 @@ const LimitedWidthCard = styled(Card)`
 `;
 
 interface AiImplementationRegistrationComponentProps {
-  onRegisterAiImplementation: (aiImplementation: AiImplementationInfo) => void;
+  onRegisterAiImplementation: (aiImplementation) => void;
 }
 
 const AiImplementationRegistrationComponent: React.FC<AiImplementationRegistrationComponentProps> = ({
-  onRegisterAiImplementation
+  onRegisterAiImplementation,
 }) => {
   return (
     <LimitedWidthCard>

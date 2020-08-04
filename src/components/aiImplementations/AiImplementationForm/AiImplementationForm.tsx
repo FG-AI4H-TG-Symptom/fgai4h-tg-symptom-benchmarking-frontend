@@ -2,16 +2,15 @@ import React from "react";
 import { FormContext, useForm } from "react-hook-form";
 import { Box, Button } from "@material-ui/core";
 
-import { AiImplementationInfo } from "../../../data/aiImplementations/aiImplementationDataType";
 import AutoTextField from "../../forms/AutoTextField";
 
 interface AiImplementationFormProps {
-  onSubmit: (aiImplementation: AiImplementationInfo) => void;
+  onSubmit: (aiImplementation) => void;
 }
 const AiImplementationForm: React.FC<AiImplementationFormProps> = ({
-  onSubmit
+  onSubmit,
 }) => {
-  const methods = useForm<AiImplementationInfo>({
+  const methods = useForm<any>({
     // todo: validation based on OpenAPI schema
   });
   const { handleSubmit } = methods;

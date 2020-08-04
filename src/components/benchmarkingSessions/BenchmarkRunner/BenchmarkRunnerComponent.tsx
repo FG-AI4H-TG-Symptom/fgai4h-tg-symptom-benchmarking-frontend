@@ -13,17 +13,10 @@ import {
   BenchmarkResultStatus,
   BenchmarkStepError,
 } from "../../../data/benchmarks/benchmarkInfoDataType";
-import { BenchmarkingSession } from "../../../data/benchmarks/benchmarkManagerDataType";
 
 import * as Styled from "./BenchmarkRunnerComponent.style";
 
-interface AiImplementationManagerComponentProps {
-  benchmarkingSession: BenchmarkingSession;
-  report: any;
-  AIs: any;
-}
-
-const BenchmarkRunnerComponent: React.FC<AiImplementationManagerComponentProps> = ({
+const BenchmarkRunnerComponent: React.FC<any> = ({
   benchmarkingSession,
   report,
   AIs,
