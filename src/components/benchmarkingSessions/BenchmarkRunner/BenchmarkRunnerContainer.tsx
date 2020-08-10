@@ -21,11 +21,15 @@ const BenchmarkRunnerContainer: React.FC<{}> = () => {
     (session) => session.id === benchmarkId
   );
 
+  if (!runningSession) {
+    return <div />;
+  }
   let progress = sessions.report.statistics
     ? (sessions.report.statistics.currentCaseIndex /
         sessions.report.statistics.totalCaseCount) *
       100
     : 0;
+
   if (runningSession.status === BenchmarkingSessionStatus.FINISHED) {
     progress = 100;
   }

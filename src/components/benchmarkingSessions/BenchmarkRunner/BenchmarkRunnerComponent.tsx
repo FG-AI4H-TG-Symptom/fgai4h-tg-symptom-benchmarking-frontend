@@ -56,6 +56,10 @@ const BenchmarkRunnerComponent: React.FC<any> = ({
                   responses.filter((caseReport) => {
                     const response = caseReport.responses[aiImplementationId];
 
+                    if (!response) {
+                      return false;
+                    }
+
                     return (
                       response.status === BenchmarkResultStatus.ERRORED &&
                       response.error !== BenchmarkStepError.TIMEOUT
@@ -69,6 +73,10 @@ const BenchmarkRunnerComponent: React.FC<any> = ({
                   responses.filter((caseReport) => {
                     const response = caseReport.responses[aiImplementationId];
 
+                    if (!response) {
+                      return false;
+                    }
+
                     return response.status === BenchmarkResultStatus.COMPLETED;
                   }).length
                 }
@@ -78,6 +86,10 @@ const BenchmarkRunnerComponent: React.FC<any> = ({
                 {
                   responses.filter((caseReport) => {
                     const response = caseReport.responses[aiImplementationId];
+
+                    if (!response) {
+                      return false;
+                    }
 
                     return (
                       response.status === BenchmarkResultStatus.ERRORED &&
