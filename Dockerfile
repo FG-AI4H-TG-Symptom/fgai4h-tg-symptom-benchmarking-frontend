@@ -1,14 +1,21 @@
 # Building stage
 # Just builds the app.
-FROM node:alpine
+FROM node:alpine as builder
+
+ARG REACT_APP_BACKEND_BASE_URL
+
+ENV REACT_APP_BACKEND_BASE_URL ${REACT_APP_BACKEND_BASE_URL}
 
 WORKDIR /app
 
 COPY package.json ./
 COPY package-lock.json ./
-RUN npm install --silent
+RUN npm ci --silent
 
-COPY . ./
+COPY ./src ./src
+COPY ./tsconfig.json ./tsconfig.json
+COPY ./public ./public
+COPY ./.env.development ./.env.development
 
 RUN npm run build
 
@@ -18,4 +25,4 @@ RUN npm run build
 FROM nginx:alpine
 COPY deploy/nginx.conf /etc/nginx/conf.d/default.conf
 
-COPY --from=0 /app/build /usr/share/nginx/html
+COPY --from=builder /app/build /usr/share/nginx/html
