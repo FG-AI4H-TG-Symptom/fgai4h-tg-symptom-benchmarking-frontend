@@ -10,7 +10,7 @@ WORKDIR /app
 
 COPY package.json ./
 COPY package-lock.json ./
-RUN npm ci --silent
+RUN npm ci
 
 COPY ./src ./src
 COPY ./tsconfig.json ./tsconfig.json
