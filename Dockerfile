@@ -2,9 +2,8 @@
 # Just builds the app.
 FROM node:alpine as builder
 
+# For setting the backend URL during build
 ARG REACT_APP_BACKEND_BASE_URL
-
-ENV REACT_APP_BACKEND_BASE_URL ${REACT_APP_BACKEND_BASE_URL}
 
 WORKDIR /app
 
