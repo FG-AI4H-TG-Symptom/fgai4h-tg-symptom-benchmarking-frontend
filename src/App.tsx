@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Switch, Route, useLocation } from "react-router-dom";
 import {
   AppBar,
@@ -21,10 +21,21 @@ import logo from "./logo.svg";
 import { RootState } from "./data/rootReducer";
 import Error from "./components/common/Error";
 import Notifications from "./components/common/Notifications";
+import { fetchAIs } from "./data/aiDuck";
+import { fetchDatasets } from "./data/datasetDuck";
+import { fetchSessions } from "./data/sessionsDuck";
 
 const App: React.FC<{}> = () => {
   const location = useLocation();
 
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchAIs());
+    dispatch(fetchDatasets());
+    dispatch(fetchSessions());
+  }, []);
+
+  
   const fatalError = useSelector<RootState, string>(
     state => state.application.fatalError
   );

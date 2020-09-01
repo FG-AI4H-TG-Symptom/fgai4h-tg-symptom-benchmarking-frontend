@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-import { Button, Box } from "@material-ui/core";
+import MuiAlert from "@material-ui/lab/Alert";
+import { Button, Box, Snackbar } from "@material-ui/core";
 
 import CaseSetManagerComponent from "./CaseSetManagerComponent";
 import BasicPageLayout from "../../common/BasicPageLayout";
@@ -13,19 +13,59 @@ import { fetchDatasets, deleteDataset } from "../../../data/datasetDuck";
 const CaseSetManagerContainer: React.FC<{}> = () => {
   const dispatch = useDispatch();
 
+  const [error, setError] = useState("");
+  const [errorOpen, setErrorOpen] = useState(false);
+
+  const handleCloseError = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setErrorOpen(false);
+  };
+
+  function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
+
+  const datasetsList = useSelector((state: any) => state.datasets.list);
+  const sessions = useSelector((state: any) => state.sessions.list);
+
   // fetch Datasets once, when the component is mounted
   useEffect(() => {
     dispatch(fetchDatasets());
+    // setError("");
   }, []);
 
-  const datasetsList = useSelector((state: any) => state.datasets.list);
-
   const deleteCaseSet = (caseSetId: string): void => {
+    const sessionUsingThisCaseSet = sessions
+      .filter((session) => session.caseSet === caseSetId)
+      .map((session) => session.id);
+
+    if (sessionUsingThisCaseSet.length > 0) {
+      setError(
+        `Please first delete Benchmarking sessions with the following IDs: ${sessionUsingThisCaseSet.join(
+          ", "
+        )} `
+      );
+      setErrorOpen(true);
+      return;
+    }
+
     dispatch(deleteDataset({ caseSetId }));
   };
 
   return (
     <BasicPageLayout title="Case sets">
+      <Snackbar
+        open={errorOpen}
+        autoHideDuration={6000}
+        onClose={handleCloseError}
+      >
+        <Alert onClose={handleCloseError} severity="error">
+          {error}
+        </Alert>
+      </Snackbar>
+
       <CaseSetManagerComponent
         datasetsList={datasetsList}
         deleteCaseSet={deleteCaseSet}
