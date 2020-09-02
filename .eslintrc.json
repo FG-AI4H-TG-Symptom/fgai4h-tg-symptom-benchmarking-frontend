@@ -24,6 +24,7 @@
     "ServiceWorkerRegistration": true
   },
   "rules": {
+    "operator-assignment": "off",
     "no-shadow": "off",
     "import/extensions": "off",
     "no-underscore-dangle": "off",

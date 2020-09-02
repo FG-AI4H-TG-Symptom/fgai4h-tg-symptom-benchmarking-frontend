@@ -23,6 +23,7 @@ import { paths } from "../../../routes";
 import * as Styled from "./CaseSetManagerComponent.style";
 import * as CommonStyled from "../../common/CommonStyles";
 import ConfirmationIconButton from "../../common/ConfirmationIconButton";
+import formatDate from "../../../util/formatDate";
 
 const LONDON_CASE_SET_ID = "london_model2019_cases_v1";
 
@@ -50,7 +51,7 @@ const CaseSetManagerComponent: React.FC<any> = ({
             return (
               <TableRow key={id}>
                 <TableCell>{name}</TableCell>
-                <TableCell>{date.toLocaleDateString()}</TableCell>
+                <TableCell>{formatDate(date)}</TableCell>
                 <TableCell>{cases.length}</TableCell>
                 <TableCell>
                   {id === LONDON_CASE_SET_ID ? (

@@ -13,11 +13,13 @@ import {
   Grid,
   Radio,
   RadioGroup,
+  Typography,
 } from "@material-ui/core";
 import { ArrowForward as StartIcon } from "@material-ui/icons";
 import { useForm, ValidationResolver } from "react-hook-form";
 
 import ErrorIndicator from "../../common/ErrorIndicator";
+import formatDate from "../../../util/formatDate";
 
 interface FormData {
   aiImplementations: boolean[];
@@ -87,14 +89,26 @@ const BenchmarkCreatorComponent: React.FC<any> = ({
                   aria-label="case set"
                   defaultValue={defaultCaseSetId}
                 >
-                  {caseSetList.map(({ id, name }) => (
-                    <FormControlLabel
-                      key={id}
-                      value={id}
-                      control={<Radio name="caseSetId" inputRef={register} />}
-                      label={name}
-                    />
-                  ))}
+                  {caseSetList.map(({ id, name, createdOn }) => {
+                    const date = new Date(createdOn);
+
+                    return (
+                      <FormControlLabel
+                        style={{ marginBottom: "20px" }}
+                        key={id}
+                        value={id}
+                        control={<Radio name="caseSetId" inputRef={register} />}
+                        label={
+                          <div>
+                            <Typography variant="subtitle1">{name}</Typography>
+                            <Typography variant="caption" color="secondary">
+                              {formatDate(date)}
+                            </Typography>
+                          </div>
+                        }
+                      />
+                    );
+                  })}
                 </RadioGroup>
                 <FormHelperText>Select exactly one</FormHelperText>
               </FormControl>
