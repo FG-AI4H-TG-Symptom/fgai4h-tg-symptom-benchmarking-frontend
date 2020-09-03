@@ -6,7 +6,7 @@ import {
   CardActions,
   CardActionArea,
   Typography,
-  CardMedia
+  CardMedia,
 } from "@material-ui/core";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -20,14 +20,14 @@ interface Props {
   addNewLink: string;
 }
 
-const DashboardCard: React.FC<Props> = props => {
+const DashboardCard: React.FC<Props> = (props) => {
   const useStyles = makeStyles({
     root: {
-      maxWidth: 345
+      maxWidth: 345,
     },
     media: {
-      height: 140
-    }
+      height: 140,
+    },
   });
 
   const classes = useStyles();
@@ -35,11 +35,14 @@ const DashboardCard: React.FC<Props> = props => {
   return (
     <Card className={classes.root}>
       <CardActionArea>
-        <CardMedia
-          style={{ height: 0, marginTop: "30", paddingTop: "56.25%" }}
-          image={props.image}
-          title={props.title}
-        />
+        <LinkWrapper to={props.link}>
+          <CardMedia
+            style={{ height: 0, marginTop: "30", paddingTop: "56.25%" }}
+            image={props.image}
+            title={props.title}
+          />
+        </LinkWrapper>
+
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
             {props.title}
