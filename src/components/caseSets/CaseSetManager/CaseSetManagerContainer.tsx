@@ -74,17 +74,17 @@ const CaseSetManagerContainer: React.FC<{}> = () => {
         <Box>
           <LinkWrapper to={paths.caseSetGenerator()}>
             <Button variant="contained" color="primary">
-              Generate Dataset
+              Generate Case Set
             </Button>
           </LinkWrapper>
         </Box>
-        <Box ml={1}>
+        {/* <Box ml={1}>
           <LinkWrapper to={paths.datasetCreator()}>
             <Button variant="contained" color="primary">
               Create Empty Dataset
             </Button>
           </LinkWrapper>
-        </Box>
+        </Box> */}
       </Box>
     </BasicPageLayout>
   );
