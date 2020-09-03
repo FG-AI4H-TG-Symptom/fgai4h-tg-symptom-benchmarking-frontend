@@ -23,13 +23,13 @@ import {
 
 import berlinModelSchema from "../../../data/caseSets/berlinModel.schema.json";
 import { CaseSetInfo } from "../../../data/caseSets/caseSetDataType";
-import { paths } from "../../../routes";
+// import { paths } from "../../../routes";
 import AllErrors from "../../forms/AllErrors";
 import AutoTextField from "../../forms/AutoTextField";
 import { validateAgainstSchema } from "../../forms/utils";
 import ConfirmationIconButton from "../../common/ConfirmationIconButton";
 import Fab from "../../common/Fab";
-import LinkWrapper from "../../common/LinkWrapper";
+// import LinkWrapper from "../../common/LinkWrapper";
 
 // we're not editing the cases in this form, so it's easiest to remove them from the schema
 delete berlinModelSchema.properties.cases;
@@ -120,11 +120,11 @@ const CaseSetEditor: React.FC<CaseSetEditorProps> = ({
                       <UnlinkIcon />
                     </ConfirmationIconButton>
 
-                    <LinkWrapper to={paths.caseEditor(caseSet.id, case_.id)}>
-                      <IconButton>
+                    {/* <LinkWrapper to={paths.caseEditor(caseSet.id, case_.id)}> */}
+                      <IconButton disabled>
                         <EditIcon />
                       </IconButton>
-                    </LinkWrapper>
+                    {/* </LinkWrapper> */}
 
                     {/* <LinkWrapper to={paths.simpleCaseEditor(caseSet.id, case_.id)}>
                       <IconButton>
