@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { IconButton, Tooltip } from "@material-ui/core";
-import { Add as CreateIcon } from "@material-ui/icons";
+import { Box, Button } from "@material-ui/core";
 import { paths } from "../../../routes";
 import { fetchAIs, deleteAI } from "../../../data/aiDuck";
 
@@ -12,7 +11,7 @@ import AiImplementationManagerComponent from "./AiImplementationManagerComponent
 const AiImplementationManagerContainer: React.FC<{}> = () => {
   const dispatch = useDispatch();
 
-  const deleteAiImplementation = aiId => {
+  const deleteAiImplementation = (aiId) => {
     dispatch(deleteAI(aiId));
   };
 
@@ -25,23 +24,20 @@ const AiImplementationManagerContainer: React.FC<{}> = () => {
   const aisHealth = useSelector((state: any) => state.AIs.health);
 
   return (
-    <BasicPageLayout
-      title="AI implementations"
-      action={
-        <LinkWrapper to={paths.aiImplementationRegistration()}>
-          <Tooltip title="Register new AI implementation">
-            <IconButton>
-              <CreateIcon />
-            </IconButton>
-          </Tooltip>
-        </LinkWrapper>
-      }
-    >
+    <BasicPageLayout title="AI implementations">
       <AiImplementationManagerComponent
         aiImplementations={aisList}
         aisHealth={aisHealth}
         deleteAiImplementation={deleteAiImplementation}
       />
+
+      <Box display="flex" justifyContent="flex-end" mt={2}>
+        <LinkWrapper to={paths.aiImplementationRegistration()}>
+          <Button variant="contained" color="primary">
+            Add AI implementation
+          </Button>
+        </LinkWrapper>
+      </Box>
     </BasicPageLayout>
   );
 };

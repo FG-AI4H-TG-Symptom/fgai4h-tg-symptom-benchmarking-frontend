@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { IconButton, Tooltip } from "@material-ui/core";
-import { Add as CreateIcon } from "@material-ui/icons";
+import { Box, Button } from "@material-ui/core";
 
 import BenchmarkingSessionManagerComponent from "./BenchmarkingSessionManagerComponent";
 import BasicPageLayout from "../../common/BasicPageLayout";
@@ -38,26 +37,25 @@ const BenchmarkingSessionManagerContainer: React.FC<{}> = () => {
   const aisList = useSelector((state: any) => state.AIs.list);
 
   return (
-    <BasicPageLayout
-      title="Benchmarking sessions"
-      action={
-        <LinkWrapper to={paths.benchmarkCreate()}>
-          <Tooltip title="Create benchmarking session">
-            <IconButton>
-              <CreateIcon />
-            </IconButton>
-          </Tooltip>
-        </LinkWrapper>
-      }
-    >
+    <BasicPageLayout title="Benchmarking sessions">
       {datasetsList && (
-        <BenchmarkingSessionManagerComponent
-          benchmarkingSessions={sessionsList}
-          datasets={datasetsList}
-          AIs={aisList}
-          deleteBenchmarkingSession={deleteBenchmarkingSession}
-          runBenchmarkingSession={runBenchmarkingSession}
-        />
+        <>
+          <BenchmarkingSessionManagerComponent
+            benchmarkingSessions={sessionsList}
+            datasets={datasetsList}
+            AIs={aisList}
+            deleteBenchmarkingSession={deleteBenchmarkingSession}
+            runBenchmarkingSession={runBenchmarkingSession}
+          />
+
+          <Box display="flex" justifyContent="flex-end" mt={2}>
+            <LinkWrapper to={paths.benchmarkCreate()}>
+              <Button variant="contained" color="primary">
+                Create Benchmarking Session
+              </Button>
+            </LinkWrapper>
+          </Box>
+        </>
       )}
     </BasicPageLayout>
   );
