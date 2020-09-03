@@ -76,7 +76,7 @@ const CaseSetViewerTable: React.FC<CaseSetComponentProps> = ({
             {cases
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((case_) => {
-                const { caseData } = case_.data;
+                const { metaData, caseData } = case_.data;
                 return (
                   <TableRow key={case_.id}>
                     <Styled.CaseIdCell>
@@ -85,17 +85,17 @@ const CaseSetViewerTable: React.FC<CaseSetComponentProps> = ({
 
                     <TableCell>
                       WhatIsCaseCreator?
-                      {/* {case_.data.metaData.caseCreator} */}
+                      {/* {metaData.caseCreator} */}
                     </TableCell>
 
                     <Styled.CaseDescriptionCell>
                       <TextWithTooltipSelf>
-                        {caseData.metaData?.description}
+                        {metaData?.description}
                       </TextWithTooltipSelf>
                     </Styled.CaseDescriptionCell>
 
                     <TableCell>
-                      {caseData.metaData?.spreadsheetCaseId}
+                      {metaData?.spreadsheetCaseId}
                     </TableCell>
                     <TableCell>{caseData.profileInformation.age}</TableCell>
                     <TableCell>
@@ -126,7 +126,7 @@ const CaseSetViewerTable: React.FC<CaseSetComponentProps> = ({
                       )}
                     </TableCell>
                     <TableCell>
-                      {case_.data.valuesToPredict.condition?.name}
+                      {case_.data.valuesToPredict.expectedCondition?.name}
                     </TableCell>
                     <TableCell>
                       {case_.data.valuesToPredict.expectedTriageLevel}
