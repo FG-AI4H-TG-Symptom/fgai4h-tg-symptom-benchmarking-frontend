@@ -18,7 +18,7 @@ const ViewRawFooter: React.FC<{ data: any; ariaPrefix: string }> = ({
       aria-controls={`${ariaPrefix}-content`}
       id={`${ariaPrefix}-header`}
     >
-      View Raw
+      View Raw Evalution Response
     </ExpansionPanelSummary>
     <ExpansionPanelDetails id={`${ariaPrefix}-content`}>
       <ViewRaw data={data} />

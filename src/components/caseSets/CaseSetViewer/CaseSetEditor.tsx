@@ -19,6 +19,8 @@ import {
   Save as SaveIcon,
 } from "@material-ui/icons";
 
+// import AdbIcon from '@material-ui/icons/Adb';
+
 import berlinModelSchema from "../../../data/caseSets/berlinModel.schema.json";
 import { CaseSetInfo } from "../../../data/caseSets/caseSetDataType";
 import { paths } from "../../../routes";
@@ -43,7 +45,7 @@ const validationResolver: ValidationResolver<CaseSetInfo> = (values) =>
   validateAgainstSchema(values, caseSetSchemaValidator);
 
 export interface CaseSetEditorProps {
-  caseSet: CaseSetInfo;
+  caseSet: any;
   saveCaseSet: (caseSet: CaseSetInfo) => void;
   deleteCase: any;
 }
@@ -60,7 +62,6 @@ const CaseSetEditor: React.FC<CaseSetEditorProps> = ({
   });
 
   return (
-    // eslint-disable-next-line react/jsx-props-no-spreading
     <FormContext handleSubmit={handleSubmit} errors={errors} {...formMethods}>
       <form
         onSubmit={handleSubmit((data) => saveCaseSet({ ...caseSet, ...data }))}
@@ -88,11 +89,11 @@ const CaseSetEditor: React.FC<CaseSetEditorProps> = ({
                   <Avatar>{index + 1}</Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary={case_.data.caseData.metaData?.description}
+                  primary={case_.data.metaData.name}
                   secondary={
                     <>
-                      {case_.data.caseData.presentingComplaints[0]?.name} –{" "}
-                      {case_.data.valuesToPredict.condition?.name}
+                      {case_.data.caseData.presentingComplaints[0].name} –{" "}
+                      {case_.data.valuesToPredict.correctCondition.name}
                     </>
                   }
                 />
@@ -118,11 +119,20 @@ const CaseSetEditor: React.FC<CaseSetEditorProps> = ({
                     >
                       <UnlinkIcon />
                     </ConfirmationIconButton>
+
                     <LinkWrapper to={paths.caseEditor(caseSet.id, case_.id)}>
                       <IconButton>
                         <EditIcon />
                       </IconButton>
                     </LinkWrapper>
+
+                    {/* <LinkWrapper to={paths.simpleCaseEditor(caseSet.id, case_.id)}>
+                      <IconButton>
+                        <AdbIcon/>
+                      </IconButton>
+                    </LinkWrapper> */}
+
+
                   </>
                 </ListItemSecondaryAction>
               </ListItem>

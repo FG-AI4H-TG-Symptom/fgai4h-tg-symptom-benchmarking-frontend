@@ -33,7 +33,6 @@ const CaseSetManagerContainer: React.FC<{}> = () => {
   // fetch Datasets once, when the component is mounted
   useEffect(() => {
     dispatch(fetchDatasets());
-    // setError("");
   }, []);
 
   const deleteCaseSet = (caseSetId: string): void => {

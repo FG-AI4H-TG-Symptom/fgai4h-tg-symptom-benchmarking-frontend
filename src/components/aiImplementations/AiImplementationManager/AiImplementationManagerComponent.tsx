@@ -38,7 +38,7 @@ const AiImplementationManagerComponent: React.FC<AiImplementationManagerComponen
           <caption>{aiImplementations.length} AI implementations</caption>
           <TableHead>
             <TableRow>
-              <TableCell>Name</TableCell>
+              <TableCell>AI Implementation</TableCell>
               <TableCell>Created On</TableCell>
               <TableCell>Health</TableCell>
               <TableCell>Actions</TableCell>
