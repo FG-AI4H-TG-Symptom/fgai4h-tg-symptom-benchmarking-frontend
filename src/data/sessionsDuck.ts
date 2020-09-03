@@ -1,4 +1,3 @@
-/* eslint-disable no-shadow */
 /* eslint-disable prefer-const */
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */

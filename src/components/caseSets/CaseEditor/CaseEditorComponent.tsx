@@ -91,7 +91,6 @@ const CaseEditorComponent: React.FC<CaseSetEditorProps> = ({
   });
 
   return (
-    // eslint-disable-next-line react/jsx-props-no-spreading
     <FormContext errors={errors} handleSubmit={handleSubmit} {...formMethods}>
       <Box marginBottom={2}>
         <Alert variant="outlined" severity="warning">

@@ -17,7 +17,6 @@ const AiImplementationForm: React.FC<AiImplementationFormProps> = ({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
       <FormContext {...methods}>
         <AutoTextField name="name" type="text" label="Name" />
         <AutoTextField name="baseUrl" type="text" label="Base URL" />
