@@ -19,7 +19,7 @@ const CaseSetCreatorContainer: React.FC<{}> = () => {
   };
 
   return (
-    <BasicPageLayout title="Generate a new case set">
+    <BasicPageLayout title="Generate new case set">
       <CaseSetGeneratorComponent onCreateCaseSet={createCaseSet} />
     </BasicPageLayout>
   );

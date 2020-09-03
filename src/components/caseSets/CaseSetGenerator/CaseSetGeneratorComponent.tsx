@@ -5,44 +5,15 @@ import {
   Card,
   CardContent,
   CardHeader,
-  Grid,
   TextField,
 } from "@material-ui/core";
 import { ArrowForward as StartIcon } from "@material-ui/icons";
 import { useForm } from "react-hook-form";
 
-import ErrorIndicator from "../../common/ErrorIndicator";
-
 interface FormData {
   numberOfCases: number;
+  name: string;
 }
-type RawFormData = {
-  [fieldName in keyof FormData]?: string;
-};
-
-const validationResolver = (rawValues: RawFormData) => {
-  const errors: { [fieldName in keyof FormData]?: string } = {};
-  const values: Partial<FormData> = {};
-
-  try {
-    values.numberOfCases = parseFloat(rawValues.numberOfCases);
-  } catch (error) {
-    errors.numberOfCases = "Not a number";
-  }
-
-  if (values.numberOfCases <= 0) {
-    errors.numberOfCases = "Enter a non-zero number of cases";
-  }
-  if (values.numberOfCases > 200) {
-    errors.numberOfCases = "Please select a number of cases not exceeding 200";
-  }
-
-  const valid = Object.keys(errors).length === 0;
-
-  return valid
-    ? { values: values as FormData, errors: {} }
-    : { values: {}, errors };
-};
 
 interface CaseSetCreatorComponentProps {
   onCreateCaseSet: (caseSetParameters) => void;
@@ -52,50 +23,81 @@ const CaseSetGeneratorComponent: React.FC<CaseSetCreatorComponentProps> = ({
   onCreateCaseSet,
 }) => {
   const { register, handleSubmit, errors } = useForm<FormData>({
-    validationResolver: validationResolver as any,
     defaultValues: {
       numberOfCases: 10,
     },
   });
 
-  const onSubmit = ({ numberOfCases }: FormData): void => {
+  const onSubmit = (data) => {
     onCreateCaseSet({
-      numberOfCases,
+      numberOfCases: data.numberOfCases,
     });
+  };
+
+  const nameValidation = {
+    required: "Name is required",
+    minLength: {
+      value: 4,
+      message: "Should be at least 4 characters",
+    },
+    maxLength: {
+      value: 200,
+      message: "Should not exceed 200 characters",
+    },
+  };
+
+  const numberOfCasesValidation = {
+    required: "Please enter number of cases",
+    min: {
+      value: 0,
+      message: "Can't be negative",
+    },
+    max: {
+      value: 200,
+      message: "Should be at least 4 characters",
+    },
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={6}>
-          <Card>
-            <CardHeader
-              title="Basic parameters"
-              action={<ErrorIndicator error={errors.numberOfCases as any} />}
+      <Card style={{ maxWidth: "40rem" }}>
+        <CardHeader title="Parameters" />
+        <CardContent>
+          <TextField
+            inputRef={register(nameValidation)}
+            name="name"
+            label="Name"
+            type="string"
+            placeholder="Enter Case Set Name"
+            fullWidth
+            error={Boolean(errors.name)}
+            helperText={errors.name && errors.name.message}
+          />
+
+          <Box mt={2}>
+            <TextField
+              inputRef={register(numberOfCasesValidation)}
+              name="numberOfCases"
+              label="Number of cases"
+              type="number"
+              error={Boolean(errors.numberOfCases)}
+              helperText={errors.numberOfCases && errors.numberOfCases.message}
+              fullWidth
             />
-            <CardContent>
-              <TextField
-                inputRef={register}
-                name="numberOfCases"
-                label="Number of cases"
-                type="number"
-                error={Boolean(errors.numberOfCases)}
-                helperText={errors.numberOfCases}
-              />
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
-      <Box display="flex" justifyContent="flex-end" marginTop={4}>
-        <Button
-          variant="contained"
-          color="primary"
-          endIcon={<StartIcon />}
-          type="submit"
-        >
-          Generate case set
-        </Button>
-      </Box>
+          </Box>
+
+          <Box display="flex" justifyContent="flex-end" marginTop={4}>
+            <Button
+              variant="contained"
+              color="primary"
+              endIcon={<StartIcon />}
+              type="submit"
+            >
+              Generate case set
+            </Button>
+          </Box>
+        </CardContent>
+      </Card>
     </form>
   );
 };
