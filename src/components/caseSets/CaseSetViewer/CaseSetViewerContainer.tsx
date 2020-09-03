@@ -24,6 +24,7 @@ const CaseSetViewerContainer: React.FC<{}> = () => {
   }, []);
 
   const fullDataset = useSelector((state: any) => state.datasets.fullDataset);
+  console.log(fullDataset)
 
   const saveCaseSet = (editedCaseSet: CaseSetInfo): void => {
     dispatch(saveDataset(editedCaseSet));

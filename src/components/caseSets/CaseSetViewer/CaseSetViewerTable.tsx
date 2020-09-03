@@ -60,8 +60,9 @@ const CaseSetViewerTable: React.FC<CaseSetComponentProps> = ({
           <caption>{cases.length} cases</caption>
           <TableHead>
             <TableRow>
+              {/* Add case creator when users exist */}
               <Styled.CaseIdCell>Case ID</Styled.CaseIdCell>
-              <TableCell>Case creator</TableCell>
+              <TableCell>Name</TableCell>
               <TableCell>Description</TableCell>
               <TableCell>Spreadsheet case ID</TableCell>
               <TableCell>Age</TableCell>
@@ -76,7 +77,7 @@ const CaseSetViewerTable: React.FC<CaseSetComponentProps> = ({
             {cases
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((case_) => {
-                const { metaData, caseData } = case_.data;
+                const { caseData } = case_.data;
                 return (
                   <TableRow key={case_.id}>
                     <Styled.CaseIdCell>
@@ -84,18 +85,17 @@ const CaseSetViewerTable: React.FC<CaseSetComponentProps> = ({
                     </Styled.CaseIdCell>
 
                     <TableCell>
-                      WhatIsCaseCreator?
-                      {/* {metaData.caseCreator} */}
+                      {caseData.metaData?.name}
                     </TableCell>
 
                     <Styled.CaseDescriptionCell>
                       <TextWithTooltipSelf>
-                        {metaData?.description}
+                        {caseData.metaData?.description}
                       </TextWithTooltipSelf>
                     </Styled.CaseDescriptionCell>
 
                     <TableCell>
-                      {metaData?.spreadsheetCaseId}
+                      {caseData.metaData?.spreadsheetCaseId}
                     </TableCell>
                     <TableCell>{caseData.profileInformation.age}</TableCell>
                     <TableCell>
