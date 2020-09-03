@@ -4,7 +4,7 @@ import Ajv from "ajv";
 import {
   Avatar,
   Box,
-  Button,
+  // Button,
   IconButton,
   List,
   ListItem,
@@ -139,11 +139,11 @@ const CaseSetEditor: React.FC<CaseSetEditorProps> = ({
             );
           })}
         </List>
-        <Box padding={2}>
+        {/* <Box padding={2}>
           <LinkWrapper to={paths.addCase(caseSet.id)}>
             <Button>Add case</Button>
           </LinkWrapper>
-        </Box>
+        </Box> */}
       </form>
     </FormContext>
   );
