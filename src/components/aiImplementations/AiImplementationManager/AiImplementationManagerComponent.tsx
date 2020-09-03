@@ -9,6 +9,7 @@ import {
   TableHead,
   TableRow,
   Tooltip,
+  Typography,
 } from "@material-ui/core";
 import {
   Delete as DeleteIcon,
@@ -50,7 +51,14 @@ const AiImplementationManagerComponent: React.FC<AiImplementationManagerComponen
               const date = new Date(createdOn);
               return (
                 <TableRow key={id}>
-                  <TableCell>{name}</TableCell>
+                  <TableCell>
+                    <div>
+                      <Typography variant="subtitle1">{name}</Typography>
+                      <Typography variant="caption" color="secondary">
+                        {id}
+                      </Typography>
+                    </div>
+                  </TableCell>
                   <TableCell>{date.toLocaleDateString()}</TableCell>
                   <TableCell>
                     <AiImplementationHealthComponent health={health} />
