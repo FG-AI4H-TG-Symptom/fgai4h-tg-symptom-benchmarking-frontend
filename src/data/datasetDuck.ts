@@ -174,8 +174,7 @@ function* fetchDatasetsWorker() {
 }
 
 function* synthesizeDatasetWorker(action) {
-  // action has type and payload, the payload contains the number of cases
-  const { numberOfCases } = action.payload;
+  const { numberOfCases, name } = action.payload;
 
   try {
     const response: Response = yield fetch(urlBuilder("case-sets/synthesize"), {
@@ -184,6 +183,7 @@ function* synthesizeDatasetWorker(action) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        name: name,
         casesPerCaseset: numberOfCases,
         quantityOfCasesets: 1,
       }),
@@ -277,37 +277,39 @@ function* saveCaseWorker(action) {
   const { caseData, metaData, valuesToPredict } = action.payload.data;
   const { caseSetId } = action.payload;
 
+  console.log("action.payload.data", action.payload.data);
+  yield
   // replace once berlin model is supported everywhere
-  const requestBody = {
-    data: {
-      caseData: { ...caseData, metaData: metaData },
-      valuesToPredict: {
-        ...valuesToPredict,
-        condition: valuesToPredict.correctCondition,
-      },
-    },
-    caseSets: [caseSetId],
-  };
+//   const requestBody = {
+//     data: {
+//       caseData: { ...caseData, metaData: metaData },
+//       valuesToPredict: {
+//         ...valuesToPredict,
+//         condition: valuesToPredict.correctCondition,
+//       },
+//     },
+//     caseSets: [caseSetId],
+//   };
 
-  try {
-    const response: Response = yield fetch(urlBuilder("cases"), {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(requestBody),
-    });
+//   try {
+//     const response: Response = yield fetch(urlBuilder("cases"), {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify(requestBody),
+//     });
 
-    if (!response.ok) {
-      throw new Error(httpResponseErrorMessage(response));
-    }
+//     if (!response.ok) {
+//       throw new Error(httpResponseErrorMessage(response));
+//     }
 
-    const savedCase = yield response.json();
+//     const savedCase = yield response.json();
 
-    yield put(saveCaseSuccess(savedCase));
-  } catch (error) {
-    yield put(saveCaseFailure(`Failed to create case set: ${error.message}`));
-  }
+//     yield put(saveCaseSuccess(savedCase));
+//   } catch (error) {
+//     yield put(saveCaseFailure(`Failed to create case set: ${error.message}`));
+//   }
 }
 
 function* deleteCaseWorker(action) {

@@ -10,6 +10,7 @@ import {
   TableHead,
   TableRow,
   Tooltip,
+  Typography,
 } from "@material-ui/core";
 import {
   ViewList as ViewEditIcon,
@@ -50,7 +51,14 @@ const CaseSetManagerComponent: React.FC<any> = ({
 
             return (
               <TableRow key={id}>
-                <TableCell>{name}</TableCell>
+                <TableCell>
+                  <div>
+                    <Typography variant="subtitle1">{name}</Typography>
+                    <Typography variant="caption" color="secondary">
+                      {id}
+                    </Typography>
+                  </div>
+                </TableCell>
                 <TableCell>{formatDate(date)}</TableCell>
                 <TableCell>{cases.length}</TableCell>
                 <TableCell>
