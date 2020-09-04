@@ -53,7 +53,7 @@ const ConfirmationIconButton: React.FC<ConfirmationIconButtonProps> = ({
   const animationInterval = useRef<number>();
   const startConfirmation = (): void => {
     let currentProgress = 0;
-    animationInterval.current = setInterval(() => {
+    animationInterval.current = window.setInterval(() => {
       if (currentProgress > 100) {
         onConfirmed();
         clearInterval(animationInterval.current);
