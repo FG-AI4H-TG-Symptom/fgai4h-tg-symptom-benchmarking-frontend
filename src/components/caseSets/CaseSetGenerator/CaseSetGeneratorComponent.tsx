@@ -31,6 +31,7 @@ const CaseSetGeneratorComponent: React.FC<CaseSetCreatorComponentProps> = ({
   const onSubmit = (data) => {
     onCreateCaseSet({
       numberOfCases: data.numberOfCases,
+      name: data.name
     });
   };
 
