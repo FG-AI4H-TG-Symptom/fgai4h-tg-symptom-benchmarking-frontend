@@ -4,7 +4,7 @@ import { useHistory, useParams } from "react-router-dom";
 
 import { paths } from "../../../routes";
 import BasicPageLayout from "../../common/BasicPageLayout";
-import { fetchAI } from "../../../data/aiDuck";
+import { fetchAI, updateAI } from "../../../data/aiDuck";
 import AiImplementationEditorComponent from "./AiImplementationEditorComponent";
 
 const AiImplementationEditorContainer: React.FC<{}> = () => {
@@ -19,9 +19,8 @@ const AiImplementationEditorContainer: React.FC<{}> = () => {
 
   const editingAI = useSelector((state: any) => state.AIs.editingAI);
 
-  // eslint-disable-next-line no-unused-vars
   const saveAiImplementation = (aiImplementation) => {
-    // TODO: dispatch(saveAI(aiImplementation));
+    dispatch(updateAI({...aiImplementation, id: editingAI.id}));
     history.push(paths.aiImplementationManager());
   };
 

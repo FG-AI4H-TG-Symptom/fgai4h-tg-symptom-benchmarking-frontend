@@ -39,6 +39,18 @@ const slice = createSlice({
       AIs.error = action.payload;
       AIs.loading = false;
     },
+    // update AI
+    updateAI: (AIs, action) => {
+      AIs.loading = true;
+    },
+    updateAISuccess: (AIs, action) => {
+      AIs.error = null;
+      AIs.loading = false;
+    },
+    updateAIFailure: (AIs, action) => {
+      AIs.error = action.payload;
+      AIs.loading = false;
+    },
     // fetch AI health
     fetchAiHealth: (AIs, action) => {},
     fetchAiHealthSuccess: (AIs, action) => {
@@ -77,10 +89,12 @@ const {
   fetchAIsSuccess,
   fetchAIsFailure,
   fetchAISuccess,
-  fetchAIFailure
+  fetchAIFailure,
+  updateAISuccess,
+  updateAIFailure
 } = slice.actions;
 
-export const { fetchAIs, fetchAI, addAI, deleteAI } = slice.actions;
+export const { fetchAIs, fetchAI, updateAI, addAI, deleteAI } = slice.actions;
 export default slice.reducer;
 
 // SAGAS /////////////////////////
@@ -164,6 +178,43 @@ function* fetchAIHealthWorker(action) {
   }
 }
 
+function* updateAIWorker(action) {
+  const ai = action.payload;
+
+  try {
+    const response = yield fetch(
+      urlBuilder(`ai-implementations/${ai.id}`),
+
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name: ai.name,
+          baseUrl: ai.baseUrl
+        })
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(httpResponseErrorMessage(response));
+    }
+
+    const updatedAI = yield response.json();
+    console.log(updatedAI)
+    yield put(
+      updateAISuccess({updatedAI: updatedAI})
+    );
+  } catch (error) {
+    yield put(
+      updateAIFailure(
+        `Failed to update AI implementation: ${error.message}`
+      )
+    );
+  }
+}
+
 function* deleteAIworker(action) {
   // action has type and payload, the payload contains the id
   const aiImplementationId = action.payload;
@@ -238,12 +289,17 @@ function* fetchAiHealthWatcher() {
   yield takeEvery(fetchAiHealth.type, fetchAIHealthWorker);
 }
 
+function* updateAIWatcher() {
+  yield takeEvery(updateAI.type, updateAIWorker);
+}
+
 export function* rootAiSaga() {
   yield all([
     addAiWatcher(),
     deleteAiWatcher(),
     fetchAIsWatcher(),
     fetchAIWatcher(),
-    fetchAiHealthWatcher()
+    fetchAiHealthWatcher(),
+    updateAIWatcher()
   ]);
 }

@@ -13,7 +13,7 @@ import {
 } from "@material-ui/core";
 import {
   Delete as DeleteIcon,
-  ViewList as ViewEditIcon
+  Edit as EditIcon
 } from "@material-ui/icons";
 
 import ConfirmationIconButton from "../../common/ConfirmationIconButton";
@@ -67,10 +67,10 @@ const AiImplementationManagerComponent: React.FC<AiImplementationManagerComponen
                   </TableCell>
                   <TableCell>
                     <LinkWrapper to={paths.aiImplementationEditor(id)}>
-                      <Tooltip title="View / edit">
+                      <Tooltip title="Edit">
                       <span>
                         <IconButton aria-label="view">
-                          <ViewEditIcon />
+                          <EditIcon />
                         </IconButton>
                       </span>
                       </Tooltip>
