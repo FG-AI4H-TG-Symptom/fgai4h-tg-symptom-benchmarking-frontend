@@ -7,7 +7,7 @@ import urlBuilder from "./util/urlBuilder";
 import httpResponseErrorMessage from "./util/httpResponseErrorMessage";
 
 // REDUCER
-const initialAIstate = { list: [], loading: false, error: null, health: {} };
+const initialAIstate = { list: [], editingAI: null, loading: false, error: null, health: {} };
 
 const slice = createSlice({
   name: "AIs",
@@ -22,6 +22,20 @@ const slice = createSlice({
       AIs.error = null;
     },
     fetchAIsFailure: (AIs, action) => {
+      AIs.error = action.payload;
+      AIs.loading = false;
+    },
+    // fetch single AI
+    fetchAI: (AIs, action) => {
+      AIs.editingAI = null;
+      AIs.loading = true;
+    },
+    fetchAISuccess: (AIs, action) => {
+      AIs.editingAI = action.payload.editingAI;
+      AIs.error = null;
+      AIs.loading = false;
+    },
+    fetchAIFailure: (AIs, action) => {
       AIs.error = action.payload;
       AIs.loading = false;
     },
@@ -61,10 +75,12 @@ const {
   addAISuccess,
   addAIFailure,
   fetchAIsSuccess,
-  fetchAIsFailure
+  fetchAIsFailure,
+  fetchAISuccess,
+  fetchAIFailure
 } = slice.actions;
 
-export const { fetchAIs, addAI, deleteAI } = slice.actions;
+export const { fetchAIs, fetchAI, addAI, deleteAI } = slice.actions;
 export default slice.reducer;
 
 // SAGAS /////////////////////////
@@ -90,6 +106,33 @@ function* fetchAIsWorker() {
   } catch (error) {
     yield put(
       fetchAIsFailure(`Failed to load AI implementations: ${error.message}`)
+    );
+  }
+}
+
+function* fetchAIWorker(action) {
+  const aiImplementationId = action.payload;
+  try {
+    const response = yield fetch(
+      urlBuilder(`ai-implementations/${aiImplementationId}`),
+      {
+        method: "GET"
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(httpResponseErrorMessage(response));
+    }
+
+    const editingAI = yield response.json();
+    yield put(
+      fetchAISuccess({editingAI: editingAI})
+    );
+  } catch (error) {
+    yield put(
+      fetchAIFailure(
+        `Failed to fetch AI implementation: ${error.message}`
+      )
     );
   }
 }
@@ -187,6 +230,10 @@ function* fetchAIsWatcher() {
   yield takeEvery(fetchAIs.type, fetchAIsWorker);
 }
 
+function* fetchAIWatcher() {
+  yield takeEvery(fetchAI.type, fetchAIWorker);
+}
+
 function* fetchAiHealthWatcher() {
   yield takeEvery(fetchAiHealth.type, fetchAIHealthWorker);
 }
@@ -196,6 +243,7 @@ export function* rootAiSaga() {
     addAiWatcher(),
     deleteAiWatcher(),
     fetchAIsWatcher(),
+    fetchAIWatcher(),
     fetchAiHealthWatcher()
   ]);
 }

@@ -13,6 +13,8 @@ import DashboardPage from "./components/staticPages/DashboardPage";
 import AboutPage from "./components/staticPages/AboutPage";
 import AiImplementationManager from "./components/aiImplementations/AiImplementationManager";
 import AiImplementationRegistration from "./components/aiImplementations/AiImplementationRegistration";
+import AiImplementationEditor
+  from "./components/aiImplementations/AiImplementationEditor";
 import CaseSetManager from "./components/caseSets/CaseSetManager";
 import CaseSetViewer from "./components/caseSets/CaseSetViewer";
 import CaseSetGenerator from "./components/caseSets/CaseSetGenerator";
@@ -35,6 +37,8 @@ export const paths = {
   aiImplementationManager: (): string => `/${AI_IMPLEMENTATIONS_PATH}`,
   aiImplementationRegistration: (): string =>
     `/${AI_IMPLEMENTATIONS_PATH}/register`,
+  aiImplementationEditor: (aiImplementationId: string): string =>
+    `/${AI_IMPLEMENTATIONS_PATH}/edit/${aiImplementationId}`,
   caseSetManager: (): string => `/${CASE_SETS_PATH}`,
   caseSetViewer: (caseSetId: string): string =>
     `/${CASE_SETS_PATH}/${caseSetId}`, // /cases/:caseSetId
@@ -98,6 +102,14 @@ export const routes: Array<Route> = [
     path: paths.aiImplementationRegistration(),
     component: AiImplementationRegistration,
     exact: true,
+    visibleInMenu: false
+  },
+  {
+    id: "ai-implementations-edit",
+    displayName: "Edit AI implementation",
+    path: paths.aiImplementationEditor(":aiImplementationId"),
+    component: AiImplementationEditor,
+    exact: true,
     visibleInMenu: false,
   },
   {
@@ -128,7 +140,7 @@ export const routes: Array<Route> = [
     path: paths.datasetCreator(),
     component: DatasetCreator,
     exact: true,
-    visibleInMenu: false,
+    visibleInMenu: false
   },
 
   {
@@ -137,7 +149,7 @@ export const routes: Array<Route> = [
     path: paths.caseSetViewer(":caseSetId"),
     component: CaseSetViewer,
     exact: true,
-    visibleInMenu: false,
+    visibleInMenu: false
   },
   {
     id: "case-set-case-editor",
@@ -145,7 +157,7 @@ export const routes: Array<Route> = [
     path: paths.caseEditor(":caseSetId", ":caseId"),
     component: CaseEditor,
     exact: true,
-    visibleInMenu: false,
+    visibleInMenu: false
   },
   {
     id: "add-case",
@@ -153,7 +165,7 @@ export const routes: Array<Route> = [
     path: paths.addCase(":caseSetId"),
     component: AddCase,
     exact: true,
-    visibleInMenu: false,
+    visibleInMenu: false
   },
   {
     id: "benchmarking-sessions-manager",
@@ -165,8 +177,8 @@ export const routes: Array<Route> = [
     icon: BenchmarkingSessionIcon,
     action: {
       targetPath: paths.benchmarkCreate(),
-      icon: AddIcon,
-    },
+      icon: AddIcon
+    }
   },
   {
     id: "benchmarking-session-creator",
@@ -174,7 +186,7 @@ export const routes: Array<Route> = [
     path: paths.benchmarkCreate(),
     component: BenchmarkCreator,
     exact: true,
-    visibleInMenu: false,
+    visibleInMenu: false
   },
   {
     id: "benchmarking-session-runner",
@@ -182,7 +194,7 @@ export const routes: Array<Route> = [
     path: paths.benchmarkRun(":benchmarkId"),
     component: BenchmarkRunner,
     exact: true,
-    visibleInMenu: false,
+    visibleInMenu: false
   },
   {
     id: "benchmark-evaluator",
@@ -190,7 +202,7 @@ export const routes: Array<Route> = [
     path: paths.benchmarkEvaluate(":benchmarkId"),
     component: BenchmarkEvaluator,
     exact: true,
-    visibleInMenu: false,
+    visibleInMenu: false
   },
   {
     id: "about",
@@ -199,6 +211,6 @@ export const routes: Array<Route> = [
     component: AboutPage,
     exact: true,
     visibleInMenu: true,
-    icon: InfoIcon,
-  },
+    icon: InfoIcon
+  }
 ];
