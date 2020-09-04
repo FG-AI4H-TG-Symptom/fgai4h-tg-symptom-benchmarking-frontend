@@ -150,8 +150,14 @@ Husky is a pre-commit tool and should prevent you from committing code that is n
 ### Schemas and generated typings
 
 The Berlin model is managed in [this repository](https://github.com/FG-AI4H-TG-Symptom/fgai4h-tg-symptom-models-schemas).
+
 The JSON schema itself should be place in `src/data/caseSets/berlinModel.schema.json`.
-Run `npx json-schema-to-typescript src/data/caseSets/berlinModel.schema.json src/data/caseSets/berlinModelTypes.ts --unreachableDefinitions`
+
+Run 
+```
+npx json-schema-to-typescript src/data/caseSets/berlinModel.schema.json src/data/caseSets/berlinModelTypes.ts --unreachableDefinitions
+```
+
 after updating the schema to update the generated typing (in `src/data/caseSets/berlinModelTypes.ts`) accordingly.
 
 
