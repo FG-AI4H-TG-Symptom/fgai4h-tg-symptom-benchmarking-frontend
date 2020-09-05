@@ -24,7 +24,7 @@ const CaseSetViewerComponent: React.FC<CaseSetComponentProps> = ({
     {
       id: "table-view",
       name: "Table",
-      componentCallback: (): JSX.Element => (
+      componentCallback: (): React.ReactElement => (
         <CaseSetViewerTable caseSet={caseSet} />
       ),
       noPadding: true,
@@ -32,7 +32,7 @@ const CaseSetViewerComponent: React.FC<CaseSetComponentProps> = ({
     {
       id: "editor",
       name: "Editor",
-      componentCallback: (): JSX.Element => (
+      componentCallback: (): React.ReactElement => (
         <CaseSetEditor
           caseSet={caseSet}
           saveCaseSet={saveCaseSet}
@@ -44,14 +44,14 @@ const CaseSetViewerComponent: React.FC<CaseSetComponentProps> = ({
     {
       id: "analysis",
       name: "Analysis",
-      componentCallback: (): JSX.Element => (
+      componentCallback: (): React.ReactElement => (
         <CaseSetViewerAnalysis caseSet={caseSet.cases} />
       ),
     },
     {
       id: "raw",
       name: "Raw",
-      componentCallback: (): JSX.Element => <ViewRaw data={caseSet} />,
+      componentCallback: (): React.ReactElement => <ViewRaw data={caseSet} />,
     },
     {
       id: "export",

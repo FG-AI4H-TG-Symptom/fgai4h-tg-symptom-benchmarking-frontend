@@ -5,7 +5,7 @@ import PageWrapper from "./PageWrapper";
 const BasicPageLayout: React.FC<{
   title: ReactNode;
   subtitle?: ReactNode;
-  action?: JSX.Element;
+  action?: React.ReactElement;
   unlimitedWidth?: boolean;
 }> = ({ title, subtitle, action, children, unlimitedWidth }) => {
   let content = (
