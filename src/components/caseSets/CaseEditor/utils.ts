@@ -1,14 +1,14 @@
 import berlinModelSchema from "../../../data/caseSets/berlinModel.schema.json";
 import { BaseNamedConcept } from "../../../data/util/baseConceptTypes";
 
+export interface ModelConst {
+  const: string;
+}
+
 export interface ModelConstProperties {
   properties: {
     [propertyName: string]: ModelConst;
   };
-}
-
-export interface ModelConst {
-  const: string;
 }
 
 export interface ConceptSelectionProps {
@@ -20,7 +20,7 @@ export const modelConstToObject = (
 ): BaseNamedConcept => {
   const unpackedObject: Partial<BaseNamedConcept> = {};
   Object.entries(constObject.properties).forEach(
-    ([key, value]: [string, ModelConst | object]) => {
+    ([key, value]: [string, ModelConst | Record<string, unknown>]) => {
       if (!("const" in value)) {
         return;
       }
@@ -34,7 +34,7 @@ export const extendWithModelInformationFromIds = (data: any): any => {
   if (Array.isArray(data)) {
     return data
       .map(extendWithModelInformationFromIds)
-      .filter(entry => Boolean(entry));
+      .filter((entry) => Boolean(entry));
   }
   if (typeof data === "object") {
     let extendedData = {};
