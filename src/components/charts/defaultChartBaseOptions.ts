@@ -4,7 +4,7 @@ interface ChartFeatures {
   dataZoom?: boolean;
 }
 
-const useChartBaseOptions = (features: ChartFeatures = {}) => {
+const useChartBaseOptions = (features: ChartFeatures = {}): any => {
   const options: EChartsResponsiveOption = {
     baseOption: {
       legend: {
