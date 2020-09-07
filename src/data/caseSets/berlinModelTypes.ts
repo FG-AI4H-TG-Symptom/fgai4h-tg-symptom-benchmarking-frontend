@@ -56,28 +56,12 @@ export type ExpectedTriageLevel = "EC" | "PC" | "SC";
  * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
  * via the `definition` "attribute".
  */
-export type Attribute =
-  | TimeSinceOnset6
-  | FindingSite1
-  | CharacteristicOfPain1
-  | PainIntensity1
-  | TimeSinceOnset7
-  | TimeSinceOnset8
-  | TimeSinceOnset9
-  | TimeSinceOnset10
-  | ContentsOfStool1
-  | TimeSinceOnset11;
+export type Attribute = TimeSinceOnset6 | FindingSite1 | CharacteristicOfPain1 | PainIntensity1 | ContentsOfStool1;
 /**
  * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
  * via the `definition` "value".
  */
-export type Value =
-  | LessThanADay6
-  | ACoupleDays12Days6
-  | DaysTo1Week6
-  | AFewWeeks1Weeks1Month6
-  | MonthTo1Year6
-  | AYearOrMore6;
+export type Value = Blood1 | Mucus1 | Water1;
 
 /**
  * FGAI4H TG Symptom Cases Schema – Berlin (generated)
@@ -689,107 +673,11 @@ export interface TimeSinceOnset1 {
   /**
    * Possible values for this attribute (exactly one)
    */
-  value: LessThanADay1 | ACoupleDays12Days1 | DaysTo1Week1 | AFewWeeks1Weeks1Month1 | MonthTo1Year1 | AYearOrMore1;
+  value: LessThanADay | ACoupleDays12Days | DaysTo1Week | AFewWeeks1Weeks1Month | MonthTo1Year | AYearOrMore;
   /**
    * ID of clinical finding this attribute is scoped to
    */
   scope?: string;
-}
-export interface LessThanADay1 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-export interface ACoupleDays12Days1 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-export interface DaysTo1Week1 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-export interface AFewWeeks1Weeks1Month1 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-export interface MonthTo1Year1 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-export interface AYearOrMore1 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
 }
 export interface BloodInUrine {
   /**
@@ -827,107 +715,11 @@ export interface TimeSinceOnset2 {
   /**
    * Possible values for this attribute (exactly one)
    */
-  value: LessThanADay2 | ACoupleDays12Days2 | DaysTo1Week2 | AFewWeeks1Weeks1Month2 | MonthTo1Year2 | AYearOrMore2;
+  value: LessThanADay | ACoupleDays12Days | DaysTo1Week | AFewWeeks1Weeks1Month | MonthTo1Year | AYearOrMore;
   /**
    * ID of clinical finding this attribute is scoped to
    */
   scope?: string;
-}
-export interface LessThanADay2 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-export interface ACoupleDays12Days2 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-export interface DaysTo1Week2 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-export interface AFewWeeks1Weeks1Month2 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-export interface MonthTo1Year2 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-export interface AYearOrMore2 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
 }
 export interface Fever {
   /**
@@ -983,107 +775,11 @@ export interface TimeSinceOnset3 {
   /**
    * Possible values for this attribute (exactly one)
    */
-  value: LessThanADay3 | ACoupleDays12Days3 | DaysTo1Week3 | AFewWeeks1Weeks1Month3 | MonthTo1Year3 | AYearOrMore3;
+  value: LessThanADay | ACoupleDays12Days | DaysTo1Week | AFewWeeks1Weeks1Month | MonthTo1Year | AYearOrMore;
   /**
    * ID of clinical finding this attribute is scoped to
    */
   scope?: string;
-}
-export interface LessThanADay3 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-export interface ACoupleDays12Days3 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-export interface DaysTo1Week3 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-export interface AFewWeeks1Weeks1Month3 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-export interface MonthTo1Year3 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-export interface AYearOrMore3 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
 }
 export interface Dysuria {
   /**
@@ -1121,107 +817,11 @@ export interface TimeSinceOnset4 {
   /**
    * Possible values for this attribute (exactly one)
    */
-  value: LessThanADay4 | ACoupleDays12Days4 | DaysTo1Week4 | AFewWeeks1Weeks1Month4 | MonthTo1Year4 | AYearOrMore4;
+  value: LessThanADay | ACoupleDays12Days | DaysTo1Week | AFewWeeks1Weeks1Month | MonthTo1Year | AYearOrMore;
   /**
    * ID of clinical finding this attribute is scoped to
    */
   scope?: string;
-}
-export interface LessThanADay4 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-export interface ACoupleDays12Days4 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-export interface DaysTo1Week4 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-export interface AFewWeeks1Weeks1Month4 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-export interface MonthTo1Year4 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-export interface AYearOrMore4 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
 }
 export interface Diarrhea {
   /**
@@ -1331,107 +931,11 @@ export interface TimeSinceOnset5 {
   /**
    * Possible values for this attribute (exactly one)
    */
-  value: LessThanADay5 | ACoupleDays12Days5 | DaysTo1Week5 | AFewWeeks1Weeks1Month5 | MonthTo1Year5 | AYearOrMore5;
+  value: LessThanADay | ACoupleDays12Days | DaysTo1Week | AFewWeeks1Weeks1Month | MonthTo1Year | AYearOrMore;
   /**
    * ID of clinical finding this attribute is scoped to
    */
   scope?: string;
-}
-export interface LessThanADay5 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-export interface ACoupleDays12Days5 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-export interface DaysTo1Week5 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-export interface AFewWeeks1Weeks1Month5 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-export interface MonthTo1Year5 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-export interface AYearOrMore5 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
 }
 export interface WeightLoss {
   /**
@@ -1748,102 +1252,6 @@ export interface PainIntensity1 {
    */
   scope?: string;
 }
-export interface TimeSinceOnset7 {
-  /**
-   * Attribute ID
-   */
-  id: string;
-  /**
-   * Attribute name
-   */
-  name: string;
-  /**
-   * URIs referencing this attribute in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-  /**
-   * Possible values for this attribute (exactly one)
-   */
-  value: LessThanADay1 | ACoupleDays12Days1 | DaysTo1Week1 | AFewWeeks1Weeks1Month1 | MonthTo1Year1 | AYearOrMore1;
-  /**
-   * ID of clinical finding this attribute is scoped to
-   */
-  scope?: string;
-}
-export interface TimeSinceOnset8 {
-  /**
-   * Attribute ID
-   */
-  id: string;
-  /**
-   * Attribute name
-   */
-  name: string;
-  /**
-   * URIs referencing this attribute in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-  /**
-   * Possible values for this attribute (exactly one)
-   */
-  value: LessThanADay2 | ACoupleDays12Days2 | DaysTo1Week2 | AFewWeeks1Weeks1Month2 | MonthTo1Year2 | AYearOrMore2;
-  /**
-   * ID of clinical finding this attribute is scoped to
-   */
-  scope?: string;
-}
-export interface TimeSinceOnset9 {
-  /**
-   * Attribute ID
-   */
-  id: string;
-  /**
-   * Attribute name
-   */
-  name: string;
-  /**
-   * URIs referencing this attribute in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-  /**
-   * Possible values for this attribute (exactly one)
-   */
-  value: LessThanADay3 | ACoupleDays12Days3 | DaysTo1Week3 | AFewWeeks1Weeks1Month3 | MonthTo1Year3 | AYearOrMore3;
-  /**
-   * ID of clinical finding this attribute is scoped to
-   */
-  scope?: string;
-}
-export interface TimeSinceOnset10 {
-  /**
-   * Attribute ID
-   */
-  id: string;
-  /**
-   * Attribute name
-   */
-  name: string;
-  /**
-   * URIs referencing this attribute in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-  /**
-   * Possible values for this attribute (exactly one)
-   */
-  value: LessThanADay4 | ACoupleDays12Days4 | DaysTo1Week4 | AFewWeeks1Weeks1Month4 | MonthTo1Year4 | AYearOrMore4;
-  /**
-   * ID of clinical finding this attribute is scoped to
-   */
-  scope?: string;
-}
 export interface ContentsOfStool1 {
   /**
    * Attribute ID
@@ -1868,31 +1276,7 @@ export interface ContentsOfStool1 {
    */
   scope?: string;
 }
-export interface TimeSinceOnset11 {
-  /**
-   * Attribute ID
-   */
-  id: string;
-  /**
-   * Attribute name
-   */
-  name: string;
-  /**
-   * URIs referencing this attribute in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-  /**
-   * Possible values for this attribute (exactly one)
-   */
-  value: LessThanADay5 | ACoupleDays12Days5 | DaysTo1Week5 | AFewWeeks1Weeks1Month5 | MonthTo1Year5 | AYearOrMore5;
-  /**
-   * ID of clinical finding this attribute is scoped to
-   */
-  scope?: string;
-}
-export interface LessThanADay6 {
+export interface Blood1 {
   /**
    * Value ID
    */
@@ -1908,7 +1292,7 @@ export interface LessThanADay6 {
     [k: string]: unknown;
   };
 }
-export interface ACoupleDays12Days6 {
+export interface Mucus1 {
   /**
    * Value ID
    */
@@ -1924,55 +1308,7 @@ export interface ACoupleDays12Days6 {
     [k: string]: unknown;
   };
 }
-export interface DaysTo1Week6 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-export interface AFewWeeks1Weeks1Month6 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-export interface MonthTo1Year6 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-export interface AYearOrMore6 {
+export interface Water1 {
   /**
    * Value ID
    */
@@ -2254,9 +1590,9 @@ export interface Heartburn1 {
 }
 /**
  * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "88dc7bcb398f2ef4004b3e496650c04a".
+ * via the `definition` "7a0ca5ec6baf2cfb7e516f031a9e5d3c".
  */
-export interface TimeSinceOnset12 {
+export interface TimeSinceOnset7 {
   /**
    * Attribute ID
    */
@@ -2282,126 +1618,6 @@ export interface TimeSinceOnset12 {
 }
 /**
  * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "b70a432f0c9c6eaa9cfd09cd8adda24e".
- */
-export interface LessThanADay7 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "1ee6ba6c501aa93ea0d1e847e68d9eb1".
- */
-export interface ACoupleDays12Days7 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "4cde44906dd52cafb8aaa189d510f5d3".
- */
-export interface DaysTo1Week7 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "287f7ef95a910a7be01d3ee5083f7f43".
- */
-export interface AFewWeeks1Weeks1Month7 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "72ef84b5f256f8bd0ee64e940af200e1".
- */
-export interface MonthTo1Year7 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "fe43413b1d8a11f8d058f0571cab4b5c".
- */
-export interface AYearOrMore7 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
  * via the `definition` "f531a0d969119b7ab1f8e76424516fed".
  */
 export interface AbdominalPain1 {
@@ -2424,7 +1640,7 @@ export interface AbdominalPain1 {
 }
 /**
  * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "28fed1c97d4a2c644da4d56f1e56368c".
+ * via the `definition` "912499c82bb217348cd56c98095fe844".
  */
 export interface FindingSite2 {
   /**
@@ -2477,7 +1693,7 @@ export interface FindingSite2 {
 }
 /**
  * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "4925dd31d0bea68275c91d22f7be0997".
+ * via the `definition` "7ede29da24bd64547ef1eb7cd5ae2d8e".
  */
 export interface CharacteristicOfPain2 {
   /**
@@ -2505,7 +1721,7 @@ export interface CharacteristicOfPain2 {
 }
 /**
  * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "344f1bb9cd9653862f86649bbe5207b0".
+ * via the `definition` "0908b0d8834918b9586a70bca644dcee".
  */
 export interface PainIntensity2 {
   /**
@@ -2533,474 +1749,6 @@ export interface PainIntensity2 {
 }
 /**
  * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "f98f04e71d97d246028d51d5b317348c".
- */
-export interface TimeSinceOnset13 {
-  /**
-   * Attribute ID
-   */
-  id: string;
-  /**
-   * Attribute name
-   */
-  name: string;
-  /**
-   * URIs referencing this attribute in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-  /**
-   * Possible values for this attribute (exactly one)
-   */
-  value: LessThanADay1 | ACoupleDays12Days1 | DaysTo1Week1 | AFewWeeks1Weeks1Month1 | MonthTo1Year1 | AYearOrMore1;
-  /**
-   * ID of clinical finding this attribute is scoped to
-   */
-  scope?: string;
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "bd1eb6360249ffebc075eedf8f2483a0".
- */
-export interface Generalised1 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "6d348cc3aa90f56f84564b358a81c28a".
- */
-export interface UpperRight1 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "0593d23b912f73beb47f64386194fd88".
- */
-export interface UpperLeft1 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "d436501e79fdb70236cfe7c03d7e9140".
- */
-export interface Epigastric1 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "f834c45b83b879a4fdb7adb92a65b6e2".
- */
-export interface LowerRight1 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "fd243e61e9915e6b4b7066ec46981383".
- */
-export interface LowerLeft1 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "da195f5b52f1469507c21cb0059c60a5".
- */
-export interface Hypogastric1 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "0e8f18693874a846d1f943db6a90d009".
- */
-export interface RightLoin1 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "87b4cd3224fc40db1b3e116fb7237a23".
- */
-export interface LeftLoin1 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "29c2257603fdaa44f9bc3f06d30bfa58".
- */
-export interface Central1 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "19a8876aa386bfdaba38c6912263aa0f".
- */
-export interface Cramping1 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "63ee7081ae04864511a5a9fa051bee40".
- */
-export interface Dull1 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "014681fa683ab84b18f86414785cd1bb".
- */
-export interface Sharp1 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "19e86e1e3ae79fa2db16b3aa99820d7a".
- */
-export interface Mild1 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "208bed0ef2533bc353baef333a3ef07a".
- */
-export interface Moderate1 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "add77620256601bf48335aca5ed17a00".
- */
-export interface Severe1 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "958ea562391d15e40c0314ec64b75d50".
- */
-export interface LessThanADay8 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "ff8afbdb927e479d4b8ce94aadf792d6".
- */
-export interface ACoupleDays12Days8 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "842c2fd0ef7164b22d47ffb0d2fe4dd8".
- */
-export interface DaysTo1Week8 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "2b3c3e1b6596c0fa4e8a44b1dddff376".
- */
-export interface AFewWeeks1Weeks1Month8 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "95e0c38054abaadf24ad9fc3b5d990eb".
- */
-export interface MonthTo1Year8 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "bbac8e28e033b153c93348c2cf9538f8".
- */
-export interface AYearOrMore8 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
  * via the `definition` "1eac2373d00170c7eff9aa2ce2c683ce".
  */
 export interface BloodInUrine1 {
@@ -3020,154 +1768,6 @@ export interface BloodInUrine1 {
   };
   state: ClinicalFindingState;
   attributes: TimeSinceOnset2[];
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "273665c63bb7979768e1233ed6d45854".
- */
-export interface TimeSinceOnset14 {
-  /**
-   * Attribute ID
-   */
-  id: string;
-  /**
-   * Attribute name
-   */
-  name: string;
-  /**
-   * URIs referencing this attribute in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-  /**
-   * Possible values for this attribute (exactly one)
-   */
-  value: LessThanADay2 | ACoupleDays12Days2 | DaysTo1Week2 | AFewWeeks1Weeks1Month2 | MonthTo1Year2 | AYearOrMore2;
-  /**
-   * ID of clinical finding this attribute is scoped to
-   */
-  scope?: string;
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "44c6826876ab99ab53d5af1bbf0b53dc".
- */
-export interface LessThanADay9 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "fa9235e29714d244a05a3d2a0d2ab5f4".
- */
-export interface ACoupleDays12Days9 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "8d25c0caf851aacf220e9cff2ea4a1b3".
- */
-export interface DaysTo1Week9 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "5bbc49ea75b935d72c0b038e125d41a0".
- */
-export interface AFewWeeks1Weeks1Month9 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "5116c05965217919f6266d4a7b1e11e3".
- */
-export interface MonthTo1Year9 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "8f17cef186e5de3b218efadef565896f".
- */
-export interface AYearOrMore9 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
 }
 /**
  * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
@@ -3215,154 +1815,6 @@ export interface Vomiting1 {
 }
 /**
  * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "ccb58f95ffcbeea12cadd05170cd7793".
- */
-export interface TimeSinceOnset15 {
-  /**
-   * Attribute ID
-   */
-  id: string;
-  /**
-   * Attribute name
-   */
-  name: string;
-  /**
-   * URIs referencing this attribute in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-  /**
-   * Possible values for this attribute (exactly one)
-   */
-  value: LessThanADay3 | ACoupleDays12Days3 | DaysTo1Week3 | AFewWeeks1Weeks1Month3 | MonthTo1Year3 | AYearOrMore3;
-  /**
-   * ID of clinical finding this attribute is scoped to
-   */
-  scope?: string;
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "4a755831dfa10619324cd4edd547ae35".
- */
-export interface LessThanADay10 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "f7d3bd4c0d099c62c2c179afad3abb7d".
- */
-export interface ACoupleDays12Days10 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "3992ef54a27cab45e9f6d0c17d5718f5".
- */
-export interface DaysTo1Week10 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "d4a14cb8b99e75b5a0413284d84c164e".
- */
-export interface AFewWeeks1Weeks1Month10 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "61eea9b0cccce064b0cf79a398ee2500".
- */
-export interface MonthTo1Year10 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "eaf3c63697fbaced446f51ff1b53fa4d".
- */
-export interface AYearOrMore10 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
  * via the `definition` "b2003899e659fd3b4b9ccfdcc731d5e8".
  */
 export interface Dysuria1 {
@@ -3382,154 +1834,6 @@ export interface Dysuria1 {
   };
   state: ClinicalFindingState;
   attributes: TimeSinceOnset4[];
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "0c1abc9bf3b6583a5c1fc298a8a76414".
- */
-export interface TimeSinceOnset16 {
-  /**
-   * Attribute ID
-   */
-  id: string;
-  /**
-   * Attribute name
-   */
-  name: string;
-  /**
-   * URIs referencing this attribute in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-  /**
-   * Possible values for this attribute (exactly one)
-   */
-  value: LessThanADay4 | ACoupleDays12Days4 | DaysTo1Week4 | AFewWeeks1Weeks1Month4 | MonthTo1Year4 | AYearOrMore4;
-  /**
-   * ID of clinical finding this attribute is scoped to
-   */
-  scope?: string;
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "c904ee84d0f1aafa3811ce5c38b8c414".
- */
-export interface LessThanADay11 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "501e324332ee4c5af51e9db8af0d50ee".
- */
-export interface ACoupleDays12Days11 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "2fbba60dfb1bc1838e029415d28f532a".
- */
-export interface DaysTo1Week11 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "5372c6a93544c49e41cb299007f362eb".
- */
-export interface AFewWeeks1Weeks1Month11 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "ca75ce38b1faeab6aa700682636f1e3e".
- */
-export interface MonthTo1Year11 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "03050fa0404ab1adfa6ace5e3d104eb1".
- */
-export interface AYearOrMore11 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
 }
 /**
  * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
@@ -3555,7 +1859,7 @@ export interface Diarrhea1 {
 }
 /**
  * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "3eb8f6048aaaa0cd9e4d51c23dd8b6d9".
+ * via the `definition` "007f56da752f6cda2cfc689947361040".
  */
 export interface ContentsOfStool2 {
   /**
@@ -3583,214 +1887,6 @@ export interface ContentsOfStool2 {
 }
 /**
  * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "a5143d02fd8c7c65f55cc2a9996980cb".
- */
-export interface TimeSinceOnset17 {
-  /**
-   * Attribute ID
-   */
-  id: string;
-  /**
-   * Attribute name
-   */
-  name: string;
-  /**
-   * URIs referencing this attribute in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-  /**
-   * Possible values for this attribute (exactly one)
-   */
-  value: LessThanADay5 | ACoupleDays12Days5 | DaysTo1Week5 | AFewWeeks1Weeks1Month5 | MonthTo1Year5 | AYearOrMore5;
-  /**
-   * ID of clinical finding this attribute is scoped to
-   */
-  scope?: string;
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "36b7036cabcc69b045e5379ae9fa1c86".
- */
-export interface Blood1 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "89a70698f18fd4d446a26cff69a1df64".
- */
-export interface Mucus1 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "1fccfbb9dee0bef559e164ef97b07f08".
- */
-export interface Water1 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "1149ba56c5336495944b9c5783364cd5".
- */
-export interface LessThanADay12 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "9dd1890420b204aaeb5b928ea8a94a64".
- */
-export interface ACoupleDays12Days12 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "a8867544b555a81bf76d51f5f5155f84".
- */
-export interface DaysTo1Week12 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "0a2e487b24db05db3b9f33a1f19e4b9e".
- */
-export interface AFewWeeks1Weeks1Month12 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "c1317d29ae343bc0d0ad2c69b8edce58".
- */
-export interface MonthTo1Year12 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
- * via the `definition` "44a40dbf3258315ab4bf6539f9efdd7a".
- */
-export interface AYearOrMore12 {
-  /**
-   * Value ID
-   */
-  id: string;
-  /**
-   * Value name
-   */
-  name: string;
-  /**
-   * URIs referencing this value in standard ontologies
-   */
-  standardOntologyUris: {
-    [k: string]: unknown;
-  };
-}
-/**
- * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
  * via the `definition` "14026f513eaff27d02b60f2247322d82".
  */
 export interface WeightLoss1 {
@@ -3810,4 +1906,504 @@ export interface WeightLoss1 {
   };
   state: ClinicalFindingState;
   attributes: unknown[];
+}
+/**
+ * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
+ * via the `definition` "15fb0cb28034c1adb8ab0703eff7720f".
+ */
+export interface LessThanADay1 {
+  /**
+   * Value ID
+   */
+  id: string;
+  /**
+   * Value name
+   */
+  name: string;
+  /**
+   * URIs referencing this value in standard ontologies
+   */
+  standardOntologyUris: {
+    [k: string]: unknown;
+  };
+}
+/**
+ * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
+ * via the `definition` "f6b731832f9c37cd8583c6297105603f".
+ */
+export interface ACoupleDays12Days1 {
+  /**
+   * Value ID
+   */
+  id: string;
+  /**
+   * Value name
+   */
+  name: string;
+  /**
+   * URIs referencing this value in standard ontologies
+   */
+  standardOntologyUris: {
+    [k: string]: unknown;
+  };
+}
+/**
+ * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
+ * via the `definition` "4395912053989fa30a3b041f1fb90a23".
+ */
+export interface DaysTo1Week1 {
+  /**
+   * Value ID
+   */
+  id: string;
+  /**
+   * Value name
+   */
+  name: string;
+  /**
+   * URIs referencing this value in standard ontologies
+   */
+  standardOntologyUris: {
+    [k: string]: unknown;
+  };
+}
+/**
+ * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
+ * via the `definition` "5c11d4b071bd042b5123c52d80c07d84".
+ */
+export interface AFewWeeks1Weeks1Month1 {
+  /**
+   * Value ID
+   */
+  id: string;
+  /**
+   * Value name
+   */
+  name: string;
+  /**
+   * URIs referencing this value in standard ontologies
+   */
+  standardOntologyUris: {
+    [k: string]: unknown;
+  };
+}
+/**
+ * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
+ * via the `definition` "41c86c25696136347b84354a5e120cbf".
+ */
+export interface MonthTo1Year1 {
+  /**
+   * Value ID
+   */
+  id: string;
+  /**
+   * Value name
+   */
+  name: string;
+  /**
+   * URIs referencing this value in standard ontologies
+   */
+  standardOntologyUris: {
+    [k: string]: unknown;
+  };
+}
+/**
+ * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
+ * via the `definition` "b505858ef0a749e5d6dca106cd31ae52".
+ */
+export interface AYearOrMore1 {
+  /**
+   * Value ID
+   */
+  id: string;
+  /**
+   * Value name
+   */
+  name: string;
+  /**
+   * URIs referencing this value in standard ontologies
+   */
+  standardOntologyUris: {
+    [k: string]: unknown;
+  };
+}
+/**
+ * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
+ * via the `definition` "1aa7de133b931280af20f9c5db5fc8e6".
+ */
+export interface Generalised1 {
+  /**
+   * Value ID
+   */
+  id: string;
+  /**
+   * Value name
+   */
+  name: string;
+  /**
+   * URIs referencing this value in standard ontologies
+   */
+  standardOntologyUris: {
+    [k: string]: unknown;
+  };
+}
+/**
+ * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
+ * via the `definition` "e7b0ba68e1d6fd5da9373be3bbf6155f".
+ */
+export interface UpperRight1 {
+  /**
+   * Value ID
+   */
+  id: string;
+  /**
+   * Value name
+   */
+  name: string;
+  /**
+   * URIs referencing this value in standard ontologies
+   */
+  standardOntologyUris: {
+    [k: string]: unknown;
+  };
+}
+/**
+ * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
+ * via the `definition` "40f7d9c6a9c1f51b0920eef6d0afad59".
+ */
+export interface UpperLeft1 {
+  /**
+   * Value ID
+   */
+  id: string;
+  /**
+   * Value name
+   */
+  name: string;
+  /**
+   * URIs referencing this value in standard ontologies
+   */
+  standardOntologyUris: {
+    [k: string]: unknown;
+  };
+}
+/**
+ * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
+ * via the `definition` "dd209743df0b8f89310fa6d89d93c8af".
+ */
+export interface Epigastric1 {
+  /**
+   * Value ID
+   */
+  id: string;
+  /**
+   * Value name
+   */
+  name: string;
+  /**
+   * URIs referencing this value in standard ontologies
+   */
+  standardOntologyUris: {
+    [k: string]: unknown;
+  };
+}
+/**
+ * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
+ * via the `definition` "90de79b7ba2d0c789962d19aaa69d902".
+ */
+export interface LowerRight1 {
+  /**
+   * Value ID
+   */
+  id: string;
+  /**
+   * Value name
+   */
+  name: string;
+  /**
+   * URIs referencing this value in standard ontologies
+   */
+  standardOntologyUris: {
+    [k: string]: unknown;
+  };
+}
+/**
+ * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
+ * via the `definition` "4d095029a3c3092faf2c0470817c5080".
+ */
+export interface LowerLeft1 {
+  /**
+   * Value ID
+   */
+  id: string;
+  /**
+   * Value name
+   */
+  name: string;
+  /**
+   * URIs referencing this value in standard ontologies
+   */
+  standardOntologyUris: {
+    [k: string]: unknown;
+  };
+}
+/**
+ * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
+ * via the `definition` "99b4b398893523cf4d3f66f32b6582a1".
+ */
+export interface Hypogastric1 {
+  /**
+   * Value ID
+   */
+  id: string;
+  /**
+   * Value name
+   */
+  name: string;
+  /**
+   * URIs referencing this value in standard ontologies
+   */
+  standardOntologyUris: {
+    [k: string]: unknown;
+  };
+}
+/**
+ * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
+ * via the `definition` "d48ec3d760438b06df37996563a67b6b".
+ */
+export interface RightLoin1 {
+  /**
+   * Value ID
+   */
+  id: string;
+  /**
+   * Value name
+   */
+  name: string;
+  /**
+   * URIs referencing this value in standard ontologies
+   */
+  standardOntologyUris: {
+    [k: string]: unknown;
+  };
+}
+/**
+ * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
+ * via the `definition` "eefc70b83609ea58e033bfdcb3502081".
+ */
+export interface LeftLoin1 {
+  /**
+   * Value ID
+   */
+  id: string;
+  /**
+   * Value name
+   */
+  name: string;
+  /**
+   * URIs referencing this value in standard ontologies
+   */
+  standardOntologyUris: {
+    [k: string]: unknown;
+  };
+}
+/**
+ * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
+ * via the `definition` "a9ec43e1b2d6d86b156abe0f4c21e492".
+ */
+export interface Central1 {
+  /**
+   * Value ID
+   */
+  id: string;
+  /**
+   * Value name
+   */
+  name: string;
+  /**
+   * URIs referencing this value in standard ontologies
+   */
+  standardOntologyUris: {
+    [k: string]: unknown;
+  };
+}
+/**
+ * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
+ * via the `definition` "4403bcc436c90f18e489150ca0e37ab9".
+ */
+export interface Cramping1 {
+  /**
+   * Value ID
+   */
+  id: string;
+  /**
+   * Value name
+   */
+  name: string;
+  /**
+   * URIs referencing this value in standard ontologies
+   */
+  standardOntologyUris: {
+    [k: string]: unknown;
+  };
+}
+/**
+ * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
+ * via the `definition` "d307bfff5a7c185189e1a364c8ec0878".
+ */
+export interface Dull1 {
+  /**
+   * Value ID
+   */
+  id: string;
+  /**
+   * Value name
+   */
+  name: string;
+  /**
+   * URIs referencing this value in standard ontologies
+   */
+  standardOntologyUris: {
+    [k: string]: unknown;
+  };
+}
+/**
+ * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
+ * via the `definition` "85e41619889e1675f5924245896ad38a".
+ */
+export interface Sharp1 {
+  /**
+   * Value ID
+   */
+  id: string;
+  /**
+   * Value name
+   */
+  name: string;
+  /**
+   * URIs referencing this value in standard ontologies
+   */
+  standardOntologyUris: {
+    [k: string]: unknown;
+  };
+}
+/**
+ * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
+ * via the `definition` "dfe94145865b065bd5341aa7e3cbbde3".
+ */
+export interface Mild1 {
+  /**
+   * Value ID
+   */
+  id: string;
+  /**
+   * Value name
+   */
+  name: string;
+  /**
+   * URIs referencing this value in standard ontologies
+   */
+  standardOntologyUris: {
+    [k: string]: unknown;
+  };
+}
+/**
+ * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
+ * via the `definition` "5622e2233ff9944412b2161ae720fff9".
+ */
+export interface Moderate1 {
+  /**
+   * Value ID
+   */
+  id: string;
+  /**
+   * Value name
+   */
+  name: string;
+  /**
+   * URIs referencing this value in standard ontologies
+   */
+  standardOntologyUris: {
+    [k: string]: unknown;
+  };
+}
+/**
+ * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
+ * via the `definition` "a95ec8ac80d2ea45f314b7224da6a7e6".
+ */
+export interface Severe1 {
+  /**
+   * Value ID
+   */
+  id: string;
+  /**
+   * Value name
+   */
+  name: string;
+  /**
+   * URIs referencing this value in standard ontologies
+   */
+  standardOntologyUris: {
+    [k: string]: unknown;
+  };
+}
+/**
+ * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
+ * via the `definition` "413a0ad1b7bc7a981570c381eec775ce".
+ */
+export interface Blood2 {
+  /**
+   * Value ID
+   */
+  id: string;
+  /**
+   * Value name
+   */
+  name: string;
+  /**
+   * URIs referencing this value in standard ontologies
+   */
+  standardOntologyUris: {
+    [k: string]: unknown;
+  };
+}
+/**
+ * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
+ * via the `definition` "cac61882e362c96310043bd2628d7201".
+ */
+export interface Mucus2 {
+  /**
+   * Value ID
+   */
+  id: string;
+  /**
+   * Value name
+   */
+  name: string;
+  /**
+   * URIs referencing this value in standard ontologies
+   */
+  standardOntologyUris: {
+    [k: string]: unknown;
+  };
+}
+/**
+ * This interface was referenced by `BerlinModelCasesSchema`'s JSON-Schema
+ * via the `definition` "0eb1f3b8c62c0393cfad9b2c1dea44c7".
+ */
+export interface Water2 {
+  /**
+   * Value ID
+   */
+  id: string;
+  /**
+   * Value name
+   */
+  name: string;
+  /**
+   * URIs referencing this value in standard ontologies
+   */
+  standardOntologyUris: {
+    [k: string]: unknown;
+  };
 }
