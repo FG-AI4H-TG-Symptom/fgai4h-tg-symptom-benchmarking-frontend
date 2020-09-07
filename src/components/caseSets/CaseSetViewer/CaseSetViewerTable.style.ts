@@ -8,7 +8,7 @@ const TextOverflowCell = styled(TableCell)`
 `;
 
 export const CaseIdCell = styled(TextOverflowCell)`
-  max-width: 4rem;
+  max-width: 10rem;
 `;
 
 export const CaseDescriptionCell = styled(TextOverflowCell)`
