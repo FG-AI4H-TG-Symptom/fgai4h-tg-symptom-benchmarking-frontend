@@ -14,7 +14,7 @@ import { fetchAIs } from "../../../data/aiDuck";
 import { addSession } from "../../../data/sessionsDuck";
 import { paths } from "../../../routes";
 
-const BenchmarkCreatorContainer: React.FC<{}> = () => {
+const BenchmarkCreatorContainer: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 

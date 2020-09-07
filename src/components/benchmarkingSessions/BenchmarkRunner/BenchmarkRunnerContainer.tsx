@@ -11,8 +11,12 @@ import BenchmarkRunnerComponent from "./BenchmarkRunnerComponent";
 import { BenchmarkingSessionStatus } from "../../../data/benchmarks/benchmarkManagerDataType";
 import { paths } from "../../../routes";
 
-const BenchmarkRunnerContainer: React.FC<{}> = () => {
-  const { benchmarkId } = useParams();
+type Params = {
+  benchmarkId: string;
+};
+
+const BenchmarkRunnerContainer: React.FC = () => {
+  const { benchmarkId } = useParams<Params>();
   const history = useHistory();
   const AIs = useSelector((state: any) => state.AIs);
   const sessions = useSelector((state: any) => state.sessions);

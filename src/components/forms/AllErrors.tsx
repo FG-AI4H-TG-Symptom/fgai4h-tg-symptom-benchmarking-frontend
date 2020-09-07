@@ -10,7 +10,7 @@ const ErrorMessage = styled.div`
   font-style: italic;
 `;
 
-const AllErrors: React.FC<{}> = () => {
+const AllErrors: React.FC = () => {
   const { errors } = useFormContext();
   const allErrors = errorsInChildren("", errors);
   if (allErrors.length === 0) {

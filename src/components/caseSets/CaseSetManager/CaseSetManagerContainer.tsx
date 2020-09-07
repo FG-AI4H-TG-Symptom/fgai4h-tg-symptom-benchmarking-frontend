@@ -10,7 +10,7 @@ import { paths } from "../../../routes";
 
 import { fetchDatasets, deleteDataset } from "../../../data/datasetDuck";
 
-const CaseSetManagerContainer: React.FC<{}> = () => {
+const CaseSetManagerContainer: React.FC = () => {
   const dispatch = useDispatch();
 
   const [error, setError] = useState("");

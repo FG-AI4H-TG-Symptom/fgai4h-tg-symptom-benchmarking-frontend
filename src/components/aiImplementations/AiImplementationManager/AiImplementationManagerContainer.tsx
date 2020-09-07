@@ -8,7 +8,7 @@ import BasicPageLayout from "../../common/BasicPageLayout";
 import LinkWrapper from "../../common/LinkWrapper";
 import AiImplementationManagerComponent from "./AiImplementationManagerComponent";
 
-const AiImplementationManagerContainer: React.FC<{}> = () => {
+const AiImplementationManagerContainer: React.FC = () => {
   const dispatch = useDispatch();
 
   const deleteAiImplementation = (aiId) => {

@@ -2,7 +2,7 @@ import {
   FieldErrors,
   useFieldArray,
   useFormContext,
-  ValidationResolver
+  Resolver,
 } from "react-hook-form";
 import { ValidateFunction } from "ajv";
 
@@ -15,7 +15,7 @@ export const useWatch = <WatchedValueType>(path: string): WatchedValueType => {
 };
 
 export const useWatchArrayHelper = <WatchedType>(
-  fieldArray: { fields: Array<object> },
+  fieldArray: { fields: Array<Record<string, unknown>> },
   path: string
 ): Array<WatchedType> => {
   const { watch } = useFormContext();
@@ -24,12 +24,14 @@ export const useWatchArrayHelper = <WatchedType>(
     prefixedPath.replace("*", index.toString())
   );
   const watchResultObject = watch(fieldNames);
-  return fieldNames.map(name => watchResultObject[name]) as Array<WatchedType>;
+  return fieldNames.map((name) => watchResultObject[name]) as Array<
+    WatchedType
+  >;
 };
 
 export const useAutoFieldArray = ({
   name,
-  key
+  key,
 }: {
   name: string;
   key?: string;
@@ -37,7 +39,7 @@ export const useAutoFieldArray = ({
   useFieldArray({
     control: useFormContext().control,
     name: usePrefix() + name,
-    keyName: key || "key"
+    keyName: key || "key",
   });
 
 export const errorsInChildren = <FormValuesType>(
@@ -88,14 +90,14 @@ export const sanitizeForId = (prefix: string): string =>
 export const validateAgainstSchema = <FormValues>(
   values,
   schemaValidator: ValidateFunction
-): ReturnType<ValidationResolver<FormValues>> => {
+): ReturnType<Resolver<FormValues>> => {
   const valid = schemaValidator(values);
   if (valid) {
     return { values, errors: {} };
   }
 
   const errors = {};
-  schemaValidator.errors.forEach(error => {
+  schemaValidator.errors.forEach((error) => {
     // todo: make certain errors more human readable
     errors[error.dataPath.replace(/^\./, "")] = error.message;
   });
