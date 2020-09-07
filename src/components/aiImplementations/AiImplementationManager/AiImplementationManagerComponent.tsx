@@ -9,16 +9,18 @@ import {
   TableHead,
   TableRow,
   Tooltip,
-  Typography,
+  Typography
 } from "@material-ui/core";
 import {
   Delete as DeleteIcon,
-  ViewList as ViewEditIcon,
+  Edit as EditIcon
 } from "@material-ui/icons";
 
 import ConfirmationIconButton from "../../common/ConfirmationIconButton";
 
 import AiImplementationHealthComponent from "./AiImplementationHealthComponent";
+import { paths } from "../../../routes";
+import LinkWrapper from "../../common/LinkWrapper";
 
 interface AiImplementationManagerComponentProps {
   aiImplementations: any[];
@@ -64,13 +66,15 @@ const AiImplementationManagerComponent: React.FC<AiImplementationManagerComponen
                     <AiImplementationHealthComponent health={health} />
                   </TableCell>
                   <TableCell>
-                    <Tooltip title="View / edit">
+                    <LinkWrapper to={paths.aiImplementationEditor(id)}>
+                      <Tooltip title="Edit">
                       <span>
-                        <IconButton aria-label="view" disabled>
-                          <ViewEditIcon />
+                        <IconButton aria-label="view">
+                          <EditIcon />
                         </IconButton>
                       </span>
-                    </Tooltip>
+                      </Tooltip>
+                    </LinkWrapper>
                     <ConfirmationIconButton
                       onConfirmed={(): void => deleteAiImplementation(id)}
                       color="darkred"

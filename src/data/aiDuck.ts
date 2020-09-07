@@ -7,7 +7,7 @@ import urlBuilder from "./util/urlBuilder";
 import httpResponseErrorMessage from "./util/httpResponseErrorMessage";
 
 // REDUCER
-const initialAIstate = { list: [], loading: false, error: null, health: {} };
+const initialAIstate = { list: [], editingAI: null, loading: false, error: null, health: {} };
 
 const slice = createSlice({
   name: "AIs",
@@ -22,6 +22,32 @@ const slice = createSlice({
       AIs.error = null;
     },
     fetchAIsFailure: (AIs, action) => {
+      AIs.error = action.payload;
+      AIs.loading = false;
+    },
+    // fetch single AI
+    fetchAI: (AIs, action) => {
+      AIs.editingAI = null;
+      AIs.loading = true;
+    },
+    fetchAISuccess: (AIs, action) => {
+      AIs.editingAI = action.payload.editingAI;
+      AIs.error = null;
+      AIs.loading = false;
+    },
+    fetchAIFailure: (AIs, action) => {
+      AIs.error = action.payload;
+      AIs.loading = false;
+    },
+    // update AI
+    updateAI: (AIs, action) => {
+      AIs.loading = true;
+    },
+    updateAISuccess: (AIs, action) => {
+      AIs.error = null;
+      AIs.loading = false;
+    },
+    updateAIFailure: (AIs, action) => {
       AIs.error = action.payload;
       AIs.loading = false;
     },
@@ -61,10 +87,14 @@ const {
   addAISuccess,
   addAIFailure,
   fetchAIsSuccess,
-  fetchAIsFailure
+  fetchAIsFailure,
+  fetchAISuccess,
+  fetchAIFailure,
+  updateAISuccess,
+  updateAIFailure
 } = slice.actions;
 
-export const { fetchAIs, addAI, deleteAI } = slice.actions;
+export const { fetchAIs, fetchAI, updateAI, addAI, deleteAI } = slice.actions;
 export default slice.reducer;
 
 // SAGAS /////////////////////////
@@ -94,6 +124,33 @@ function* fetchAIsWorker() {
   }
 }
 
+function* fetchAIWorker(action) {
+  const aiImplementationId = action.payload;
+  try {
+    const response = yield fetch(
+      urlBuilder(`ai-implementations/${aiImplementationId}`),
+      {
+        method: "GET"
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(httpResponseErrorMessage(response));
+    }
+
+    const editingAI = yield response.json();
+    yield put(
+      fetchAISuccess({editingAI: editingAI})
+    );
+  } catch (error) {
+    yield put(
+      fetchAIFailure(
+        `Failed to fetch AI implementation: ${error.message}`
+      )
+    );
+  }
+}
+
 function* fetchAIHealthWorker(action) {
   const aiImplementationId = action.payload.id;
   try {
@@ -116,6 +173,43 @@ function* fetchAIHealthWorker(action) {
     yield put(
       fetchAiHealthFailure(
         `Failed to fetch AI implementation list: ${error.message}`
+      )
+    );
+  }
+}
+
+function* updateAIWorker(action) {
+  const ai = action.payload;
+
+  try {
+    const response = yield fetch(
+      urlBuilder(`ai-implementations/${ai.id}`),
+
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name: ai.name,
+          baseUrl: ai.baseUrl
+        })
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(httpResponseErrorMessage(response));
+    }
+
+    const updatedAI = yield response.json();
+    console.log(updatedAI)
+    yield put(
+      updateAISuccess({updatedAI: updatedAI})
+    );
+  } catch (error) {
+    yield put(
+      updateAIFailure(
+        `Failed to update AI implementation: ${error.message}`
       )
     );
   }
@@ -187,8 +281,16 @@ function* fetchAIsWatcher() {
   yield takeEvery(fetchAIs.type, fetchAIsWorker);
 }
 
+function* fetchAIWatcher() {
+  yield takeEvery(fetchAI.type, fetchAIWorker);
+}
+
 function* fetchAiHealthWatcher() {
   yield takeEvery(fetchAiHealth.type, fetchAIHealthWorker);
+}
+
+function* updateAIWatcher() {
+  yield takeEvery(updateAI.type, updateAIWorker);
 }
 
 export function* rootAiSaga() {
@@ -196,6 +298,8 @@ export function* rootAiSaga() {
     addAiWatcher(),
     deleteAiWatcher(),
     fetchAIsWatcher(),
-    fetchAiHealthWatcher()
+    fetchAIWatcher(),
+    fetchAiHealthWatcher(),
+    updateAIWatcher()
   ]);
 }

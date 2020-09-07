@@ -1,5 +1,5 @@
 import React from "react";
-import { useFormContext } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 import { TextField } from "@material-ui/core";
 
 import { usePrefix } from "./PrefixContext";
@@ -19,20 +19,25 @@ const AutoTextField: React.FC<AutoTextFieldProps> = ({
   autoComplete,
   optional
 }) => {
-  const { register, errors } = useFormContext();
+  const { register, errors, control } = useFormContext();
   const prefixedName = usePrefix() + name;
   return (
-    <TextField
-      inputRef={register}
+    <Controller
+      as={<TextField
+        inputRef={register}
+        name={prefixedName}
+        label={label}
+        type={type}
+        autoComplete={autoComplete}
+        error={Boolean(errors[prefixedName])}
+        helperText={errors[prefixedName] || (optional ? "optional" : "")}
+        fullWidth
+      />}
+      control={control}
       name={prefixedName}
-      label={label}
-      type={type}
-      autoComplete={autoComplete}
       defaultValue=""
-      error={Boolean(errors[prefixedName])}
-      helperText={errors[prefixedName] || (optional ? "optional" : "")}
-      fullWidth
     />
+
   );
 };
 
