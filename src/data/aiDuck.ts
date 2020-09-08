@@ -259,12 +259,16 @@ function* updateAIWatcher() {
 }
 
 export function* rootAiSaga() {
-  yield all([
-    addAiWatcher(),
-    deleteAiWatcher(),
-    fetchAIsWatcher(),
-    fetchAIWatcher(),
-    fetchAiHealthWatcher(),
-    updateAIWatcher(),
-  ]);
+  try {
+    yield all([
+      addAiWatcher(),
+      deleteAiWatcher(),
+      fetchAIsWatcher(),
+      fetchAIWatcher(),
+      fetchAiHealthWatcher(),
+      updateAIWatcher(),
+    ]);
+  } catch (e) {
+    console.log(`rootAiSaga failed with: ${e}`);
+  }
 }

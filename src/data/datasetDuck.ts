@@ -372,14 +372,18 @@ function* createCaseSetWatcher() {
 }
 
 export function* rootDatasetsSaga() {
-  yield all([
-    fetchDatasetsWatcher(),
-    synthesizeDatasetWatcher(),
-    deleteDatasetWatcher(),
-    fetchFullDatasetWatcher(),
-    saveDatasetWatcher(),
-    saveCaseWatcher(),
-    deleteCaseWatcher(),
-    createCaseSetWatcher(),
-  ]);
+  try {
+    yield all([
+      fetchDatasetsWatcher(),
+      synthesizeDatasetWatcher(),
+      deleteDatasetWatcher(),
+      fetchFullDatasetWatcher(),
+      saveDatasetWatcher(),
+      saveCaseWatcher(),
+      deleteCaseWatcher(),
+      createCaseSetWatcher(),
+    ]);
+  } catch (e) {
+    console.log(`rootDatasetsSaga failed with: ${e}`);
+  }
 }

@@ -270,12 +270,16 @@ function* runSessionWatcher() {
 }
 
 export function* rootSessionsSaga() {
-  yield all([
-    fetchSessionsWatcher(),
-    addSessionWatcher(),
-    observeSessionStatusWatcher(),
-    deleteSessionWatcher(),
-    fetchEvaluationWatcher(),
-    runSessionWatcher(),
-  ]);
+  try {
+    yield all([
+      fetchSessionsWatcher(),
+      addSessionWatcher(),
+      observeSessionStatusWatcher(),
+      deleteSessionWatcher(),
+      fetchEvaluationWatcher(),
+      runSessionWatcher(),
+    ]);
+  } catch (e) {
+    console.log(`rootSessionsSaga failed with: ${e}`);
+  }
 }

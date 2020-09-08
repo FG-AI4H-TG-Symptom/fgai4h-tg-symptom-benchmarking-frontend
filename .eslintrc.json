@@ -5,11 +5,12 @@
   "extends": [
     "plugin:@typescript-eslint/recommended",
     "plugin:eslint-comments/recommended",
+    "plugin:redux-saga/recommended",
     "airbnb",
     "prettier",
     "prettier/react"
   ],
-  "plugins": ["@typescript-eslint", "lodash", "prettier"],
+  "plugins": ["@typescript-eslint", "redux-saga", "lodash", "prettier"],
   "settings": {
     "import/resolver": {
       "node": {
