@@ -62,7 +62,7 @@
     "import/no-unresolved": "off",
     "react/prop-types": "off",
     "max-len": ["error", 160],
-    "lodash/import-scope": ["error", "method"],
+    "lodash/import-scope": ["error", "method-package"],
     "jsx-a11y/anchor-is-valid": "off",
     "no-alert": "off",
     "eslint-comments/no-unused-disable": ["error"],

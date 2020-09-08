@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import ReactEcharts from 'echarts-for-react';
 import datalib from 'datalib';
-import merge from 'lodash/merge';
+import merge from 'lodash.merge';
 
 import getBaseOptions from './defaultChartBaseOptions';
 import { Population } from './chartTypes';
