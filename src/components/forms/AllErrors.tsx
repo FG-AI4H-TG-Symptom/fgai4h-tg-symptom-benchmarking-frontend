@@ -1,10 +1,10 @@
-import React from "react";
-import { useFormContext } from "react-hook-form";
-import { Box } from "@material-ui/core";
-import { Alert } from "@material-ui/lab";
-import styled from "styled-components";
+import React from 'react';
+import { useFormContext } from 'react-hook-form';
+import { Box } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
+import styled from 'styled-components';
 
-import { errorsInChildren, errorSummary } from "./utils";
+import { errorsInChildren, errorSummary } from './utils';
 
 const ErrorMessage = styled.div`
   font-style: italic;
@@ -12,7 +12,7 @@ const ErrorMessage = styled.div`
 
 const AllErrors: React.FC = () => {
   const { errors } = useFormContext();
-  const allErrors = errorsInChildren("", errors);
+  const allErrors = errorsInChildren('', errors);
   if (allErrors.length === 0) {
     return null;
   }
@@ -20,7 +20,7 @@ const AllErrors: React.FC = () => {
     <Box marginBottom={2}>
       <Alert variant="outlined" severity="error">
         The data you entered has errors
-        <ErrorMessage>{errorSummary("", allErrors)}</ErrorMessage>
+        <ErrorMessage>{errorSummary('', allErrors)}</ErrorMessage>
       </Alert>
     </Box>
   );

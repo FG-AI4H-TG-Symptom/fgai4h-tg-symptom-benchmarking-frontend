@@ -1,17 +1,10 @@
-import React from "react";
-import {
-  ExpansionPanel,
-  ExpansionPanelDetails,
-  ExpansionPanelSummary
-} from "@material-ui/core";
-import { ExpandMore as ExpandMoreIcon } from "@material-ui/icons";
+import React from 'react';
+import { ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary } from '@material-ui/core';
+import { ExpandMore as ExpandMoreIcon } from '@material-ui/icons';
 
-import ViewRaw from "./ViewRaw";
+import ViewRaw from './ViewRaw';
 
-const ViewRawFooter: React.FC<{ data: any; ariaPrefix: string }> = ({
-  data,
-  ariaPrefix
-}) => (
+const ViewRawFooter: React.FC<{ data: any; ariaPrefix: string }> = ({ data, ariaPrefix }) => (
   <ExpansionPanel>
     <ExpansionPanelSummary
       expandIcon={<ExpandMoreIcon />}

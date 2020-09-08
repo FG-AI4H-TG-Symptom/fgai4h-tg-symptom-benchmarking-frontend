@@ -10,12 +10,7 @@ interface AiImplementationFormProps {
   baseUrl?: string;
   editing?: boolean;
 }
-const AiImplementationForm: React.FC<AiImplementationFormProps> = ({
-  onSubmit,
-  editing = false,
-  name,
-  baseUrl,
-}) => {
+const AiImplementationForm: React.FC<AiImplementationFormProps> = ({ onSubmit, editing = false, name, baseUrl }) => {
   const methods = useForm<any>({
     defaultValues: {
       name: name,

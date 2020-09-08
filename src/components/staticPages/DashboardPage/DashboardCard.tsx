@@ -1,16 +1,8 @@
-import React from "react";
-import {
-  Card,
-  Button,
-  CardContent,
-  CardActions,
-  CardActionArea,
-  Typography,
-  CardMedia,
-} from "@material-ui/core";
+import React from 'react';
+import { Card, Button, CardContent, CardActions, CardActionArea, Typography, CardMedia } from '@material-ui/core';
 
-import { makeStyles } from "@material-ui/core/styles";
-import LinkWrapper from "../../common/LinkWrapper";
+import { makeStyles } from '@material-ui/core/styles';
+import LinkWrapper from '../../common/LinkWrapper';
 
 interface Props {
   title: string;
@@ -37,7 +29,7 @@ const DashboardCard: React.FC<Props> = (props) => {
       <CardActionArea>
         <LinkWrapper to={props.link}>
           <CardMedia
-            style={{ height: 0, marginTop: "30", paddingTop: "56.25%" }}
+            style={{ height: 0, marginTop: '30', paddingTop: '56.25%' }}
             image={props.image}
             title={props.title}
           />
@@ -48,8 +40,7 @@ const DashboardCard: React.FC<Props> = (props) => {
             {props.title}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            <b style={{ fontSize: 20 }}>{props.count}</b> {props.title} are
-            available
+            <b style={{ fontSize: 20 }}>{props.count}</b> {props.title} are available
           </Typography>
         </CardContent>
       </CardActionArea>

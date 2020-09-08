@@ -1,6 +1,6 @@
-import React, { useRef, useState } from "react";
-import { IconButton, Tooltip } from "@material-ui/core";
-import styled from "styled-components";
+import React, { useRef, useState } from 'react';
+import { IconButton, Tooltip } from '@material-ui/core';
+import styled from 'styled-components';
 
 const IconButtonForProgressIndicator = styled(IconButton)`
   svg:nth-child(1) {
@@ -13,8 +13,7 @@ const IconButtonForProgressIndicator = styled(IconButton)`
 
 const SVG_VIRTUAL_SIZE = 100;
 const PROGRESS_CIRCLE_STROKE_WIDTH = 8;
-const circleLength =
-  (SVG_VIRTUAL_SIZE - PROGRESS_CIRCLE_STROKE_WIDTH) * Math.PI;
+const circleLength = (SVG_VIRTUAL_SIZE - PROGRESS_CIRCLE_STROKE_WIDTH) * Math.PI;
 
 const ProgressBackgroundContainer = styled.svg`
   width: 2em;
@@ -31,8 +30,7 @@ const ProgressBackgroundCircle = styled.circle<{
   fill: transparent;
   stroke: ${({ color }): string => color};
   stroke-width: ${PROGRESS_CIRCLE_STROKE_WIDTH}px;
-  stroke-dasharray: ${({ progress }): number => (progress / 100) * circleLength}
-    ${circleLength};
+  stroke-dasharray: ${({ progress }): number => (progress / 100) * circleLength} ${circleLength};
 `;
 
 interface ConfirmationIconButtonProps {
@@ -47,7 +45,7 @@ const ConfirmationIconButton: React.FC<ConfirmationIconButtonProps> = ({
   color,
   children,
   label,
-  disabled
+  disabled,
 }) => {
   const [progress, setProgress] = useState(0);
   const animationInterval = useRef<number>();
@@ -81,9 +79,7 @@ const ConfirmationIconButton: React.FC<ConfirmationIconButtonProps> = ({
           onMouseUp={abortConfirmation}
           disabled={disabled}
         >
-          <ProgressBackgroundContainer
-            viewBox={`0 0 ${SVG_VIRTUAL_SIZE} ${SVG_VIRTUAL_SIZE}`}
-          >
+          <ProgressBackgroundContainer viewBox={`0 0 ${SVG_VIRTUAL_SIZE} ${SVG_VIRTUAL_SIZE}`}>
             <ProgressBackgroundCircle
               r={(SVG_VIRTUAL_SIZE - PROGRESS_CIRCLE_STROKE_WIDTH) / 2}
               cx={SVG_VIRTUAL_SIZE / 2}

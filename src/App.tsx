@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Switch, Route, useLocation } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Switch, Route, useLocation } from 'react-router-dom';
 import {
   AppBar,
   Drawer,
@@ -10,20 +10,20 @@ import {
   ListItemSecondaryAction,
   ListItemText,
   Toolbar,
-} from "@material-ui/core";
-import { Menu as MenuIcon } from "@material-ui/icons";
+} from '@material-ui/core';
+import { Menu as MenuIcon } from '@material-ui/icons';
 
-import * as Styled from "./App.style";
-import { routes } from "./routes";
-import LinkWrapper from "./components/common/LinkWrapper";
-import NotFound from "./components/common/NotFound";
-import logo from "./logo.svg";
-import { RootState } from "./data/rootReducer";
-import Error from "./components/common/Error";
-import Notifications from "./components/common/Notifications";
-import { fetchAIs } from "./data/aiDuck";
-import { fetchDatasets } from "./data/datasetDuck";
-import { fetchSessions } from "./data/sessionsDuck";
+import * as Styled from './App.style';
+import { routes } from './routes';
+import LinkWrapper from './components/common/LinkWrapper';
+import NotFound from './components/common/NotFound';
+import logo from './logo.svg';
+import { RootState } from './data/rootReducer';
+import Error from './components/common/Error';
+import Notifications from './components/common/Notifications';
+import { fetchAIs } from './data/aiDuck';
+import { fetchDatasets } from './data/datasetDuck';
+import { fetchSessions } from './data/sessionsDuck';
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -35,29 +35,22 @@ const App: React.FC = () => {
     dispatch(fetchSessions());
   }, []);
 
-  const fatalError = useSelector<RootState, string>(
-    (state) => state.application.fatalError
-  );
+  const fatalError = useSelector<RootState, string>((state) => state.application.fatalError);
   const [menuOpen, setMenuOpen] = useState(false);
 
   const currentRoute = routes.filter((route) =>
-    route.path.includes(":")
-      ? location.pathname.startsWith(route.path.split(":")[0])
-      : route.path === location.pathname
+    route.path.includes(':')
+      ? location.pathname.startsWith(route.path.split(':')[0])
+      : route.path === location.pathname,
   )[0];
-  const title = currentRoute ? currentRoute.displayName : "";
+  const title = currentRoute ? currentRoute.displayName : '';
 
   return (
     <>
       <Notifications />
       <AppBar position="sticky">
         <Toolbar>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            onClick={(): void => setMenuOpen(true)}
-          >
+          <IconButton edge="start" color="inherit" aria-label="menu" onClick={(): void => setMenuOpen(true)}>
             <MenuIcon />
           </IconButton>
           <Styled.Title id="app-title">{title}</Styled.Title>
@@ -78,9 +71,7 @@ const App: React.FC = () => {
                   }}
                 >
                   <ListItemIcon>{Icon ? <Icon /> : <></>}</ListItemIcon>
-                  <ListItemText>
-                    {displayName.replace("manager", "")}
-                  </ListItemText>
+                  <ListItemText>{displayName.replace('manager', '')}</ListItemText>
                   {action && (
                     <ListItemSecondaryAction
                       onClick={(): void => {

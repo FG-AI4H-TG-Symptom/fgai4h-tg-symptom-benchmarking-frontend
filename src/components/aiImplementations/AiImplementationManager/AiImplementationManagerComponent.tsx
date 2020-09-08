@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   IconButton,
   Paper,
@@ -9,18 +9,15 @@ import {
   TableHead,
   TableRow,
   Tooltip,
-  Typography
-} from "@material-ui/core";
-import {
-  Delete as DeleteIcon,
-  Edit as EditIcon
-} from "@material-ui/icons";
+  Typography,
+} from '@material-ui/core';
+import { Delete as DeleteIcon, Edit as EditIcon } from '@material-ui/icons';
 
-import ConfirmationIconButton from "../../common/ConfirmationIconButton";
+import ConfirmationIconButton from '../../common/ConfirmationIconButton';
 
-import AiImplementationHealthComponent from "./AiImplementationHealthComponent";
-import { paths } from "../../../routes";
-import LinkWrapper from "../../common/LinkWrapper";
+import AiImplementationHealthComponent from './AiImplementationHealthComponent';
+import { paths } from '../../../routes';
+import LinkWrapper from '../../common/LinkWrapper';
 
 interface AiImplementationManagerComponentProps {
   aiImplementations: any[];
@@ -68,11 +65,11 @@ const AiImplementationManagerComponent: React.FC<AiImplementationManagerComponen
                   <TableCell>
                     <LinkWrapper to={paths.aiImplementationEditor(id)}>
                       <Tooltip title="Edit">
-                      <span>
-                        <IconButton aria-label="view">
-                          <EditIcon />
-                        </IconButton>
-                      </span>
+                        <span>
+                          <IconButton aria-label="view">
+                            <EditIcon />
+                          </IconButton>
+                        </span>
                       </Tooltip>
                     </LinkWrapper>
                     <ConfirmationIconButton

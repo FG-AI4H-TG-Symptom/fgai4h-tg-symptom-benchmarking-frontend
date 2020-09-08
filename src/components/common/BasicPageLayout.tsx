@@ -1,6 +1,6 @@
-import React, { ReactNode } from "react";
-import { Box, Typography } from "@material-ui/core";
-import PageWrapper from "./PageWrapper";
+import React, { ReactNode } from 'react';
+import { Box, Typography } from '@material-ui/core';
+import PageWrapper from './PageWrapper';
 
 const BasicPageLayout: React.FC<{
   title: ReactNode;
@@ -10,17 +10,10 @@ const BasicPageLayout: React.FC<{
 }> = ({ title, subtitle, action, children, unlimitedWidth }) => {
   let content = (
     <>
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        marginBottom={2}
-      >
+      <Box display="flex" justifyContent="space-between" alignItems="center" marginBottom={2}>
         <div>
           <Typography variant="h2">{title}</Typography>
-          {subtitle && (
-            <Typography color="textSecondary">{subtitle}</Typography>
-          )}
+          {subtitle && <Typography color="textSecondary">{subtitle}</Typography>}
         </div>
         {action}
       </Box>

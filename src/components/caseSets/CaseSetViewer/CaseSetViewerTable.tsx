@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Table,
   TableBody,
@@ -8,21 +8,17 @@ import {
   TablePagination,
   TableRow,
   Tooltip,
-} from "@material-ui/core";
-import { Check as CheckIcon, Clear as ClearIcon } from "@material-ui/icons";
+} from '@material-ui/core';
+import { Check as CheckIcon, Clear as ClearIcon } from '@material-ui/icons';
 
-import { CaseSetInfo } from "../../../data/caseSets/caseSetDataType";
-import { ClinicalFindingState } from "../../../data/caseSets/berlinModelTypes";
-import TextWithTooltipSelf from "../../common/TextWithTooltipSelf";
+import { CaseSetInfo } from '../../../data/caseSets/caseSetDataType';
+import { ClinicalFindingState } from '../../../data/caseSets/berlinModelTypes';
+import TextWithTooltipSelf from '../../common/TextWithTooltipSelf';
 
-import * as Styled from "./CaseSetViewerTable.style";
+import * as Styled from './CaseSetViewerTable.style';
 
-const PresenceIcon: React.FC<{ presence: ClinicalFindingState }> = ({
-  presence,
-}) => (
-  <Tooltip title={presence}>
-    {presence === "present" ? <CheckIcon /> : <ClearIcon />}
-  </Tooltip>
+const PresenceIcon: React.FC<{ presence: ClinicalFindingState }> = ({ presence }) => (
+  <Tooltip title={presence}>{presence === 'present' ? <CheckIcon /> : <ClearIcon />}</Tooltip>
 );
 
 const rowsPerPageOptions = [10, 20, 50, 100];
@@ -31,12 +27,8 @@ export interface CaseSetComponentProps {
   caseSet: CaseSetInfo;
 }
 
-const CaseSetViewerTable: React.FC<CaseSetComponentProps> = ({
-  caseSet: { cases },
-}) => {
-  const activeRowsPerPageOptions = rowsPerPageOptions.filter(
-    (rowsPerPageOption) => rowsPerPageOption <= cases.length
-  );
+const CaseSetViewerTable: React.FC<CaseSetComponentProps> = ({ caseSet: { cases } }) => {
+  const activeRowsPerPageOptions = rowsPerPageOptions.filter((rowsPerPageOption) => rowsPerPageOption <= cases.length);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageOptions[0]);
   return (
@@ -73,67 +65,47 @@ const CaseSetViewerTable: React.FC<CaseSetComponentProps> = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {cases
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((case_) => {
-                const { metaData, caseData } = case_.data;
-                return (
-                  <TableRow key={case_.id}>
-                    <Styled.CaseIdCell>
-                      <TextWithTooltipSelf>{case_.id}</TextWithTooltipSelf>
-                    </Styled.CaseIdCell>
+            {cases.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((case_) => {
+              const { metaData, caseData } = case_.data;
+              return (
+                <TableRow key={case_.id}>
+                  <Styled.CaseIdCell>
+                    <TextWithTooltipSelf>{case_.id}</TextWithTooltipSelf>
+                  </Styled.CaseIdCell>
 
-                    <TableCell>
-                      WhatIsCaseCreator?
-                      {/* {metaData.caseCreator} */}
-                    </TableCell>
+                  <TableCell>
+                    WhatIsCaseCreator?
+                    {/* {metaData.caseCreator} */}
+                  </TableCell>
 
-                    <Styled.CaseDescriptionCell>
-                      <TextWithTooltipSelf>
-                        {metaData?.description}
-                      </TextWithTooltipSelf>
-                    </Styled.CaseDescriptionCell>
+                  <Styled.CaseDescriptionCell>
+                    <TextWithTooltipSelf>{metaData?.description}</TextWithTooltipSelf>
+                  </Styled.CaseDescriptionCell>
 
-                    <TableCell>
-                      {metaData?.spreadsheetCaseId}
-                    </TableCell>
-                    <TableCell>{caseData.profileInformation.age}</TableCell>
-                    <TableCell>
-                      {caseData.profileInformation.biologicalSex}
-                    </TableCell>
-                    <TableCell>
-                      {caseData.presentingComplaints.map(
-                        ({ id: presentingComplaintId, name, state }) => (
-                          <Styled.IconWrapper
-                            key={`${case_.id}_${presentingComplaintId}`}
-                          >
-                            <PresenceIcon presence={state} />
-                            {name}
-                          </Styled.IconWrapper>
-                        )
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      {caseData.otherFeatures.map(
-                        ({ id: otherFeatureId, name, state }) => (
-                          <Styled.IconWrapper
-                            key={`${case_.id}_${otherFeatureId}`}
-                          >
-                            <PresenceIcon presence={state} />
-                            {name}
-                          </Styled.IconWrapper>
-                        )
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      {case_.data.valuesToPredict.expectedCondition?.name}
-                    </TableCell>
-                    <TableCell>
-                      {case_.data.valuesToPredict.expectedTriageLevel}
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
+                  <TableCell>{metaData?.spreadsheetCaseId}</TableCell>
+                  <TableCell>{caseData.profileInformation.age}</TableCell>
+                  <TableCell>{caseData.profileInformation.biologicalSex}</TableCell>
+                  <TableCell>
+                    {caseData.presentingComplaints.map(({ id: presentingComplaintId, name, state }) => (
+                      <Styled.IconWrapper key={`${case_.id}_${presentingComplaintId}`}>
+                        <PresenceIcon presence={state} />
+                        {name}
+                      </Styled.IconWrapper>
+                    ))}
+                  </TableCell>
+                  <TableCell>
+                    {caseData.otherFeatures.map(({ id: otherFeatureId, name, state }) => (
+                      <Styled.IconWrapper key={`${case_.id}_${otherFeatureId}`}>
+                        <PresenceIcon presence={state} />
+                        {name}
+                      </Styled.IconWrapper>
+                    ))}
+                  </TableCell>
+                  <TableCell>{case_.data.valuesToPredict.expectedCondition?.name}</TableCell>
+                  <TableCell>{case_.data.valuesToPredict.expectedTriageLevel}</TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </TableContainer>

@@ -1,10 +1,10 @@
-import React from "react";
-import { Button } from "@material-ui/core";
+import React from 'react';
+import { Button } from '@material-ui/core';
 
-import { BaseNamedConcept } from "../../data/util/baseConceptTypes";
+import { BaseNamedConcept } from '../../data/util/baseConceptTypes';
 
-import FormBlock from "./FormBlock";
-import { useAutoFieldArray, useWatchArrayHelper } from "./utils";
+import FormBlock from './FormBlock';
+import { useAutoFieldArray, useWatchArrayHelper } from './utils';
 
 export type ArrayFormComponentProps = {
   possibleValues: Array<BaseNamedConcept>;
@@ -27,10 +27,10 @@ const AutoArrayFormBlock: React.FC<AutoArrayFormBlockProps> = ({
   name,
   color,
   formComponent: FormComponent,
-  possibleValues
+  possibleValues,
 }) => {
   const fieldArray = useAutoFieldArray({
-    name
+    name,
   });
 
   const currentValueIds = useWatchArrayHelper(fieldArray, `${name}[*].id`);
@@ -41,17 +41,14 @@ const AutoArrayFormBlock: React.FC<AutoArrayFormBlockProps> = ({
         <FormBlock key={key} name={`[${index}]`} color={color}>
           <FormComponent
             possibleValues={possibleValues.filter(
-              ({ id }) =>
-                id === currentValueIds[index] || !currentValueIds.includes(id)
+              ({ id }) => id === currentValueIds[index] || !currentValueIds.includes(id),
             )}
             onRemove={(): void => fieldArray.remove(index)}
           />
         </FormBlock>
       ))}
       {fieldArray.fields.length < possibleValues.length ? (
-        <Button onClick={(): void => fieldArray.append({})}>
-          Add {title.replace(/s$/, "")}
-        </Button>
+        <Button onClick={(): void => fieldArray.append({})}>Add {title.replace(/s$/, '')}</Button>
       ) : null}
     </FormBlock>
   );

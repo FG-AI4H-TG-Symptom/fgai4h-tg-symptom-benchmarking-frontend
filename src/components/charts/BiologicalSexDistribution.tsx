@@ -1,63 +1,60 @@
-import React, { useMemo } from "react";
-import ReactEcharts from "echarts-for-react";
-import merge from "lodash/merge";
+import React, { useMemo } from 'react';
+import ReactEcharts from 'echarts-for-react';
+import merge from 'lodash/merge';
 
-import getBaseOptions from "./defaultChartBaseOptions";
-import { Population } from "./chartTypes";
-import defaultChartOpts from "./defaultChartOpts";
+import getBaseOptions from './defaultChartBaseOptions';
+import { Population } from './chartTypes';
+import defaultChartOpts from './defaultChartOpts';
 
-const biologicalSexes = ["male", "female"];
+const biologicalSexes = ['male', 'female'];
 
 interface PopulationPyramidProps {
   population: Population;
 }
 
-const BiologicalSexDistribution: React.FC<PopulationPyramidProps> = ({
-  population
-}) => {
+const BiologicalSexDistribution: React.FC<PopulationPyramidProps> = ({ population }) => {
   const counts = useMemo(
     () =>
-      biologicalSexes.map(sex => ({
+      biologicalSexes.map((sex) => ({
         name: sex,
-        value: population.filter(({ biologicalSex }) => biologicalSex === sex)
-          .length
+        value: population.filter(({ biologicalSex }) => biologicalSex === sex).length,
       })),
-    [population]
+    [population],
   );
 
   const biologicalSexDistributionOptions = merge(getBaseOptions(), {
     baseOption: {
       tooltip: {
-        trigger: "item",
-        formatter: "{b}: {c} ({d}%)"
+        trigger: 'item',
+        formatter: '{b}: {c} ({d}%)',
       },
       legend: {
-        data: biologicalSexes
+        data: biologicalSexes,
       },
       series: [
         {
-          type: "pie",
-          radius: ["50%", "70%"],
+          type: 'pie',
+          radius: ['50%', '70%'],
           label: {
             normal: {
-              formatter: "{c}",
-              position: "inside"
+              formatter: '{c}',
+              position: 'inside',
             },
             emphasis: {
-              show: false
-            }
+              show: false,
+            },
           },
-          data: counts
-        }
-      ]
-    }
+          data: counts,
+        },
+      ],
+    },
   });
 
   return (
     <ReactEcharts
       option={biologicalSexDistributionOptions}
       opts={defaultChartOpts}
-      style={{ width: "100%", height: "50vh" }}
+      style={{ width: '100%', height: '50vh' }}
       theme="benchmark"
     />
   );

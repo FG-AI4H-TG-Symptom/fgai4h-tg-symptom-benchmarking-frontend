@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react';
 
-import { Button, CardContent, CardHeader, Typography } from "@material-ui/core";
+import { Button, CardContent, CardHeader, Typography } from '@material-ui/core';
 
-import PageWrapper, { PageWidth } from "./PageWrapper";
+import PageWrapper, { PageWidth } from './PageWrapper';
 
-import * as Styled from "./DataStateManager.style";
-import * as CommonStyled from "./CommonStyles";
+import * as Styled from './DataStateManager.style';
+import * as CommonStyled from './CommonStyles';
 
 const Error: React.FC<{ error: string }> = ({ error }) => (
   <PageWrapper pageWidth={PageWidth.ULTRA_NARROW}>

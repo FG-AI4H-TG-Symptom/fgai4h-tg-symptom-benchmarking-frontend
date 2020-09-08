@@ -1,10 +1,10 @@
-import React from "react";
-import { Button, Card, CardContent, CardHeader } from "@material-ui/core";
+import React from 'react';
+import { Button, Card, CardContent, CardHeader } from '@material-ui/core';
 
-import PageWrapper, { PageWidth } from "./PageWrapper";
-import LinkWrapper from "./LinkWrapper";
+import PageWrapper, { PageWidth } from './PageWrapper';
+import LinkWrapper from './LinkWrapper';
 
-import * as CommonStyled from "./CommonStyles";
+import * as CommonStyled from './CommonStyles';
 
 const Warning: React.FC<{
   title: string;
@@ -17,7 +17,7 @@ const Warning: React.FC<{
       <CommonStyled.CardActionsEnd>
         {actions.map(({ text, targetUrl }) => (
           <LinkWrapper key={text} to={targetUrl}>
-            {" "}
+            {' '}
             <Button color="primary" size="small">
               {text}
             </Button>

@@ -1,12 +1,12 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Box, Button } from "@material-ui/core";
-import { paths } from "../../../routes";
-import { fetchAIs, deleteAI } from "../../../data/aiDuck";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Box, Button } from '@material-ui/core';
+import { paths } from '../../../routes';
+import { fetchAIs, deleteAI } from '../../../data/aiDuck';
 
-import BasicPageLayout from "../../common/BasicPageLayout";
-import LinkWrapper from "../../common/LinkWrapper";
-import AiImplementationManagerComponent from "./AiImplementationManagerComponent";
+import BasicPageLayout from '../../common/BasicPageLayout';
+import LinkWrapper from '../../common/LinkWrapper';
+import AiImplementationManagerComponent from './AiImplementationManagerComponent';
 
 const AiImplementationManagerContainer: React.FC = () => {
   const dispatch = useDispatch();

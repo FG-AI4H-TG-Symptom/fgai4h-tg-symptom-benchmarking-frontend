@@ -1,19 +1,19 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { createSlice } from "@reduxjs/toolkit";
-import { takeEvery, put, all } from "redux-saga/effects";
+import { createSlice } from '@reduxjs/toolkit';
+import { takeEvery, put, all } from 'redux-saga/effects';
 
-import urlBuilder from "./util/urlBuilder";
-import httpResponseErrorMessage from "./util/httpResponseErrorMessage";
+import urlBuilder from './util/urlBuilder';
+import httpResponseErrorMessage from './util/httpResponseErrorMessage';
 
 // REDUCER
 const initialAIstate = { list: [], editingAI: null, loading: false, error: null, health: {} };
 
 const slice = createSlice({
-  name: "AIs",
+  name: 'AIs',
   initialState: initialAIstate,
   reducers: {
-    fetchAIs: AIs => {
+    fetchAIs: (AIs) => {
       AIs.loading = true;
     },
     fetchAIsSuccess: (AIs, action) => {
@@ -70,12 +70,12 @@ const slice = createSlice({
     // delete AI
     deleteAI: (AIs, action) => {},
     deleteAISuccess: (AIs, action) => {
-      AIs.list = AIs.list.filter(ai => ai.id !== action.payload.id);
+      AIs.list = AIs.list.filter((ai) => ai.id !== action.payload.id);
     },
     deleteAIFailure: (AIs, action) => {
       AIs.error = action.payload;
-    }
-  }
+    },
+  },
 });
 
 const {
@@ -91,7 +91,7 @@ const {
   fetchAISuccess,
   fetchAIFailure,
   updateAISuccess,
-  updateAIFailure
+  updateAIFailure,
 } = slice.actions;
 
 export const { fetchAIs, fetchAI, updateAI, addAI, deleteAI } = slice.actions;
@@ -101,8 +101,8 @@ export default slice.reducer;
 // WORKERS
 function* fetchAIsWorker() {
   try {
-    const response: Response = yield fetch(urlBuilder("ai-implementations"), {
-      method: "GET"
+    const response: Response = yield fetch(urlBuilder('ai-implementations'), {
+      method: 'GET',
     });
 
     if (!response.ok) {
@@ -118,63 +118,43 @@ function* fetchAIsWorker() {
       yield put(fetchAiHealth({ id: aiImplementation.id }));
     }
   } catch (error) {
-    yield put(
-      fetchAIsFailure(`Failed to load AI implementations: ${error.message}`)
-    );
+    yield put(fetchAIsFailure(`Failed to load AI implementations: ${error.message}`));
   }
 }
 
 function* fetchAIWorker(action) {
   const aiImplementationId = action.payload;
   try {
-    const response = yield fetch(
-      urlBuilder(`ai-implementations/${aiImplementationId}`),
-      {
-        method: "GET"
-      }
-    );
+    const response = yield fetch(urlBuilder(`ai-implementations/${aiImplementationId}`), {
+      method: 'GET',
+    });
 
     if (!response.ok) {
       throw new Error(httpResponseErrorMessage(response));
     }
 
     const editingAI = yield response.json();
-    yield put(
-      fetchAISuccess({editingAI: editingAI})
-    );
+    yield put(fetchAISuccess({ editingAI: editingAI }));
   } catch (error) {
-    yield put(
-      fetchAIFailure(
-        `Failed to fetch AI implementation: ${error.message}`
-      )
-    );
+    yield put(fetchAIFailure(`Failed to fetch AI implementation: ${error.message}`));
   }
 }
 
 function* fetchAIHealthWorker(action) {
   const aiImplementationId = action.payload.id;
   try {
-    const response = yield fetch(
-      urlBuilder(`ai-implementations/${aiImplementationId}/health-check`),
-      {
-        method: "GET"
-      }
-    );
+    const response = yield fetch(urlBuilder(`ai-implementations/${aiImplementationId}/health-check`), {
+      method: 'GET',
+    });
 
     if (!response.ok) {
       throw new Error(httpResponseErrorMessage(response));
     }
 
     const data = yield response.json();
-    yield put(
-      fetchAiHealthSuccess({ id: aiImplementationId, status: data.status })
-    );
+    yield put(fetchAiHealthSuccess({ id: aiImplementationId, status: data.status }));
   } catch (error) {
-    yield put(
-      fetchAiHealthFailure(
-        `Failed to fetch AI implementation list: ${error.message}`
-      )
-    );
+    yield put(fetchAiHealthFailure(`Failed to fetch AI implementation list: ${error.message}`));
   }
 }
 
@@ -186,15 +166,15 @@ function* updateAIWorker(action) {
       urlBuilder(`ai-implementations/${ai.id}`),
 
       {
-        method: "PUT",
+        method: 'PUT',
         headers: {
-          "Content-Type": "application/json"
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           name: ai.name,
-          baseUrl: ai.baseUrl
-        })
-      }
+          baseUrl: ai.baseUrl,
+        }),
+      },
     );
 
     if (!response.ok) {
@@ -202,16 +182,10 @@ function* updateAIWorker(action) {
     }
 
     const updatedAI = yield response.json();
-    console.log(updatedAI)
-    yield put(
-      updateAISuccess({updatedAI: updatedAI})
-    );
+    console.log(updatedAI);
+    yield put(updateAISuccess({ updatedAI: updatedAI }));
   } catch (error) {
-    yield put(
-      updateAIFailure(
-        `Failed to update AI implementation: ${error.message}`
-      )
-    );
+    yield put(updateAIFailure(`Failed to update AI implementation: ${error.message}`));
   }
 }
 
@@ -220,12 +194,9 @@ function* deleteAIworker(action) {
   const aiImplementationId = action.payload;
 
   try {
-    const response = yield fetch(
-      urlBuilder(`ai-implementations/${aiImplementationId}`),
-      {
-        method: "DELETE"
-      }
-    );
+    const response = yield fetch(urlBuilder(`ai-implementations/${aiImplementationId}`), {
+      method: 'DELETE',
+    });
 
     if (!response.ok) {
       throw new Error(httpResponseErrorMessage(response));
@@ -234,11 +205,7 @@ function* deleteAIworker(action) {
     yield put(deleteAISuccess({ id: aiImplementationId }));
   } catch (error) {
     console.error(error);
-    yield put(
-      deleteAIFailure(
-        `Errored while deleting AI implementation: ${error.message}`
-      )
-    );
+    yield put(deleteAIFailure(`Errored while deleting AI implementation: ${error.message}`));
   }
 }
 function* addAIworker(action) {
@@ -246,12 +213,12 @@ function* addAIworker(action) {
   const aiImplementation = action.payload;
 
   try {
-    const response = yield fetch(urlBuilder("ai-implementations"), {
-      method: "POST",
+    const response = yield fetch(urlBuilder('ai-implementations'), {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(aiImplementation)
+      body: JSON.stringify(aiImplementation),
     });
 
     if (!response.ok) {
@@ -262,9 +229,7 @@ function* addAIworker(action) {
     yield put(fetchAiHealth({ id: createdAiImplementation.id }));
     yield put(addAISuccess(createdAiImplementation));
   } catch (error) {
-    yield put(
-      addAIFailure(`Failed to register AI implementation: ${error.message}`)
-    );
+    yield put(addAIFailure(`Failed to register AI implementation: ${error.message}`));
   }
 }
 
@@ -300,6 +265,6 @@ export function* rootAiSaga() {
     fetchAIsWatcher(),
     fetchAIWatcher(),
     fetchAiHealthWatcher(),
-    updateAIWatcher()
+    updateAIWatcher(),
   ]);
 }

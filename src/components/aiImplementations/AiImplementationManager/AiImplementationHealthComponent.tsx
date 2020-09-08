@@ -1,17 +1,17 @@
-import React from "react";
+import React from 'react';
 
-import { Tooltip } from "@material-ui/core";
+import { Tooltip } from '@material-ui/core';
 import {
   Check as StatusGoodIcon,
   Clear as StatusBadIcon,
   HourglassEmpty as TimeoutIcon,
   HelpOutline as UnknownIcon,
-} from "@material-ui/icons";
+} from '@material-ui/icons';
 
 enum AiImplementationHealth {
-  OK = "ok",
-  BAD_RESPONSE = "bad response",
-  TIMEOUT = "timeout",
+  OK = 'ok',
+  BAD_RESPONSE = 'bad response',
+  TIMEOUT = 'timeout',
 }
 
 const AiImplementationHealthComponent: React.FC<{

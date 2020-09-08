@@ -1,14 +1,14 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Grid } from "@material-ui/core";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Grid } from '@material-ui/core';
 
-import styled from "styled-components";
-import { paths } from "../../../routes";
-import DashboardCard from "./DashboardCard";
+import styled from 'styled-components';
+import { paths } from '../../../routes';
+import DashboardCard from './DashboardCard';
 
-import { fetchDatasets } from "../../../data/datasetDuck";
-import { fetchAIs } from "../../../data/aiDuck";
-import { fetchSessions } from "../../../data/sessionsDuck";
+import { fetchDatasets } from '../../../data/datasetDuck';
+import { fetchAIs } from '../../../data/aiDuck';
+import { fetchSessions } from '../../../data/sessionsDuck';
 
 const LandingPageComponent: React.FC = () => {
   const dispatch = useDispatch();
@@ -25,7 +25,7 @@ const LandingPageComponent: React.FC = () => {
   const sessions = useSelector((state: any) => state.sessions.list);
 
   const section = {
-    height: "100%",
+    height: '100%',
     paddingTop: 5,
   };
 
@@ -36,9 +36,9 @@ const LandingPageComponent: React.FC = () => {
     justify-content: center;
   `;
   /* eslint-disable global-require */
-  const image1 = require("../../../images/rept1.jpeg");
-  const image2 = require("../../../images/rept2.jpeg");
-  const image3 = require("../../../images/rept3.jpeg");
+  const image1 = require('../../../images/rept1.jpeg');
+  const image2 = require('../../../images/rept2.jpeg');
+  const image3 = require('../../../images/rept3.jpeg');
   /* eslint-enable global-require */
 
   return (

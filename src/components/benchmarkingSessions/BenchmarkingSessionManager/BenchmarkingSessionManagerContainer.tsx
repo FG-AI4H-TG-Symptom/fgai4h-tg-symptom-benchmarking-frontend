@@ -1,19 +1,15 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Box, Button } from "@material-ui/core";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Box, Button } from '@material-ui/core';
 
-import BenchmarkingSessionManagerComponent from "./BenchmarkingSessionManagerComponent";
-import BasicPageLayout from "../../common/BasicPageLayout";
-import LinkWrapper from "../../common/LinkWrapper";
-import { paths } from "../../../routes";
+import BenchmarkingSessionManagerComponent from './BenchmarkingSessionManagerComponent';
+import BasicPageLayout from '../../common/BasicPageLayout';
+import LinkWrapper from '../../common/LinkWrapper';
+import { paths } from '../../../routes';
 
-import {
-  fetchSessions,
-  deleteSession,
-  runSession,
-} from "../../../data/sessionsDuck";
-import { fetchAIs } from "../../../data/aiDuck";
-import { fetchDatasets } from "../../../data/datasetDuck";
+import { fetchSessions, deleteSession, runSession } from '../../../data/sessionsDuck';
+import { fetchAIs } from '../../../data/aiDuck';
+import { fetchDatasets } from '../../../data/datasetDuck';
 
 const BenchmarkingSessionManagerContainer: React.FC = () => {
   const dispatch = useDispatch();
