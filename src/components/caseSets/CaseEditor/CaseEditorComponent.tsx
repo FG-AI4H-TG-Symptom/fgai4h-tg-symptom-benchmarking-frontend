@@ -45,10 +45,12 @@ const validationResolver: Resolver<{ case: Case }> = (rawValues) => {
   if (values.case.metaData?.caseCreator?.length === 0) {
     delete values.case.metaData.caseCreator;
   }
+  // eslint-disable-next-line no-unused-expressions
   values.case.caseData.presentingComplaints?.forEach((presentingComplaint) => {
     presentingComplaint.attributes = presentingComplaint.attributes || [];
   });
   values.case.caseData.otherFeatures = values.case.caseData.otherFeatures || [];
+  // eslint-disable-next-line no-unused-expressions
   values.case.caseData.otherFeatures?.forEach((otherFeature) => {
     otherFeature.attributes = otherFeature.attributes || [];
   });
