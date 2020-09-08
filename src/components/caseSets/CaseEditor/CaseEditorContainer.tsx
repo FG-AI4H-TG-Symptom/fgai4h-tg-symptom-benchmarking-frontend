@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
-import BasicPageLayout from "../../common/BasicPageLayout";
+import BasicPageLayout from '../../common/BasicPageLayout';
 
-import CaseEditorComponent from "./CaseEditorComponent";
-import { fetchFullDataset, saveCase } from "../../../data/datasetDuck";
+import CaseEditorComponent from './CaseEditorComponent';
+import { fetchFullDataset, saveCase } from '../../../data/datasetDuck';
 
 type Params = {
   caseId: string;

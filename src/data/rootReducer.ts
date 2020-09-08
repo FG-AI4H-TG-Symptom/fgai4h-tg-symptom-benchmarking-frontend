@@ -1,12 +1,10 @@
-import { combineReducers } from "redux";
+import { combineReducers } from 'redux';
 
-import applicationReducers, {
-  ApplicationState,
-} from "./application/applicationReducers";
+import applicationReducers, { ApplicationState } from './application/applicationReducers';
 
-import aiReducer from "./aiDuck";
-import datasetReducer from "./datasetDuck";
-import sessionsReducer from "./sessionsDuck";
+import aiReducer from './aiDuck';
+import datasetReducer from './datasetDuck';
+import sessionsReducer from './sessionsDuck';
 
 export interface RootState {
   application: ApplicationState;

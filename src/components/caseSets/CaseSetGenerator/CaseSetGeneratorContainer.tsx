@@ -1,13 +1,13 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
-import BasicPageLayout from "../../common/BasicPageLayout";
-import { paths } from "../../../routes";
+import BasicPageLayout from '../../common/BasicPageLayout';
+import { paths } from '../../../routes';
 
-import { synthesizeDataset } from "../../../data/datasetDuck";
+import { synthesizeDataset } from '../../../data/datasetDuck';
 
-import CaseSetGeneratorComponent from "./CaseSetGeneratorComponent";
+import CaseSetGeneratorComponent from './CaseSetGeneratorComponent';
 
 const CaseSetCreatorContainer: React.FC = () => {
   const dispatch = useDispatch();

@@ -1,16 +1,8 @@
-import React from "react";
-import {
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from "@material-ui/core";
+import React from 'react';
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
 
-import ViewRawFooter from "../../common/ViewRawFooter";
-import * as CommonStyled from "../../common/CommonStyles";
+import ViewRawFooter from '../../common/ViewRawFooter';
+import * as CommonStyled from '../../common/CommonStyles';
 
 interface AiImplementationManagerComponentProps {
   evaluation: any;
@@ -26,33 +18,24 @@ const BenchmarkEvaluatorComponent: React.FC<AiImplementationManagerComponentProp
       <TableContainer component={Paper}>
         <Table>
           <caption>
-            {evaluation.aiImplementations.length} AI implementations,{" "}
-            {evaluation.responses.length} cases, {evaluation.metrics.length}{" "}
-            metrics
+            {evaluation.aiImplementations.length} AI implementations, {evaluation.responses.length} cases,{' '}
+            {evaluation.metrics.length} metrics
           </caption>
           <TableHead>
             <TableRow>
               <TableCell>AI implementation name</TableCell>
               {evaluation.metrics.map(({ id, name }) => (
-                <CommonStyled.CenteredTableCell key={id}>
-                  {name}
-                </CommonStyled.CenteredTableCell>
+                <CommonStyled.CenteredTableCell key={id}>{name}</CommonStyled.CenteredTableCell>
               ))}
             </TableRow>
           </TableHead>
           <TableBody>
             {evaluation.aiImplementations.map((aiImplementationId) => (
               <TableRow key={aiImplementationId}>
-                <TableCell>
-                  {
-                    aiImplementations.find((ai) => ai.id === aiImplementationId)
-                      .name
-                  }
-                </TableCell>
+                <TableCell>{aiImplementations.find((ai) => ai.id === aiImplementationId).name}</TableCell>
                 {evaluation.metrics.map(({ id, aggregatedValues }) => (
                   <CommonStyled.CenteredTableCell key={id}>
-                    {Math.round(aggregatedValues[aiImplementationId] * 100) /
-                      100}
+                    {Math.round(aggregatedValues[aiImplementationId] * 100) / 100}
                   </CommonStyled.CenteredTableCell>
                 ))}
               </TableRow>

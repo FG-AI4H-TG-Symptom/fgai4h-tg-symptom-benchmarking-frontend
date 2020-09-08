@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { useFormContext } from "react-hook-form";
-import { FormControlLabel, Switch } from "@material-ui/core";
+import React, { useEffect, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
+import { FormControlLabel, Switch } from '@material-ui/core';
 
-import { usePrefix } from "./PrefixContext";
+import { usePrefix } from './PrefixContext';
 
 const AutoSwitchArrayEntry: React.FC<{
   name: string;
@@ -29,25 +29,11 @@ const AutoSwitchArrayEntry: React.FC<{
     return (): void => {
       unregister(prefixedName);
     };
-  }, [
-    onChange,
-    selected,
-    register,
-    setValue,
-    prefixedName,
-    valueToSet,
-    watch,
-    unregister
-  ]);
+  }, [onChange, selected, register, setValue, prefixedName, valueToSet, watch, unregister]);
 
   return (
     <FormControlLabel
-      control={
-        <Switch
-          value={selected}
-          onChange={(event): void => setSelected(event.target.checked)}
-        />
-      }
+      control={<Switch value={selected} onChange={(event): void => setSelected(event.target.checked)} />}
       label={label}
     />
   );

@@ -1,28 +1,25 @@
-import React from "react";
-import { useFormContext } from "react-hook-form";
-import { Box, Button, IconButton } from "@material-ui/core";
-import { Alert } from "@material-ui/lab";
-import { Delete as DeleteIcon } from "@material-ui/icons";
+import React from 'react';
+import { useFormContext } from 'react-hook-form';
+import { Box, Button, IconButton } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
+import { Delete as DeleteIcon } from '@material-ui/icons';
 
-import { BaseNamedConcept } from "../../data/util/baseConceptTypes";
-import { AutoPrefix } from "./PrefixContext";
-import ValueSelect from "./ValueSelect";
-import { useAutoFieldArray, useWatchArrayHelper } from "./utils";
+import { BaseNamedConcept } from '../../data/util/baseConceptTypes';
+import { AutoPrefix } from './PrefixContext';
+import ValueSelect from './ValueSelect';
+import { useAutoFieldArray, useWatchArrayHelper } from './utils';
 
 interface ValueMultiSelectProps {
   name: string;
   possibleValues: Array<BaseNamedConcept>;
 }
 
-const ValueMultiSelect: React.FC<ValueMultiSelectProps> = ({
-  name,
-  possibleValues
-}) => {
+const ValueMultiSelect: React.FC<ValueMultiSelectProps> = ({ name, possibleValues }) => {
   const {
-    formState: { isSubmitted }
+    formState: { isSubmitted },
   } = useFormContext();
   const values = useAutoFieldArray({
-    name: "values"
+    name: 'values',
   });
 
   const currentValueIds = useWatchArrayHelper(values, `${name}[*].id`);
@@ -39,8 +36,7 @@ const ValueMultiSelect: React.FC<ValueMultiSelectProps> = ({
           <AutoPrefix name={`${name}[${index}]`}>
             <ValueSelect
               possibleValues={possibleValues.filter(
-                ({ id }) =>
-                  id === currentValueIds[index] || !currentValueIds.includes(id)
+                ({ id }) => id === currentValueIds[index] || !currentValueIds.includes(id),
               )}
             />
           </AutoPrefix>

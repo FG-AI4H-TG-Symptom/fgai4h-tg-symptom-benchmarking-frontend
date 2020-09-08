@@ -1,3 +1,3 @@
-import DashboardComponent from "./DashboardComponent";
+import DashboardComponent from './DashboardComponent';
 
 export default DashboardComponent;

@@ -1,7 +1,7 @@
-import React from "react";
-import { Card, CardContent } from "@material-ui/core";
-import styled from "styled-components";
-import AiImplementationForm from "../AiImplementationForm";
+import React from 'react';
+import { Card, CardContent } from '@material-ui/core';
+import styled from 'styled-components';
+import AiImplementationForm from '../AiImplementationForm';
 
 const LimitedWidthCard = styled(Card)`
   max-width: 40rem;

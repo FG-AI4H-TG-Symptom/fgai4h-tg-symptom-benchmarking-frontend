@@ -1,26 +1,16 @@
-import React from "react";
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  Grid,
-  TextField,
-} from "@material-ui/core";
-import { ArrowForward as StartIcon } from "@material-ui/icons";
-import { useForm } from "react-hook-form";
+import React from 'react';
+import { Box, Button, Card, CardContent, CardHeader, Grid, TextField } from '@material-ui/core';
+import { ArrowForward as StartIcon } from '@material-ui/icons';
+import { useForm } from 'react-hook-form';
 
 interface CaseSetCreatorComponentProps {
   onCreateCaseSet: (caseSetParameters) => void;
 }
 
-const DatasetCreatorComponent: React.FC<CaseSetCreatorComponentProps> = ({
-  onCreateCaseSet,
-}) => {
+const DatasetCreatorComponent: React.FC<CaseSetCreatorComponentProps> = ({ onCreateCaseSet }) => {
   const { register, handleSubmit, errors } = useForm({
     defaultValues: {
-      name: "New Dataset",
+      name: 'New Dataset',
     },
   });
 
@@ -37,10 +27,10 @@ const DatasetCreatorComponent: React.FC<CaseSetCreatorComponentProps> = ({
             <CardContent>
               <TextField
                 inputRef={register({
-                  required: "Name is required",
+                  required: 'Name is required',
                   minLength: {
                     value: 6,
-                    message: "Name should be longer than 6 characters",
+                    message: 'Name should be longer than 6 characters',
                   },
                 })}
                 name="name"
@@ -55,12 +45,7 @@ const DatasetCreatorComponent: React.FC<CaseSetCreatorComponentProps> = ({
       </Grid>
 
       <Box display="flex" marginTop={4}>
-        <Button
-          variant="contained"
-          color="primary"
-          endIcon={<StartIcon />}
-          type="submit"
-        >
+        <Button variant="contained" color="primary" endIcon={<StartIcon />} type="submit">
           Create dataset
         </Button>
       </Box>

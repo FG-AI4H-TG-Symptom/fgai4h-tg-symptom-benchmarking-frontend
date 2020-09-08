@@ -1,29 +1,19 @@
-import React, { useMemo } from "react";
-import { Card, CardContent, CardHeader, Grid } from "@material-ui/core";
+import React, { useMemo } from 'react';
+import { Card, CardContent, CardHeader, Grid } from '@material-ui/core';
 
-import { CaseDataType } from "../../../data/caseSets/caseDataType";
-import PopulationPyramid from "../../charts/PopulationPyramid";
-import BiologicalSexDistribution from "../../charts/BiologicalSexDistribution";
+import { CaseDataType } from '../../../data/caseSets/caseDataType';
+import PopulationPyramid from '../../charts/PopulationPyramid';
+import BiologicalSexDistribution from '../../charts/BiologicalSexDistribution';
 
 export interface CaseSetComponentProps {
   caseSet: CaseDataType[];
 }
 
-const CaseSetViewerAnalysis: React.FC<CaseSetComponentProps> = ({
-  caseSet
-}) => {
+const CaseSetViewerAnalysis: React.FC<CaseSetComponentProps> = ({ caseSet }) => {
   const populationInfo = useMemo(
     () =>
-      caseSet.map(
-        ({
-          data: {
-            caseData: {
-              profileInformation: { age, biologicalSex }
-            }
-          }
-        }) => ({ age, biologicalSex })
-      ),
-    [caseSet]
+      caseSet.map(({ data: { caseData: { profileInformation: { age, biologicalSex } } } }) => ({ age, biologicalSex })),
+    [caseSet],
   );
 
   return (

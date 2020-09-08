@@ -1,15 +1,15 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React from 'react';
+import { useSelector } from 'react-redux';
 
-import { useHistory, useParams } from "react-router-dom";
-import { LinearProgress, Button, Box } from "@material-ui/core";
+import { useHistory, useParams } from 'react-router-dom';
+import { LinearProgress, Button, Box } from '@material-ui/core';
 
-import BasicPageLayout from "../../common/BasicPageLayout";
+import BasicPageLayout from '../../common/BasicPageLayout';
 
-import BenchmarkRunnerComponent from "./BenchmarkRunnerComponent";
+import BenchmarkRunnerComponent from './BenchmarkRunnerComponent';
 
-import { BenchmarkingSessionStatus } from "../../../data/benchmarks/benchmarkManagerDataType";
-import { paths } from "../../../routes";
+import { BenchmarkingSessionStatus } from '../../../data/benchmarks/benchmarkManagerDataType';
+import { paths } from '../../../routes';
 
 type Params = {
   benchmarkId: string;
@@ -21,17 +21,13 @@ const BenchmarkRunnerContainer: React.FC = () => {
   const AIs = useSelector((state: any) => state.AIs);
   const sessions = useSelector((state: any) => state.sessions);
 
-  const runningSession = sessions.list.find(
-    (session) => session.id === benchmarkId
-  );
+  const runningSession = sessions.list.find((session) => session.id === benchmarkId);
 
   if (!runningSession) {
     return <div />;
   }
   let progress = sessions.report.statistics
-    ? (sessions.report.statistics.currentCaseIndex /
-        sessions.report.statistics.totalCaseCount) *
-      100
+    ? (sessions.report.statistics.currentCaseIndex / sessions.report.statistics.totalCaseCount) * 100
     : 0;
 
   if (runningSession.status === BenchmarkingSessionStatus.FINISHED) {
@@ -42,11 +38,7 @@ const BenchmarkRunnerContainer: React.FC = () => {
     <BasicPageLayout title={<>Running benchmark {runningSession.id}</>}>
       <LinearProgress variant="determinate" value={progress} />
 
-      <BenchmarkRunnerComponent
-        benchmarkingSession={runningSession}
-        report={sessions.report}
-        AIs={AIs.list}
-      />
+      <BenchmarkRunnerComponent benchmarkingSession={runningSession} report={sessions.report} AIs={AIs.list} />
 
       {runningSession.status === BenchmarkingSessionStatus.FINISHED && (
         <Box display="flex" justifyContent="flex-end" marginTop={4}>

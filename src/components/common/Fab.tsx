@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { Fab as MuiFab, Tooltip } from "@material-ui/core";
+import React from 'react';
+import styled from 'styled-components';
+import { Fab as MuiFab, Tooltip } from '@material-ui/core';
 
 export const PositionedFab = styled(MuiFab)`
   position: fixed;
@@ -11,7 +11,7 @@ export const PositionedFab = styled(MuiFab)`
 
 interface FabProps {
   label: string;
-  type: "submit" | "button";
+  type: 'submit' | 'button';
 }
 
 const Fab: React.FC<FabProps> = ({ type, label, children }) => (
