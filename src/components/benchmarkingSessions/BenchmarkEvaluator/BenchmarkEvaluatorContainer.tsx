@@ -9,11 +9,15 @@ import BenchmarkEvaluatorComponent from "./BenchmarkEvaluatorComponent";
 import { fetchEvaluation } from "../../../data/sessionsDuck";
 import { fetchAIs } from "../../../data/aiDuck";
 
-const BenchmarkEvaluatorContainer: React.FC<{}> = () => {
+type Params = {
+  benchmarkId: string;
+};
+
+const BenchmarkEvaluatorContainer: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const { benchmarkId: benchmarkingSessionId } = useParams();
+  const { benchmarkId: benchmarkingSessionId } = useParams<Params>();
 
   // fetch evaluation once, when the component is mounted
   useEffect(() => {

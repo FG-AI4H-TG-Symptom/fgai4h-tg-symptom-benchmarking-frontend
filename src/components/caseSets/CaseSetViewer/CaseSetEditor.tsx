@@ -1,5 +1,5 @@
 import React from "react";
-import { FormContext, useForm, ValidationResolver } from "react-hook-form";
+import { FormProvider, useForm, Resolver } from "react-hook-form";
 import Ajv from "ajv";
 import {
   Avatar,
@@ -41,7 +41,7 @@ const caseSetSchemaValidator = new Ajv({
   allErrors: true,
 }).compile(berlinModelSchema);
 
-const validationResolver: ValidationResolver<CaseSetInfo> = (values) =>
+const validationResolver: Resolver<CaseSetInfo> = (values) =>
   validateAgainstSchema(values, caseSetSchemaValidator);
 
 export interface CaseSetEditorProps {
@@ -57,12 +57,12 @@ const CaseSetEditor: React.FC<CaseSetEditorProps> = ({
 }) => {
   const { handleSubmit, errors, ...formMethods } = useForm<CaseSetInfo>({
     defaultValues: caseSet,
-    validationResolver,
-    validationContext: caseSet,
+    resolver: validationResolver,
+    context: caseSet,
   });
 
   return (
-    <FormContext handleSubmit={handleSubmit} errors={errors} {...formMethods}>
+    <FormProvider handleSubmit={handleSubmit} errors={errors} {...formMethods}>
       <form
         onSubmit={handleSubmit((data) => saveCaseSet({ ...caseSet, ...data }))}
       >
@@ -121,9 +121,9 @@ const CaseSetEditor: React.FC<CaseSetEditorProps> = ({
                     </ConfirmationIconButton>
 
                     {/* <LinkWrapper to={paths.caseEditor(caseSet.id, case_.id)}> */}
-                      <IconButton disabled>
-                        <EditIcon />
-                      </IconButton>
+                    <IconButton disabled>
+                      <EditIcon />
+                    </IconButton>
                     {/* </LinkWrapper> */}
 
                     {/* <LinkWrapper to={paths.simpleCaseEditor(caseSet.id, case_.id)}>
@@ -131,8 +131,6 @@ const CaseSetEditor: React.FC<CaseSetEditorProps> = ({
                         <AdbIcon/>
                       </IconButton>
                     </LinkWrapper> */}
-
-
                   </>
                 </ListItemSecondaryAction>
               </ListItem>
@@ -145,7 +143,7 @@ const CaseSetEditor: React.FC<CaseSetEditorProps> = ({
           </LinkWrapper>
         </Box> */}
       </form>
-    </FormContext>
+    </FormProvider>
   );
 };
 

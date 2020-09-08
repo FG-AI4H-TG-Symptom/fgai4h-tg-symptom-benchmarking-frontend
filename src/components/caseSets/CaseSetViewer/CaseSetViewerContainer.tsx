@@ -15,9 +15,13 @@ import {
 import { paths } from "../../../routes";
 import LinkWrapper from "../../common/LinkWrapper";
 
-const CaseSetViewerContainer: React.FC<{}> = () => {
+type Params = {
+  caseSetId: string;
+};
+
+const CaseSetViewerContainer: React.FC = () => {
   const dispatch = useDispatch();
-  const { caseSetId } = useParams();
+  const { caseSetId } = useParams<Params>();
 
   useEffect(() => {
     dispatch(fetchFullDataset(caseSetId));

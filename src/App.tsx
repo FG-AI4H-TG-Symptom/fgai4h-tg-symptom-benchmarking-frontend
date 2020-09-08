@@ -9,7 +9,7 @@ import {
   ListItemIcon,
   ListItemSecondaryAction,
   ListItemText,
-  Toolbar
+  Toolbar,
 } from "@material-ui/core";
 import { Menu as MenuIcon } from "@material-ui/icons";
 
@@ -25,7 +25,7 @@ import { fetchAIs } from "./data/aiDuck";
 import { fetchDatasets } from "./data/datasetDuck";
 import { fetchSessions } from "./data/sessionsDuck";
 
-const App: React.FC<{}> = () => {
+const App: React.FC = () => {
   const location = useLocation();
 
   const dispatch = useDispatch();
@@ -35,13 +35,12 @@ const App: React.FC<{}> = () => {
     dispatch(fetchSessions());
   }, []);
 
-  
   const fatalError = useSelector<RootState, string>(
-    state => state.application.fatalError
+    (state) => state.application.fatalError
   );
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const currentRoute = routes.filter(route =>
+  const currentRoute = routes.filter((route) =>
     route.path.includes(":")
       ? location.pathname.startsWith(route.path.split(":")[0])
       : route.path === location.pathname

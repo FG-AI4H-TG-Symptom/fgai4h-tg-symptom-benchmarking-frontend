@@ -1,5 +1,5 @@
 import React from "react";
-import { FormContext, useForm, ValidationResolver } from "react-hook-form";
+import { FormProvider, useForm, Resolver } from "react-hook-form";
 import Ajv from "ajv";
 import { Box } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
@@ -33,7 +33,7 @@ const caseSchemaValidator = new Ajv({
     required: ["case"],
   });
 
-const validationResolver: ValidationResolver<{ case: Case }> = (rawValues) => {
+const validationResolver: Resolver<{ case: Case }> = (rawValues) => {
   // todo: replace by a flexible and efficient solution
   const values = extendWithModelInformationFromIds(rawValues);
   if (values.case.metaData?.description?.length === 0) {
@@ -45,12 +45,10 @@ const validationResolver: ValidationResolver<{ case: Case }> = (rawValues) => {
   if (values.case.metaData?.caseCreator?.length === 0) {
     delete values.case.metaData.caseCreator;
   }
-  // eslint-disable-next-line no-unused-expressions
   values.case.caseData.presentingComplaints?.forEach((presentingComplaint) => {
     presentingComplaint.attributes = presentingComplaint.attributes || [];
   });
   values.case.caseData.otherFeatures = values.case.caseData.otherFeatures || [];
-  // eslint-disable-next-line no-unused-expressions
   values.case.caseData.otherFeatures?.forEach((otherFeature) => {
     otherFeature.attributes = otherFeature.attributes || [];
   });
@@ -86,12 +84,12 @@ const CaseEditorComponent: React.FC<CaseSetEditorProps> = ({
   // };
 
   const { errors, handleSubmit, ...formMethods } = useForm({
-    validationResolver,
+    resolver: validationResolver,
     defaultValues: defaultValues,
   });
 
   return (
-    <FormContext errors={errors} handleSubmit={handleSubmit} {...formMethods}>
+    <FormProvider errors={errors} handleSubmit={handleSubmit} {...formMethods}>
       <Box marginBottom={2}>
         <Alert variant="outlined" severity="warning">
           The editor is already using the Berlin model.
@@ -113,7 +111,7 @@ const CaseEditorComponent: React.FC<CaseSetEditorProps> = ({
           <CaseEditor />
         </AutoPrefix>
       </form>
-    </FormContext>
+    </FormProvider>
   );
 };
 

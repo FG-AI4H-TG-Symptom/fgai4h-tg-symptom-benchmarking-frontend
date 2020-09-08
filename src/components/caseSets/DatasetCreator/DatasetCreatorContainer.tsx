@@ -9,7 +9,7 @@ import { createCaseSet } from "../../../data/datasetDuck";
 
 import DatasetCreatorComponent from "./DatasetCreatorComponent";
 
-const CaseSetCreatorContainer: React.FC<{}> = () => {
+const CaseSetCreatorContainer: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 

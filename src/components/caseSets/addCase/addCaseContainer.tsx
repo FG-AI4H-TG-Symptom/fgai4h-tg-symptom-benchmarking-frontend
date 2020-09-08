@@ -6,9 +6,13 @@ import BasicPageLayout from "../../common/BasicPageLayout";
 
 import { saveCase } from "../../../data/datasetDuck";
 
-const AddCaseContainer: React.FC<{}> = () => {
+type Params = {
+  caseSetId: string;
+};
+
+const AddCaseContainer: React.FC = () => {
   const dispatch = useDispatch();
-  const { caseSetId } = useParams();
+  const { caseSetId } = useParams<Params>();
 
   useEffect(() => {
     // dispatch(fetchFullDataset(caseSetId));

@@ -10,7 +10,7 @@ import { fetchDatasets } from "../../../data/datasetDuck";
 import { fetchAIs } from "../../../data/aiDuck";
 import { fetchSessions } from "../../../data/sessionsDuck";
 
-const LandingPageComponent: React.FC<{}> = () => {
+const LandingPageComponent: React.FC = () => {
   const dispatch = useDispatch();
 
   // fetch AIs and Datasets once when the component is mounted

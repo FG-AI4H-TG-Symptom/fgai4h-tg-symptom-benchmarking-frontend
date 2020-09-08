@@ -10,13 +10,13 @@ import { Notification } from "../../data/application/applicationReducers";
 enum NotificationState {
   CLOSED = "CLOSED",
   OPEN = "OPEN",
-  CLOSING = "CLOSING"
+  CLOSING = "CLOSING",
 }
 
-const Notifications: React.FC<{}> = () => {
+const Notifications: React.FC = () => {
   const dispatch = useDispatch();
   const notification = useSelector<RootState, Notification | undefined>(
-    state => state.application.notificationQueue[0]
+    (state) => state.application.notificationQueue[0]
   );
   const [notificationState, setNotificationOpen] = useState<NotificationState>(
     notification ? NotificationState.OPEN : NotificationState.CLOSED

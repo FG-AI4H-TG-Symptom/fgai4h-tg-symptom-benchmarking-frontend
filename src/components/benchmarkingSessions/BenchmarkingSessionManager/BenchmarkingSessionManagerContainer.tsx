@@ -15,7 +15,7 @@ import {
 import { fetchAIs } from "../../../data/aiDuck";
 import { fetchDatasets } from "../../../data/datasetDuck";
 
-const BenchmarkingSessionManagerContainer: React.FC<{}> = () => {
+const BenchmarkingSessionManagerContainer: React.FC = () => {
   const dispatch = useDispatch();
 
   const deleteBenchmarkingSession = (sessionId): void => {

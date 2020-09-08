@@ -62,7 +62,7 @@ interface Route {
   id: string;
   displayName: string;
   path: string;
-  component: React.FC<{}>;
+  component: React.FC;
   visibleInMenu: boolean;
   exact: boolean;
   icon?: SvgIconComponent;

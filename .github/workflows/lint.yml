@@ -3,10 +3,11 @@ name: Lint
 on: pull_request
 
 jobs:
-  eslint:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: stefanoeb/eslint-action@1.0.2
-        with:
-          files: './src/**/*.{js,jsx,ts,tsx}'
+      - uses: actions/checkout@v2
+      - name: Install modules
+        run: npm install
+      - name: Run ESLint
+        run: npx eslint './src/**/*.{js,jsx,ts,tsx}'

@@ -4,7 +4,7 @@ interface ChartFeatures {
   dataZoom?: boolean;
 }
 
-const useChartBaseOptions = (features: ChartFeatures = {}) => {
+const useChartBaseOptions = (features: ChartFeatures = {}): any => {
   const options: EChartsResponsiveOption = {
     baseOption: {
       legend: {
@@ -34,6 +34,7 @@ const useChartBaseOptions = (features: ChartFeatures = {}) => {
   };
 
   if (features.dataZoom) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     options.baseOption.toolbox.feature.dataZoom = {
       title: {

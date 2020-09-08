@@ -7,7 +7,7 @@ import BasicPageLayout from "../../common/BasicPageLayout";
 import { addAI } from "../../../data/aiDuck";
 import AiImplementationRegistrationComponent from "./AiImplementationRegistrationComponent";
 
-const AiImplementationRegistrationContainer: React.FC<{}> = () => {
+const AiImplementationRegistrationContainer: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 

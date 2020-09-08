@@ -12,7 +12,7 @@ import ClinicalFindingSelect from "./ClinicalFindingSelect";
 import ConditionSelect from "./ConditionSelect";
 import { refToConcept } from "./utils";
 
-const CaseEditor: React.FC<{}> = () => {
+const CaseEditor: React.FC = () => {
   const possibleClinicalFindings = useMemo(
     () =>
       berlinModelSchema.definitions.clinicalFinding.oneOf.map(({ $ref }) =>

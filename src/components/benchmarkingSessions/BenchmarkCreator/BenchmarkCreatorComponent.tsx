@@ -16,7 +16,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { ArrowForward as StartIcon } from "@material-ui/icons";
-import { useForm, ValidationResolver } from "react-hook-form";
+import { useForm, Resolver } from "react-hook-form";
 
 import ErrorIndicator from "../../common/ErrorIndicator";
 import formatDate from "../../../util/formatDate";
@@ -26,7 +26,7 @@ interface FormData {
   caseSetId: string;
 }
 
-const validationResolver: ValidationResolver<FormData> = (values) => {
+const validationResolver: Resolver<FormData> = (values) => {
   const errors = {};
   if (!values.caseSetId) {
     // eslint-disable-next-line dot-notation
@@ -47,7 +47,7 @@ const BenchmarkCreatorComponent: React.FC<any> = ({
   onCreateBenchmark,
 }) => {
   const { register, handleSubmit, errors, watch } = useForm<FormData>({
-    validationResolver,
+    resolver: validationResolver,
     defaultValues: {
       aiImplementations: Object.keys(aiImplementations).map(() => true),
       caseSetId: defaultCaseSetId,

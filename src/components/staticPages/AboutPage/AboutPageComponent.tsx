@@ -13,7 +13,7 @@ import * as Styled from "./AboutPageComponent.style";
 import PageWrapper, { PageWidth } from "../../common/PageWrapper";
 import logo from "../../../logo.svg";
 
-const AboutPageComponent: React.FC<{}> = () => {
+const AboutPageComponent: React.FC = () => {
   return (
     <PageWrapper pageWidth={PageWidth.NARROW}>
       <Styled.LogoWrapper>
