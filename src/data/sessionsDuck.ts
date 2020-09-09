@@ -7,6 +7,7 @@ import urlBuilder from './util/urlBuilder';
 import httpResponseErrorMessage from './util/httpResponseErrorMessage';
 import { BenchmarkingSessionStatus } from './benchmarks/benchmarkManagerDataType';
 import sleep from './util/sleep';
+import { queueNotification } from './application/applicationActions';
 
 const initialState = {
   list: [],
@@ -110,7 +111,9 @@ function* fetchSessionsWorker() {
 
     yield put(fetchSessionsSuccess(benchmarkingSessions));
   } catch (error) {
-    yield put(fetchSessionsFailure(`Errored while fetching benchmark sessions list: ${error.message}`));
+    const errorMessage = `Errored while fetching benchmark sessions list: ${error.message}`;
+    yield put(fetchSessionsFailure(errorMessage));
+    yield put(queueNotification({ message: errorMessage, type: 'error' }));
   }
 }
 
@@ -138,7 +141,9 @@ function* addSessionWorker(action) {
     const benchmarkingSession = yield response.json();
     yield put(addSessionSuccess(benchmarkingSession));
   } catch (error) {
-    yield put(addSessionFailure(`Failed to run benchmark on case set: ${error.message}`));
+    const errorMessage = `Failed to run benchmark on case set: ${error.message}`;
+    yield put(addSessionFailure(errorMessage));
+    yield put(queueNotification({ message: errorMessage, type: 'error' }));
   }
 }
 
@@ -168,7 +173,9 @@ function* runSessionWorker(action) {
 
     yield put(observeSessionStatus(session.id));
   } catch (error) {
-    yield put(runSessionFailure(`Error running benchmark sessions: ${error.message}`));
+    const errorMessage = `Error running benchmark sessions: ${error.message}`;
+    yield put(runSessionFailure(errorMessage));
+    yield put(queueNotification({ message: errorMessage, type: 'error' }));
   }
 }
 
@@ -201,7 +208,9 @@ function* observeSessionStatusWorker(action) {
       yield sleep(500);
     }
   } catch (error) {
-    yield put(observeSessionStatusFailure(`Errored while running benchmark on case set: ${error.message}`));
+    const errorMessage = `Errored while running benchmark on case set: ${error.message}`;
+    yield put(observeSessionStatusFailure(errorMessage));
+    yield put(queueNotification({ message: errorMessage, type: 'error' }));
   }
 }
 
@@ -219,8 +228,9 @@ function* deleteSessionWorker(action) {
 
     yield put(deleteSessionSuccess({ id: sessionId }));
   } catch (error) {
-    console.error(error);
-    yield put(deleteSessionFailure(`Errored while deleting benchmarking session: ${error.message}`));
+    const errorMessage = `Errored while deleting benchmarking session: ${error.message}`;
+    yield put(deleteSessionFailure(errorMessage));
+    yield put(queueNotification({ message: errorMessage, type: 'error' }));
   }
 }
 
@@ -238,7 +248,9 @@ function* fetchEvaluationWorker(action) {
 
     yield put(fetchEvaluationSuccess(results));
   } catch (error) {
-    yield put(fetchEvaluationFailure(`Errored while running benchmark on case set: ${error.message}`));
+    const errorMessage = `Errored while running benchmark on case set: ${error.message}`;
+    yield put(fetchEvaluationFailure(errorMessage));
+    yield put(queueNotification({ message: errorMessage, type: 'error' }));
   }
 }
 
