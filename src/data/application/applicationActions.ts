@@ -1,4 +1,5 @@
 import { createAction } from "redux-actions";
+import {Notification} from './applicationReducers'
 
 export enum ApplicationActionTypes {
   SET_FATAL_ERROR = "SET_FATAL_ERROR",
@@ -7,5 +8,9 @@ export enum ApplicationActionTypes {
 }
 
 export const clearCurrentNotification = createAction<Notification>(
-  ApplicationActionTypes.CLEAR_CURRENT_NOTIFICATION
+  ApplicationActionTypes.CLEAR_CURRENT_NOTIFICATION,
+);
+
+export const queueNotification = createAction<Notification>(
+  ApplicationActionTypes.QUEUE_NOTIFICATION
 );
