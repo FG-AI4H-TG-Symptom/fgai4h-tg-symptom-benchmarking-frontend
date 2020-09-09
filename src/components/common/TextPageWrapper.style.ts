@@ -1,5 +1,11 @@
-import styled from "styled-components";
-import { PageWidth } from "./PageWrapper";
+import styled from 'styled-components';
+
+export enum PageWidth {
+  ULTRA_NARROW = 'ULTRA_NARROW',
+  NARROW = 'NARROW',
+  REGULAR = 'REGULAR',
+  WIDE = 'WIDE',
+}
 
 export const CenteredContainer = styled.div`
   display: flex;

@@ -27,16 +27,17 @@ interface FormData {
 }
 
 const validationResolver: Resolver<FormData> = (values) => {
-  const errors = {};
+  const errors = {
+    caseSetId: undefined,
+    aiImplementations: undefined,
+  };
   if (!values.caseSetId) {
-    // eslint-disable-next-line dot-notation
-    errors['caseSetId'] = 'Select a case set';
+    errors.caseSetId = 'Select a case set';
   }
   if (!values.aiImplementations.some((aiImplementation) => aiImplementation)) {
-    // eslint-disable-next-line dot-notation
-    errors['aiImplementations'] = 'Select at least one AI implementation';
+    errors.aiImplementations = 'Select at least one AI implementation';
   }
-  const valid = Object.keys(errors).length === 0;
+  const valid = !errors.aiImplementations && !errors.caseSetId;
   return { values: valid ? values : {}, errors: valid ? {} : errors };
 };
 

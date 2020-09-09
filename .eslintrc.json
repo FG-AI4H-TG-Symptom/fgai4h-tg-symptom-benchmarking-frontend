@@ -2,12 +2,16 @@
   "env": {
     "browser": true
   },
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
   "extends": [
     "plugin:@typescript-eslint/recommended",
     "plugin:eslint-comments/recommended",
     "plugin:redux-saga/recommended",
-    "airbnb",
+    "airbnb-typescript",
     "prettier",
+    "prettier/@typescript-eslint",
     "prettier/react"
   ],
   "plugins": ["@typescript-eslint", "redux-saga", "lodash", "prettier"],
@@ -81,7 +85,8 @@
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": "error",
     "no-unused-expressions": "off",
-    "@typescript-eslint/no-unused-expressions": "error"
+    "@typescript-eslint/no-unused-expressions": "error",
+    "import/no-cycle": "warn"
   },
   "overrides": [
     {

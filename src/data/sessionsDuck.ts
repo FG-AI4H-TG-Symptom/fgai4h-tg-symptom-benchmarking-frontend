@@ -1,5 +1,4 @@
 /* eslint-disable prefer-const */
-/* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice } from '@reduxjs/toolkit';
 import { takeEvery, put, all } from 'redux-saga/effects';
@@ -8,7 +7,6 @@ import urlBuilder from './util/urlBuilder';
 import httpResponseErrorMessage from './util/httpResponseErrorMessage';
 import { BenchmarkingSessionStatus } from './benchmarks/benchmarkManagerDataType';
 import sleep from './util/sleep';
-import { paths } from '../routes';
 
 const initialState = {
   list: [],
@@ -43,7 +41,7 @@ const slice = createSlice({
     // Delete Session
     deleteSession: (sessions, action) => {},
     deleteSessionSuccess: (sessions, action) => {
-      sessions.list = sessions.list.filter((sessions) => sessions.id !== action.payload.id);
+      sessions.list = sessions.list.filter((s) => s.id !== action.payload.id);
     },
     deleteSessionFailure: (sessions, action) => {
       sessions.error = action.payload;
@@ -65,7 +63,7 @@ const slice = createSlice({
     // Session Status
     setSessionStatus: (sessions, action) => {
       const { id, status } = action.payload;
-      let session = sessions.list.find((session) => session.id === id);
+      let session = sessions.list.find((s) => s.id === id);
       session.status = status;
     },
     observeSessionStatus: (sessions, action) => {},
