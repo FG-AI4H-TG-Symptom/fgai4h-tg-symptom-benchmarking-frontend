@@ -2,12 +2,16 @@
   "env": {
     "browser": true
   },
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
   "extends": [
     "plugin:@typescript-eslint/recommended",
     "plugin:eslint-comments/recommended",
     "plugin:redux-saga/recommended",
-    "airbnb",
+    "airbnb-typescript",
     "prettier",
+    "prettier/@typescript-eslint",
     "prettier/react"
   ],
   "plugins": ["@typescript-eslint", "redux-saga", "lodash", "prettier"],
