@@ -7,12 +7,12 @@ import BasicPageLayout from '../../common/BasicPageLayout';
 import { fetchAI, updateAI } from '../../../data/aiDuck';
 import AiImplementationEditorComponent from './AiImplementationEditorComponent';
 
-interface AiImplementationEditorContainerProps {
+interface Params {
   aiImplementationId: string;
 }
 
 const AiImplementationEditorContainer: React.FC = () => {
-  const { aiImplementationId } = useParams<AiImplementationEditorContainerProps>();
+  const { aiImplementationId } = useParams<Params>();
   const history = useHistory();
   const dispatch = useDispatch();
 
