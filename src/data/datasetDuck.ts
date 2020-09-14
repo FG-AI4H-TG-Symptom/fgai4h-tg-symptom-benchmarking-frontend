@@ -1,4 +1,3 @@
-/* eslint-disable array-callback-return */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice } from '@reduxjs/toolkit';
 import { takeEvery, put, all } from 'redux-saga/effects';
@@ -72,7 +71,7 @@ const slice = createSlice({
     saveCaseSuccess: (datasets, action) => {
       const savedCase = action.payload;
 
-      savedCase.caseSets.map((caseSetId) => {
+      savedCase.caseSets.forEach((caseSetId) => {
         const dataset = datasets.list.find((dataset_) => dataset_.id === caseSetId);
         dataset.cases.push(savedCase.id);
       });
