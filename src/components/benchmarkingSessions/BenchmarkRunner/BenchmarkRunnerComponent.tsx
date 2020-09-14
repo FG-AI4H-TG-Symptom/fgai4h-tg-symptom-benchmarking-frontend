@@ -31,7 +31,7 @@ const BenchmarkRunnerComponent: React.FC<any> = ({ benchmarkingSession, report, 
         <TableBody>
           {benchmarkingSession.aiImplementations.map((aiImplementationId) => (
             <TableRow key={aiImplementationId}>
-              <TableCell>{AIs.find((ai) => ai.id === aiImplementationId).name}</TableCell>
+              <TableCell>{AIs.find((ai) => ai.id === aiImplementationId)?.name}</TableCell>
 
               <TableCell>
                 {

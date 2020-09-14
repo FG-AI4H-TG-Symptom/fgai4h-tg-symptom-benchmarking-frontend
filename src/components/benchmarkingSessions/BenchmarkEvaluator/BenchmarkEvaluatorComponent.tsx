@@ -32,7 +32,7 @@ const BenchmarkEvaluatorComponent: React.FC<AiImplementationManagerComponentProp
           <TableBody>
             {evaluation.aiImplementations.map((aiImplementationId) => (
               <TableRow key={aiImplementationId}>
-                <TableCell>{aiImplementations.find((ai) => ai.id === aiImplementationId).name}</TableCell>
+                <TableCell>{aiImplementations.find((ai) => ai.id === aiImplementationId)?.name}</TableCell>
                 {evaluation.metrics.map(({ id, aggregatedValues }) => (
                   <CommonStyled.CenteredTableCell key={id}>
                     {Math.round(aggregatedValues[aiImplementationId] * 100) / 100}
