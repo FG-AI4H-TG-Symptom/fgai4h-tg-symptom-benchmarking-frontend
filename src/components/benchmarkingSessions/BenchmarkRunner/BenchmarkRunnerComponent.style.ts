@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { ExpansionPanelDetails, TableCell, TableRow } from "@material-ui/core";
+import { ExpansionPanelDetails, TableCell, TableRow } from '@material-ui/core';
+import styled from 'styled-components';
 
 export const GroupingTableRow = styled(TableRow)`
   th:empty {

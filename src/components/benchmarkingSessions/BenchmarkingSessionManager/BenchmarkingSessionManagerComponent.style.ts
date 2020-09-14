@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
-import styled from "styled-components";
-import { TableCell } from "@material-ui/core";
+import { TableCell } from '@material-ui/core';
+import styled from 'styled-components';
 
 export const ActionHeaderTableCell = styled(TableCell)`
   width: 12rem;

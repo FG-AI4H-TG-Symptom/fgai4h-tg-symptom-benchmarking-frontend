@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
-import styled from "styled-components";
-import { Card } from "@material-ui/core";
+import { Card } from '@material-ui/core';
+import styled from 'styled-components';
 
 export const ErroredCard = styled(Card)`
   background-color: darkred;

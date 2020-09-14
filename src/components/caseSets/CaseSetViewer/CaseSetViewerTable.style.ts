@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { TableCell } from "@material-ui/core";
+import { TableCell } from '@material-ui/core';
+import styled from 'styled-components';
 
 const TextOverflowCell = styled(TableCell)`
   text-overflow: ellipsis;
