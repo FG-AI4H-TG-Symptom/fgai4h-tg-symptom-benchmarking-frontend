@@ -1,10 +1,9 @@
+import { yupResolver } from '@hookform/resolvers';
+import { Box, Button } from '@material-ui/core';
+import TextField from '@material-ui/core/TextField';
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { Box, Button } from '@material-ui/core';
 import * as yup from 'yup';
-
-import TextField from '@material-ui/core/TextField';
-import { yupResolver } from '@hookform/resolvers';
 
 interface AiImplementationFormProps {
   onSubmit: (aiImplementation) => void;

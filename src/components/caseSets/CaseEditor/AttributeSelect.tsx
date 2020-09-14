@@ -1,17 +1,16 @@
-import React, { useMemo, useState } from 'react';
-import { useFormContext } from 'react-hook-form';
 import { Box, Grid, Hidden, IconButton, MenuItem } from '@material-ui/core';
 import { Delete as DeleteIcon } from '@material-ui/icons';
+import React, { useMemo, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 
 import berlinModelSchema from '../../../data/caseSets/berlinModel.schema.json';
 import { BaseNamedConcept } from '../../../data/util/baseConceptTypes';
-import AutoSelect from '../../forms/AutoSelect';
-import ValueSelect from '../../forms/ValueSelect';
-import ValueMultiSelect from '../../forms/ValueMultiSelect';
-import { usePrefix } from '../../forms/PrefixContext';
-import AutoSwitchArrayEntry from '../../forms/AutoSwitchArrayEntry';
 import { ArrayFormComponentProps } from '../../forms/AutoArrayFormBlock';
-
+import AutoSelect from '../../forms/AutoSelect';
+import AutoSwitchArrayEntry from '../../forms/AutoSwitchArrayEntry';
+import { usePrefix } from '../../forms/PrefixContext';
+import ValueMultiSelect from '../../forms/ValueMultiSelect';
+import ValueSelect from '../../forms/ValueSelect';
 import { ConceptSelectionProps, refToConcept } from './utils';
 
 type AttributeSelectFixedProps = {

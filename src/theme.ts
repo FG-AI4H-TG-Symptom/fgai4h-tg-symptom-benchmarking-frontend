@@ -1,113 +1,104 @@
 /* eslint-disable import/prefer-default-export */
-import React from "react";
-
-import {
-  createMuiTheme,
-  responsiveFontSizes,
-  Theme,
-  useMediaQuery
-} from "@material-ui/core";
-import echarts from "echarts";
+import { createMuiTheme, responsiveFontSizes, Theme, useMediaQuery } from '@material-ui/core';
+import echarts from 'echarts';
+import React from 'react';
 
 function registerChartsTheme(theme: Theme): void {
-  const chartsColorPalette = [
-    theme.palette.primary.main,
-    theme.palette.secondary.main
-  ];
+  const chartsColorPalette = [theme.palette.primary.main, theme.palette.secondary.main];
 
   const axisCommon = () => ({
     axisLine: {
       lineStyle: {
-        color: theme.palette.text.primary
-      }
+        color: theme.palette.text.primary,
+      },
     },
     axisTick: {
       lineStyle: {
-        color: theme.palette.text.primary
-      }
+        color: theme.palette.text.primary,
+      },
     },
     axisLabel: {
       textStyle: {
-        color: theme.palette.text.hint
-      }
+        color: theme.palette.text.hint,
+      },
     },
     splitLine: {
       lineStyle: {
-        color: theme.palette.divider
-      }
+        color: theme.palette.divider,
+      },
     },
     splitArea: {
       areaStyle: {
-        color: theme.palette.text.primary
-      }
-    }
+        color: theme.palette.text.primary,
+      },
+    },
   });
-  echarts.registerTheme("benchmark", {
+  echarts.registerTheme('benchmark', {
     color: chartsColorPalette,
     backgroundColor: theme.palette.background.paper,
     tooltip: {
       axisPointer: {
         lineStyle: {
-          color: theme.palette.text.primary
+          color: theme.palette.text.primary,
         },
         crossStyle: {
-          color: theme.palette.text.primary
-        }
-      }
+          color: theme.palette.text.primary,
+        },
+      },
     },
     legend: {
       textStyle: {
-        color: theme.palette.text.primary
-      }
+        color: theme.palette.text.primary,
+      },
     },
     textStyle: {
-      color: theme.palette.text.primary
+      color: theme.palette.text.primary,
     },
     title: {
       textStyle: {
-        color: theme.palette.text.primary
-      }
+        color: theme.palette.text.primary,
+      },
     },
     toolbox: {
       itemSize: 20,
       iconStyle: {
         normal: {
           color: theme.palette.divider,
-          borderColor: "none"
+          borderColor: 'none',
         },
         emphasis: {
           color: theme.palette.text.secondary,
-          borderColor: "none"
-        }
-      }
+          borderColor: 'none',
+        },
+      },
     },
     dataZoom: {
       textStyle: {
-        color: theme.palette.text.primary
-      }
+        color: theme.palette.text.primary,
+      },
     },
     timeline: {
       lineStyle: {
-        color: theme.palette.text.primary
+        color: theme.palette.text.primary,
       },
       itemStyle: {
         normal: {
-          color: chartsColorPalette[1]
-        }
+          color: chartsColorPalette[1],
+        },
       },
       label: {
         normal: {
           textStyle: {
-            color: theme.palette.text.primary
-          }
-        }
+            color: theme.palette.text.primary,
+          },
+        },
       },
       controlStyle: {
         normal: {
           color: theme.palette.text.primary,
-          borderColor: theme.palette.text.primary
-        }
-      }
+          borderColor: theme.palette.text.primary,
+        },
+      },
     },
     timeAxis: axisCommon(),
     logAxis: axisCommon(),
@@ -115,18 +106,18 @@ function registerChartsTheme(theme: Theme): void {
     categoryAxis: axisCommon(),
 
     line: {
-      symbol: "circle"
+      symbol: 'circle',
     },
     graph: {
-      color: chartsColorPalette
+      color: chartsColorPalette,
     },
     gauge: {
       title: {
         textStyle: {
-          color: theme.palette.text.primary
-        }
-      }
-    }
+          color: theme.palette.text.primary,
+        },
+      },
+    },
     // candlestick: {
     //   itemStyle: {
     //     normal: {
@@ -141,24 +132,24 @@ function registerChartsTheme(theme: Theme): void {
 }
 
 export const useTheme = (): Theme => {
-  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
   return React.useMemo(() => {
     const themeCustomizations = createMuiTheme({
       palette: {
-        type: prefersDarkMode ? "dark" : "light",
+        type: prefersDarkMode ? 'dark' : 'light',
         primary: {
-          main: prefersDarkMode ? "#1d5bb4" : "#1e88e5"
+          main: prefersDarkMode ? '#1d5bb4' : '#1e88e5',
         },
         secondary: {
-          main: "#008f68"
-        }
-      }
+          main: '#008f68',
+        },
+      },
     });
 
-    themeCustomizations.typography.h1.fontSize = "2rem";
-    themeCustomizations.typography.h2.fontSize = "1.8rem";
-    themeCustomizations.typography.h3.fontSize = "1.5rem";
+    themeCustomizations.typography.h1.fontSize = '2rem';
+    themeCustomizations.typography.h2.fontSize = '1.8rem';
+    themeCustomizations.typography.h3.fontSize = '1.5rem';
 
     const theme = responsiveFontSizes(themeCustomizations);
 

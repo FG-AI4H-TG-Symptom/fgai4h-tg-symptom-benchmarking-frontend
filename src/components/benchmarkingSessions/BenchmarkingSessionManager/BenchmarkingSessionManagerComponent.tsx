@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import {
   IconButton,
   Paper,
@@ -16,15 +15,15 @@ import {
   PlayCircleOutline as StartBenchmarkIcon,
   ViewList as OpenIcon,
 } from '@material-ui/icons';
+import React, { useState } from 'react';
 
 import { BenchmarkingSessionStatus } from '../../../data/benchmarks/benchmarkManagerDataType';
-import LinkWrapper from '../../common/LinkWrapper';
 import { paths } from '../../../routes';
-
-import * as Styled from './BenchmarkingSessionManagerComponent.style';
 import * as CommonStyled from '../../common/CommonStyles';
-import BenchmarkingSessionStatusIcon from './BenchmarkingSessionStatusIcon';
 import ConfirmationIconButton from '../../common/ConfirmationIconButton';
+import LinkWrapper from '../../common/LinkWrapper';
+import * as Styled from './BenchmarkingSessionManagerComponent.style';
+import BenchmarkingSessionStatusIcon from './BenchmarkingSessionStatusIcon';
 
 const rowsPerPageOptions = [10, 20, 50, 100];
 

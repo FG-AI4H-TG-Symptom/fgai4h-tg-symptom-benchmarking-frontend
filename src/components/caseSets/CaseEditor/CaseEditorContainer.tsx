@@ -2,10 +2,9 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import BasicPageLayout from '../../common/BasicPageLayout';
-
-import CaseEditorComponent from './CaseEditorComponent';
 import { fetchFullDataset, saveCase } from '../../../data/datasetDuck';
+import BasicPageLayout from '../../common/BasicPageLayout';
+import CaseEditorComponent from './CaseEditorComponent';
 
 type Params = {
   caseId: string;

@@ -1,7 +1,8 @@
-import React from 'react';
-import styled from 'styled-components';
 import { Card, CardContent, CardHeader, Tooltip } from '@material-ui/core';
 import { Warning as WarningIcon } from '@material-ui/icons';
+import React from 'react';
+import styled from 'styled-components';
+
 import { AutoPrefix } from './PrefixContext';
 import { errorSummary, useErrorsInChildren } from './utils';
 

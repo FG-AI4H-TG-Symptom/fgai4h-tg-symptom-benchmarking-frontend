@@ -1,1 +1,1 @@
-export { default } from "./BenchmarkingSessionManagerContainer";
+export { default } from './BenchmarkingSessionManagerContainer';

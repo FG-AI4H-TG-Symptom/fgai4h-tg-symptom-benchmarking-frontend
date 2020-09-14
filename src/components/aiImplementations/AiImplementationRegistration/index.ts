@@ -1,1 +1,1 @@
-export { default } from "./AiImplementationRegistrationContainer";
+export { default } from './AiImplementationRegistrationContainer';

@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { CardActions, TableCell } from "@material-ui/core";
+import { CardActions, TableCell } from '@material-ui/core';
+import styled from 'styled-components';
 
 export const SecondaryTextInCell = styled.div`
   color: ${({ theme }): string => theme.palette.text.secondary};

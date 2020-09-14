@@ -1,10 +1,10 @@
-import React, { useMemo } from 'react';
-import ReactEcharts from 'echarts-for-react';
 import datalib from 'datalib';
+import ReactEcharts from 'echarts-for-react';
 import merge from 'lodash.merge';
+import React, { useMemo } from 'react';
 
-import getBaseOptions from './defaultChartBaseOptions';
 import { Population } from './chartTypes';
+import getBaseOptions from './defaultChartBaseOptions';
 import defaultChartOpts from './defaultChartOpts';
 
 const biologicalSexes = ['male', 'female'];

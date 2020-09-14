@@ -1,14 +1,13 @@
-import React, { useMemo } from 'react';
 import { Box, Grid, IconButton, MenuItem, Typography } from '@material-ui/core';
 import { Delete as DeleteIcon } from '@material-ui/icons';
+import React, { useMemo } from 'react';
 
 import berlinModelSchema from '../../../data/caseSets/berlinModel.schema.json';
 import { BaseNamedConcept } from '../../../data/util/baseConceptTypes';
-import FormBlock from '../../forms/FormBlock';
-import AutoSelect from '../../forms/AutoSelect';
 import AutoArrayFormBlock, { ArrayFormComponentProps } from '../../forms/AutoArrayFormBlock';
+import AutoSelect from '../../forms/AutoSelect';
+import FormBlock from '../../forms/FormBlock';
 import { useWatch } from '../../forms/utils';
-
 import AttributeSelect from './AttributeSelect';
 import { ConceptSelectionProps, refToConcept } from './utils';
 

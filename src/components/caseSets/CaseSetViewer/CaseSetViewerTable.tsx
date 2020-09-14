@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import {
   Table,
   TableBody,
@@ -10,11 +9,11 @@ import {
   Tooltip,
 } from '@material-ui/core';
 import { Check as CheckIcon, Clear as ClearIcon } from '@material-ui/icons';
+import React, { useState } from 'react';
 
-import { CaseSetInfo } from '../../../data/caseSets/caseSetDataType';
 import { ClinicalFindingState } from '../../../data/caseSets/berlinModelTypes';
+import { CaseSetInfo } from '../../../data/caseSets/caseSetDataType';
 import TextWithTooltipSelf from '../../common/TextWithTooltipSelf';
-
 import * as Styled from './CaseSetViewerTable.style';
 
 const PresenceIcon: React.FC<{ presence: ClinicalFindingState }> = ({ presence }) => (

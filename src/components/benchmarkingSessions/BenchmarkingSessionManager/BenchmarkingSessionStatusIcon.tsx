@@ -1,7 +1,8 @@
-import React from 'react';
 import { Tooltip } from '@material-ui/core';
+import { cyan, green, yellow } from '@material-ui/core/colors';
 import { Check as FinishedIcon, LinearScale as CreatedIcon, PlayArrow as RunningIcon } from '@material-ui/icons';
-import { green, yellow, cyan } from '@material-ui/core/colors';
+import React from 'react';
+
 import { BenchmarkingSessionStatus } from '../../../data/benchmarks/benchmarkManagerDataType';
 
 const BenchmarkingSessionStatusIcon: React.FC<{

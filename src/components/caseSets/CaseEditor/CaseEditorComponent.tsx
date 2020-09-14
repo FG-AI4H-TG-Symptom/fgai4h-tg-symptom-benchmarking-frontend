@@ -1,19 +1,18 @@
-import React from 'react';
-import { FormProvider, useForm, Resolver } from 'react-hook-form';
-import Ajv from 'ajv';
 import { Box } from '@material-ui/core';
-import { Alert } from '@material-ui/lab';
 import { Save as SaveIcon } from '@material-ui/icons';
+import { Alert } from '@material-ui/lab';
+import Ajv from 'ajv';
+import React from 'react';
+import { FormProvider, Resolver, useForm } from 'react-hook-form';
 
 import berlinModelSchema from '../../../data/caseSets/berlinModel.schema.json';
 import { Case } from '../../../data/caseSets/berlinModelTypes';
-import { AutoPrefix } from '../../forms/PrefixContext';
-import AllErrors from '../../forms/AllErrors';
-import { validateAgainstSchema } from '../../forms/utils';
 import Fab from '../../common/Fab';
-
-import { extendWithModelInformationFromIds } from './utils';
+import AllErrors from '../../forms/AllErrors';
+import { AutoPrefix } from '../../forms/PrefixContext';
+import { validateAgainstSchema } from '../../forms/utils';
 import CaseEditor from './CaseEditor';
+import { extendWithModelInformationFromIds } from './utils';
 
 const caseSchemaValidator = new Ajv({
   coerceTypes: true,

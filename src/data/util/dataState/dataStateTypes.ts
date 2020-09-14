@@ -1,8 +1,8 @@
 export enum DataState {
-  INITIAL = "INITIAL",
-  LOADING = "LOADING",
-  READY = "READY",
-  ERRORED = "ERRORED",
+  INITIAL = 'INITIAL',
+  LOADING = 'LOADING',
+  READY = 'READY',
+  ERRORED = 'ERRORED',
 }
 export type DataStateType = keyof typeof DataState;
 

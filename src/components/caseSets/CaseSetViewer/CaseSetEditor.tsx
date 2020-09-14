@@ -1,6 +1,3 @@
-import React from 'react';
-import { FormProvider, useForm, Resolver } from 'react-hook-form';
-import Ajv from 'ajv';
 import {
   Avatar,
   Box,
@@ -13,17 +10,19 @@ import {
   ListItemText,
 } from '@material-ui/core';
 import { Delete as DeleteIcon, Edit as EditIcon, LinkOff as UnlinkIcon, Save as SaveIcon } from '@material-ui/icons';
+import Ajv from 'ajv';
+import React from 'react';
+import { FormProvider, Resolver, useForm } from 'react-hook-form';
 
 // import AdbIcon from '@material-ui/icons/Adb';
-
 import berlinModelSchema from '../../../data/caseSets/berlinModel.schema.json';
 import { CaseSetInfo } from '../../../data/caseSets/caseSetDataType';
+import ConfirmationIconButton from '../../common/ConfirmationIconButton';
+import Fab from '../../common/Fab';
 // import { paths } from "../../../routes";
 import AllErrors from '../../forms/AllErrors';
 import AutoTextField from '../../forms/AutoTextField';
 import { validateAgainstSchema } from '../../forms/utils';
-import ConfirmationIconButton from '../../common/ConfirmationIconButton';
-import Fab from '../../common/Fab';
 // import LinkWrapper from "../../common/LinkWrapper";
 
 // we're not editing the cases in this form, so it's easiest to remove them from the schema

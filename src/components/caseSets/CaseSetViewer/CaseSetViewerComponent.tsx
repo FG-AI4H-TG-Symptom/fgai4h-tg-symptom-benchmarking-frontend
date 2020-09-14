@@ -1,13 +1,12 @@
-import React from 'react';
 import { Paper } from '@material-ui/core';
+import React from 'react';
 
 import { CaseSetInfo } from '../../../data/caseSets/caseSetDataType';
-import ViewRaw from '../../common/ViewRaw';
 import TabFactory, { TabFactoryEntry } from '../../common/TabFactory';
-
-import CaseSetViewerTable from './CaseSetViewerTable';
-import CaseSetViewerAnalysis from './CaseSetViewerAnalysis';
+import ViewRaw from '../../common/ViewRaw';
 import CaseSetEditor from './CaseSetEditor';
+import CaseSetViewerAnalysis from './CaseSetViewerAnalysis';
+import CaseSetViewerTable from './CaseSetViewerTable';
 
 export interface CaseSetComponentProps {
   caseSet: CaseSetInfo;

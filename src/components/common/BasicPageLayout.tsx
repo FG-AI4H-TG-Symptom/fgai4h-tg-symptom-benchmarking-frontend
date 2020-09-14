@@ -1,5 +1,6 @@
-import React, { ReactNode } from 'react';
 import { Box, Typography } from '@material-ui/core';
+import React, { ReactNode } from 'react';
+
 import PageWrapper from './PageWrapper';
 
 const BasicPageLayout: React.FC<{

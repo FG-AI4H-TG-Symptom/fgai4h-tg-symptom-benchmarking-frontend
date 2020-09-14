@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { List } from "@material-ui/core";
+import { List } from '@material-ui/core';
+import styled from 'styled-components';
 
 export const Title = styled.span`
   flex-grow: 1;

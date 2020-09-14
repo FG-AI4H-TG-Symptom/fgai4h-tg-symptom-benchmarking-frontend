@@ -1,12 +1,11 @@
-import React from 'react';
-
 import { Tooltip } from '@material-ui/core';
 import {
   Check as StatusGoodIcon,
   Clear as StatusBadIcon,
-  HourglassEmpty as TimeoutIcon,
   HelpOutline as UnknownIcon,
+  HourglassEmpty as TimeoutIcon,
 } from '@material-ui/icons';
+import React from 'react';
 
 enum AiImplementationHealth {
   OK = 'ok',

@@ -1,6 +1,6 @@
+import { FormControl, FormHelperText, InputLabel, Select } from '@material-ui/core';
 import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { FormControl, FormHelperText, InputLabel, Select } from '@material-ui/core';
 
 import { usePrefix } from './PrefixContext';
 import { sanitizeForId } from './utils';

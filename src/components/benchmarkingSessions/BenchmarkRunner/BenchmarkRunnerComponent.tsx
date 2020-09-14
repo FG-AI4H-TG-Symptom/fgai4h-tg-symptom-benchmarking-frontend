@@ -1,8 +1,7 @@
-import React from 'react';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
+import React from 'react';
 
 import { BenchmarkResultStatus, BenchmarkStepError } from '../../../data/benchmarks/benchmarkInfoDataType';
-
 import * as Styled from './BenchmarkRunnerComponent.style';
 
 const BenchmarkRunnerComponent: React.FC<any> = ({ benchmarkingSession, report, AIs }) => {

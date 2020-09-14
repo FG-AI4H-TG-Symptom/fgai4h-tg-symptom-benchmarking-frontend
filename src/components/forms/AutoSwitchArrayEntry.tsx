@@ -1,6 +1,6 @@
+import { FormControlLabel, Switch } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { FormControlLabel, Switch } from '@material-ui/core';
 
 import { usePrefix } from './PrefixContext';
 

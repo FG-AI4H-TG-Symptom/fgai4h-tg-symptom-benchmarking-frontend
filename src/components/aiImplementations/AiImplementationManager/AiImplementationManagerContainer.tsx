@@ -1,9 +1,9 @@
+import { Box, Button } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Box, Button } from '@material-ui/core';
-import { paths } from '../../../routes';
-import { fetchAIs, deleteAI } from '../../../data/aiDuck';
 
+import { deleteAI, fetchAIs } from '../../../data/aiDuck';
+import { paths } from '../../../routes';
 import BasicPageLayout from '../../common/BasicPageLayout';
 import LinkWrapper from '../../common/LinkWrapper';
 import AiImplementationManagerComponent from './AiImplementationManagerComponent';

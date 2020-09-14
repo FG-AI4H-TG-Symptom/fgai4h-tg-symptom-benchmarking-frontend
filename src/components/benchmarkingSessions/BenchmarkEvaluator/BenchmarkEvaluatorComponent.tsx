@@ -1,8 +1,8 @@
-import React from 'react';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
+import React from 'react';
 
-import ViewRawFooter from '../../common/ViewRawFooter';
 import * as CommonStyled from '../../common/CommonStyles';
+import ViewRawFooter from '../../common/ViewRawFooter';
 
 interface AiImplementationManagerComponentProps {
   evaluation: any;

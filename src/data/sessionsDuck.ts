@@ -1,13 +1,13 @@
 /* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice } from '@reduxjs/toolkit';
-import { takeEvery, put, all } from 'redux-saga/effects';
+import { all, put, takeEvery } from 'redux-saga/effects';
 
-import urlBuilder from './util/urlBuilder';
-import httpResponseErrorMessage from './util/httpResponseErrorMessage';
-import { BenchmarkingSessionStatus } from './benchmarks/benchmarkManagerDataType';
-import sleep from './util/sleep';
 import { queueNotification } from './application/applicationActions';
+import { BenchmarkingSessionStatus } from './benchmarks/benchmarkManagerDataType';
+import httpResponseErrorMessage from './util/httpResponseErrorMessage';
+import sleep from './util/sleep';
+import urlBuilder from './util/urlBuilder';
 
 const initialState = {
   list: [],

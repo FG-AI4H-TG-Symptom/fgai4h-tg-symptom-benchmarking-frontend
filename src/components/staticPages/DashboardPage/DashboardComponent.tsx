@@ -1,14 +1,13 @@
+import { Grid } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Grid } from '@material-ui/core';
-
 import styled from 'styled-components';
+
+import { fetchAIs } from '../../../data/aiDuck';
+import { fetchDatasets } from '../../../data/datasetDuck';
+import { fetchSessions } from '../../../data/sessionsDuck';
 import { paths } from '../../../routes';
 import DashboardCard from './DashboardCard';
-
-import { fetchDatasets } from '../../../data/datasetDuck';
-import { fetchAIs } from '../../../data/aiDuck';
-import { fetchSessions } from '../../../data/sessionsDuck';
 
 const LandingPageComponent: React.FC = () => {
   const dispatch = useDispatch();

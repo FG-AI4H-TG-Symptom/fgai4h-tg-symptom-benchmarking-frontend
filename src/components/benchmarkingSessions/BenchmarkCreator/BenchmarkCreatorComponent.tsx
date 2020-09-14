@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Box,
   Button,
@@ -16,10 +15,11 @@ import {
   Typography,
 } from '@material-ui/core';
 import { ArrowForward as StartIcon } from '@material-ui/icons';
-import { useForm, Resolver } from 'react-hook-form';
+import React from 'react';
+import { Resolver, useForm } from 'react-hook-form';
 
-import ErrorIndicator from '../../common/ErrorIndicator';
 import formatDate from '../../../util/formatDate';
+import ErrorIndicator from '../../common/ErrorIndicator';
 
 interface FormData {
   aiImplementations: boolean[];

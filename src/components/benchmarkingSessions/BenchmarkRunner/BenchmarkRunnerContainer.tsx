@@ -1,15 +1,12 @@
+import { Box, Button, LinearProgress } from '@material-ui/core';
 import React from 'react';
 import { useSelector } from 'react-redux';
-
 import { useHistory, useParams } from 'react-router-dom';
-import { LinearProgress, Button, Box } from '@material-ui/core';
-
-import BasicPageLayout from '../../common/BasicPageLayout';
-
-import BenchmarkRunnerComponent from './BenchmarkRunnerComponent';
 
 import { BenchmarkingSessionStatus } from '../../../data/benchmarks/benchmarkManagerDataType';
 import { paths } from '../../../routes';
+import BasicPageLayout from '../../common/BasicPageLayout';
+import BenchmarkRunnerComponent from './BenchmarkRunnerComponent';
 
 type Params = {
   benchmarkId: string;

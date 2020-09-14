@@ -14,7 +14,7 @@
     "prettier/@typescript-eslint",
     "prettier/react"
   ],
-  "plugins": ["@typescript-eslint", "redux-saga", "lodash", "prettier"],
+  "plugins": ["@typescript-eslint", "redux-saga", "lodash", "prettier", "simple-import-sort"],
   "settings": {
     "import/resolver": {
       "node": {
@@ -86,7 +86,10 @@
     "@typescript-eslint/no-use-before-define": "error",
     "no-unused-expressions": "off",
     "@typescript-eslint/no-unused-expressions": "error",
-    "import/no-cycle": "warn"
+    "import/no-cycle": "warn",
+    "sort-imports": "off",
+    "import/order": "off",
+    "simple-import-sort/sort": "warn"
   },
   "overrides": [
     {

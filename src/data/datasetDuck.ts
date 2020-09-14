@@ -1,11 +1,11 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice } from '@reduxjs/toolkit';
-import { takeEvery, put, all } from 'redux-saga/effects';
+import { all, put, takeEvery } from 'redux-saga/effects';
 
-import urlBuilder from './util/urlBuilder';
-import httpResponseErrorMessage from './util/httpResponseErrorMessage';
 import { queueNotification } from './application/applicationActions';
+import httpResponseErrorMessage from './util/httpResponseErrorMessage';
+import urlBuilder from './util/urlBuilder';
 
 const initialState = {
   list: [],

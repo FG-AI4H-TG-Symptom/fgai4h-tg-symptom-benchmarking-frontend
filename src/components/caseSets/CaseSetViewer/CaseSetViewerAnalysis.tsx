@@ -1,9 +1,9 @@
-import React, { useMemo } from 'react';
 import { Card, CardContent, CardHeader, Grid } from '@material-ui/core';
+import React, { useMemo } from 'react';
 
 import { CaseDataType } from '../../../data/caseSets/caseDataType';
-import PopulationPyramid from '../../charts/PopulationPyramid';
 import BiologicalSexDistribution from '../../charts/BiologicalSexDistribution';
+import PopulationPyramid from '../../charts/PopulationPyramid';
 
 export interface CaseSetComponentProps {
   caseSet: CaseDataType[];

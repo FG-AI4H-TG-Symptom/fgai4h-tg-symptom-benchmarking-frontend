@@ -1,7 +1,8 @@
-import React from 'react';
 import { Box } from '@material-ui/core';
-import Warning from './Warning';
+import React from 'react';
+
 import { paths } from '../../routes';
+import Warning from './Warning';
 
 const NotFound: React.FC<{ location: { pathname: string } }> = ({ location: { pathname } }) => (
   <Warning title="Nothing found" actions={[{ text: 'Back to start page', targetUrl: paths.home() }]}>

@@ -1,6 +1,6 @@
+import { Fab as MuiFab, Tooltip } from '@material-ui/core';
 import React from 'react';
 import styled from 'styled-components';
-import { Fab as MuiFab, Tooltip } from '@material-ui/core';
 
 export const PositionedFab = styled(MuiFab)`
   position: fixed;
