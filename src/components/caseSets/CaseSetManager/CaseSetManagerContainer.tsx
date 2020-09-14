@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import MuiAlert from '@material-ui/lab/Alert';
-import { Button, Box, Snackbar } from '@material-ui/core';
+import { Button, Box } from '@material-ui/core';
 
 import CaseSetManagerComponent from './CaseSetManagerComponent';
 import BasicPageLayout from '../../common/BasicPageLayout';
@@ -9,23 +8,10 @@ import LinkWrapper from '../../common/LinkWrapper';
 import { paths } from '../../../routes';
 
 import { fetchDatasets, deleteDataset } from '../../../data/datasetDuck';
+import { queueNotification } from '../../../data/application/applicationActions';
 
 const CaseSetManagerContainer: React.FC = () => {
   const dispatch = useDispatch();
-
-  const [error, setError] = useState('');
-  const [errorOpen, setErrorOpen] = useState(false);
-
-  const handleCloseError = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setErrorOpen(false);
-  };
-
-  function Alert(props) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />;
-  }
 
   const datasetsList = useSelector((state: any) => state.datasets.list);
   const sessions = useSelector((state: any) => state.sessions.list);
@@ -41,10 +27,14 @@ const CaseSetManagerContainer: React.FC = () => {
       .map((session) => session.id);
 
     if (sessionUsingThisCaseSet.length > 0) {
-      setError(
-        `Please first delete Benchmarking sessions with the following IDs: ${sessionUsingThisCaseSet.join(', ')} `,
+      dispatch(
+        queueNotification({
+          message: `Please first delete Benchmarking sessions with the following IDs: ${sessionUsingThisCaseSet.join(
+            ', ',
+          )} `,
+          type: 'error',
+        }),
       );
-      setErrorOpen(true);
       return;
     }
 
@@ -53,12 +43,6 @@ const CaseSetManagerContainer: React.FC = () => {
 
   return (
     <BasicPageLayout title="Case sets">
-      <Snackbar open={errorOpen} autoHideDuration={6000} onClose={handleCloseError}>
-        <Alert onClose={handleCloseError} severity="error">
-          {error}
-        </Alert>
-      </Snackbar>
-
       <CaseSetManagerComponent datasetsList={datasetsList} deleteCaseSet={deleteCaseSet} />
 
       <Box display="flex" justifyContent="flex-end" mt={2}>
