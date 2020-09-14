@@ -99,7 +99,7 @@ const BenchmarkingSessionManagerComponent: React.FC<any> = ({
                       </ul>
                     </TableCell>
 
-                    <TableCell>{datasets.find((dataset) => dataset.id === caseSet).name}</TableCell>
+                    <TableCell>{datasets.find((dataset) => dataset.id === caseSet)?.name}</TableCell>
 
                     <TableCell>
                       <BenchmarkingSessionStatusIcon status={status} />
