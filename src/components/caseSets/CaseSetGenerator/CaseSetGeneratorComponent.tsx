@@ -41,12 +41,12 @@ const CaseSetGeneratorComponent: React.FC<CaseSetCreatorComponentProps> = ({ onC
   const numberOfCasesValidation = {
     required: 'Please enter number of cases',
     min: {
-      value: 0,
-      message: "Can't be negative",
+      value: 1,
+      message: 'Needs to be at least one case',
     },
     max: {
-      value: 200,
-      message: 'Should be at least 4 characters',
+      value: 10000,
+      message: 'Should not exceed 10000 cases',
     },
   };
 
