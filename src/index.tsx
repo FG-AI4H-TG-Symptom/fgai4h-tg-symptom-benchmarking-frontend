@@ -1,15 +1,16 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { BrowserRouter as Router } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import { ThemeProvider } from 'styled-components';
-import { StylesProvider, ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import 'typeface-roboto';
 
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { StylesProvider, ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components';
+
 import App from './App';
-import * as serviceWorker from './serviceWorker';
 import configureStore from './configureStore';
+import * as serviceWorker from './serviceWorker';
 import { useTheme } from './theme';
 
 const store = configureStore();

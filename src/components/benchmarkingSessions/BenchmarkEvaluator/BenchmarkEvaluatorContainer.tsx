@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { Box, Button } from '@material-ui/core';
-import BasicPageLayout from '../../common/BasicPageLayout';
-import { paths } from '../../../routes';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
 
-import BenchmarkEvaluatorComponent from './BenchmarkEvaluatorComponent';
-import { fetchEvaluation } from '../../../data/sessionsDuck';
 import { fetchAIs } from '../../../data/aiDuck';
+import { fetchEvaluation } from '../../../data/sessionsDuck';
+import { paths } from '../../../routes';
+import BasicPageLayout from '../../common/BasicPageLayout';
+import BenchmarkEvaluatorComponent from './BenchmarkEvaluatorComponent';
 
 type Params = {
   benchmarkId: string;

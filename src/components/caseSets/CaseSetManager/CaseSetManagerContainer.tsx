@@ -1,14 +1,13 @@
+import { Box, Button } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Box } from '@material-ui/core';
 
-import CaseSetManagerComponent from './CaseSetManagerComponent';
+import { queueNotification } from '../../../data/application/applicationActions';
+import { deleteDataset, fetchDatasets } from '../../../data/datasetDuck';
+import { paths } from '../../../routes';
 import BasicPageLayout from '../../common/BasicPageLayout';
 import LinkWrapper from '../../common/LinkWrapper';
-import { paths } from '../../../routes';
-
-import { fetchDatasets, deleteDataset } from '../../../data/datasetDuck';
-import { queueNotification } from '../../../data/application/applicationActions';
+import CaseSetManagerComponent from './CaseSetManagerComponent';
 
 const CaseSetManagerContainer: React.FC = () => {
   const dispatch = useDispatch();

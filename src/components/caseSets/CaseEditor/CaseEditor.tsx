@@ -1,13 +1,12 @@
-import React, { useMemo } from 'react';
 import { Box, Grid, MenuItem } from '@material-ui/core';
+import React, { useMemo } from 'react';
 
 import berlinModelSchema from '../../../data/caseSets/berlinModel.schema.json';
-import FormSection from '../../forms/FormSection';
-import FormBlock from '../../forms/FormBlock';
-import AutoTextField from '../../forms/AutoTextField';
-import AutoSelect from '../../forms/AutoSelect';
 import AutoArrayFormBlock from '../../forms/AutoArrayFormBlock';
-
+import AutoSelect from '../../forms/AutoSelect';
+import AutoTextField from '../../forms/AutoTextField';
+import FormBlock from '../../forms/FormBlock';
+import FormSection from '../../forms/FormSection';
 import ClinicalFindingSelect from './ClinicalFindingSelect';
 import ConditionSelect from './ConditionSelect';
 import { refToConcept } from './utils';

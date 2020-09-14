@@ -1,10 +1,9 @@
-import React from 'react';
 import { Button, Card, CardContent, CardHeader } from '@material-ui/core';
-
-import PageWrapper, { PageWidth } from './PageWrapper';
-import LinkWrapper from './LinkWrapper';
+import React from 'react';
 
 import * as CommonStyled from './CommonStyles';
+import LinkWrapper from './LinkWrapper';
+import PageWrapper, { PageWidth } from './PageWrapper';
 
 const Warning: React.FC<{
   title: string;

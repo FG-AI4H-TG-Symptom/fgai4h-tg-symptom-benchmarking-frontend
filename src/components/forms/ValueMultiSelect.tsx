@@ -1,13 +1,13 @@
+import { Box, Button, IconButton } from '@material-ui/core';
+import { Delete as DeleteIcon } from '@material-ui/icons';
+import { Alert } from '@material-ui/lab';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
-import { Box, Button, IconButton } from '@material-ui/core';
-import { Alert } from '@material-ui/lab';
-import { Delete as DeleteIcon } from '@material-ui/icons';
 
 import { BaseNamedConcept } from '../../data/util/baseConceptTypes';
 import { AutoPrefix } from './PrefixContext';
-import ValueSelect from './ValueSelect';
 import { useAutoFieldArray, useWatchArrayHelper } from './utils';
+import ValueSelect from './ValueSelect';
 
 interface ValueMultiSelectProps {
   name: string;

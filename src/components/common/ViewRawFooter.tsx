@@ -1,6 +1,6 @@
-import React from 'react';
 import { ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary } from '@material-ui/core';
 import { ExpandMore as ExpandMoreIcon } from '@material-ui/icons';
+import React from 'react';
 
 import ViewRaw from './ViewRaw';
 

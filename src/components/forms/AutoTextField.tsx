@@ -1,6 +1,6 @@
+import { TextField } from '@material-ui/core';
 import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { TextField } from '@material-ui/core';
 
 import { usePrefix } from './PrefixContext';
 

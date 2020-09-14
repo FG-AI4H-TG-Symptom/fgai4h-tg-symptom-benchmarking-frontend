@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Chip,
   IconButton,
@@ -13,18 +12,18 @@ import {
   Typography,
 } from '@material-ui/core';
 import {
-  ViewList as ViewEditIcon,
-  PlayCircleOutline as StartBenchmarkIcon,
   Delete as DeleteIcon,
+  PlayCircleOutline as StartBenchmarkIcon,
+  ViewList as ViewEditIcon,
 } from '@material-ui/icons';
+import React from 'react';
 
-import LinkWrapper from '../../common/LinkWrapper';
 import { paths } from '../../../routes';
-
-import * as Styled from './CaseSetManagerComponent.style';
+import formatDate from '../../../util/formatDate';
 import * as CommonStyled from '../../common/CommonStyles';
 import ConfirmationIconButton from '../../common/ConfirmationIconButton';
-import formatDate from '../../../util/formatDate';
+import LinkWrapper from '../../common/LinkWrapper';
+import * as Styled from './CaseSetManagerComponent.style';
 
 const LONDON_CASE_SET_ID = 'london_model2019_cases_v1';
 

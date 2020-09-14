@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
 import { IconButton, Tooltip } from '@material-ui/core';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 
 const IconButtonForProgressIndicator = styled(IconButton)`

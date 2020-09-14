@@ -1,6 +1,3 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Switch, Route, useLocation } from 'react-router-dom';
 import {
   AppBar,
   Drawer,
@@ -12,18 +9,21 @@ import {
   Toolbar,
 } from '@material-ui/core';
 import { Menu as MenuIcon } from '@material-ui/icons';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Route, Switch, useLocation } from 'react-router-dom';
 
 import * as Styled from './App.style';
-import { routes } from './routes';
+import Error from './components/common/Error';
 import LinkWrapper from './components/common/LinkWrapper';
 import NotFound from './components/common/NotFound';
-import logo from './logo.svg';
-import { RootState } from './data/rootReducer';
-import Error from './components/common/Error';
 import Notifications from './components/common/Notifications';
 import { fetchAIs } from './data/aiDuck';
 import { fetchDatasets } from './data/datasetDuck';
+import { RootState } from './data/rootReducer';
 import { fetchSessions } from './data/sessionsDuck';
+import logo from './logo.svg';
+import { routes } from './routes';
 
 const App: React.FC = () => {
   const location = useLocation();

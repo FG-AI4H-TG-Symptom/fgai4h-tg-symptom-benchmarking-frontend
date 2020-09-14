@@ -1,8 +1,7 @@
 import { combineReducers } from 'redux';
 
-import applicationReducers, { ApplicationState } from './application/applicationReducers';
-
 import aiReducer from './aiDuck';
+import applicationReducers, { ApplicationState } from './application/applicationReducers';
 import datasetReducer from './datasetDuck';
 import sessionsReducer from './sessionsDuck';
 

@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 
+import { fetchAI, updateAI } from '../../../data/aiDuck';
 import { paths } from '../../../routes';
 import BasicPageLayout from '../../common/BasicPageLayout';
-import { fetchAI, updateAI } from '../../../data/aiDuck';
 import AiImplementationEditorComponent from './AiImplementationEditorComponent';
 
 interface Params {

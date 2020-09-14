@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   IconButton,
   Paper,
@@ -12,12 +11,12 @@ import {
   Typography,
 } from '@material-ui/core';
 import { Delete as DeleteIcon, Edit as EditIcon } from '@material-ui/icons';
+import React from 'react';
 
-import ConfirmationIconButton from '../../common/ConfirmationIconButton';
-
-import AiImplementationHealthComponent from './AiImplementationHealthComponent';
 import { paths } from '../../../routes';
+import ConfirmationIconButton from '../../common/ConfirmationIconButton';
 import LinkWrapper from '../../common/LinkWrapper';
+import AiImplementationHealthComponent from './AiImplementationHealthComponent';
 
 interface AiImplementationManagerComponentProps {
   aiImplementations: any[];

@@ -1,5 +1,5 @@
-import React from 'react';
 import { MenuItem } from '@material-ui/core';
+import React from 'react';
 
 import { BaseNamedConcept } from '../../data/util/baseConceptTypes';
 import AutoSelect from './AutoSelect';

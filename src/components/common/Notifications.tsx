@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Snackbar } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { clearCurrentNotification } from '../../data/application/applicationActions';
-import { RootState } from '../../data/rootReducer';
 import { Notification } from '../../data/application/applicationReducers';
+import { RootState } from '../../data/rootReducer';
 
 enum NotificationState {
   CLOSED = 'CLOSED',

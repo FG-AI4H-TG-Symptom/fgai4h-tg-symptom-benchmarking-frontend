@@ -1,18 +1,16 @@
+import { CircularProgress } from '@material-ui/core';
+import queryString from 'qs';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
-import queryString from 'qs';
-import { CircularProgress } from '@material-ui/core';
 
-import Error from '../../common/Error';
-import BasicPageLayout from '../../common/BasicPageLayout';
-
-import BenchmarkCreatorComponent from './BenchmarkCreatorComponent';
-
-import { fetchDatasets } from '../../../data/datasetDuck';
 import { fetchAIs } from '../../../data/aiDuck';
+import { fetchDatasets } from '../../../data/datasetDuck';
 import { addSession } from '../../../data/sessionsDuck';
 import { paths } from '../../../routes';
+import BasicPageLayout from '../../common/BasicPageLayout';
+import Error from '../../common/Error';
+import BenchmarkCreatorComponent from './BenchmarkCreatorComponent';
 
 const BenchmarkCreatorContainer: React.FC = () => {
   const history = useHistory();

@@ -1,15 +1,14 @@
+import { Button } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { Button } from '@material-ui/core';
 
 import { CaseSetInfo } from '../../../data/caseSets/caseSetDataType';
-import BasicPageLayout from '../../common/BasicPageLayout';
-import CaseSetViewerComponent from './CaseSetViewerComponent';
-
-import { fetchFullDataset, saveDataset, deleteCase } from '../../../data/datasetDuck';
+import { deleteCase, fetchFullDataset, saveDataset } from '../../../data/datasetDuck';
 import { paths } from '../../../routes';
+import BasicPageLayout from '../../common/BasicPageLayout';
 import LinkWrapper from '../../common/LinkWrapper';
+import CaseSetViewerComponent from './CaseSetViewerComponent';
 
 type Params = {
   caseSetId: string;

@@ -1,8 +1,7 @@
-import React from 'react';
 import { Button } from '@material-ui/core';
+import React from 'react';
 
 import { BaseNamedConcept } from '../../data/util/baseConceptTypes';
-
 import FormBlock from './FormBlock';
 import { useAutoFieldArray, useWatchArrayHelper } from './utils';
 

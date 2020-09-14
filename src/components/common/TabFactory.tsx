@@ -1,6 +1,6 @@
+import { Box, Paper, Tab, Tabs } from '@material-ui/core';
 import React, { ReactNode, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { Box, Paper, Tab, Tabs } from '@material-ui/core';
 
 export interface TabFactoryEntry {
   id: string;

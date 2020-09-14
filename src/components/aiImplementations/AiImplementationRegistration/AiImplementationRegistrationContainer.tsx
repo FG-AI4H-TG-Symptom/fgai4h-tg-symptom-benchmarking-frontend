@@ -2,9 +2,9 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
+import { addAI } from '../../../data/aiDuck';
 import { paths } from '../../../routes';
 import BasicPageLayout from '../../common/BasicPageLayout';
-import { addAI } from '../../../data/aiDuck';
 import AiImplementationRegistrationComponent from './AiImplementationRegistrationComponent';
 
 const AiImplementationRegistrationContainer: React.FC = () => {

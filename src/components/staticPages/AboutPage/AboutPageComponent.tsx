@@ -1,10 +1,9 @@
+import { Box, Card, CardContent, CardHeader, Link, Typography } from '@material-ui/core';
 import * as React from 'react';
 
-import { Box, Card, CardContent, CardHeader, Link, Typography } from '@material-ui/core';
-
-import * as Styled from './AboutPageComponent.style';
-import PageWrapper, { PageWidth } from '../../common/PageWrapper';
 import logo from '../../../logo.svg';
+import PageWrapper, { PageWidth } from '../../common/PageWrapper';
+import * as Styled from './AboutPageComponent.style';
 
 const AboutPageComponent: React.FC = () => {
   return (
