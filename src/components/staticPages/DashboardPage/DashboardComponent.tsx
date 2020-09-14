@@ -1,29 +1,17 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
 import { Grid } from '@material-ui/core';
 
 import styled from 'styled-components';
 import { paths } from '../../../routes';
 import DashboardCard from './DashboardCard';
 
-import { fetchDatasets } from '../../../data/datasetDuck';
-import { fetchAIs } from '../../../data/aiDuck';
-import { fetchSessions } from '../../../data/sessionsDuck';
+interface Props {
+  AIs: Record<string, unknown>[];
+  sessions: Record<string, unknown>[];
+  datasets: Record<string, unknown>[];
+}
 
-const LandingPageComponent: React.FC = () => {
-  const dispatch = useDispatch();
-
-  // fetch AIs and Datasets once when the component is mounted
-  useEffect(() => {
-    dispatch(fetchAIs());
-    dispatch(fetchDatasets());
-    dispatch(fetchSessions());
-  }, []);
-
-  const AIs = useSelector((state: any) => state.AIs.list);
-  const datasets = useSelector((state: any) => state.datasets.list);
-  const sessions = useSelector((state: any) => state.sessions.list);
-
+const LandingPageComponent: React.FC<Props> = ({ AIs, sessions, datasets }) => {
   const section = {
     height: '100%',
     paddingTop: 5,
