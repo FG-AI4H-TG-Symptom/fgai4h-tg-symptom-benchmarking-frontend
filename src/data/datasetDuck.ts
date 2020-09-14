@@ -5,6 +5,7 @@ import { takeEvery, put, all } from 'redux-saga/effects';
 
 import urlBuilder from './util/urlBuilder';
 import httpResponseErrorMessage from './util/httpResponseErrorMessage';
+import { queueNotification } from './application/applicationActions';
 
 const initialState = {
   list: [],
@@ -158,7 +159,9 @@ function* fetchDatasetsWorker() {
 
     yield put(fetchDatasetsSuccess(datasets));
   } catch (error) {
-    yield put(fetchDatasetsFailure(`Failed to load Datasets: ${error.message}`));
+    const errorMessage = `Failed to load Datasets: ${error.message}`;
+    yield put(fetchDatasetsFailure(errorMessage));
+    yield put(queueNotification({ message: errorMessage, type: 'error' }));
   }
 }
 
@@ -185,7 +188,9 @@ function* synthesizeDatasetWorker(action) {
     const data = yield response.json();
     yield put(synthesizeDatasetSuccess(data[0]));
   } catch (error) {
-    yield put(synthesizeDatasetFailure(`Failed to create case set: ${error.message}`));
+    const errorMessage = `Failed to create case set: ${error.message}`;
+    yield put(synthesizeDatasetFailure(errorMessage));
+    yield put(queueNotification({ message: errorMessage, type: 'error' }));
   }
 }
 
@@ -204,7 +209,9 @@ function* deleteDatasetWorker(action) {
     yield put(deleteDatasetSuccess({ id: caseSetId }));
   } catch (error) {
     console.error(error);
-    yield put(deleteDatasetFailure(`Errored while deleting case set: ${error.message}`));
+    const errorMessage = `Errored while deleting case set: ${error.message}`;
+    yield put(deleteDatasetFailure(errorMessage));
+    yield put(queueNotification({ message: errorMessage, type: 'error' }));
   }
 }
 
@@ -221,7 +228,9 @@ function* fetchFullDatasetWorker(action) {
 
     yield put(fetchFullDatasetSuccess(caseSet));
   } catch (error) {
-    yield put(fetchFullDatasetFailure(`Failed to fetch case set: ${error.message}`));
+    const errorMessage = `Failed to fetch case set: ${error.message}`;
+    yield put(fetchFullDatasetFailure(errorMessage));
+    yield put(queueNotification({ message: errorMessage, type: 'error' }));
   }
 }
 
@@ -247,7 +256,9 @@ function* saveDatasetWorker(action) {
     const updatedCaseSet = yield response.json();
     yield put(saveDatasetSuccess(updatedCaseSet));
   } catch (error) {
-    yield put(saveDatasetFailure(`Failed to save case set: ${error.message}`));
+    const errorMessage = `Failed to save case set: ${error.message}`;
+    yield put(saveDatasetFailure(errorMessage));
+    yield put(queueNotification({ message: errorMessage, type: 'error' }));
   }
 }
 
@@ -304,8 +315,9 @@ function* deleteCaseWorker(action) {
 
     yield put(deleteCaseSuccess({ deletedCaseId: id, caseSetsIDs: caseSets }));
   } catch (error) {
-    console.error(error);
-    yield put(deleteCaseFailure(`Errored while deleting a case: ${error.message}`));
+    const errorMessage = `Errored while deleting a case: ${error.message}`;
+    yield put(deleteCaseFailure(errorMessage));
+    yield put(queueNotification({ message: errorMessage, type: 'error' }));
   }
 }
 
@@ -333,7 +345,9 @@ function* createCaseSetWorker(action) {
     const createdCaseSet = yield response.json();
     yield put(createCaseSetSuccess(createdCaseSet));
   } catch (error) {
-    yield put(createCaseSetFailure(`Failed to create case set: ${error.message}`));
+    const errorMessage = `Failed to create case set: ${error.message}`;
+    yield put(createCaseSetFailure(errorMessage));
+    yield put(queueNotification({ message: errorMessage, type: 'error' }));
   }
 }
 

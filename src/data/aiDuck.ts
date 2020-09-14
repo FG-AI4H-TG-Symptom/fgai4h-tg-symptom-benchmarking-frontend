@@ -4,6 +4,7 @@ import { takeEvery, put, all } from 'redux-saga/effects';
 
 import urlBuilder from './util/urlBuilder';
 import httpResponseErrorMessage from './util/httpResponseErrorMessage';
+import { queueNotification } from './application/applicationActions';
 
 // REDUCER
 const initialAIstate = { list: [], editingAI: null, loading: false, error: null, health: {} };
@@ -117,7 +118,9 @@ function* fetchAIsWorker() {
       yield put(fetchAiHealth({ id: aiImplementation.id }));
     }
   } catch (error) {
-    yield put(fetchAIsFailure(`Failed to load AI implementations: ${error.message}`));
+    const errorMessage = `Failed to fetch AI implementations list: ${error.message}`;
+    yield put(fetchAIsFailure(errorMessage));
+    yield put(queueNotification({ message: errorMessage, type: 'error' }));
   }
 }
 
@@ -135,7 +138,9 @@ function* fetchAIWorker(action) {
     const editingAI = yield response.json();
     yield put(fetchAISuccess({ editingAI: editingAI }));
   } catch (error) {
-    yield put(fetchAIFailure(`Failed to fetch AI implementation: ${error.message}`));
+    const errorMessage = `Failed to fetch AI implementation: ${error.message}`;
+    yield put(fetchAIFailure(errorMessage));
+    yield put(queueNotification({ message: errorMessage, type: 'error' }));
   }
 }
 
@@ -153,7 +158,9 @@ function* fetchAIHealthWorker(action) {
     const data = yield response.json();
     yield put(fetchAiHealthSuccess({ id: aiImplementationId, status: data.status }));
   } catch (error) {
-    yield put(fetchAiHealthFailure(`Failed to fetch AI implementation list: ${error.message}`));
+    const errorMessage = `Failed to fetch AI implementation health status: ${error.message}`;
+    yield put(fetchAiHealthFailure(errorMessage));
+    yield put(queueNotification({ message: errorMessage, type: 'error' }));
   }
 }
 
@@ -184,7 +191,9 @@ function* updateAIWorker(action) {
     console.log(updatedAI);
     yield put(updateAISuccess({ updatedAI: updatedAI }));
   } catch (error) {
-    yield put(updateAIFailure(`Failed to update AI implementation: ${error.message}`));
+    const errorMessage = `Failed to update AI implementation: ${error.message}`;
+    yield put(updateAIFailure(errorMessage));
+    yield put(queueNotification({ message: errorMessage, type: 'error' }));
   }
 }
 
@@ -203,8 +212,9 @@ function* deleteAIworker(action) {
 
     yield put(deleteAISuccess({ id: aiImplementationId }));
   } catch (error) {
-    console.error(error);
-    yield put(deleteAIFailure(`Errored while deleting AI implementation: ${error.message}`));
+    const errorMessage = `Failed to delete AI implementation: ${error.message}`;
+    yield put(deleteAIFailure(errorMessage));
+    yield put(queueNotification({ message: errorMessage, type: 'error' }));
   }
 }
 function* addAIworker(action) {
@@ -228,7 +238,9 @@ function* addAIworker(action) {
     yield put(fetchAiHealth({ id: createdAiImplementation.id }));
     yield put(addAISuccess(createdAiImplementation));
   } catch (error) {
-    yield put(addAIFailure(`Failed to register AI implementation: ${error.message}`));
+    const errorMessage = `Failed to register AI implementation: ${error.message}`;
+    yield put(addAIFailure(errorMessage));
+    yield put(queueNotification({ message: errorMessage, type: 'error' }));
   }
 }
 
