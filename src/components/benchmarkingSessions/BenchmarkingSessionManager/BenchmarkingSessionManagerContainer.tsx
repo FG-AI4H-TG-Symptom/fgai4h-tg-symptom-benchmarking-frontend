@@ -11,6 +11,10 @@ import { fetchSessions, deleteSession, runSession } from '../../../data/sessions
 import { fetchAIs } from '../../../data/aiDuck';
 import { fetchDatasets } from '../../../data/datasetDuck';
 
+function sortByDateDesc(sessionA, sessionB): number {
+  return Date.parse(sessionB.createdOn) - Date.parse(sessionA.createdOn);
+}
+
 const BenchmarkingSessionManagerContainer: React.FC = () => {
   const dispatch = useDispatch();
 
@@ -37,7 +41,7 @@ const BenchmarkingSessionManagerContainer: React.FC = () => {
       {datasetsList && (
         <>
           <BenchmarkingSessionManagerComponent
-            benchmarkingSessions={sessionsList}
+            benchmarkingSessions={sessionsList.slice().sort(sortByDateDesc)}
             datasets={datasetsList}
             AIs={aisList}
             deleteBenchmarkingSession={deleteBenchmarkingSession}
