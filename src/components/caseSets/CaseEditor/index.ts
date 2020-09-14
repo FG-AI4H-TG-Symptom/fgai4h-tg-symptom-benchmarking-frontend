@@ -1,1 +1,1 @@
-export { default } from "./CaseEditorContainer";
+export { default } from './CaseEditorContainer';
