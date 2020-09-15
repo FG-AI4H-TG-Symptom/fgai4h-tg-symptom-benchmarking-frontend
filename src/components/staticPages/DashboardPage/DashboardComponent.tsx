@@ -1,29 +1,23 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
 import { Grid } from '@material-ui/core';
 
 import styled from 'styled-components';
 import { paths } from '../../../routes';
 import DashboardCard from './DashboardCard';
 
-import { fetchDatasets } from '../../../data/datasetDuck';
-import { fetchAIs } from '../../../data/aiDuck';
-import { fetchSessions } from '../../../data/sessionsDuck';
+const aiImageURL =
+  'https://storage.googleapis.com/itu-fgai4h-assets/frontend-dashboard/Ada_Ai_Implementations_Cover.jpg';
+const datasetsImageURL = 'https://storage.googleapis.com/itu-fgai4h-assets/frontend-dashboard/Ada_Datasets_Cover.jpg';
+const sessionsImageURL =
+  'https://storage.googleapis.com/itu-fgai4h-assets/frontend-dashboard/Ada_Benchmarking_Sessions_Cover.jpg';
 
-const LandingPageComponent: React.FC = () => {
-  const dispatch = useDispatch();
+interface Props {
+  AIs: Record<string, unknown>[];
+  sessions: Record<string, unknown>[];
+  datasets: Record<string, unknown>[];
+}
 
-  // fetch AIs and Datasets once when the component is mounted
-  useEffect(() => {
-    dispatch(fetchAIs());
-    dispatch(fetchDatasets());
-    dispatch(fetchSessions());
-  }, []);
-
-  const AIs = useSelector((state: any) => state.AIs.list);
-  const datasets = useSelector((state: any) => state.datasets.list);
-  const sessions = useSelector((state: any) => state.sessions.list);
-
+const LandingPageComponent: React.FC<Props> = ({ AIs, sessions, datasets }) => {
   const section = {
     height: '100%',
     paddingTop: 5,
@@ -31,15 +25,9 @@ const LandingPageComponent: React.FC = () => {
 
   const StyledContainer = styled.div`
     padding: 2rem;
-    padding: 2rem;
     display: flex;
     justify-content: center;
   `;
-  /* eslint-disable global-require */
-  const image1 = require('../../../images/rept1.jpeg');
-  const image2 = require('../../../images/rept2.jpeg');
-  const image3 = require('../../../images/rept3.jpeg');
-  /* eslint-enable global-require */
 
   return (
     <StyledContainer>
@@ -50,7 +38,7 @@ const LandingPageComponent: React.FC = () => {
               title="AI Implementations"
               count={AIs.length}
               link={paths.aiImplementationManager()}
-              image={image1}
+              image={aiImageURL}
               addNewLink={paths.aiImplementationRegistration()}
             />
           </div>
@@ -62,7 +50,7 @@ const LandingPageComponent: React.FC = () => {
               title="Datasets"
               count={datasets.length}
               link={paths.caseSetManager()}
-              image={image2}
+              image={datasetsImageURL}
               addNewLink={paths.caseSetGenerator()}
             />
           </div>
@@ -74,7 +62,7 @@ const LandingPageComponent: React.FC = () => {
               title="Benchmarking Sessions"
               count={sessions.length}
               link={paths.benchmarkingSessions()}
-              image={image3}
+              image={sessionsImageURL}
               addNewLink={paths.benchmarkCreate()}
             />
           </div>
