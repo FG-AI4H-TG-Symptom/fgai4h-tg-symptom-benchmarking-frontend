@@ -28,7 +28,7 @@ const PresenceIcon: React.FC<{ presence: ClinicalFindingState }> = ({
 const rowsPerPageOptions = [10, 20, 50, 100];
 
 export interface CaseSetComponentProps {
-  caseSet: CaseSetInfo;
+  caseSet: any;
 }
 
 const CaseSetViewerTable: React.FC<CaseSetComponentProps> = ({
@@ -62,8 +62,8 @@ const CaseSetViewerTable: React.FC<CaseSetComponentProps> = ({
             <TableRow>
               <Styled.CaseIdCell>Case ID</Styled.CaseIdCell>
               <TableCell>Case creator</TableCell>
-              <TableCell>Description</TableCell>
-              <TableCell>Spreadsheet case ID</TableCell>
+              {/* <TableCell>Description</TableCell> */}
+              {/* <TableCell>Spreadsheet case ID</TableCell> */}
               <TableCell>Age</TableCell>
               <TableCell>Biological sex</TableCell>
               <TableCell>Presenting complaints</TableCell>
@@ -88,11 +88,11 @@ const CaseSetViewerTable: React.FC<CaseSetComponentProps> = ({
                       {/* {metaData.caseCreator} */}
                     </TableCell>
 
-                    <Styled.CaseDescriptionCell>
+                    {/* <Styled.CaseDescriptionCell>
                       <TextWithTooltipSelf>
                         {metaData?.description}
                       </TextWithTooltipSelf>
-                    </Styled.CaseDescriptionCell>
+                    </Styled.CaseDescriptionCell> */}
 
                     <TableCell>
                       {metaData?.spreadsheetCaseId}

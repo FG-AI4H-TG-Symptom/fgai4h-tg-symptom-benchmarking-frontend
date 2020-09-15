@@ -24,6 +24,7 @@
     "ServiceWorkerRegistration": true
   },
   "rules": {
+    "prefer-destructuring" : "off",
     "operator-assignment": "off",
     "no-shadow": "off",
     "import/extensions": "off",

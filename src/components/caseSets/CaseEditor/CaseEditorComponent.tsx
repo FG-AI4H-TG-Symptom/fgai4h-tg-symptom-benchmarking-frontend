@@ -78,13 +78,7 @@ const CaseEditorComponent: React.FC<CaseSetEditorProps> = ({
   saveCase,
 }) => {
   const defaultValues = { case: { ...caseData.data } };
-
-  // add this to transfrom to correct format
-  // defaultValues.case = {
-  //   ...defaultValues.case,
-  //   metaData: { name: "some name", description: "some description" },
-  // };
-
+  // console.log('defaultValues', defaultValues);
   const { errors, handleSubmit, ...formMethods } = useForm({
     validationResolver,
     defaultValues: defaultValues,
@@ -92,15 +86,10 @@ const CaseEditorComponent: React.FC<CaseSetEditorProps> = ({
 
   return (
     <FormContext errors={errors} handleSubmit={handleSubmit} {...formMethods}>
-      <Box marginBottom={2}>
-        <Alert variant="outlined" severity="warning">
-          The editor is already using the Berlin model.
-        </Alert>
-      </Box>
-
       <form
         onSubmit={handleSubmit((data: FormValues): void => {
-          saveCase({ ...caseData, data: data.case });
+          // saveCase({ ...caseData, data: data.case });
+          console.log('datadata', data);
         })}
       >
         <Fab label="Save" type="submit">

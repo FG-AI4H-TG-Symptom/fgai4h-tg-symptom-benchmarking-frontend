@@ -24,6 +24,7 @@ import BenchmarkCreator from "./components/benchmarkingSessions/BenchmarkCreator
 import BenchmarkEvaluator from "./components/benchmarkingSessions/BenchmarkEvaluator";
 import BenchmarkingSessionManager from "./components/benchmarkingSessions/BenchmarkingSessionManager";
 import CaseEditor from "./components/caseSets/CaseEditor";
+import SimpleCaseEditor from "./components/caseSets/SimpleCaseEditor";
 import AddCase from "./components/caseSets/addCase";
 
 const AI_IMPLEMENTATIONS_PATH = "ai-implementations";
@@ -42,8 +43,13 @@ export const paths = {
   caseSetManager: (): string => `/${CASE_SETS_PATH}`,
   caseSetViewer: (caseSetId: string): string =>
     `/${CASE_SETS_PATH}/${caseSetId}`, // /cases/:caseSetId
+
   caseEditor: (caseSetId: string, caseId: string): string =>
     `/${CASE_SETS_PATH}/${caseSetId}/edit/${caseId}`, // /cases/:caseSetId/edit/:caseId
+    
+  simpleCaseEditor: (caseSetId: string, caseId: string): string =>
+    `/${CASE_SETS_PATH}/${caseSetId}/simple_edit/${caseId}`, // /cases/:caseSetId/edit/:caseId
+
   addCase: (caseSetId: string): string => `/${CASE_SETS_PATH}/${caseSetId}/add`, // /cases/:caseSetId/add,
   caseSetGenerator: (): string => `/${CASE_SETS_PATH}/generate`,
   datasetCreator: (): string => `/${CASE_SETS_PATH}/create`,
@@ -158,6 +164,14 @@ export const routes: Array<Route> = [
     component: CaseEditor,
     exact: true,
     visibleInMenu: false
+  },
+  {
+    id: "simple-case-editor",
+    displayName: "Simple Case editor",
+    path: paths.simpleCaseEditor(":caseSetId", ":caseId"),
+    component: SimpleCaseEditor,
+    exact: true,
+    visibleInMenu: false,
   },
   {
     id: "add-case",
