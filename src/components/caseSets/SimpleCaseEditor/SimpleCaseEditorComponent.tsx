@@ -495,10 +495,18 @@ const AttributeSection: React.FC<any> = ({ clinicalFinding, nameInObject }) => {
 
   const selectAttr = (oldId, newId, attributes) => {
     console.log("selectAttr", oldId, newId, attributes);
+
     const restAttributes = attributes.filter((attr) => attr.id !== oldId);
     let changedAttribute = attributes.find((attr) => attr.id === oldId);
 
-    changedAttribute = { ...changedAttribute, id: newId };
+    const isMulti = isMultiAttribute(newId);
+    const preselectedVal = isMulti ? [] : "";
+
+    changedAttribute = {
+      ...changedAttribute,
+      id: newId,
+      value: preselectedVal,
+    };
 
     let newAttributes = [...restAttributes, changedAttribute];
     newAttributes = refreshOptions(newAttributes, possibleAttributes);
@@ -567,7 +575,6 @@ const AttributeSection: React.FC<any> = ({ clinicalFinding, nameInObject }) => {
         }
 
         const possibleValues = getPossibleValues(attributeId);
-
         const attributesOptions = getSelectOptions(availableOptions);
         const valuesOptions = getSelectOptions(possibleValues);
 
