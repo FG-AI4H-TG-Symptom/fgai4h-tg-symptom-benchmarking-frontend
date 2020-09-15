@@ -11,7 +11,7 @@ const ViewRawFooter: React.FC<{ data: any; ariaPrefix: string }> = ({ data, aria
       aria-controls={`${ariaPrefix}-content`}
       id={`${ariaPrefix}-header`}
     >
-      View Raw Evalution Response
+      View Raw Evaluation Response
     </AccordionSummary>
     <AccordionDetails id={`${ariaPrefix}-content`}>
       <ViewRaw data={data} />
