@@ -5,6 +5,12 @@ import styled from 'styled-components';
 import { paths } from '../../../routes';
 import DashboardCard from './DashboardCard';
 
+const aiImageURL =
+  'https://storage.googleapis.com/itu-fgai4h-assets/frontend-dashboard/Ada_Ai_Implementations_Cover.jpg';
+const datasetsImageURL = 'https://storage.googleapis.com/itu-fgai4h-assets/frontend-dashboard/Ada_Datasets_Cover.jpg';
+const sessionsImageURL =
+  'https://storage.googleapis.com/itu-fgai4h-assets/frontend-dashboard/Ada_Benchmarking_Sessions_Cover.jpg';
+
 interface Props {
   AIs: Record<string, unknown>[];
   sessions: Record<string, unknown>[];
@@ -19,15 +25,9 @@ const LandingPageComponent: React.FC<Props> = ({ AIs, sessions, datasets }) => {
 
   const StyledContainer = styled.div`
     padding: 2rem;
-    padding: 2rem;
     display: flex;
     justify-content: center;
   `;
-  /* eslint-disable global-require */
-  const image1 = require('../../../images/rept1.jpeg');
-  const image2 = require('../../../images/rept2.jpeg');
-  const image3 = require('../../../images/rept3.jpeg');
-  /* eslint-enable global-require */
 
   return (
     <StyledContainer>
@@ -38,7 +38,7 @@ const LandingPageComponent: React.FC<Props> = ({ AIs, sessions, datasets }) => {
               title="AI Implementations"
               count={AIs.length}
               link={paths.aiImplementationManager()}
-              image={image1}
+              image={aiImageURL}
               addNewLink={paths.aiImplementationRegistration()}
             />
           </div>
@@ -50,7 +50,7 @@ const LandingPageComponent: React.FC<Props> = ({ AIs, sessions, datasets }) => {
               title="Datasets"
               count={datasets.length}
               link={paths.caseSetManager()}
-              image={image2}
+              image={datasetsImageURL}
               addNewLink={paths.caseSetGenerator()}
             />
           </div>
@@ -62,7 +62,7 @@ const LandingPageComponent: React.FC<Props> = ({ AIs, sessions, datasets }) => {
               title="Benchmarking Sessions"
               count={sessions.length}
               link={paths.benchmarkingSessions()}
-              image={image3}
+              image={sessionsImageURL}
               addNewLink={paths.benchmarkCreate()}
             />
           </div>
