@@ -61,9 +61,7 @@ const slice = createSlice({
     },
     // add AI
     addAI: (AIs, action) => {},
-    addAISuccess: (AIs, action) => {
-      AIs.list.push(action.payload);
-    },
+    addAISuccess: (AIs, action) => {},
     addAIFailure: (AIs, action) => {
       AIs.error = action.payload;
     },
