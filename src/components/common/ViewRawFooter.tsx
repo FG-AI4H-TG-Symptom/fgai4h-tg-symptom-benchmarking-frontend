@@ -1,22 +1,22 @@
 import React from 'react';
-import { ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary } from '@material-ui/core';
+import { Accordion, AccordionDetails, AccordionSummary } from '@material-ui/core';
 import { ExpandMore as ExpandMoreIcon } from '@material-ui/icons';
 
 import ViewRaw from './ViewRaw';
 
 const ViewRawFooter: React.FC<{ data: any; ariaPrefix: string }> = ({ data, ariaPrefix }) => (
-  <ExpansionPanel>
-    <ExpansionPanelSummary
+  <Accordion>
+    <AccordionSummary
       expandIcon={<ExpandMoreIcon />}
       aria-controls={`${ariaPrefix}-content`}
       id={`${ariaPrefix}-header`}
     >
       View Raw Evalution Response
-    </ExpansionPanelSummary>
-    <ExpansionPanelDetails id={`${ariaPrefix}-content`}>
+    </AccordionSummary>
+    <AccordionDetails id={`${ariaPrefix}-content`}>
       <ViewRaw data={data} />
-    </ExpansionPanelDetails>
-  </ExpansionPanel>
+    </AccordionDetails>
+  </Accordion>
 );
 
 export default ViewRawFooter;
