@@ -33,12 +33,6 @@ const useStyles = makeStyles((theme: Theme) =>
     appBar: {
       zIndex: theme.zIndex.drawer + 1,
     },
-    menuButton: {
-      marginRight: 36,
-    },
-    hide: {
-      display: 'none',
-    },
     drawer: {
       width: drawerWidth,
       flexShrink: 0,
@@ -137,6 +131,7 @@ const MiniDrawer: React.FC<{ children: React.ReactNode }> = ({ children }) => {
               <LinkWrapper key={id} to={path}>
                 <ListItem
                   button
+                  selected={currentRoute.id === id}
                   onClick={(): void => {
                     setOpen(false);
                   }}
