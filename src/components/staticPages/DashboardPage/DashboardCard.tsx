@@ -10,15 +10,17 @@ interface Props {
   link: string;
   image: string;
   addNewLink: string;
+  showFull?: boolean;
 }
 
-const DashboardCard: React.FC<Props> = (props) => {
+const DashboardCard: React.FC<Props> = ({ title, count, link, image, addNewLink, showFull = true }) => {
   const useStyles = makeStyles({
     root: {
-      maxWidth: 345,
+      maxWidth: showFull ? 345 : 260,
     },
     media: {
-      height: 140,
+      height: 0,
+      paddingTop: '56.25%',
     },
   });
 
@@ -26,34 +28,32 @@ const DashboardCard: React.FC<Props> = (props) => {
 
   return (
     <Card className={classes.root}>
-      <CardActionArea>
-        <LinkWrapper to={props.link}>
-          <CardMedia
-            style={{ height: 0, marginTop: '30', paddingTop: '56.25%' }}
-            image={props.image}
-            title={props.title}
-          />
-        </LinkWrapper>
+      <LinkWrapper to={link}>
+        <CardActionArea>
+          <CardMedia className={classes.media} image={image} title={title} />
+          <CardContent>
+            <Typography variant="h6" component="h2">
+              {title}
+            </Typography>
+            {showFull && (
+              <Typography variant="body2" color="textSecondary" component="p">
+                <b style={{ fontSize: 20 }}>{count}</b> {title} are available
+              </Typography>
+            )}
+          </CardContent>
+        </CardActionArea>
+      </LinkWrapper>
+      {showFull && (
+        <CardActions>
+          <LinkWrapper to={link}>
+            <Button>Details</Button>
+          </LinkWrapper>
 
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-            {props.title}
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            <b style={{ fontSize: 20 }}>{props.count}</b> {props.title} are available
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      {/* style={{display: 'flex', justifyContent: 'flex-end'}} */}
-      <CardActions>
-        <LinkWrapper to={props.link}>
-          <Button>Details</Button>
-        </LinkWrapper>
-
-        <LinkWrapper to={props.addNewLink}>
-          <Button>Add New</Button>
-        </LinkWrapper>
-      </CardActions>
+          <LinkWrapper to={addNewLink}>
+            <Button>Add New</Button>
+          </LinkWrapper>
+        </CardActions>
+      )}
     </Card>
   );
 };
