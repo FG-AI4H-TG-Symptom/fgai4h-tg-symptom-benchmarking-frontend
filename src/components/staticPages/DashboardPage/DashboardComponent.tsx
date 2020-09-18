@@ -18,42 +18,40 @@ interface Props {
 
 const DashboardComponent: React.FC<Props> = ({ AIs, sessions, datasets }) => {
   return (
-    <>
-      <Grid container spacing={0} alignItems="center" justify="center">
-        <Grid item xs={12} sm={12} md={3}>
-          <DashboardCard
-            title="AI Implementations"
-            count={AIs.length}
-            link={paths.aiImplementationManager()}
-            image={aiImageURL}
-            addNewLink={paths.aiImplementationRegistration()}
-            showFull={false}
-          />
-        </Grid>
-
-        <Grid item xs={12} sm={12} md={3}>
-          <DashboardCard
-            title="Datasets"
-            count={datasets.length}
-            link={paths.caseSetManager()}
-            image={datasetsImageURL}
-            addNewLink={paths.caseSetGenerator()}
-            showFull={false}
-          />
-        </Grid>
-
-        <Grid item xs={12} sm={12} md={3}>
-          <DashboardCard
-            title="Benchmarking Sessions"
-            count={sessions.length}
-            link={paths.benchmarkingSessions()}
-            image={sessionsImageURL}
-            addNewLink={paths.benchmarkCreate()}
-            showFull={false}
-          />
-        </Grid>
+    <Grid container spacing={2} alignItems="center" justify="center">
+      <Grid item xs={12} sm={12} md={3}>
+        <DashboardCard
+          title="AI Implementations"
+          count={AIs.length}
+          link={paths.aiImplementationManager()}
+          image={aiImageURL}
+          addNewLink={paths.aiImplementationRegistration()}
+          showFull={false}
+        />
       </Grid>
-    </>
+
+      <Grid item xs={12} sm={12} md={3}>
+        <DashboardCard
+          title="Datasets"
+          count={datasets.length}
+          link={paths.caseSetManager()}
+          image={datasetsImageURL}
+          addNewLink={paths.caseSetGenerator()}
+          showFull={false}
+        />
+      </Grid>
+
+      <Grid item xs={12} sm={12} md={3}>
+        <DashboardCard
+          title="Benchmarking Sessions"
+          count={sessions.length}
+          link={paths.benchmarkingSessions()}
+          image={sessionsImageURL}
+          addNewLink={paths.benchmarkCreate()}
+          showFull={false}
+        />
+      </Grid>
+    </Grid>
   );
 };
 
