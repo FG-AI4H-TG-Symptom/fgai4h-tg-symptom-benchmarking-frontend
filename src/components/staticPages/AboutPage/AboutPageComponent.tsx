@@ -5,24 +5,33 @@ import { Box, Card, CardContent, CardHeader, Link, Typography } from '@material-
 import * as Styled from './AboutPageComponent.style';
 import PageWrapper, { PageWidth } from '../../common/PageWrapper';
 import logo from '../../../logo.svg';
+import DashboardPage from '../DashboardPage';
 
 const AboutPageComponent: React.FC = () => {
   return (
-    <PageWrapper pageWidth={PageWidth.NARROW}>
+    <PageWrapper pageWidth={PageWidth.REGULAR}>
       <Styled.LogoWrapper>
         <Styled.Logo src={logo} alt="FG AI4H logo" />
       </Styled.LogoWrapper>
 
-      <Typography variant="h1">&quot;Symptom assessment&quot; FG MMVB for AI4H (WHO/ITU)</Typography>
-      <Box marginTop={2} marginBottom={4}>
-        <Typography gutterBottom>
+      <Typography variant="h1" align="center">
+        &quot;Symptom assessment&quot; FG MMVB for AI4H (WHO/ITU)
+      </Typography>
+      <Box marginTop={2} marginBottom={2}>
+        <Typography gutterBottom align="center">
           Minimal minimal viable benchmark for &quot;Symptom assessment&quot; sub-group of &quot;AI for Health&quot;
           Focus Group
         </Typography>
-        <Typography gutterBottom>
+        <Typography gutterBottom align="center">
           The sub-group of the focus group of the International Telecommunication Union
         </Typography>
-        <Typography>The focus group is organised in collaboration with the World Health Organisation</Typography>
+        <Typography align="center">
+          The focus group is organised in collaboration with the World Health Organisation
+        </Typography>
+      </Box>
+
+      <Box marginBottom={2}>
+        <DashboardPage />
       </Box>
 
       <Box marginBottom={2}>
