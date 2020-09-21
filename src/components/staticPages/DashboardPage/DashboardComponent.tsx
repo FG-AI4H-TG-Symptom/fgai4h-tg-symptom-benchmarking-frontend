@@ -1,7 +1,6 @@
 import React from 'react';
 import { Grid } from '@material-ui/core';
 
-import styled from 'styled-components';
 import { paths } from '../../../routes';
 import DashboardCard from './DashboardCard';
 
@@ -17,59 +16,43 @@ interface Props {
   datasets: Record<string, unknown>[];
 }
 
-const LandingPageComponent: React.FC<Props> = ({ AIs, sessions, datasets }) => {
-  const section = {
-    height: '100%',
-    paddingTop: 5,
-  };
-
-  const StyledContainer = styled.div`
-    padding: 2rem;
-    display: flex;
-    justify-content: center;
-  `;
-
+const DashboardComponent: React.FC<Props> = ({ AIs, sessions, datasets }) => {
   return (
-    <StyledContainer>
-      <Grid container spacing={2} alignItems="center" justify="center">
-        <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
-          <div style={section}>
-            <DashboardCard
-              title="AI Implementations"
-              count={AIs.length}
-              link={paths.aiImplementationManager()}
-              image={aiImageURL}
-              addNewLink={paths.aiImplementationRegistration()}
-            />
-          </div>
-        </Grid>
-
-        <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
-          <div style={section}>
-            <DashboardCard
-              title="Datasets"
-              count={datasets.length}
-              link={paths.caseSetManager()}
-              image={datasetsImageURL}
-              addNewLink={paths.caseSetGenerator()}
-            />
-          </div>
-        </Grid>
-
-        <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
-          <div style={section}>
-            <DashboardCard
-              title="Benchmarking Sessions"
-              count={sessions.length}
-              link={paths.benchmarkingSessions()}
-              image={sessionsImageURL}
-              addNewLink={paths.benchmarkCreate()}
-            />
-          </div>
-        </Grid>
+    <Grid container spacing={2} alignItems="center" justify="center">
+      <Grid item xs={12} sm={12} md={3}>
+        <DashboardCard
+          title="AI Implementations"
+          count={AIs.length}
+          link={paths.aiImplementationManager()}
+          image={aiImageURL}
+          addNewLink={paths.aiImplementationRegistration()}
+          showFull={false}
+        />
       </Grid>
-    </StyledContainer>
+
+      <Grid item xs={12} sm={12} md={3}>
+        <DashboardCard
+          title="Datasets"
+          count={datasets.length}
+          link={paths.caseSetManager()}
+          image={datasetsImageURL}
+          addNewLink={paths.caseSetGenerator()}
+          showFull={false}
+        />
+      </Grid>
+
+      <Grid item xs={12} sm={12} md={3}>
+        <DashboardCard
+          title="Benchmarking Sessions"
+          count={sessions.length}
+          link={paths.benchmarkingSessions()}
+          image={sessionsImageURL}
+          addNewLink={paths.benchmarkCreate()}
+          showFull={false}
+        />
+      </Grid>
+    </Grid>
   );
 };
 
-export default LandingPageComponent;
+export default DashboardComponent;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Button, CardContent, CardActions, CardActionArea, Typography, CardMedia } from '@material-ui/core';
-
 import { makeStyles } from '@material-ui/core/styles';
+
 import LinkWrapper from '../../common/LinkWrapper';
 
 interface Props {
@@ -10,15 +10,47 @@ interface Props {
   link: string;
   image: string;
   addNewLink: string;
+  showFull?: boolean;
 }
 
-const DashboardCard: React.FC<Props> = (props) => {
+const useBadgeStyles = makeStyles({
+  root: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: '50%',
+    backgroundColor: '#FF9173',
+    borderColor: '#fff',
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    width: 30,
+    height: 30,
+    position: 'absolute',
+    top: '10px',
+    right: '10px',
+    color: '#fff',
+    fontSize: '16px',
+    fontWeight: 'bold',
+  },
+});
+
+const CardMediaBadge: React.FC<{ badgeContent: React.ReactNode }> = ({ badgeContent }) => {
+  const classes = useBadgeStyles();
+  return (
+    <div className={classes.root} style={{}}>
+      {badgeContent}
+    </div>
+  );
+};
+
+const DashboardCard: React.FC<Props> = ({ title, count, link, image, addNewLink, showFull = true }) => {
   const useStyles = makeStyles({
     root: {
-      maxWidth: 345,
+      maxWidth: showFull ? 345 : 260,
     },
     media: {
-      height: 140,
+      height: 0,
+      paddingTop: '56.25%',
     },
   });
 
@@ -26,34 +58,34 @@ const DashboardCard: React.FC<Props> = (props) => {
 
   return (
     <Card className={classes.root}>
-      <CardActionArea>
-        <LinkWrapper to={props.link}>
-          <CardMedia
-            style={{ height: 0, marginTop: '30', paddingTop: '56.25%' }}
-            image={props.image}
-            title={props.title}
-          />
-        </LinkWrapper>
+      <LinkWrapper to={link}>
+        <CardActionArea>
+          <CardMedia className={classes.media} image={image} title={title}>
+            <CardMediaBadge badgeContent={count} />
+          </CardMedia>
+          <CardContent>
+            <Typography variant="h6" component="h2">
+              {title}
+            </Typography>
+            {showFull && (
+              <Typography variant="body2" color="textSecondary" component="p">
+                <b style={{ fontSize: 20 }}>{count}</b> {title} are available
+              </Typography>
+            )}
+          </CardContent>
+        </CardActionArea>
+      </LinkWrapper>
+      {showFull && (
+        <CardActions>
+          <LinkWrapper to={link}>
+            <Button>Details</Button>
+          </LinkWrapper>
 
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-            {props.title}
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            <b style={{ fontSize: 20 }}>{props.count}</b> {props.title} are available
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      {/* style={{display: 'flex', justifyContent: 'flex-end'}} */}
-      <CardActions>
-        <LinkWrapper to={props.link}>
-          <Button>Details</Button>
-        </LinkWrapper>
-
-        <LinkWrapper to={props.addNewLink}>
-          <Button>Add New</Button>
-        </LinkWrapper>
-      </CardActions>
+          <LinkWrapper to={addNewLink}>
+            <Button>Add New</Button>
+          </LinkWrapper>
+        </CardActions>
+      )}
     </Card>
   );
 };

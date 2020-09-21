@@ -1,5 +1,4 @@
-import styled from "styled-components";
-import { List } from "@material-ui/core";
+import styled from 'styled-components';
 
 export const Title = styled.span`
   flex-grow: 1;
@@ -8,10 +7,6 @@ export const Title = styled.span`
 
 export const Main = styled.main`
   padding: 2rem;
-`;
-
-export const SideMenuList = styled(List)`
-  min-width: 20rem;
 `;
 
 export const Logo = styled.img`
