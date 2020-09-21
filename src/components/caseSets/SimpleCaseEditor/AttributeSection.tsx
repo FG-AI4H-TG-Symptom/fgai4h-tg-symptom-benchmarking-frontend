@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { v1 as uuid } from "uuid";
 
-import { Button, Grid, IconButton, Typography } from "@material-ui/core";
+import { Button, Grid, IconButton } from "@material-ui/core";
 import { Delete as DeleteIcon } from "@material-ui/icons";
 
 import {
@@ -15,7 +15,7 @@ import berlinModelSchema from "../../../data/caseSets/berlinModel.schema.json";
 import { FormBlock } from "./FormElements";
 import AttributeSelect from "./AttributeSelect";
 
-const selectAttr = (oldId, newId, state, fieldId, possibleAttributes) => {
+const selectAttr = (newId, state, fieldId, possibleAttributes) => {
   const { attributes } = state;
 
   let newlyChosenAttribute = possibleAttributes.find(
@@ -46,8 +46,19 @@ const selectAttr = (oldId, newId, state, fieldId, possibleAttributes) => {
   return result;
 };
 
+const getNonTakenAtributes = (state, possibleAttributes) => {
+  const preselectedAttributeIds = state.attributes.map((attr) => attr.id);
+  const nonTakenAttributes = possibleAttributes.filter(
+    (attr) => !preselectedAttributeIds.includes(attr.id)
+  );
+
+  return nonTakenAttributes;
+};
+
 const AttributeSection: React.FC<any> = ({ clinicalFinding, nameInObject }) => {
+
   const findingId = clinicalFinding.id;
+
   const possibleAttributes = getPossibleAttributes(findingId);
 
   const [state, setState] = useState({
@@ -60,12 +71,13 @@ const AttributeSection: React.FC<any> = ({ clinicalFinding, nameInObject }) => {
     let preSelectedAttributes = clinicalFinding.attributes;
 
     if (!preSelectedAttributes) {
-      return;
+      preSelectedAttributes = [];
     }
 
     const preselectedAttributeIds = preSelectedAttributes.map(
       (attr) => attr.id
     );
+
     const nonTakenAttributes = possibleAttributes.filter(
       (attr) => !preselectedAttributeIds.includes(attr.id)
     );
@@ -81,7 +93,7 @@ const AttributeSection: React.FC<any> = ({ clinicalFinding, nameInObject }) => {
       availableAttributes: nonTakenAttributes,
       attributes: preSelectedAttributes,
     });
-  }, []);
+  }, [clinicalFinding.id]);
 
   const addAttribute = () => {
     const newAttribute = {
@@ -103,10 +115,11 @@ const AttributeSection: React.FC<any> = ({ clinicalFinding, nameInObject }) => {
     const removedAttribute = state.attributes.find(
       (attr) => attr.fieldId === fieldId
     );
-    const newAvailableAttributes = [
-      ...state.availableAttributes,
-      removedAttribute,
-    ];
+
+    let newAvailableAttributes = [...state.availableAttributes];
+    if (removedAttribute.id !== "") {
+      newAvailableAttributes = [...state.availableAttributes, removedAttribute];
+    }
 
     setState({
       ...state,
@@ -116,7 +129,8 @@ const AttributeSection: React.FC<any> = ({ clinicalFinding, nameInObject }) => {
   };
 
   if (!berlinModelSchema.definitions[findingId]) {
-    return <Typography>Start by selecting a clinical finding</Typography>;
+    return <></>;
+    // return <Typography>Start by selecting a clinical finding</Typography>;
   }
   const { properties } = berlinModelSchema.definitions[findingId];
   if (!properties.attributes.items) {
@@ -174,15 +188,14 @@ const AttributeSection: React.FC<any> = ({ clinicalFinding, nameInObject }) => {
                   attributeId={attributeId}
                   isMulti={isMulti}
                   magicName={attributeMagicName}
-                  selectAttr={(oldId, newId) => {
+                  selectAttr={(newId) => {
                     const newState = selectAttr(
-                      oldId,
                       newId,
                       state,
                       attribute.fieldId,
                       possibleAttributes
                     );
-
+                    console.log("newState", newState);
                     setState({ ...newState });
                   }}
                 />

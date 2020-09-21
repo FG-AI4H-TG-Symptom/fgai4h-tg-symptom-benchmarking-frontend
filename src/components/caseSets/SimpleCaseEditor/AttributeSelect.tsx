@@ -13,10 +13,11 @@ const AttributeSelect: React.FC<any> = ({
   selectAttr,
 }) => {
   const onAttributeChange = (e) => {
-    const oldId = attributeId;
+    // const oldId = attributeId;
     const newId = e[0].target.value;
 
-    selectAttr(oldId, newId);
+    // selectAttr(oldId, newId);
+    selectAttr(newId);
   };
 
   if (isMulti) {

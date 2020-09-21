@@ -5,11 +5,21 @@ import ReactHookFormSelect from "./ReactHookFormSelect";
 import { getSelectOptions, getPlainOptions } from "./utility";
 import berlinModelSchema from "../../../data/caseSets/berlinModel.schema.json";
 
-const ClinicalFindingComponent: React.FC<any> = ({
-  clinicalFinding,
-  nameInObject,
-  possibleClinicalFindings,
-}) => {
+const ClinicalFindingComponent: React.FC<any> = (props) => {
+  const {
+    clinicalFinding,
+    nameInObject,
+    possibleClinicalFindings,
+    onClinicalFindingChange,
+  } = props;
+
+  const onFindingChange = (e) => {
+    const newId = e[0].target.value;
+    if (onClinicalFindingChange) {
+      onClinicalFindingChange(newId);
+    }
+  };
+
   return (
     <Grid container spacing={2}>
       <Grid item xs={12} sm={8} lg={3}>
@@ -20,6 +30,7 @@ const ClinicalFindingComponent: React.FC<any> = ({
           label="Clinical finding"
           options={getSelectOptions(possibleClinicalFindings)}
           defaultValue={clinicalFinding.id}
+          onChange={onFindingChange}
         />
       </Grid>
 

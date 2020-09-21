@@ -8,6 +8,7 @@ import berlinModelSchema from "../../../data/caseSets/berlinModel.schema.json";
 import { refToConcept } from "../CaseEditor/utils";
 import MetaDataSection from "./MetaDataSection";
 import CaseDataSection from "./CaseDataSection";
+import ValuesToPredictSection from "./ValuesToPredictSection";
 
 const CaseEditorComponent: React.FC<any> = ({ case_ }) => {
   const possibleClinicalFindings = useMemo(
@@ -35,6 +36,11 @@ const CaseEditorComponent: React.FC<any> = ({ case_ }) => {
         <CaseDataSection
           case_={case_}
           possibleClinicalFindings={possibleClinicalFindings}
+        />
+
+
+        <ValuesToPredictSection
+          case_={case_}
         />
 
         <Button type={"submit"}>Submit</Button>
