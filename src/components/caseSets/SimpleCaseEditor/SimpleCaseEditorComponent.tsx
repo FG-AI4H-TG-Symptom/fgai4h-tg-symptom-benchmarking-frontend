@@ -9,11 +9,20 @@ import { refToConcept } from "../CaseEditor/utils";
 import MetaDataSection from "./MetaDataSection";
 import CaseDataSection from "./CaseDataSection";
 import ValuesToPredictSection from "./ValuesToPredictSection";
+import { formatCaseForBackend } from "./utility";
 
 const CaseEditorComponent: React.FC<any> = ({ case_ }) => {
   const possibleClinicalFindings = useMemo(
     () =>
       berlinModelSchema.definitions.clinicalFinding.oneOf.map(({ $ref }) =>
+        refToConcept($ref)
+      ),
+    []
+  );
+
+  const possibleConditions = useMemo(
+    () =>
+      berlinModelSchema.definitions.condition.oneOf.map(({ $ref }) =>
         refToConcept($ref)
       ),
     []
@@ -25,7 +34,15 @@ const CaseEditorComponent: React.FC<any> = ({ case_ }) => {
   const { handleSubmit, errors } = methods;
 
   const onSubmit = (data) => {
-    console.log("####submitted", data);
+    const { caseSets } = case_;
+
+    const case__ = formatCaseForBackend(
+      data,
+      possibleConditions,
+      caseSets,
+      possibleClinicalFindings
+    );
+    console.log("####submitted", case__);
   };
 
   return (
@@ -38,9 +55,9 @@ const CaseEditorComponent: React.FC<any> = ({ case_ }) => {
           possibleClinicalFindings={possibleClinicalFindings}
         />
 
-
         <ValuesToPredictSection
           case_={case_}
+          possibleConditions={possibleConditions}
         />
 
         <Button type={"submit"}>Submit</Button>

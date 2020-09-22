@@ -28,7 +28,7 @@ const AttributeSingleSelect: React.FC<any> = ({
             <ReactHookFormSelect
               fullWidth
               id="value"
-              name={`${magicName}.value.id`}
+              name={`${magicName}.value`}
               label="Value"
               options={valuesOptions}
               defaultValue={selectedValue}

@@ -71,7 +71,7 @@ const AttributeMultiSelect: React.FC<any> = ({
               <Controller
                 fullWidth
                 as={<Select multiple>{valuesOptions}</Select>}
-                name={`${magicName}.values`}
+                name={`${magicName}.value`}
                 control={control}
                 defaultValue={selectedValue || []}
                 renderValue={(selected: any) => renderOptions(selected)}
@@ -80,13 +80,13 @@ const AttributeMultiSelect: React.FC<any> = ({
           </Box>
         </FormBlock>
 
-        <Button
+        {/* <Button
           onClick={() => {
             console.log("getValues", getValues());
           }}
         >
           Show values
-        </Button>
+        </Button> */}
       </div>
     </>
   );

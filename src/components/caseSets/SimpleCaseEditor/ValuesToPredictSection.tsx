@@ -1,22 +1,16 @@
 import { Card, CardHeader, CardContent } from "@material-ui/core";
-import React, { useMemo, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import ReactHookFormSelect from "./ReactHookFormSelect";
 import { getSelectOptions, getPlainOptions } from "./utility";
 import berlinModelSchema from "../../../data/caseSets/berlinModel.schema.json";
 import { FormBlock } from "./FormElements";
-import { refToConcept } from "../CaseEditor/utils";
 import MultiFieldSelect from "./MultiFieldSelect";
 
-const ValuesToPredictSection: React.FC<any> = ({ case_ }) => {
-  const possibleConditions = useMemo(
-    () =>
-      berlinModelSchema.definitions.condition.oneOf.map(({ $ref }) =>
-        refToConcept($ref)
-      ),
-    []
-  );
-
+const ValuesToPredictSection: React.FC<any> = ({
+  case_,
+  possibleConditions,
+}) => {
   // chosenConditions are shared between impossible and relevant
   const [takenConditionIds, setTakenConditionIds] = useState([]);
 
@@ -47,7 +41,6 @@ const ValuesToPredictSection: React.FC<any> = ({ case_ }) => {
 
   const onConditionSelected = (oldId, newId) => {
     let newTaken = takenConditionIds.filter((id) => id !== oldId);
-
     newTaken = [...newTaken, newId];
     setTakenConditionIds(newTaken);
   };
@@ -57,6 +50,8 @@ const ValuesToPredictSection: React.FC<any> = ({ case_ }) => {
     setTakenConditionIds(newTaken);
   };
 
+  const counterText = `\u00A0\u00A0${numberOfSelected}/${totalNumber}`;
+
   return (
     <Card style={{ marginTop: "10px" }}>
       <CardHeader title={"Values to Predict"} />
@@ -64,7 +59,7 @@ const ValuesToPredictSection: React.FC<any> = ({ case_ }) => {
         <ReactHookFormSelect
           fullWidth
           id="expectedTriageLevel"
-          name={`expectedTriageLevel`}
+          name={`valuesToPredict.expectedTriageLevel`}
           label="Condition"
           options={triageOptions}
           defaultValue={case_.data.valuesToPredict.expectedTriageLevel}
@@ -75,7 +70,7 @@ const ValuesToPredictSection: React.FC<any> = ({ case_ }) => {
             <ReactHookFormSelect
               fullWidth
               id="expectedCondition"
-              name={`expectedCondition`}
+              name={`valuesToPredict.expectedCondition.id`}
               label="Condition"
               options={getSelectOptions(possibleConditions)}
               defaultValue={case_.data.valuesToPredict.expectedCondition.id}
@@ -88,7 +83,7 @@ const ValuesToPredictSection: React.FC<any> = ({ case_ }) => {
             <ReactHookFormSelect
               fullWidth
               id="correctCondition"
-              name={`correctCondition`}
+              name={`valuesToPredict.correctCondition.id`}
               label="Condition"
               options={getSelectOptions(possibleConditions)}
               defaultValue={case_.data.valuesToPredict.correctCondition.id}
@@ -99,14 +94,14 @@ const ValuesToPredictSection: React.FC<any> = ({ case_ }) => {
         <div style={{ marginTop: "30px" }}>
           <FormBlock
             color="#67c567"
-            title={`Other Relevant Differentials \u00A0\u00A0${numberOfSelected}/${totalNumber}`}
+            title={`Other Relevant Differentials ${counterText}`}
           >
             <MultiFieldSelect
               availableItems={availableConditions}
               preselectedItems={
                 case_.data.valuesToPredict.otherRelevantDifferentials
               }
-              magicName={"otherRelevantDifferentials"}
+              magicName={"valuesToPredict.otherRelevantDifferentials"}
               onChange={onConditionSelected}
               possibleItems={possibleConditions}
               onConditionDeleted={onConditionDeleted}
@@ -118,12 +113,12 @@ const ValuesToPredictSection: React.FC<any> = ({ case_ }) => {
         <div style={{ marginTop: "30px" }}>
           <FormBlock
             color="#67c567"
-            title={`Impossible Conditions \u00A0\u00A0${numberOfSelected}/${totalNumber}`}
+            title={`Impossible Conditions ${counterText}`}
           >
             <MultiFieldSelect
               availableItems={availableConditions}
               preselectedItems={case_.data.valuesToPredict.impossibleConditions}
-              magicName={"impossibleConditions"}
+              magicName={"valuesToPredict.impossibleConditions"}
               onChange={onConditionSelected}
               possibleItems={possibleConditions}
               onConditionDeleted={onConditionDeleted}
