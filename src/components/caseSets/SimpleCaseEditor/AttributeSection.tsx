@@ -46,17 +46,7 @@ const selectAttr = (newId, state, fieldId, possibleAttributes) => {
   return result;
 };
 
-const getNonTakenAtributes = (state, possibleAttributes) => {
-  const preselectedAttributeIds = state.attributes.map((attr) => attr.id);
-  const nonTakenAttributes = possibleAttributes.filter(
-    (attr) => !preselectedAttributeIds.includes(attr.id)
-  );
-
-  return nonTakenAttributes;
-};
-
 const AttributeSection: React.FC<any> = ({ clinicalFinding, nameInObject }) => {
-
   const findingId = clinicalFinding.id;
 
   const possibleAttributes = getPossibleAttributes(findingId);
@@ -163,7 +153,16 @@ const AttributeSection: React.FC<any> = ({ clinicalFinding, nameInObject }) => {
 
         if (isMulti) {
           // TODO it seems the synthesiser only produces one value even for the multiselect
-          const inputValArray = attributeValue ? [attributeValue] : [];
+          let inputValArray = [];
+
+          if (attributeValue && Array.isArray(attributeValue)) {
+            inputValArray = attributeValue;
+          } else if (attributeValue) {
+            inputValArray = [attributeValue];
+          }
+
+          // inputValArray = attributeValue ? [attributeValue] : [];
+
           const selectedValues = inputValArray.map((val) => val.id);
           preselectedVal = selectedValues;
         }

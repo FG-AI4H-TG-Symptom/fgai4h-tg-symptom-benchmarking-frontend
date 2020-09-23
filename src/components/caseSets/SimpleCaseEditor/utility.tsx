@@ -126,9 +126,10 @@ export const formatCaseForBackend = (
   data,
   possibleConditions,
   caseSets,
-  possibleClinicalFindings
+  possibleClinicalFindings,
+  id
 ) => {
-  const result = { data: { ...data }, caseSets: caseSets };
+  const result = { id: id, data: { ...data }, caseSets: caseSets };
 
   const { valuesToPredict, caseData } = result.data;
 

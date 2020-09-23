@@ -4,7 +4,6 @@ import Ajv from "ajv";
 import {
   Avatar,
   Box,
-  Button,
   IconButton,
   List,
   ListItem,
@@ -18,8 +17,6 @@ import {
   LinkOff as UnlinkIcon,
   Save as SaveIcon,
 } from "@material-ui/icons";
-
-import AdbIcon from '@material-ui/icons/Adb';
 
 import berlinModelSchema from "../../../data/caseSets/berlinModel.schema.json";
 import { CaseSetInfo } from "../../../data/caseSets/caseSetDataType";
@@ -120,19 +117,19 @@ const CaseSetEditor: React.FC<CaseSetEditorProps> = ({
                       <UnlinkIcon />
                     </ConfirmationIconButton>
 
-                    <LinkWrapper to={paths.caseEditor(caseSet.id, case_.id)}>
-                      <IconButton >
+                    <LinkWrapper
+                      to={paths.simpleCaseEditor(caseSet.id, case_.id)}
+                    >
+                      <IconButton>
                         <EditIcon />
                       </IconButton>
                     </LinkWrapper>
 
-                    <LinkWrapper to={paths.simpleCaseEditor(caseSet.id, case_.id)}>
+                    {/* <LinkWrapper to={paths.simpleCaseEditor(caseSet.id, case_.id)}>
                       <IconButton>
                         <AdbIcon/>
                       </IconButton>
-                    </LinkWrapper>
-
-
+                    </LinkWrapper> */}
                   </>
                 </ListItemSecondaryAction>
               </ListItem>

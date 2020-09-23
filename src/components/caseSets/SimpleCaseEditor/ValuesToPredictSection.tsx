@@ -60,7 +60,7 @@ const ValuesToPredictSection: React.FC<any> = ({
           fullWidth
           id="expectedTriageLevel"
           name={`valuesToPredict.expectedTriageLevel`}
-          label="Condition"
+          label="Triage Level"
           options={triageOptions}
           defaultValue={case_.data.valuesToPredict.expectedTriageLevel}
         />

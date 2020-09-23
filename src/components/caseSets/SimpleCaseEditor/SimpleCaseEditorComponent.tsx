@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 
 import { useForm, FormContext } from "react-hook-form";
-
+import { useDispatch } from "react-redux";
 import { Button } from "@material-ui/core";
 
 import berlinModelSchema from "../../../data/caseSets/berlinModel.schema.json";
@@ -10,8 +10,11 @@ import MetaDataSection from "./MetaDataSection";
 import CaseDataSection from "./CaseDataSection";
 import ValuesToPredictSection from "./ValuesToPredictSection";
 import { formatCaseForBackend } from "./utility";
+import { saveCase } from "../../../data/datasetDuck";
 
 const CaseEditorComponent: React.FC<any> = ({ case_ }) => {
+  const dispatch = useDispatch();
+
   const possibleClinicalFindings = useMemo(
     () =>
       berlinModelSchema.definitions.clinicalFinding.oneOf.map(({ $ref }) =>
@@ -34,15 +37,19 @@ const CaseEditorComponent: React.FC<any> = ({ case_ }) => {
   const { handleSubmit, errors } = methods;
 
   const onSubmit = (data) => {
-    const { caseSets } = case_;
+    const { caseSets, id } = case_;
 
-    const case__ = formatCaseForBackend(
+    const formattedCase = formatCaseForBackend(
       data,
       possibleConditions,
       caseSets,
-      possibleClinicalFindings
+      possibleClinicalFindings,
+      id
     );
-    console.log("####submitted", case__);
+
+    dispatch(saveCase(formattedCase));
+
+    console.log("####submitted", formattedCase);
   };
 
   return (
