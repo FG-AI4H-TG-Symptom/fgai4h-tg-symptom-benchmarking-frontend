@@ -1,16 +1,14 @@
-import React from "react";
+import React from 'react';
 
-import { MenuItem } from "@material-ui/core";
+import { MenuItem } from '@material-ui/core';
 
-import berlinModelSchema from "../../../data/caseSets/berlinModel.schema.json";
-import { refToConcept } from "../CaseEditor/utils";
+import berlinModelSchema from '../../../data/caseSets/berlinModel.schema.json';
+import { refToConcept } from '../CaseEditor/utils';
 
 export const getPossibleAttributes = (clinicalFindingId) => {
   return (
-    berlinModelSchema.definitions[
-      clinicalFindingId
-    ]?.properties.attributes.items?.oneOf.map(({ $ref }) =>
-      refToConcept($ref)
+    berlinModelSchema.definitions[clinicalFindingId]?.properties.attributes.items?.oneOf.map(({ $ref }) =>
+      refToConcept($ref),
     ) || []
   );
 };
@@ -38,12 +36,9 @@ export const getSelectOptions = (possibleValues) => {
 export const getPossibleValues = (attrId) => {
   const properties = berlinModelSchema.definitions[attrId]?.properties;
 
-  const possibleValueReferences =
-    properties?.value?.oneOf || properties?.values?.items.oneOf || [];
+  const possibleValueReferences = properties?.value?.oneOf || properties?.values?.items.oneOf || [];
 
-  const possibleValues = possibleValueReferences.map(({ $ref }) =>
-    refToConcept($ref)
-  );
+  const possibleValues = possibleValueReferences.map(({ $ref }) => refToConcept($ref));
 
   return possibleValues;
 };
@@ -66,9 +61,7 @@ const transformValue = (id, possibleValues) => {
 
 const transformAttributes = (attributes, possibleAttributes) => {
   return attributes.map((attribute) => {
-    const templateAttr = possibleAttributes.find(
-      (attr) => attr.id === attribute.id
-    );
+    const templateAttr = possibleAttributes.find((attr) => attr.id === attribute.id);
 
     const { standardOntologyUris, name } = templateAttr;
 
@@ -82,12 +75,10 @@ const transformAttributes = (attributes, possibleAttributes) => {
 
     if (Array.isArray(attr.value)) {
       // for multiselect values is array of ids
-      const newValue = attr.value.map((id) =>
-        transformValue(id, possibleValues)
-      );
+      const newValue = attr.value.map((id) => transformValue(id, possibleValues));
 
       attr.value = newValue;
-    } else if (typeof attr.value === "string") {
+    } else if (typeof attr.value === 'string') {
       attr.value = transformValue(attr.value, possibleValues);
     }
 
@@ -96,9 +87,7 @@ const transformAttributes = (attributes, possibleAttributes) => {
 };
 
 const trasformClinicalFinding = (finding, possibleClinicalFindings) => {
-  const template = possibleClinicalFindings.find(
-    (finding_) => finding_.id === finding.id
-  );
+  const template = possibleClinicalFindings.find((finding_) => finding_.id === finding.id);
 
   const { standardOntologyUris, name } = template;
 
@@ -114,21 +103,12 @@ const trasformClinicalFinding = (finding, possibleClinicalFindings) => {
 
   const possibleAttributes = getPossibleAttributes(cFinding.id);
 
-  cFinding.attributes = transformAttributes(
-    cFinding.attributes,
-    possibleAttributes
-  );
+  cFinding.attributes = transformAttributes(cFinding.attributes, possibleAttributes);
 
   return cFinding;
 };
 
-export const formatCaseForBackend = (
-  data,
-  possibleConditions,
-  caseSets,
-  possibleClinicalFindings,
-  id
-) => {
+export const formatCaseForBackend = (data, possibleConditions, caseSets, possibleClinicalFindings, id) => {
   const result = { id: id, data: { ...data }, caseSets: caseSets };
 
   const { valuesToPredict, caseData } = result.data;
@@ -141,33 +121,25 @@ export const formatCaseForBackend = (
     valuesToPredict.otherRelevantDifferentials = [];
   }
 
-  valuesToPredict.correctCondition = getCondition(
-    valuesToPredict.correctCondition.id,
-    possibleConditions
+  valuesToPredict.correctCondition = getCondition(valuesToPredict.correctCondition.id, possibleConditions);
+
+  valuesToPredict.expectedCondition = getCondition(valuesToPredict.expectedCondition.id, possibleConditions);
+
+  valuesToPredict.otherRelevantDifferentials = valuesToPredict.otherRelevantDifferentials.map((cond) =>
+    getCondition(cond.id, possibleConditions),
   );
 
-  valuesToPredict.expectedCondition = getCondition(
-    valuesToPredict.expectedCondition.id,
-    possibleConditions
-  );
-
-  valuesToPredict.otherRelevantDifferentials = valuesToPredict.otherRelevantDifferentials.map(
-    (cond) => getCondition(cond.id, possibleConditions)
-  );
-
-  valuesToPredict.impossibleConditions = valuesToPredict.impossibleConditions.map(
-    (cond) => getCondition(cond.id, possibleConditions)
+  valuesToPredict.impossibleConditions = valuesToPredict.impossibleConditions.map((cond) =>
+    getCondition(cond.id, possibleConditions),
   );
 
   caseData.profileInformation.age = Number(caseData.profileInformation.age);
 
   caseData.presentingComplaints = caseData.presentingComplaints.map((cf) =>
-    trasformClinicalFinding(cf, possibleClinicalFindings)
+    trasformClinicalFinding(cf, possibleClinicalFindings),
   );
 
-  caseData.otherFeatures = caseData.otherFeatures.map((cf) =>
-    trasformClinicalFinding(cf, possibleClinicalFindings)
-  );
+  caseData.otherFeatures = caseData.otherFeatures.map((cf) => trasformClinicalFinding(cf, possibleClinicalFindings));
 
   return result;
 };

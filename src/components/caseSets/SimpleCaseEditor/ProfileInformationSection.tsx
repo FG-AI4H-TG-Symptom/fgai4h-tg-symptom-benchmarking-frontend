@@ -1,13 +1,13 @@
-import React from "react";
+import React from 'react';
 
-import { useFormContext } from "react-hook-form";
-import { Grid, TextField } from "@material-ui/core";
+import { useFormContext } from 'react-hook-form';
+import { Grid, TextField } from '@material-ui/core';
 
-import { FormBlock } from "./FormElements";
+import { FormBlock } from './FormElements';
 
-import ReactHookFormSelect from "./ReactHookFormSelect";
-import berlinModelSchema from "../../../data/caseSets/berlinModel.schema.json";
-import { getPlainOptions } from "./utility";
+import ReactHookFormSelect from './ReactHookFormSelect';
+import berlinModelSchema from '../../../data/caseSets/berlinModel.schema.json';
+import { getPlainOptions } from './utility';
 
 const ProfileInformationSection: React.FC<any> = ({ case_ }) => {
   const { register } = useFormContext();
@@ -40,9 +40,7 @@ const ProfileInformationSection: React.FC<any> = ({ case_ }) => {
             id="biologicalSex"
             name="caseData.profileInformation.biologicalSex"
             label="Biological sex"
-            options={getPlainOptions(
-              berlinModelSchema.definitions.biologicalSex.enum
-            )}
+            options={getPlainOptions(berlinModelSchema.definitions.biologicalSex.enum)}
             defaultValue={case_.data.caseData.profileInformation.biologicalSex}
           />
         </Grid>

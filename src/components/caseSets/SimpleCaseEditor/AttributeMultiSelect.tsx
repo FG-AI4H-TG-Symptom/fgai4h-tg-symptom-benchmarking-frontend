@@ -1,15 +1,8 @@
-import {
-  Box,
-  Button,
-  Chip,
-  FormControl,
-  makeStyles,
-  Select,
-} from "@material-ui/core";
-import React from "react";
-import { Controller, useFormContext } from "react-hook-form";
-import { FormBlock } from "./FormElements";
-import ReactHookFormSelect from "./ReactHookFormSelect";
+import { Box, Chip, FormControl, makeStyles, Select } from '@material-ui/core';
+import React from 'react';
+import { Controller, useFormContext } from 'react-hook-form';
+import { FormBlock } from './FormElements';
+import ReactHookFormSelect from './ReactHookFormSelect';
 
 const AttributeMultiSelect: React.FC<any> = ({
   possibleValues,
@@ -20,12 +13,12 @@ const AttributeMultiSelect: React.FC<any> = ({
   attributesOptions,
   valuesOptions,
 }) => {
-  const { control, getValues } = useFormContext();
+  const { control } = useFormContext();
 
   const useStyles = makeStyles(() => ({
     chips: {
-      display: "flex",
-      flexWrap: "wrap",
+      display: 'flex',
+      flexWrap: 'wrap',
     },
     chip: {
       margin: 2,
@@ -44,9 +37,7 @@ const AttributeMultiSelect: React.FC<any> = ({
             return <span key={valueId} />;
           }
 
-          return (
-            <Chip key={valueId} label={value.name} className={classes.chip} />
-          );
+          return <Chip key={valueId} label={value.name} className={classes.chip} />;
         })}
       </div>
     );
@@ -64,8 +55,8 @@ const AttributeMultiSelect: React.FC<any> = ({
         onChange={onAttributeChange}
       />
 
-      <div style={{ marginTop: "10px" }}>
-        <FormBlock color={"#ffc400"} title={"Values"}>
+      <div style={{ marginTop: '10px' }}>
+        <FormBlock color={'#ffc400'} title={'Values'}>
           <Box display="flex" key={`box-values`}>
             <FormControl fullWidth>
               <Controller

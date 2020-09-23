@@ -1,21 +1,21 @@
-import { Card, CardHeader, CardContent, TextField } from "@material-ui/core";
-import React from "react";
-import { useFormContext } from "react-hook-form";
+import { Card, CardHeader, CardContent, TextField } from '@material-ui/core';
+import React from 'react';
+import { useFormContext } from 'react-hook-form';
 
 const MetaDataSection: React.FC<any> = ({ case_, errors }) => {
   const { register } = useFormContext();
 
   return (
     <Card>
-      <CardHeader title={"Meta data"} />
+      <CardHeader title={'Meta data'} />
       <CardContent>
         <TextField
-          style={{ marginBottom: "10px" }}
+          style={{ marginBottom: '10px' }}
           inputRef={register({
-            required: "Name is required",
+            required: 'Name is required',
             minLength: {
               value: 6,
-              message: "Name should be longer than 6 characters",
+              message: 'Name should be longer than 6 characters',
             },
           })}
           defaultValue={case_.data.metaData.name}
@@ -29,10 +29,10 @@ const MetaDataSection: React.FC<any> = ({ case_, errors }) => {
 
         <TextField
           inputRef={register({
-            required: "Name is required",
+            required: 'Name is required',
             minLength: {
               value: 6,
-              message: "Name should be longer than 6 characters",
+              message: 'Name should be longer than 6 characters',
             },
           })}
           defaultValue={case_.data.metaData.caseCreator}

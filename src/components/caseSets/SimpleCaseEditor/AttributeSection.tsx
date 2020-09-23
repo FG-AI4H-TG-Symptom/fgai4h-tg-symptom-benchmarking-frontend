@@ -1,32 +1,25 @@
-import React, { useEffect, useState } from "react";
-import { v1 as uuid } from "uuid";
+import React, { useEffect, useState } from 'react';
+import { v1 as uuid } from 'uuid';
 
-import { Button, Grid, IconButton } from "@material-ui/core";
-import { Delete as DeleteIcon } from "@material-ui/icons";
+import { Button, Grid, IconButton } from '@material-ui/core';
+import { Delete as DeleteIcon } from '@material-ui/icons';
 
-import {
-  getPossibleAttributes,
-  getSelectOptions,
-  getPossibleValues,
-  isMultiAttribute,
-} from "./utility";
+import { getPossibleAttributes, getSelectOptions, getPossibleValues, isMultiAttribute } from './utility';
 
-import berlinModelSchema from "../../../data/caseSets/berlinModel.schema.json";
-import { FormBlock } from "./FormElements";
-import AttributeSelect from "./AttributeSelect";
+import berlinModelSchema from '../../../data/caseSets/berlinModel.schema.json';
+import { FormBlock } from './FormElements';
+import AttributeSelect from './AttributeSelect';
 
 const selectAttr = (newId, state, fieldId, possibleAttributes) => {
   const { attributes } = state;
 
-  let newlyChosenAttribute = possibleAttributes.find(
-    (attr) => attr.id === newId
-  );
+  let newlyChosenAttribute = possibleAttributes.find((attr) => attr.id === newId);
 
   const restAttributes = attributes.filter((attr) => attr.fieldId !== fieldId);
 
   newlyChosenAttribute = {
     ...newlyChosenAttribute,
-    value: "",
+    value: '',
     fieldId: fieldId,
   };
 
@@ -34,9 +27,7 @@ const selectAttr = (newId, state, fieldId, possibleAttributes) => {
 
   const takenAttrIds = newAttributes.map((attr) => attr.id);
 
-  const newAvailableAttributes = possibleAttributes.filter(
-    (attr) => !takenAttrIds.includes(attr.id)
-  );
+  const newAvailableAttributes = possibleAttributes.filter((attr) => !takenAttrIds.includes(attr.id));
 
   const result = {
     attributes: newAttributes,
@@ -64,13 +55,9 @@ const AttributeSection: React.FC<any> = ({ clinicalFinding, nameInObject }) => {
       preSelectedAttributes = [];
     }
 
-    const preselectedAttributeIds = preSelectedAttributes.map(
-      (attr) => attr.id
-    );
+    const preselectedAttributeIds = preSelectedAttributes.map((attr) => attr.id);
 
-    const nonTakenAttributes = possibleAttributes.filter(
-      (attr) => !preselectedAttributeIds.includes(attr.id)
-    );
+    const nonTakenAttributes = possibleAttributes.filter((attr) => !preselectedAttributeIds.includes(attr.id));
 
     preSelectedAttributes = preSelectedAttributes.map((attr) => {
       return {
@@ -87,8 +74,8 @@ const AttributeSection: React.FC<any> = ({ clinicalFinding, nameInObject }) => {
 
   const addAttribute = () => {
     const newAttribute = {
-      id: "",
-      value: "",
+      id: '',
+      value: '',
       fieldId: uuid(),
     };
 
@@ -98,16 +85,12 @@ const AttributeSection: React.FC<any> = ({ clinicalFinding, nameInObject }) => {
   };
 
   const removeAttribute = (fieldId) => {
-    const newAttributes = [
-      ...state.attributes.filter((attr) => attr.fieldId !== fieldId),
-    ];
+    const newAttributes = [...state.attributes.filter((attr) => attr.fieldId !== fieldId)];
 
-    const removedAttribute = state.attributes.find(
-      (attr) => attr.fieldId === fieldId
-    );
+    const removedAttribute = state.attributes.find((attr) => attr.fieldId === fieldId);
 
     let newAvailableAttributes = [...state.availableAttributes];
-    if (removedAttribute.id !== "") {
+    if (removedAttribute.id !== '') {
       newAvailableAttributes = [...state.availableAttributes, removedAttribute];
     }
 
@@ -143,13 +126,13 @@ const AttributeSection: React.FC<any> = ({ clinicalFinding, nameInObject }) => {
 
         let availableOptions = [...state.availableAttributes];
 
-        if (attribute.id !== "") {
+        if (attribute.id !== '') {
           availableOptions = [...state.availableAttributes, attribute];
         }
 
         const isMulti = isMultiAttribute(attributeId);
 
-        let preselectedVal = attributeValue ? attributeValue.id : "";
+        let preselectedVal = attributeValue ? attributeValue.id : '';
 
         if (isMulti) {
           // TODO it seems the synthesiser only produces one value even for the multiselect
@@ -172,11 +155,7 @@ const AttributeSection: React.FC<any> = ({ clinicalFinding, nameInObject }) => {
         const valuesOptions = getSelectOptions(possibleValues);
 
         return (
-          <FormBlock
-            name={`formBlock${index}`}
-            key={attribute.fieldId}
-            color="#4cb8da"
-          >
+          <FormBlock name={`formBlock${index}`} key={attribute.fieldId} color="#4cb8da">
             <Grid container spacing={2}>
               <Grid item xs={11}>
                 <AttributeSelect
@@ -188,13 +167,8 @@ const AttributeSection: React.FC<any> = ({ clinicalFinding, nameInObject }) => {
                   isMulti={isMulti}
                   magicName={attributeMagicName}
                   selectAttr={(newId) => {
-                    const newState = selectAttr(
-                      newId,
-                      state,
-                      attribute.fieldId,
-                      possibleAttributes
-                    );
-                    console.log("newState", newState);
+                    const newState = selectAttr(newId, state, attribute.fieldId, possibleAttributes);
+                    console.log('newState', newState);
                     setState({ ...newState });
                   }}
                 />

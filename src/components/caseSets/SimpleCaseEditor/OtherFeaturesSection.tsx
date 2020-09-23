@@ -1,25 +1,16 @@
-import React, { Fragment, useEffect, useState } from "react";
-import { v1 as uuid } from "uuid";
-import { Button, Grid, IconButton } from "@material-ui/core";
-import { Delete as DeleteIcon } from "@material-ui/icons";
-import ClinicalFindingComponent from "./ClinicalFindingComponent";
-import { FormBlock } from "./FormElements";
+import React, { Fragment, useEffect, useState } from 'react';
+import { v1 as uuid } from 'uuid';
+import { Button, Grid, IconButton } from '@material-ui/core';
+import { Delete as DeleteIcon } from '@material-ui/icons';
+import ClinicalFindingComponent from './ClinicalFindingComponent';
+import { FormBlock } from './FormElements';
 
-const selectFinding = (
-  newId,
-  sectionState,
-  fieldId,
-  possibleClinicalFindings
-) => {
+const selectFinding = (newId, sectionState, fieldId, possibleClinicalFindings) => {
   const { otherFeatures } = sectionState;
 
-  let newlyChosenFinding = possibleClinicalFindings.find(
-    (finding) => finding.id === newId
-  );
+  let newlyChosenFinding = possibleClinicalFindings.find((finding) => finding.id === newId);
 
-  const restFindings = otherFeatures.filter(
-    (finding) => finding.fieldId !== fieldId
-  );
+  const restFindings = otherFeatures.filter((finding) => finding.fieldId !== fieldId);
 
   newlyChosenFinding = {
     ...newlyChosenFinding,
@@ -31,9 +22,7 @@ const selectFinding = (
 
   const takenFindingIds = newFindings.map((finding) => finding.id);
 
-  const newAvailableFindings = possibleClinicalFindings.filter(
-    (finding) => !takenFindingIds.includes(finding.id)
-  );
+  const newAvailableFindings = possibleClinicalFindings.filter((finding) => !takenFindingIds.includes(finding.id));
 
   const result = {
     otherFeatures: newFindings,
@@ -43,10 +32,7 @@ const selectFinding = (
   return result;
 };
 
-const OtherFeaturesSection: React.FC<any> = ({
-  case_,
-  possibleClinicalFindings,
-}) => {
+const OtherFeaturesSection: React.FC<any> = ({ case_, possibleClinicalFindings }) => {
   const { otherFeatures } = case_.data.caseData;
 
   const [sectionState, setSectionState] = useState({
@@ -62,12 +48,8 @@ const OtherFeaturesSection: React.FC<any> = ({
       return;
     }
 
-    const preselectedFindingIds = preselectedOtherFeatures.map(
-      (finding) => finding.id
-    );
-    const nonTakenFindings = possibleClinicalFindings.filter(
-      (finding) => !preselectedFindingIds.includes(finding.id)
-    );
+    const preselectedFindingIds = preselectedOtherFeatures.map((finding) => finding.id);
+    const nonTakenFindings = possibleClinicalFindings.filter((finding) => !preselectedFindingIds.includes(finding.id));
 
     preselectedOtherFeatures = preselectedOtherFeatures.map((finding) => {
       return {
@@ -85,22 +67,13 @@ const OtherFeaturesSection: React.FC<any> = ({
   }, []);
 
   const removeFinding = (fieldId) => {
-    const newFindings = [
-      ...sectionState.otherFeatures.filter(
-        (finding) => finding.fieldId !== fieldId
-      ),
-    ];
+    const newFindings = [...sectionState.otherFeatures.filter((finding) => finding.fieldId !== fieldId)];
 
-    const removedFinding = sectionState.otherFeatures.find(
-      (attr) => attr.fieldId === fieldId
-    );
+    const removedFinding = sectionState.otherFeatures.find((attr) => attr.fieldId === fieldId);
 
     let newAvailableFindings = [...sectionState.availableFindings];
-    if (removedFinding.id !== "") {
-      newAvailableFindings = [
-        ...sectionState.availableFindings,
-        removedFinding,
-      ];
+    if (removedFinding.id !== '') {
+      newAvailableFindings = [...sectionState.availableFindings, removedFinding];
     }
 
     setSectionState({
@@ -112,10 +85,10 @@ const OtherFeaturesSection: React.FC<any> = ({
 
   const addFinding = () => {
     const newFinding = {
-      id: "",
+      id: '',
       attributes: [],
       fieldId: uuid(),
-      state: "",
+      state: '',
     };
 
     const newOtherFeatures = [...sectionState.otherFeatures, newFinding];
@@ -133,11 +106,8 @@ const OtherFeaturesSection: React.FC<any> = ({
 
         let possibleFindings = [...sectionState.availableFindings];
 
-        if (clinicalFinding.id !== "") {
-          possibleFindings = [
-            ...sectionState.availableFindings,
-            clinicalFinding,
-          ];
+        if (clinicalFinding.id !== '') {
+          possibleFindings = [...sectionState.availableFindings, clinicalFinding];
         }
 
         return (
@@ -155,14 +125,14 @@ const OtherFeaturesSection: React.FC<any> = ({
                         newId,
                         sectionState,
                         clinicalFinding.fieldId,
-                        possibleClinicalFindings
+                        possibleClinicalFindings,
                       );
 
                       setSectionState({ ...newState });
                     }
                   }
                 />
-                <div style={{ marginBottom: "30px" }}>{"   "} </div>
+                <div style={{ marginBottom: '30px' }}>{'   '} </div>
               </Fragment>
             </Grid>
             <Grid item xs={1}>

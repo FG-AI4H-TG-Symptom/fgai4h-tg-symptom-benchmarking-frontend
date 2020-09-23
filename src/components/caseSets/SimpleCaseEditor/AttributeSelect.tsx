@@ -1,6 +1,6 @@
-import React from "react";
-import AttributeMultiSelect from "./AttributeMultiSelect";
-import AttributeSingleSelect from "./AttributeSingleSelect";
+import React from 'react';
+import AttributeMultiSelect from './AttributeMultiSelect';
+import AttributeSingleSelect from './AttributeSingleSelect';
 
 const AttributeSelect: React.FC<any> = ({
   possibleValues,

@@ -1,6 +1,6 @@
-import React from "react";
-import { FormBlock } from "./FormElements";
-import ReactHookFormSelect from "./ReactHookFormSelect";
+import React from 'react';
+import { FormBlock } from './FormElements';
+import ReactHookFormSelect from './ReactHookFormSelect';
 
 const AttributeSingleSelect: React.FC<any> = ({
   magicName,
@@ -23,8 +23,8 @@ const AttributeSingleSelect: React.FC<any> = ({
       />
 
       {valuesOptions.length > 0 && (
-        <div style={{ marginTop: "10px" }}>
-          <FormBlock color={"#ffc400"} title={"Value"}>
+        <div style={{ marginTop: '10px' }}>
+          <FormBlock color={'#ffc400'} title={'Value'}>
             <ReactHookFormSelect
               fullWidth
               id="value"

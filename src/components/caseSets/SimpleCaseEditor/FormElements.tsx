@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import React from "react";
+import styled from 'styled-components';
+import React from 'react';
 
 export const FormBlockContainer = styled.div<{ color: string }>`
   border-left: 2px solid ${({ color }): string => color};

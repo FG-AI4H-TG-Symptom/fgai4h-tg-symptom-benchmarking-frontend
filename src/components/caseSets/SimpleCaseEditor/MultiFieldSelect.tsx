@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { v1 as uuid } from "uuid";
-import { Button, Grid, IconButton } from "@material-ui/core";
-import { Delete as DeleteIcon } from "@material-ui/icons";
+import React, { useEffect, useState } from 'react';
+import { v1 as uuid } from 'uuid';
+import { Button, Grid, IconButton } from '@material-ui/core';
+import { Delete as DeleteIcon } from '@material-ui/icons';
 
-import ReactHookFormSelect from "./ReactHookFormSelect";
-import { FormBlock } from "./FormElements";
-import { getSelectOptions } from "./utility";
+import ReactHookFormSelect from './ReactHookFormSelect';
+import { FormBlock } from './FormElements';
+import { getSelectOptions } from './utility';
 
 const MultiFieldSelect: React.FC<any> = ({
   availableItems,
@@ -20,15 +20,15 @@ const MultiFieldSelect: React.FC<any> = ({
 
   // fill preselected items
   useEffect(() => {
-    const items = preselectedItems.map((item) => {
+    const newItems = preselectedItems.map((item) => {
       return { id: item.id, fieldId: uuid() };
     });
-    setItems(items);
+    setItems(newItems);
   }, []);
 
   const addItem = () => {
     const newItem = {
-      id: "",
+      id: '',
       fieldId: uuid(),
     };
 
@@ -43,20 +43,18 @@ const MultiFieldSelect: React.FC<any> = ({
   return (
     <FormBlock color="#ff8a65" title="">
       {items.map((item, index) => {
-        let availableItems_ = availableItems;
-        if (item.id !== "") {
-          const selectedItem = possibleItems.find(
-            (cond) => cond.id === item.id
-          );
-          availableItems_ = [...availableItems, selectedItem];
+        let newAvailableItems = availableItems;
+        if (item.id !== '') {
+          const selectedItem = possibleItems.find((cond) => cond.id === item.id);
+          newAvailableItems = [...availableItems, selectedItem];
         }
 
-        const options = getSelectOptions(availableItems_);
+        const options = getSelectOptions(newAvailableItems);
 
         return (
           <Grid container spacing={2} key={item.fieldId}>
             <Grid item xs={11}>
-              <div style={{ marginBottom: "30px" }} key={`div${item.fieldId}`}>
+              <div style={{ marginBottom: '30px' }} key={`div${item.fieldId}`}>
                 <ReactHookFormSelect
                   fullWidth
                   name={`${magicName}[${index}].id`}
@@ -68,9 +66,7 @@ const MultiFieldSelect: React.FC<any> = ({
                     const oldId = item.id;
 
                     const newItems = [...items];
-                    const changedItem = newItems.find(
-                      (it) => it.fieldId === item.fieldId
-                    );
+                    const changedItem = newItems.find((it) => it.fieldId === item.fieldId);
                     changedItem.id = newId;
 
                     // let newItems = items.filter( (it) => it.fieldId !== item.fieldId);
