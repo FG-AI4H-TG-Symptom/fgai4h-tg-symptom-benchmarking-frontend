@@ -1,12 +1,7 @@
-import {
-  FieldErrors,
-  useFieldArray,
-  useFormContext,
-  ValidationResolver
-} from "react-hook-form";
-import { ValidateFunction } from "ajv";
+import { FieldErrors, useFieldArray, useFormContext, Resolver } from 'react-hook-form';
+import { ValidateFunction } from 'ajv';
 
-import { usePrefix } from "./PrefixContext";
+import { usePrefix } from './PrefixContext';
 
 export const useWatch = <WatchedValueType>(path: string): WatchedValueType => {
   const { watch } = useFormContext();
@@ -15,51 +10,36 @@ export const useWatch = <WatchedValueType>(path: string): WatchedValueType => {
 };
 
 export const useWatchArrayHelper = <WatchedType>(
-  fieldArray: { fields: Array<object> },
-  path: string
+  fieldArray: { fields: Array<Record<string, unknown>> },
+  path: string,
 ): Array<WatchedType> => {
   const { watch } = useFormContext();
   const prefixedPath = usePrefix() + path;
-  const fieldNames = fieldArray.fields.map((value, index) =>
-    prefixedPath.replace("*", index.toString())
-  );
+  const fieldNames = fieldArray.fields.map((value, index) => prefixedPath.replace('*', index.toString()));
   const watchResultObject = watch(fieldNames);
-  return fieldNames.map(name => watchResultObject[name]) as Array<WatchedType>;
+  return fieldNames.map((name) => watchResultObject[name]) as Array<WatchedType>;
 };
 
-export const useAutoFieldArray = ({
-  name,
-  key
-}: {
-  name: string;
-  key?: string;
-}) =>
+export const useAutoFieldArray = ({ name, key }: { name: string; key?: string }) =>
   useFieldArray({
     control: useFormContext().control,
     name: usePrefix() + name,
-    keyName: key || "key"
+    keyName: key || 'key',
   });
 
 export const errorsInChildren = <FormValuesType>(
   name: string,
-  errors: FieldErrors<FormValuesType> | undefined
+  errors: FieldErrors<FormValuesType> | undefined,
 ): [string, string][] =>
-  (errors &&
-    (Object.entries(errors) as [string, string][]).filter(([errorPath]) =>
-      errorPath.startsWith(name)
-    )) ||
-  [];
+  (errors && (Object.entries(errors) as [string, string][]).filter(([errorPath]) => errorPath.startsWith(name))) || [];
 
 export const useErrorsInChildren = (name?: string): [string, string][] => {
   const { errors } = useFormContext();
-  const prefixedName = (usePrefix() + name).replace(/\.$/, "");
+  const prefixedName = (usePrefix() + name).replace(/\.$/, '');
   return errorsInChildren(prefixedName, errors);
 };
 
-export const errorSummary = (
-  name: string,
-  errors: [string, string][]
-): string => {
+export const errorSummary = (name: string, errors: [string, string][]): string => {
   if (errors.length > 0) {
     let errorSummaryString = errors[0][1];
 
@@ -67,37 +47,34 @@ export const errorSummary = (
     if (errorPath.includes(name)) {
       errorPath = errorPath.substring(errorPath.indexOf(name) + name.length);
     }
-    errorPath = errorPath.replace(/^\./, "").replace(/\./g, " › ");
+    errorPath = errorPath.replace(/^\./, '').replace(/\./g, ' › ');
     if (errorPath.length > 0) {
       errorSummaryString = `${errorPath}: ${errorSummaryString}`;
     }
 
     if (errors.length > 1) {
-      errorSummaryString += ` (+ ${errors.length - 1} error${
-        errors.length > 2 ? "s" : ""
-      })`;
+      errorSummaryString += ` (+ ${errors.length - 1} error${errors.length > 2 ? 's' : ''})`;
     }
     return errorSummaryString;
   }
-  return "No errors";
+  return 'No errors';
 };
 
-export const sanitizeForId = (prefix: string): string =>
-  prefix.replace(/[.[\]'"]/g, "");
+export const sanitizeForId = (prefix: string): string => prefix.replace(/[.[\]'"]/g, '');
 
 export const validateAgainstSchema = <FormValues>(
   values,
-  schemaValidator: ValidateFunction
-): ReturnType<ValidationResolver<FormValues>> => {
+  schemaValidator: ValidateFunction,
+): ReturnType<Resolver<FormValues>> => {
   const valid = schemaValidator(values);
   if (valid) {
     return { values, errors: {} };
   }
 
   const errors = {};
-  schemaValidator.errors.forEach(error => {
+  schemaValidator.errors.forEach((error) => {
     // todo: make certain errors more human readable
-    errors[error.dataPath.replace(/^\./, "")] = error.message;
+    errors[error.dataPath.replace(/^\./, '')] = error.message;
   });
 
   return { values: {}, errors };

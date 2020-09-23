@@ -1,9 +1,10 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const LogoWrapper = styled.div`
-  padding: 2rem;
-  display: flex;
-  justify-content: center;
+  position: absolute;
+  padding-top: 80px;
+  top: 0px;
+  right: 0px;
 `;
 
 export const Logo = styled.img`

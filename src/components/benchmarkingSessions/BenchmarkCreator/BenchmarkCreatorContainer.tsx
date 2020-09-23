@@ -1,20 +1,20 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useHistory, useLocation } from "react-router-dom";
-import queryString from "qs";
-import { CircularProgress } from "@material-ui/core";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
+import queryString from 'qs';
+import { CircularProgress } from '@material-ui/core';
 
-import Error from "../../common/Error";
-import BasicPageLayout from "../../common/BasicPageLayout";
+import Error from '../../common/Error';
+import BasicPageLayout from '../../common/BasicPageLayout';
 
-import BenchmarkCreatorComponent from "./BenchmarkCreatorComponent";
+import BenchmarkCreatorComponent from './BenchmarkCreatorComponent';
 
-import { fetchDatasets } from "../../../data/datasetDuck";
-import { fetchAIs } from "../../../data/aiDuck";
-import { addSession } from "../../../data/sessionsDuck";
-import { paths } from "../../../routes";
+import { fetchDatasets } from '../../../data/datasetDuck';
+import { fetchAIs } from '../../../data/aiDuck';
+import { addSession } from '../../../data/sessionsDuck';
+import { paths } from '../../../routes';
 
-const BenchmarkCreatorContainer: React.FC<{}> = () => {
+const BenchmarkCreatorContainer: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -53,11 +53,7 @@ const BenchmarkCreatorContainer: React.FC<{}> = () => {
     );
   }
 
-  return (
-    <BasicPageLayout title="Select settings for a new benchmark">
-      {content}
-    </BasicPageLayout>
-  );
+  return <BasicPageLayout title="Select settings for a new benchmark">{content}</BasicPageLayout>;
 };
 
 export default BenchmarkCreatorContainer;

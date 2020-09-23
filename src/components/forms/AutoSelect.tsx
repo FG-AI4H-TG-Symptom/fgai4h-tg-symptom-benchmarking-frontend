@@ -1,14 +1,9 @@
-import React from "react";
-import { Controller, useFormContext } from "react-hook-form";
-import {
-  FormControl,
-  FormHelperText,
-  InputLabel,
-  Select
-} from "@material-ui/core";
+import React from 'react';
+import { Controller, useFormContext } from 'react-hook-form';
+import { FormControl, FormHelperText, InputLabel, Select } from '@material-ui/core';
 
-import { usePrefix } from "./PrefixContext";
-import { sanitizeForId } from "./utils";
+import { usePrefix } from './PrefixContext';
+import { sanitizeForId } from './utils';
 
 const AutoSelect: React.FC<{
   name: string;
@@ -19,7 +14,7 @@ const AutoSelect: React.FC<{
   const {
     control,
     watch,
-    formState: { isSubmitted }
+    formState: { isSubmitted },
   } = useFormContext();
   const hasErrors = isSubmitted && !watch(prefixedName);
 
@@ -37,9 +32,7 @@ const AutoSelect: React.FC<{
         onChange={onChange}
         as={<Select>{children}</Select>}
       />
-      <FormHelperText id={helperTextId}>
-        {hasErrors ? `select ${label.toLowerCase()}` : null}
-      </FormHelperText>
+      <FormHelperText id={helperTextId}>{hasErrors ? `select ${label.toLowerCase()}` : null}</FormHelperText>
     </FormControl>
   );
 };

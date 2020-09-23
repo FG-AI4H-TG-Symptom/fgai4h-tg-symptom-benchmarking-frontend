@@ -1,7 +1,7 @@
-import React from "react";
-import { Card, CardContent } from "@material-ui/core";
-import styled from "styled-components";
-import AiImplementationForm from "../AiImplementationForm";
+import React from 'react';
+import { Card, CardContent } from '@material-ui/core';
+import styled from 'styled-components';
+import AiImplementationForm from '../AiImplementationForm';
 
 const LimitedWidthCard = styled(Card)`
   max-width: 40rem;
@@ -16,16 +16,12 @@ interface AiImplementationEditorComponentProps {
 const AiImplementationEditorComponent: React.FC<AiImplementationEditorComponentProps> = ({
   onSaveAiImplementation,
   name,
-  baseUrl
+  baseUrl,
 }) => {
   return (
     <LimitedWidthCard>
       <CardContent>
-        <AiImplementationForm onSubmit={onSaveAiImplementation}
-                              editing
-                              name={name}
-                              baseUrl={baseUrl}
-        />
+        <AiImplementationForm onSubmit={onSaveAiImplementation} editing name={name} baseUrl={baseUrl} />
       </CardContent>
     </LimitedWidthCard>
   );

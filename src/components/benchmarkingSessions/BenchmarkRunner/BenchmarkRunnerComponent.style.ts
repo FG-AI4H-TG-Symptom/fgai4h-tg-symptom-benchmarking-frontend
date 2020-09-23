@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { ExpansionPanelDetails, TableCell, TableRow } from "@material-ui/core";
+import styled from 'styled-components';
+import { AccordionDetails, TableCell, TableRow } from '@material-ui/core';
 
 export const GroupingTableRow = styled(TableRow)`
   th:empty {
@@ -20,6 +20,6 @@ export const CaseTableCell = styled(TableCell)`
   text-align: center;
 `;
 
-export const ExpansionPanelDetailsAsBlock = styled(ExpansionPanelDetails)`
+export const AccordionDetailsAsBlock = styled(AccordionDetails)`
   display: block;
 `;

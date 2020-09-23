@@ -1,11 +1,10 @@
-/* eslint-disable array-callback-return */
-/* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { createSlice } from "@reduxjs/toolkit";
-import { takeEvery, put, all } from "redux-saga/effects";
+import { createSlice } from '@reduxjs/toolkit';
+import { takeEvery, put, all } from 'redux-saga/effects';
 
-import urlBuilder from "./util/urlBuilder";
-import httpResponseErrorMessage from "./util/httpResponseErrorMessage";
+import urlBuilder from './util/urlBuilder';
+import httpResponseErrorMessage from './util/httpResponseErrorMessage';
+import { queueNotification } from './application/applicationActions';
 
 const initialState = {
   list: [],
@@ -15,7 +14,7 @@ const initialState = {
 };
 
 const slice = createSlice({
-  name: "datasets",
+  name: 'datasets',
   initialState: initialState,
   reducers: {
     // fetch Datasets
@@ -40,9 +39,7 @@ const slice = createSlice({
     // Delete dataset
     deleteDataset: (datasets, action) => {},
     deleteDatasetSuccess: (datasets, action) => {
-      datasets.list = datasets.list.filter(
-        (dataset) => dataset.id !== action.payload.id
-      );
+      datasets.list = datasets.list.filter((dataset) => dataset.id !== action.payload.id);
     },
     deleteDatasetFailure: (datasets, action) => {
       datasets.error = action.payload;
@@ -63,9 +60,7 @@ const slice = createSlice({
     // Save Dataset
     saveDataset: (datasets, action) => {},
     saveDatasetSuccess: (datasets, action) => {
-      const index = datasets.list.findIndex(
-        (dataset) => dataset.id === action.payload.id
-      );
+      const index = datasets.list.findIndex((dataset) => dataset.id === action.payload.id);
       datasets[index] = action.payload;
     },
     saveDatasetFailure: (datasets, action) => {
@@ -76,10 +71,8 @@ const slice = createSlice({
     saveCaseSuccess: (datasets, action) => {
       const savedCase = action.payload;
 
-      savedCase.caseSets.map((caseSetId) => {
-        const dataset = datasets.list.find(
-          (dataset_) => dataset_.id === caseSetId
-        );
+      savedCase.caseSets.forEach((caseSetId) => {
+        const dataset = datasets.list.find((dataset_) => dataset_.id === caseSetId);
         dataset.cases.push(savedCase.id);
       });
     },
@@ -103,18 +96,14 @@ const slice = createSlice({
         return dataset_;
       });
 
-      datasets.fullDataset.cases = datasets.fullDataset.cases.filter(
-        (case_) => case_.id !== deletedCaseId
-      );
+      datasets.fullDataset.cases = datasets.fullDataset.cases.filter((case_) => case_.id !== deletedCaseId);
     },
     deleteCaseFailure: (datasets, action) => {
       datasets.error = action.payload;
     },
     // Create CaseSet
     createCaseSet: (datasets, action) => {},
-    createCaseSetSuccess: (datasets, action) => {
-      datasets.list.push(action.payload);
-    },
+    createCaseSetSuccess: (datasets, action) => {},
     createCaseSetFailure: (datasets, action) => {
       datasets.error = action.payload;
     },
@@ -157,7 +146,7 @@ const {
 // WORKERS
 function* fetchDatasetsWorker() {
   try {
-    const response: Response = yield fetch(urlBuilder("case-sets"));
+    const response: Response = yield fetch(urlBuilder('case-sets'));
 
     if (!response.ok) {
       throw new Error(httpResponseErrorMessage(response));
@@ -167,9 +156,9 @@ function* fetchDatasetsWorker() {
 
     yield put(fetchDatasetsSuccess(datasets));
   } catch (error) {
-    yield put(
-      fetchDatasetsFailure(`Failed to load Datasets: ${error.message}`)
-    );
+    const errorMessage = `Failed to load Datasets: ${error.message}`;
+    yield put(fetchDatasetsFailure(errorMessage));
+    yield put(queueNotification({ message: errorMessage, type: 'error' }));
   }
 }
 
@@ -177,10 +166,10 @@ function* synthesizeDatasetWorker(action) {
   const { numberOfCases, name } = action.payload;
 
   try {
-    const response: Response = yield fetch(urlBuilder("case-sets/synthesize"), {
-      method: "POST",
+    const response: Response = yield fetch(urlBuilder('case-sets/synthesize'), {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         name: name,
@@ -196,9 +185,9 @@ function* synthesizeDatasetWorker(action) {
     const data = yield response.json();
     yield put(synthesizeDatasetSuccess(data[0]));
   } catch (error) {
-    yield put(
-      synthesizeDatasetFailure(`Failed to create case set: ${error.message}`)
-    );
+    const errorMessage = `Failed to create case set: ${error.message}`;
+    yield put(synthesizeDatasetFailure(errorMessage));
+    yield put(queueNotification({ message: errorMessage, type: 'error' }));
   }
 }
 
@@ -207,7 +196,7 @@ function* deleteDatasetWorker(action) {
 
   try {
     const response = yield fetch(urlBuilder(`case-sets/${caseSetId}`), {
-      method: "DELETE",
+      method: 'DELETE',
     });
 
     if (!response.ok) {
@@ -217,18 +206,16 @@ function* deleteDatasetWorker(action) {
     yield put(deleteDatasetSuccess({ id: caseSetId }));
   } catch (error) {
     console.error(error);
-    yield put(
-      deleteDatasetFailure(`Errored while deleting case set: ${error.message}`)
-    );
+    const errorMessage = `Errored while deleting case set: ${error.message}`;
+    yield put(deleteDatasetFailure(errorMessage));
+    yield put(queueNotification({ message: errorMessage, type: 'error' }));
   }
 }
 
 function* fetchFullDatasetWorker(action) {
   const caseSetId = action.payload;
   try {
-    const response: Response = yield fetch(
-      urlBuilder(`case-sets/${caseSetId}?full=1`)
-    );
+    const response: Response = yield fetch(urlBuilder(`case-sets/${caseSetId}?full=1`));
 
     if (!response.ok) {
       throw new Error(httpResponseErrorMessage(response));
@@ -238,9 +225,9 @@ function* fetchFullDatasetWorker(action) {
 
     yield put(fetchFullDatasetSuccess(caseSet));
   } catch (error) {
-    yield put(
-      fetchFullDatasetFailure(`Failed to fetch case set: ${error.message}`)
-    );
+    const errorMessage = `Failed to fetch case set: ${error.message}`;
+    yield put(fetchFullDatasetFailure(errorMessage));
+    yield put(queueNotification({ message: errorMessage, type: 'error' }));
   }
 }
 
@@ -248,44 +235,43 @@ function* saveDatasetWorker(action) {
   const caseSet = action.payload;
   const backendFormattedCaseSet = caseSet;
 
-  if (caseSet.cases.length > 0 && typeof caseSet.cases[0] !== "string") {
+  if (caseSet.cases.length > 0 && typeof caseSet.cases[0] !== 'string') {
     // the backend expects only case IDs, no data
     (backendFormattedCaseSet as any).cases = caseSet.cases.map(({ id }) => id);
   }
   try {
-    const response: Response = yield fetch(
-      urlBuilder(`case-sets/${caseSet.id}`),
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(backendFormattedCaseSet),
-      }
-    );
+    const response: Response = yield fetch(urlBuilder(`case-sets/${caseSet.id}`), {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(backendFormattedCaseSet),
+    });
     if (!response.ok) {
       throw new Error(httpResponseErrorMessage(response));
     }
     const updatedCaseSet = yield response.json();
     yield put(saveDatasetSuccess(updatedCaseSet));
   } catch (error) {
-    yield put(saveDatasetFailure(`Failed to save case set: ${error.message}`));
+    const errorMessage = `Failed to save case set: ${error.message}`;
+    yield put(saveDatasetFailure(errorMessage));
+    yield put(queueNotification({ message: errorMessage, type: 'error' }));
   }
 }
 
 function* saveCaseWorker(action) {
-  const case_ = action.payload;
+  const aCase = action.payload;
   // const { caseData, metaData, valuesToPredict } = action.payload.data;
   // const { caseSetId } = action.payload;
 
-  console.log("action.payload", action.payload);
-  const requestBody = case_;
+  console.log('action.payload', action.payload);
+  const requestBody = aCase;
 
   try {
-    const response: Response = yield fetch(urlBuilder(`cases/${case_.id}`), {
-      method: "PUT",
+    const response: Response = yield fetch(urlBuilder(`cases/${aCase.id}`), {
+      method: 'PUT',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(requestBody),
     });
@@ -307,7 +293,7 @@ function* deleteCaseWorker(action) {
 
   try {
     const response = yield fetch(urlBuilder(`cases/${id}`), {
-      method: "DELETE",
+      method: 'DELETE',
     });
 
     if (!response.ok) {
@@ -316,10 +302,9 @@ function* deleteCaseWorker(action) {
 
     yield put(deleteCaseSuccess({ deletedCaseId: id, caseSetsIDs: caseSets }));
   } catch (error) {
-    console.error(error);
-    yield put(
-      deleteCaseFailure(`Errored while deleting a case: ${error.message}`)
-    );
+    const errorMessage = `Errored while deleting a case: ${error.message}`;
+    yield put(deleteCaseFailure(errorMessage));
+    yield put(queueNotification({ message: errorMessage, type: 'error' }));
   }
 }
 
@@ -332,10 +317,10 @@ function* createCaseSetWorker(action) {
   };
 
   try {
-    const response: Response = yield fetch(urlBuilder("case-sets"), {
-      method: "POST",
+    const response: Response = yield fetch(urlBuilder('case-sets'), {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(newCaseSet),
     });
@@ -347,9 +332,9 @@ function* createCaseSetWorker(action) {
     const createdCaseSet = yield response.json();
     yield put(createCaseSetSuccess(createdCaseSet));
   } catch (error) {
-    yield put(
-      createCaseSetFailure(`Failed to create case set: ${error.message}`)
-    );
+    const errorMessage = `Failed to create case set: ${error.message}`;
+    yield put(createCaseSetFailure(errorMessage));
+    yield put(queueNotification({ message: errorMessage, type: 'error' }));
   }
 }
 
@@ -387,14 +372,18 @@ function* createCaseSetWatcher() {
 }
 
 export function* rootDatasetsSaga() {
-  yield all([
-    fetchDatasetsWatcher(),
-    synthesizeDatasetWatcher(),
-    deleteDatasetWatcher(),
-    fetchFullDatasetWatcher(),
-    saveDatasetWatcher(),
-    saveCaseWatcher(),
-    deleteCaseWatcher(),
-    createCaseSetWatcher(),
-  ]);
+  try {
+    yield all([
+      fetchDatasetsWatcher(),
+      synthesizeDatasetWatcher(),
+      deleteDatasetWatcher(),
+      fetchFullDatasetWatcher(),
+      saveDatasetWatcher(),
+      saveCaseWatcher(),
+      deleteCaseWatcher(),
+      createCaseSetWatcher(),
+    ]);
+  } catch (e) {
+    console.log(`rootDatasetsSaga failed with: ${e}`);
+  }
 }

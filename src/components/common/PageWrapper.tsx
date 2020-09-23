@@ -1,17 +1,12 @@
-import React from "react";
+import React from 'react';
 
-import * as Styled from "./TextPageWrapper.style";
+import * as Styled from './TextPageWrapper.style';
 
-export enum PageWidth {
-  ULTRA_NARROW = "ULTRA_NARROW",
-  NARROW = "NARROW",
-  REGULAR = "REGULAR",
-  WIDE = "WIDE"
-}
+export { PageWidth } from './TextPageWrapper.style';
 
-const PageWrapper: React.FC<{ pageWidth?: PageWidth }> = ({
+const PageWrapper: React.FC<{ pageWidth?: Styled.PageWidth }> = ({
   children,
-  pageWidth = PageWidth.REGULAR
+  pageWidth = Styled.PageWidth.REGULAR,
 }) => (
   <Styled.CenteredContainer>
     <Styled.Centered pageWidth={pageWidth}>{children}</Styled.Centered>

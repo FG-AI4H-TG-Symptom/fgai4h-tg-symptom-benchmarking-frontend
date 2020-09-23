@@ -1,14 +1,7 @@
-import React from "react";
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  TextField,
-} from "@material-ui/core";
-import { ArrowForward as StartIcon } from "@material-ui/icons";
-import { useForm } from "react-hook-form";
+import React from 'react';
+import { Box, Button, Card, CardContent, CardHeader, TextField } from '@material-ui/core';
+import { ArrowForward as StartIcon } from '@material-ui/icons';
+import { useForm } from 'react-hook-form';
 
 interface FormData {
   numberOfCases: number;
@@ -19,9 +12,7 @@ interface CaseSetCreatorComponentProps {
   onCreateCaseSet: (caseSetParameters) => void;
 }
 
-const CaseSetGeneratorComponent: React.FC<CaseSetCreatorComponentProps> = ({
-  onCreateCaseSet,
-}) => {
+const CaseSetGeneratorComponent: React.FC<CaseSetCreatorComponentProps> = ({ onCreateCaseSet }) => {
   const { register, handleSubmit, errors } = useForm<FormData>({
     defaultValues: {
       numberOfCases: 10,
@@ -31,37 +22,37 @@ const CaseSetGeneratorComponent: React.FC<CaseSetCreatorComponentProps> = ({
   const onSubmit = (data) => {
     onCreateCaseSet({
       numberOfCases: data.numberOfCases,
-      name: data.name
+      name: data.name,
     });
   };
 
   const nameValidation = {
-    required: "Name is required",
+    required: 'Name is required',
     minLength: {
       value: 4,
-      message: "Should be at least 4 characters",
+      message: 'Should be at least 4 characters',
     },
     maxLength: {
       value: 200,
-      message: "Should not exceed 200 characters",
+      message: 'Should not exceed 200 characters',
     },
   };
 
   const numberOfCasesValidation = {
-    required: "Please enter number of cases",
+    required: 'Please enter number of cases',
     min: {
-      value: 0,
-      message: "Can't be negative",
+      value: 1,
+      message: 'Needs to be at least one case',
     },
     max: {
-      value: 200,
-      message: "Should be at least 4 characters",
+      value: 10000,
+      message: 'Should not exceed 10000 cases',
     },
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Card style={{ maxWidth: "40rem" }}>
+      <Card style={{ maxWidth: '40rem' }}>
         <CardHeader title="Parameters" />
         <CardContent>
           <TextField
@@ -88,12 +79,7 @@ const CaseSetGeneratorComponent: React.FC<CaseSetCreatorComponentProps> = ({
           </Box>
 
           <Box display="flex" justifyContent="flex-end" marginTop={4}>
-            <Button
-              variant="contained"
-              color="primary"
-              endIcon={<StartIcon />}
-              type="submit"
-            >
+            <Button variant="contained" color="primary" endIcon={<StartIcon />} type="submit">
               Generate case set
             </Button>
           </Box>

@@ -1,6 +1,6 @@
-import React, { ReactNode, useState } from "react";
-import { useHistory, useLocation } from "react-router-dom";
-import { Box, Paper, Tab, Tabs } from "@material-ui/core";
+import React, { ReactNode, useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
+import { Box, Paper, Tab, Tabs } from '@material-ui/core';
 
 export interface TabFactoryEntry {
   id: string;
@@ -15,17 +15,15 @@ export interface TabFactoryProps {
   tabs: Array<TabFactoryEntry>;
 }
 
-const TabFactoryControlled: React.FC<TabFactoryProps & {
-  tabIndex: number;
-  onTabChange: (newTabIndex: number) => void;
-}> = ({ ariaPrefix, ariaLabel, tabs, tabIndex, onTabChange }) => (
+const TabFactoryControlled: React.FC<
+  TabFactoryProps & {
+    tabIndex: number;
+    onTabChange: (newTabIndex: number) => void;
+  }
+> = ({ ariaPrefix, ariaLabel, tabs, tabIndex, onTabChange }) => (
   <>
     <Paper>
-      <Tabs
-        value={tabIndex}
-        onChange={(event, newTabIndex): void => onTabChange(newTabIndex)}
-        aria-label={ariaLabel}
-      >
+      <Tabs value={tabIndex} onChange={(event, newTabIndex): void => onTabChange(newTabIndex)} aria-label={ariaLabel}>
         {tabs.map(({ id, name, disabled }) => (
           <Tab
             key={`${ariaPrefix}_tab_${id}`}
@@ -52,16 +50,12 @@ const TabFactoryControlled: React.FC<TabFactoryProps & {
   </>
 );
 
-const TabFactoryHash: React.FC<TabFactoryProps> = ({
-  ariaPrefix,
-  ariaLabel,
-  tabs
-}) => {
+const TabFactoryHash: React.FC<TabFactoryProps> = ({ ariaPrefix, ariaLabel, tabs }) => {
   const history = useHistory();
-  const hash = useLocation().hash.replace("#", "");
+  const hash = useLocation().hash.replace('#', '');
   const tabIndex = Math.max(
     0,
-    tabs.findIndex(({ id }) => id === hash)
+    tabs.findIndex(({ id }) => id === hash),
   );
 
   const onTabChange = (newTabIndex: number): void => {
@@ -79,11 +73,7 @@ const TabFactoryHash: React.FC<TabFactoryProps> = ({
   );
 };
 
-const TabFactoryState: React.FC<TabFactoryProps> = ({
-  ariaPrefix,
-  ariaLabel,
-  tabs
-}) => {
+const TabFactoryState: React.FC<TabFactoryProps> = ({ ariaPrefix, ariaLabel, tabs }) => {
   const [tabIndex, setTabIndex] = useState(0);
   const onTabChange = (newTabIndex: number): void => {
     setTabIndex(newTabIndex);
@@ -100,26 +90,16 @@ const TabFactoryState: React.FC<TabFactoryProps> = ({
   );
 };
 
-const TabFactory: React.FC<TabFactoryProps & {
-  stateStorage?: "state" | "hash";
-}> = ({ ariaPrefix, ariaLabel, tabs, stateStorage = "state" }) => {
-  if (stateStorage === "hash") {
-    return (
-      <TabFactoryHash
-        ariaPrefix={ariaPrefix}
-        ariaLabel={ariaLabel}
-        tabs={tabs}
-      />
-    );
+const TabFactory: React.FC<
+  TabFactoryProps & {
+    stateStorage?: 'state' | 'hash';
+  }
+> = ({ ariaPrefix, ariaLabel, tabs, stateStorage = 'state' }) => {
+  if (stateStorage === 'hash') {
+    return <TabFactoryHash ariaPrefix={ariaPrefix} ariaLabel={ariaLabel} tabs={tabs} />;
   }
 
-  return (
-    <TabFactoryState
-      ariaPrefix={ariaPrefix}
-      ariaLabel={ariaLabel}
-      tabs={tabs}
-    />
-  );
+  return <TabFactoryState ariaPrefix={ariaPrefix} ariaLabel={ariaLabel} tabs={tabs} />;
 };
 
 export default TabFactory;

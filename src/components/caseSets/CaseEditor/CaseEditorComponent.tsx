@@ -1,19 +1,18 @@
-import React from "react";
-import { FormContext, useForm, ValidationResolver } from "react-hook-form";
-import Ajv from "ajv";
-import { Box } from "@material-ui/core";
-import { Alert } from "@material-ui/lab";
-import { Save as SaveIcon } from "@material-ui/icons";
+import React from 'react';
+import { FormProvider, useForm, Resolver } from 'react-hook-form';
+import Ajv from 'ajv';
 
-import berlinModelSchema from "../../../data/caseSets/berlinModel.schema.json";
-import { Case } from "../../../data/caseSets/berlinModelTypes";
-import { AutoPrefix } from "../../forms/PrefixContext";
-import AllErrors from "../../forms/AllErrors";
-import { validateAgainstSchema } from "../../forms/utils";
-import Fab from "../../common/Fab";
+import { Save as SaveIcon } from '@material-ui/icons';
 
-import { extendWithModelInformationFromIds } from "./utils";
-import CaseEditor from "./CaseEditor";
+import berlinModelSchema from '../../../data/caseSets/berlinModel.schema.json';
+import { Case } from '../../../data/caseSets/berlinModelTypes';
+import { AutoPrefix } from '../../forms/PrefixContext';
+import AllErrors from '../../forms/AllErrors';
+import { validateAgainstSchema } from '../../forms/utils';
+import Fab from '../../common/Fab';
+
+import { extendWithModelInformationFromIds } from './utils';
+import CaseEditor from './CaseEditor';
 
 const caseSchemaValidator = new Ajv({
   coerceTypes: true,
@@ -21,19 +20,19 @@ const caseSchemaValidator = new Ajv({
 })
   .addSchema(berlinModelSchema)
   .compile({
-    $schema: "http://json-schema.org/draft-07/schema#",
-    $id: "case",
-    type: "object",
+    $schema: 'http://json-schema.org/draft-07/schema#',
+    $id: 'case',
+    type: 'object',
     properties: {
       case: {
         $ref:
-          "https://raw.githubusercontent.com/FG-AI4H-TG-Symptom/fgai4h-tg-symptom-models-schemas/master/schemas/berlin-model.schema.json#/definitions/case",
+          'https://raw.githubusercontent.com/FG-AI4H-TG-Symptom/fgai4h-tg-symptom-models-schemas/master/schemas/berlin-model.schema.json#/definitions/case',
       },
     },
-    required: ["case"],
+    required: ['case'],
   });
 
-const validationResolver: ValidationResolver<{ case: Case }> = (rawValues) => {
+const validationResolver: Resolver<{ case: Case }> = (rawValues) => {
   // todo: replace by a flexible and efficient solution
   const values = extendWithModelInformationFromIds(rawValues);
   if (values.case.metaData?.description?.length === 0) {
@@ -45,52 +44,47 @@ const validationResolver: ValidationResolver<{ case: Case }> = (rawValues) => {
   if (values.case.metaData?.caseCreator?.length === 0) {
     delete values.case.metaData.caseCreator;
   }
-  // eslint-disable-next-line no-unused-expressions
-  values.case.caseData.presentingComplaints?.forEach((presentingComplaint) => {
+  values.case.caseData.presentingComplaints = values.case.caseData.presentingComplaints?.map((presentingComplaint) => {
     presentingComplaint.attributes = presentingComplaint.attributes || [];
+    return presentingComplaint;
   });
   values.case.caseData.otherFeatures = values.case.caseData.otherFeatures || [];
-  // eslint-disable-next-line no-unused-expressions
-  values.case.caseData.otherFeatures?.forEach((otherFeature) => {
+  values.case.caseData.otherFeatures = values.case.caseData.otherFeatures.map((otherFeature) => {
     otherFeature.attributes = otherFeature.attributes || [];
+    return otherFeature;
   });
-  values.case.valuesToPredict.impossibleConditions =
-    values.case.valuesToPredict.impossibleConditions || [];
-  values.case.valuesToPredict.otherRelevantDifferentials =
-    values.case.valuesToPredict.otherRelevantDifferentials || [];
+  values.case.valuesToPredict.impossibleConditions = values.case.valuesToPredict.impossibleConditions || [];
+  values.case.valuesToPredict.otherRelevantDifferentials = values.case.valuesToPredict.otherRelevantDifferentials || [];
 
   // end-todo
 
   return validateAgainstSchema(values, caseSchemaValidator);
 };
 
-interface FormValues {
-  case: Case;
-}
+// interface FormValues {
+//   case: Case;
+// }
 
 export interface CaseSetEditorProps {
   caseData: any;
   saveCase: any;
 }
 
-const CaseEditorComponent: React.FC<CaseSetEditorProps> = ({
-  caseData,
-  saveCase,
-}) => {
+const CaseEditorComponent: React.FC<CaseSetEditorProps> = ({ caseData }) => {
   const defaultValues = { case: { ...caseData.data } };
   // console.log('defaultValues', defaultValues);
   const { errors, handleSubmit, ...formMethods } = useForm({
-    validationResolver,
+    resolver: validationResolver,
     defaultValues: defaultValues,
   });
 
   return (
-    <FormContext errors={errors} handleSubmit={handleSubmit} {...formMethods}>
+    <FormProvider errors={errors} handleSubmit={handleSubmit} {...formMethods}>
       <form
-        onSubmit={handleSubmit((data: FormValues): void => {
-          // saveCase({ ...caseData, data: data.case });
-          console.log('datadata', data);
-        })}
+      // onSubmit={handleSubmit((data: FormValues): void => {
+      //   // saveCase({ ...caseData, data: data.case });
+      //   console.log('datadata', data);
+      // })}
       >
         <Fab label="Save" type="submit">
           <SaveIcon />
@@ -102,7 +96,7 @@ const CaseEditorComponent: React.FC<CaseSetEditorProps> = ({
           <CaseEditor />
         </AutoPrefix>
       </form>
-    </FormContext>
+    </FormProvider>
   );
 };
 

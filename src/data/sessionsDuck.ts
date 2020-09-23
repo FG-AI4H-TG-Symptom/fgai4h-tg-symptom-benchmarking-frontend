@@ -1,14 +1,13 @@
 /* eslint-disable prefer-const */
-/* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { createSlice } from "@reduxjs/toolkit";
-import { takeEvery, put, all } from "redux-saga/effects";
+import { createSlice } from '@reduxjs/toolkit';
+import { takeEvery, put, all } from 'redux-saga/effects';
 
-import urlBuilder from "./util/urlBuilder";
-import httpResponseErrorMessage from "./util/httpResponseErrorMessage";
-import { BenchmarkingSessionStatus } from "./benchmarks/benchmarkManagerDataType";
-import sleep from "./util/sleep";
-import { paths } from "../routes";
+import urlBuilder from './util/urlBuilder';
+import httpResponseErrorMessage from './util/httpResponseErrorMessage';
+import { BenchmarkingSessionStatus } from './benchmarks/benchmarkManagerDataType';
+import sleep from './util/sleep';
+import { queueNotification } from './application/applicationActions';
 
 const initialState = {
   list: [],
@@ -19,7 +18,7 @@ const initialState = {
 };
 
 const slice = createSlice({
-  name: "sessions",
+  name: 'sessions',
   initialState: initialState,
   reducers: {
     fetchSessions: () => {},
@@ -34,18 +33,14 @@ const slice = createSlice({
     },
     // Add Session
     addSession: (sessions, action) => {},
-    addSessionSuccess: (sessions, action) => {
-      sessions.list.push(action.payload);
-    },
+    addSessionSuccess: (sessions, action) => {},
     addSessionFailure: (sessions, action) => {
       sessions.error = action.payload;
     },
     // Delete Session
     deleteSession: (sessions, action) => {},
     deleteSessionSuccess: (sessions, action) => {
-      sessions.list = sessions.list.filter(
-        (sessions) => sessions.id !== action.payload.id
-      );
+      sessions.list = sessions.list.filter((s) => s.id !== action.payload.id);
     },
     deleteSessionFailure: (sessions, action) => {
       sessions.error = action.payload;
@@ -67,7 +62,7 @@ const slice = createSlice({
     // Session Status
     setSessionStatus: (sessions, action) => {
       const { id, status } = action.payload;
-      let session = sessions.list.find((session) => session.id === id);
+      let session = sessions.list.find((s) => s.id === id);
       session.status = status;
     },
     observeSessionStatus: (sessions, action) => {},
@@ -81,13 +76,7 @@ const slice = createSlice({
   },
 });
 
-export const {
-  fetchSessions,
-  addSession,
-  deleteSession,
-  fetchEvaluation,
-  runSession,
-} = slice.actions;
+export const { fetchSessions, addSession, deleteSession, fetchEvaluation, runSession } = slice.actions;
 export default slice.reducer;
 
 const {
@@ -120,27 +109,22 @@ function* fetchSessionsWorker() {
 
     yield put(fetchSessionsSuccess(benchmarkingSessions));
   } catch (error) {
-    yield put(
-      fetchSessionsFailure(
-        `Errored while fetching benchmark sessions list: ${error.message}`
-      )
-    );
+    const errorMessage = `Errored while fetching benchmark sessions list: ${error.message}`;
+    yield put(fetchSessionsFailure(errorMessage));
+    yield put(queueNotification({ message: errorMessage, type: 'error' }));
   }
 }
 
 function* addSessionWorker(action) {
   try {
-    const {
-      caseSetId,
-      aiImplementationIds,
-    } = action.payload.benchmarkParameters;
+    const { caseSetId, aiImplementationIds } = action.payload.benchmarkParameters;
 
     const { history } = action.payload;
     // todo: adapt to new endpoint
-    const response = yield fetch(urlBuilder("benchmarking-sessions"), {
-      method: "POST",
+    const response = yield fetch(urlBuilder('benchmarking-sessions'), {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         caseSet: caseSetId,
@@ -149,17 +133,15 @@ function* addSessionWorker(action) {
     });
 
     if (!response.ok) {
-      throw new Error(
-        httpResponseErrorMessage(response, "create benchmark manager")
-      );
+      throw new Error(httpResponseErrorMessage(response, 'create benchmark manager'));
     }
 
     const benchmarkingSession = yield response.json();
     yield put(addSessionSuccess(benchmarkingSession));
   } catch (error) {
-    yield put(
-      addSessionFailure(`Failed to run benchmark on case set: ${error.message}`)
-    );
+    const errorMessage = `Failed to run benchmark on case set: ${error.message}`;
+    yield put(addSessionFailure(errorMessage));
+    yield put(queueNotification({ message: errorMessage, type: 'error' }));
   }
 }
 
@@ -168,35 +150,30 @@ function* runSessionWorker(action) {
   const session = action.payload;
 
   try {
-    const startBenchmarkingResponse = yield fetch(
-      urlBuilder(`benchmarking-sessions/${session.id}/run`),
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(session),
-      }
-    );
+    const startBenchmarkingResponse = yield fetch(urlBuilder(`benchmarking-sessions/${session.id}/run`), {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(session),
+    });
 
     if (!startBenchmarkingResponse.ok) {
-      throw new Error(
-        httpResponseErrorMessage(startBenchmarkingResponse, "start benchmark")
-      );
+      throw new Error(httpResponseErrorMessage(startBenchmarkingResponse, 'start benchmark'));
     }
 
     yield put(
       setSessionStatus({
         id: session.id,
         status: BenchmarkingSessionStatus.RUNNING,
-      })
+      }),
     );
 
     yield put(observeSessionStatus(session.id));
   } catch (error) {
-    yield put(
-      runSessionFailure(`Error running benchmark sessions: ${error.message}`)
-    );
+    const errorMessage = `Error running benchmark sessions: ${error.message}`;
+    yield put(runSessionFailure(errorMessage));
+    yield put(queueNotification({ message: errorMessage, type: 'error' }));
   }
 }
 
@@ -204,9 +181,7 @@ function* observeSessionStatusWorker(action) {
   const benchmarkId = action.payload;
   try {
     while (true) {
-      const response = yield fetch(
-        urlBuilder(`benchmarking-sessions/${benchmarkId}/status`)
-      );
+      const response = yield fetch(urlBuilder(`benchmarking-sessions/${benchmarkId}/status`));
 
       if (!response.ok) {
         throw new Error(httpResponseErrorMessage(response));
@@ -218,7 +193,7 @@ function* observeSessionStatusWorker(action) {
         setSessionStatus({
           id: benchmarkId,
           status: benchmarkInfo.status,
-        })
+        }),
       );
 
       if (benchmarkInfo.status === BenchmarkingSessionStatus.RUNNING) {
@@ -231,11 +206,9 @@ function* observeSessionStatusWorker(action) {
       yield sleep(500);
     }
   } catch (error) {
-    yield put(
-      observeSessionStatusFailure(
-        `Errored while running benchmark on case set: ${error.message}`
-      )
-    );
+    const errorMessage = `Errored while running benchmark on case set: ${error.message}`;
+    yield put(observeSessionStatusFailure(errorMessage));
+    yield put(queueNotification({ message: errorMessage, type: 'error' }));
   }
 }
 
@@ -243,12 +216,9 @@ function* deleteSessionWorker(action) {
   const { sessionId } = action.payload;
 
   try {
-    const response = yield fetch(
-      urlBuilder(`benchmarking-sessions/${sessionId}`),
-      {
-        method: "DELETE",
-      }
-    );
+    const response = yield fetch(urlBuilder(`benchmarking-sessions/${sessionId}`), {
+      method: 'DELETE',
+    });
 
     if (!response.ok) {
       throw new Error(httpResponseErrorMessage(response));
@@ -256,12 +226,9 @@ function* deleteSessionWorker(action) {
 
     yield put(deleteSessionSuccess({ id: sessionId }));
   } catch (error) {
-    console.error(error);
-    yield put(
-      deleteSessionFailure(
-        `Errored while deleting benchmarking session: ${error.message}`
-      )
-    );
+    const errorMessage = `Errored while deleting benchmarking session: ${error.message}`;
+    yield put(deleteSessionFailure(errorMessage));
+    yield put(queueNotification({ message: errorMessage, type: 'error' }));
   }
 }
 
@@ -269,25 +236,19 @@ function* fetchEvaluationWorker(action) {
   const benchmarkingSessionId = action.payload;
   try {
     // todo: metrics calculation not implemented yet
-    const response: Response = yield fetch(
-      urlBuilder(`benchmarking-sessions/${benchmarkingSessionId}/results`)
-    );
+    const response: Response = yield fetch(urlBuilder(`benchmarking-sessions/${benchmarkingSessionId}/results`));
 
     if (!response.ok) {
-      throw new Error(
-        httpResponseErrorMessage(response, `fetch benchmark results`)
-      );
+      throw new Error(httpResponseErrorMessage(response, `fetch benchmark results`));
     }
 
     const results = yield response.json();
 
     yield put(fetchEvaluationSuccess(results));
   } catch (error) {
-    yield put(
-      fetchEvaluationFailure(
-        `Errored while running benchmark on case set: ${error.message}`
-      )
-    );
+    const errorMessage = `Errored while running benchmark on case set: ${error.message}`;
+    yield put(fetchEvaluationFailure(errorMessage));
+    yield put(queueNotification({ message: errorMessage, type: 'error' }));
   }
 }
 
@@ -317,12 +278,16 @@ function* runSessionWatcher() {
 }
 
 export function* rootSessionsSaga() {
-  yield all([
-    fetchSessionsWatcher(),
-    addSessionWatcher(),
-    observeSessionStatusWatcher(),
-    deleteSessionWatcher(),
-    fetchEvaluationWatcher(),
-    runSessionWatcher(),
-  ]);
+  try {
+    yield all([
+      fetchSessionsWatcher(),
+      addSessionWatcher(),
+      observeSessionStatusWatcher(),
+      deleteSessionWatcher(),
+      fetchEvaluationWatcher(),
+      runSessionWatcher(),
+    ]);
+  } catch (e) {
+    console.log(`rootSessionsSaga failed with: ${e}`);
+  }
 }

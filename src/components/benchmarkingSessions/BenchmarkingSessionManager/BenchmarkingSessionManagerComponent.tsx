@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   IconButton,
   Paper,
@@ -10,21 +10,21 @@ import {
   TablePagination,
   TableRow,
   Tooltip,
-} from "@material-ui/core";
+} from '@material-ui/core';
 import {
   Delete as DeleteIcon,
   PlayCircleOutline as StartBenchmarkIcon,
   ViewList as OpenIcon,
-} from "@material-ui/icons";
+} from '@material-ui/icons';
 
-import { BenchmarkingSessionStatus } from "../../../data/benchmarks/benchmarkManagerDataType";
-import LinkWrapper from "../../common/LinkWrapper";
-import { paths } from "../../../routes";
+import { BenchmarkingSessionStatus } from '../../../data/benchmarks/benchmarkManagerDataType';
+import LinkWrapper from '../../common/LinkWrapper';
+import { paths } from '../../../routes';
 
-import * as Styled from "./BenchmarkingSessionManagerComponent.style";
-import * as CommonStyled from "../../common/CommonStyles";
-import BenchmarkingSessionStatusIcon from "./BenchmarkingSessionStatusIcon";
-import ConfirmationIconButton from "../../common/ConfirmationIconButton";
+import * as Styled from './BenchmarkingSessionManagerComponent.style';
+import * as CommonStyled from '../../common/CommonStyles';
+import BenchmarkingSessionStatusIcon from './BenchmarkingSessionStatusIcon';
+import ConfirmationIconButton from '../../common/ConfirmationIconButton';
 
 const rowsPerPageOptions = [10, 20, 50, 100];
 
@@ -36,7 +36,7 @@ const BenchmarkingSessionManagerComponent: React.FC<any> = ({
   runBenchmarkingSession,
 }) => {
   const activeRowsPerPageOptions = rowsPerPageOptions.filter(
-    (rowsPerPageOption) => rowsPerPageOption <= benchmarkingSessions.length
+    (rowsPerPageOption) => rowsPerPageOption <= benchmarkingSessions.length,
   );
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageOptions[0]);
@@ -66,17 +66,13 @@ const BenchmarkingSessionManagerComponent: React.FC<any> = ({
 
               <TableCell>Created On</TableCell>
 
-              <CommonStyled.CenteredTableCell>
-                AIs
-              </CommonStyled.CenteredTableCell>
+              <CommonStyled.CenteredTableCell>AIs</CommonStyled.CenteredTableCell>
 
               <TableCell>Dataset</TableCell>
 
               <TableCell>Status</TableCell>
 
-              <Styled.ActionHeaderTableCell>
-                Actions
-              </Styled.ActionHeaderTableCell>
+              <Styled.ActionHeaderTableCell>Actions</Styled.ActionHeaderTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -98,16 +94,12 @@ const BenchmarkingSessionManagerComponent: React.FC<any> = ({
                     <TableCell>
                       <ul>
                         {aiImplementations.map((aiID) => (
-                          <li key={aiID}>
-                            {AIs.find((ai_) => ai_.id === aiID).name}
-                          </li>
+                          <li key={aiID}>{AIs.find((ai_) => ai_.id === aiID).name}</li>
                         ))}
                       </ul>
                     </TableCell>
 
-                    <TableCell>
-                      {datasets.find((dataset) => dataset.id === caseSet).name}
-                    </TableCell>
+                    <TableCell>{datasets.find((dataset) => dataset.id === caseSet)?.name}</TableCell>
 
                     <TableCell>
                       <BenchmarkingSessionStatusIcon status={status} />
@@ -120,9 +112,7 @@ const BenchmarkingSessionManagerComponent: React.FC<any> = ({
                             to={paths.benchmarkRun(id)}
                             // history.push(paths.benchmarkRun(benchmarkingSession.id));
 
-                            disabled={
-                              status !== BenchmarkingSessionStatus.CREATED
-                            }
+                            disabled={status !== BenchmarkingSessionStatus.CREATED}
                           >
                             <IconButton
                               aria-label="start benchmark"
@@ -133,9 +123,7 @@ const BenchmarkingSessionManagerComponent: React.FC<any> = ({
                                   caseSet,
                                 })
                               }
-                              disabled={
-                                status !== BenchmarkingSessionStatus.CREATED
-                              }
+                              disabled={status !== BenchmarkingSessionStatus.CREATED}
                             >
                               <StartBenchmarkIcon />
                             </IconButton>
@@ -146,16 +134,9 @@ const BenchmarkingSessionManagerComponent: React.FC<any> = ({
                         <span>
                           <LinkWrapper
                             to={paths.benchmarkEvaluate(id)}
-                            disabled={
-                              status !== BenchmarkingSessionStatus.FINISHED
-                            }
+                            disabled={status !== BenchmarkingSessionStatus.FINISHED}
                           >
-                            <IconButton
-                              aria-label="view"
-                              disabled={
-                                status !== BenchmarkingSessionStatus.FINISHED
-                              }
-                            >
+                            <IconButton aria-label="view" disabled={status !== BenchmarkingSessionStatus.FINISHED}>
                               <OpenIcon />
                             </IconButton>
                           </LinkWrapper>

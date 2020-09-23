@@ -1,34 +1,18 @@
-import React from "react";
-import {
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from "@material-ui/core";
+import React from 'react';
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
 
-import {
-  BenchmarkResultStatus,
-  BenchmarkStepError,
-} from "../../../data/benchmarks/benchmarkInfoDataType";
+import { BenchmarkResultStatus, BenchmarkStepError } from '../../../data/benchmarks/benchmarkInfoDataType';
 
-import * as Styled from "./BenchmarkRunnerComponent.style";
+import * as Styled from './BenchmarkRunnerComponent.style';
 
-const BenchmarkRunnerComponent: React.FC<any> = ({
-  benchmarkingSession,
-  report,
-  AIs,
-}) => {
+const BenchmarkRunnerComponent: React.FC<any> = ({ benchmarkingSession, report, AIs }) => {
   const responses = report ? report.responses : [];
 
   return (
     <TableContainer component={Paper}>
       <Table>
         <caption>
-          {benchmarkingSession.aiImplementations.length} AI implementations,{" "}
-          {responses.length} cases
+          {benchmarkingSession.aiImplementations.length} AI implementations, {responses.length} cases
         </caption>
         <TableHead>
           <Styled.GroupingTableRow>
@@ -47,9 +31,7 @@ const BenchmarkRunnerComponent: React.FC<any> = ({
         <TableBody>
           {benchmarkingSession.aiImplementations.map((aiImplementationId) => (
             <TableRow key={aiImplementationId}>
-              <TableCell>
-                {AIs.find((ai) => ai.id === aiImplementationId).name}
-              </TableCell>
+              <TableCell>{AIs.find((ai) => ai.id === aiImplementationId)?.name}</TableCell>
 
               <TableCell>
                 {
@@ -61,8 +43,7 @@ const BenchmarkRunnerComponent: React.FC<any> = ({
                     }
 
                     return (
-                      response.status === BenchmarkResultStatus.ERRORED &&
-                      response.error !== BenchmarkStepError.TIMEOUT
+                      response.status === BenchmarkResultStatus.ERRORED && response.error !== BenchmarkStepError.TIMEOUT
                     );
                   }).length
                 }
@@ -92,8 +73,7 @@ const BenchmarkRunnerComponent: React.FC<any> = ({
                     }
 
                     return (
-                      response.status === BenchmarkResultStatus.ERRORED &&
-                      response.error === BenchmarkStepError.TIMEOUT
+                      response.status === BenchmarkResultStatus.ERRORED && response.error === BenchmarkStepError.TIMEOUT
                     );
                   }).length
                 }

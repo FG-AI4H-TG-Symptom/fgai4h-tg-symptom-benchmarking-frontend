@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Chip,
   IconButton,
@@ -11,27 +11,24 @@ import {
   TableRow,
   Tooltip,
   Typography,
-} from "@material-ui/core";
+} from '@material-ui/core';
 import {
   ViewList as ViewEditIcon,
   PlayCircleOutline as StartBenchmarkIcon,
   Delete as DeleteIcon,
-} from "@material-ui/icons";
+} from '@material-ui/icons';
 
-import LinkWrapper from "../../common/LinkWrapper";
-import { paths } from "../../../routes";
+import LinkWrapper from '../../common/LinkWrapper';
+import { paths } from '../../../routes';
 
-import * as Styled from "./CaseSetManagerComponent.style";
-import * as CommonStyled from "../../common/CommonStyles";
-import ConfirmationIconButton from "../../common/ConfirmationIconButton";
-import formatDate from "../../../util/formatDate";
+import * as Styled from './CaseSetManagerComponent.style';
+import * as CommonStyled from '../../common/CommonStyles';
+import ConfirmationIconButton from '../../common/ConfirmationIconButton';
+import formatDate from '../../../util/formatDate';
 
-const LONDON_CASE_SET_ID = "london_model2019_cases_v1";
+const LONDON_CASE_SET_ID = 'london_model2019_cases_v1';
 
-const CaseSetManagerComponent: React.FC<any> = ({
-  datasetsList,
-  deleteCaseSet,
-}) => (
+const CaseSetManagerComponent: React.FC<any> = ({ datasetsList, deleteCaseSet }) => (
   <>
     <TableContainer component={Paper}>
       <Table>
@@ -62,9 +59,7 @@ const CaseSetManagerComponent: React.FC<any> = ({
                 <TableCell>{formatDate(date)}</TableCell>
                 <TableCell>{cases.length}</TableCell>
                 <TableCell>
-                  {id === LONDON_CASE_SET_ID ? (
-                    <Chip label="Cases from doctors" color="primary" />
-                  ) : null}
+                  {id === LONDON_CASE_SET_ID ? <Chip label="Cases from doctors" color="primary" /> : null}
                 </TableCell>
                 <CommonStyled.ButtonsTableCell>
                   <LinkWrapper to={paths.caseSetViewer(id)}>

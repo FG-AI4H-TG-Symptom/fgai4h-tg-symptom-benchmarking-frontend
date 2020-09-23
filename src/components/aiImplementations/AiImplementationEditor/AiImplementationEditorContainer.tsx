@@ -1,14 +1,18 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useHistory, useParams } from "react-router-dom";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
 
-import { paths } from "../../../routes";
-import BasicPageLayout from "../../common/BasicPageLayout";
-import { fetchAI, updateAI } from "../../../data/aiDuck";
-import AiImplementationEditorComponent from "./AiImplementationEditorComponent";
+import { paths } from '../../../routes';
+import BasicPageLayout from '../../common/BasicPageLayout';
+import { fetchAI, updateAI } from '../../../data/aiDuck';
+import AiImplementationEditorComponent from './AiImplementationEditorComponent';
 
-const AiImplementationEditorContainer: React.FC<{}> = () => {
-  const { aiImplementationId } = useParams();
+interface Params {
+  aiImplementationId: string;
+}
+
+const AiImplementationEditorContainer: React.FC = () => {
+  const { aiImplementationId } = useParams<Params>();
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -20,7 +24,7 @@ const AiImplementationEditorContainer: React.FC<{}> = () => {
   const editingAI = useSelector((state: any) => state.AIs.editingAI);
 
   const saveAiImplementation = (aiImplementation) => {
-    dispatch(updateAI({...aiImplementation, id: editingAI.id}));
+    dispatch(updateAI({ ...aiImplementation, id: editingAI.id }));
     history.push(paths.aiImplementationManager());
   };
 
@@ -28,8 +32,8 @@ const AiImplementationEditorContainer: React.FC<{}> = () => {
     <BasicPageLayout title={`Edit ${editingAI?.name} implementation`}>
       <AiImplementationEditorComponent
         onSaveAiImplementation={saveAiImplementation}
-        name={editingAI?.name || ""}
-        baseUrl={editingAI?.baseUrl || ""}
+        name={editingAI?.name || ''}
+        baseUrl={editingAI?.baseUrl || ''}
       />
     </BasicPageLayout>
   );

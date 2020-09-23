@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { AutoPrefix } from "./PrefixContext";
+import React from 'react';
+import styled from 'styled-components';
+import { AutoPrefix } from './PrefixContext';
 
 const FormBlockContainer = styled.div<{ color: string; group: boolean }>`
   border-left: 2px solid ${({ color }): string => color};
@@ -31,11 +31,7 @@ const FormBlock: React.FC<{
     <AutoPrefix name={name}>
       <FormBlockTitle color={color}>{title}</FormBlockTitle>
       <FormBlockContainer color={color} group={Boolean(group)}>
-        {group ? (
-          children
-        ) : (
-          <FormBlockFlexChildren>{children}</FormBlockFlexChildren>
-        )}
+        {group ? children : <FormBlockFlexChildren>{children}</FormBlockFlexChildren>}
       </FormBlockContainer>
     </AutoPrefix>
   );

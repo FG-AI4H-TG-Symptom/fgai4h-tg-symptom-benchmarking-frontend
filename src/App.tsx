@@ -1,33 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Switch, Route, useLocation } from "react-router-dom";
-import {
-  AppBar,
-  Drawer,
-  IconButton,
-  ListItem,
-  ListItemIcon,
-  ListItemSecondaryAction,
-  ListItemText,
-  Toolbar
-} from "@material-ui/core";
-import { Menu as MenuIcon } from "@material-ui/icons";
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Switch, Route } from 'react-router-dom';
 
-import * as Styled from "./App.style";
-import { routes } from "./routes";
-import LinkWrapper from "./components/common/LinkWrapper";
-import NotFound from "./components/common/NotFound";
-import logo from "./logo.svg";
-import { RootState } from "./data/rootReducer";
-import Error from "./components/common/Error";
-import Notifications from "./components/common/Notifications";
-import { fetchAIs } from "./data/aiDuck";
-import { fetchDatasets } from "./data/datasetDuck";
-import { fetchSessions } from "./data/sessionsDuck";
+import * as Styled from './App.style';
+import { routes } from './routes';
+import NotFound from './components/common/NotFound';
+import { RootState } from './data/rootReducer';
+import Error from './components/common/Error';
+import Notifications from './components/common/Notifications';
+import { fetchAIs } from './data/aiDuck';
+import { fetchDatasets } from './data/datasetDuck';
+import { fetchSessions } from './data/sessionsDuck';
+import MiniDrawer from './MiniDrawer';
 
-const App: React.FC<{}> = () => {
-  const location = useLocation();
-
+const App: React.FC = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchAIs());
@@ -35,84 +21,25 @@ const App: React.FC<{}> = () => {
     dispatch(fetchSessions());
   }, []);
 
-  
-  const fatalError = useSelector<RootState, string>(
-    state => state.application.fatalError
-  );
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  const currentRoute = routes.filter(route =>
-    route.path.includes(":")
-      ? location.pathname.startsWith(route.path.split(":")[0])
-      : route.path === location.pathname
-  )[0];
-  const title = currentRoute ? currentRoute.displayName : "";
+  const fatalError = useSelector<RootState, string>((state) => state.application.fatalError);
 
   return (
     <>
       <Notifications />
-      <AppBar position="sticky">
-        <Toolbar>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            onClick={(): void => setMenuOpen(true)}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Styled.Title id="app-title">{title}</Styled.Title>
-          &quot;Symptom assessment&quot; FG MMVB for AI4H (WHO/ITU)
-          <Styled.Logo src={logo} alt="FG AI4H logo" />
-        </Toolbar>
-      </AppBar>
-      <Drawer open={menuOpen} onClose={(): void => setMenuOpen(false)}>
-        <Styled.SideMenuList>
-          {routes
-            .filter(({ visibleInMenu }) => visibleInMenu)
-            .map(({ id, displayName, path, icon: Icon, action }) => (
-              <LinkWrapper key={id} to={path}>
-                <ListItem
-                  button
-                  onClick={(): void => {
-                    setMenuOpen(false);
-                  }}
-                >
-                  <ListItemIcon>{Icon ? <Icon /> : <></>}</ListItemIcon>
-                  <ListItemText>
-                    {displayName.replace("manager", "")}
-                  </ListItemText>
-                  {action && (
-                    <ListItemSecondaryAction
-                      onClick={(): void => {
-                        setMenuOpen(false);
-                      }}
-                    >
-                      {/* todo: this is illegal HTML since it's a link inside a link */}
-                      {/* <LinkWrapper to={action.targetPath}>
-                        <IconButton>
-                          <action.icon />
-                        </IconButton>
-                      </LinkWrapper> */}
-                    </ListItemSecondaryAction>
-                  )}
-                </ListItem>
-              </LinkWrapper>
-            ))}
-        </Styled.SideMenuList>
-      </Drawer>
-      <Styled.Main>
-        {fatalError ? (
-          <Error error={fatalError} />
-        ) : (
-          <Switch>
-            {routes.map(({ id, path, component, exact }) => (
-              <Route key={id} path={path} component={component} exact={exact} />
-            ))}
-            <Route component={NotFound} />
-          </Switch>
-        )}
-      </Styled.Main>
+      <MiniDrawer>
+        <Styled.Main>
+          {fatalError ? (
+            <Error error={fatalError} />
+          ) : (
+            <Switch>
+              {routes.map(({ id, path, component, exact }) => (
+                <Route key={id} path={path} component={component} exact={exact} />
+              ))}
+              <Route component={NotFound} />
+            </Switch>
+          )}
+        </Styled.Main>
+      </MiniDrawer>
     </>
   );
 };
