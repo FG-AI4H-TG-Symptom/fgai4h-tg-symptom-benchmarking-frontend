@@ -44,6 +44,9 @@ const slice = createSlice({
       AIs.loading = true;
     },
     updateAISuccess: (AIs, action) => {
+      const { updatedAI } = action.payload;
+      const foundIndex = AIs.list.findIndex((x) => x.id === updatedAI.id);
+      AIs.list[foundIndex] = updatedAI;
       AIs.error = null;
       AIs.loading = false;
     },
