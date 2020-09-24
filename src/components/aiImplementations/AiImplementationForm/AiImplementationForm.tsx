@@ -5,6 +5,8 @@ import * as yup from 'yup';
 
 import TextField from '@material-ui/core/TextField';
 import { yupResolver } from '@hookform/resolvers';
+import { paths } from '../../../routes';
+import LinkWrapper from '../../common/LinkWrapper';
 
 interface AiImplementationFormProps {
   onSubmit: (aiImplementation) => void;
@@ -62,6 +64,11 @@ const AiImplementationForm: React.FC<AiImplementationFormProps> = ({ onSubmit, e
         name="baseUrl"
       />
       <Box display="flex" justifyContent="flex-end" marginTop={4}>
+        <LinkWrapper to={paths.aiImplementationManager()}>
+          <Button color="primary" type="submit">
+            {'Cancel'}
+          </Button>
+        </LinkWrapper>
         <Button color="primary" type="submit">
           {editing ? 'Save' : 'Register'}
         </Button>
