@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { Box, Button } from '@material-ui/core';
 import * as yup from 'yup';
 
@@ -19,7 +19,7 @@ const AiImplementationForm: React.FC<AiImplementationFormProps> = ({ onSubmit, e
     baseUrl: yup.string().label('Base URL').url().required(),
   });
 
-  const { register, handleSubmit, errors, setValue } = useForm<any>({
+  const { control, handleSubmit, errors, setValue } = useForm<any>({
     defaultValues: {
       name: name,
       baseUrl: baseUrl,
@@ -34,24 +34,32 @@ const AiImplementationForm: React.FC<AiImplementationFormProps> = ({ onSubmit, e
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <TextField
-        inputRef={register}
+      <Controller
+        as={
+          <TextField
+            type="text"
+            label="Name"
+            fullWidth
+            error={Boolean(errors.name)}
+            helperText={errors.name?.message}
+          />
+        }
+        control={control}
         name="name"
-        type="text"
-        label="Name"
-        fullWidth
-        error={Boolean(errors.name)}
-        helperText={errors.name?.message}
       />
       <Box m={4} />
-      <TextField
-        inputRef={register}
+      <Controller
+        as={
+          <TextField
+            type="text"
+            label="Base URL"
+            fullWidth
+            error={Boolean(errors.baseUrl)}
+            helperText={errors.baseUrl?.message}
+          />
+        }
+        control={control}
         name="baseUrl"
-        type="text"
-        label="Base URL"
-        fullWidth
-        error={Boolean(errors.baseUrl)}
-        helperText={errors.baseUrl?.message}
       />
       <Box display="flex" justifyContent="flex-end" marginTop={4}>
         <Button color="primary" type="submit">
