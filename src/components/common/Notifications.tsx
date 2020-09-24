@@ -47,7 +47,7 @@ const Notifications: React.FC = () => {
   return (
     <Snackbar
       open={notificationState === NotificationState.OPEN}
-      autoHideDuration={5000}
+      autoHideDuration={30000}
       onClose={handleCloseNotification}
       onExited={handleExitNotification}
     >
