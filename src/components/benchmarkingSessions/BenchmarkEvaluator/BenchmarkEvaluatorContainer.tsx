@@ -8,6 +8,7 @@ import { paths } from '../../../routes';
 import BenchmarkEvaluatorComponent from './BenchmarkEvaluatorComponent';
 import { fetchEvaluation } from '../../../data/sessionsDuck';
 import { fetchAIs } from '../../../data/aiDuck';
+import { fetchDatasets } from '../../../data/datasetDuck';
 
 type Params = {
   benchmarkId: string;
@@ -22,15 +23,19 @@ const BenchmarkEvaluatorContainer: React.FC = () => {
   // fetch evaluation once, when the component is mounted
   useEffect(() => {
     dispatch(fetchAIs());
+    dispatch(fetchDatasets());
     dispatch(fetchEvaluation(benchmarkingSessionId));
   }, []);
 
   const AIs = useSelector((state: any) => state.AIs);
   const evaluation = useSelector((state: any) => state.sessions.evaluation);
+  const datasets = useSelector((state: any) => state.datasets.list);
 
   return (
     <BasicPageLayout title="Benchmark evaluation">
-      {evaluation && <BenchmarkEvaluatorComponent evaluation={evaluation} aiImplementations={AIs.list} />}
+      {evaluation && (
+        <BenchmarkEvaluatorComponent evaluation={evaluation} aiImplementations={AIs.list} datasets={datasets} />
+      )}
 
       <Box display="flex" justifyContent="flex-end" marginTop={4}>
         <Button

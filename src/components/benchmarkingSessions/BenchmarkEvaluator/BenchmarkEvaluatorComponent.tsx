@@ -7,11 +7,13 @@ import * as CommonStyled from '../../common/CommonStyles';
 interface AiImplementationManagerComponentProps {
   evaluation: any;
   aiImplementations: any;
+  datasets: any;
 }
 
 const BenchmarkEvaluatorComponent: React.FC<AiImplementationManagerComponentProps> = ({
   evaluation,
   aiImplementations,
+  datasets,
 }) => {
   return (
     <>
@@ -23,7 +25,8 @@ const BenchmarkEvaluatorComponent: React.FC<AiImplementationManagerComponentProp
           </caption>
           <TableHead>
             <TableRow>
-              <TableCell>AI implementation name</TableCell>
+              <TableCell>AI implementation</TableCell>
+              <TableCell>Dataset</TableCell>
               {evaluation.metrics.map(({ id, name }) => (
                 <CommonStyled.CenteredTableCell key={id}>{name}</CommonStyled.CenteredTableCell>
               ))}
@@ -33,6 +36,7 @@ const BenchmarkEvaluatorComponent: React.FC<AiImplementationManagerComponentProp
             {evaluation.aiImplementations.map((aiImplementationId) => (
               <TableRow key={aiImplementationId}>
                 <TableCell>{aiImplementations.find((ai) => ai.id === aiImplementationId)?.name}</TableCell>
+                <TableCell>{datasets.find((set) => set.id === evaluation.caseSet)?.name}</TableCell>
                 {evaluation.metrics.map(({ id, aggregatedValues }) => (
                   <CommonStyled.CenteredTableCell key={id}>
                     {`${(aggregatedValues[aiImplementationId] * 100).toFixed(2)} %`}
