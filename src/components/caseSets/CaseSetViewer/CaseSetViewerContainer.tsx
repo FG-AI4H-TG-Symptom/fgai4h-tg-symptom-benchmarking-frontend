@@ -29,9 +29,11 @@ const CaseSetViewerContainer: React.FC = () => {
     dispatch(saveDataset(editedCaseSet));
   };
 
+  const title = fullDataset ? fullDataset.name : '';
+
   return (
     <BasicPageLayout
-      title={`Cases in '${caseSetId}'`}
+      title={`Cases in '${title}' CaseSet`}
       action={
         <LinkWrapper to={paths.caseSetManager()}>
           <Button variant="contained" color="primary">

@@ -4,6 +4,7 @@ import Ajv from 'ajv';
 import {
   Avatar,
   Box,
+  Button,
   IconButton,
   List,
   ListItem,
@@ -17,7 +18,6 @@ import berlinModelSchema from '../../../data/caseSets/berlinModel.schema.json';
 import { CaseSetInfo } from '../../../data/caseSets/caseSetDataType';
 import { paths } from '../../../routes';
 import AllErrors from '../../forms/AllErrors';
-import AutoTextField from '../../forms/AutoTextField';
 import { validateAgainstSchema } from '../../forms/utils';
 import ConfirmationIconButton from '../../common/ConfirmationIconButton';
 import Fab from '../../common/Fab';
@@ -56,7 +56,7 @@ const CaseSetEditor: React.FC<CaseSetEditorProps> = ({ caseSet, saveCaseSet, del
         <Box margin={2}>
           <AllErrors />
 
-          <AutoTextField name="name" label="Case set name" type="text" autoComplete="off" />
+          {/* <AutoTextField name="name" label="Case set name" type="text" autoComplete="off" /> */}
         </Box>
 
         <List>
@@ -79,7 +79,6 @@ const CaseSetEditor: React.FC<CaseSetEditorProps> = ({ caseSet, saveCaseSet, del
                   <>
                     <ConfirmationIconButton
                       onConfirmed={(): void => {
-                        // todo: implement deleting cases
                         deleteCase(case_);
                       }}
                       color="darkred"
@@ -103,23 +102,17 @@ const CaseSetEditor: React.FC<CaseSetEditorProps> = ({ caseSet, saveCaseSet, del
                         <EditIcon />
                       </IconButton>
                     </LinkWrapper>
-
-                    {/* <LinkWrapper to={paths.simpleCaseEditor(caseSet.id, case_.id)}>
-                      <IconButton>
-                        <AdbIcon/>
-                      </IconButton>
-                    </LinkWrapper> */}
                   </>
                 </ListItemSecondaryAction>
               </ListItem>
             );
           })}
         </List>
-        {/* <Box padding={2}>
-          <LinkWrapper to={paths.addCase(caseSet.id)}>
+        <Box padding={2}>
+          <LinkWrapper to={paths.simpleCaseEditor(caseSet.id, 'new')}>
             <Button>Add case</Button>
           </LinkWrapper>
-        </Box> */}
+        </Box>
       </form>
     </FormProvider>
   );

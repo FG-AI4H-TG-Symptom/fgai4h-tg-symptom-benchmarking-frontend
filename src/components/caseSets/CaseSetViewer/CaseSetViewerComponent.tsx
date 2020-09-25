@@ -18,17 +18,17 @@ export interface CaseSetComponentProps {
 const CaseSetViewerComponent: React.FC<CaseSetComponentProps> = ({ caseSet, saveCaseSet, deleteCase }) => {
   const tabs: TabFactoryEntry[] = [
     {
-      id: 'table-view',
-      name: 'Table',
-      componentCallback: (): React.ReactElement => <CaseSetViewerTable caseSet={caseSet} />,
-      noPadding: true,
-    },
-    {
       id: 'editor',
       name: 'Editor',
       componentCallback: (): React.ReactElement => (
         <CaseSetEditor caseSet={caseSet} saveCaseSet={saveCaseSet} deleteCase={deleteCase} />
       ),
+      noPadding: true,
+    },
+    {
+      id: 'table-view',
+      name: 'Table',
+      componentCallback: (): React.ReactElement => <CaseSetViewerTable caseSet={caseSet} />,
       noPadding: true,
     },
     {

@@ -265,11 +265,21 @@ function* saveCaseWorker(action) {
   // const { caseSetId } = action.payload;
 
   console.log('action.payload', action.payload);
+
   const requestBody = aCase;
 
+  let url = urlBuilder(`cases/${aCase.id}`);
+  let method = 'PUT';
+
+  // if case has no id then this is a new case
+  if (!aCase.id) {
+    url = urlBuilder(`cases`);
+    method = 'POST';
+  }
+
   try {
-    const response: Response = yield fetch(urlBuilder(`cases/${aCase.id}`), {
-      method: 'PUT',
+    const response: Response = yield fetch(url, {
+      method: method,
       headers: {
         'Content-Type': 'application/json',
       },
