@@ -1,4 +1,4 @@
-import { FieldErrors, useFieldArray, useFormContext, Resolver } from 'react-hook-form';
+import { FieldErrors, useFieldArray, useFormContext, ValidationResolver } from 'react-hook-form';
 import { ValidateFunction } from 'ajv';
 
 import { usePrefix } from './PrefixContext';
@@ -65,7 +65,7 @@ export const sanitizeForId = (prefix: string): string => prefix.replace(/[.[\]'"
 export const validateAgainstSchema = <FormValues>(
   values,
   schemaValidator: ValidateFunction,
-): ReturnType<Resolver<FormValues>> => {
+): ReturnType<ValidationResolver<FormValues>> => {
   const valid = schemaValidator(values);
   if (valid) {
     return { values, errors: {} };

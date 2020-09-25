@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormProvider, useForm, Resolver } from 'react-hook-form';
+import { FormContext, useForm, ValidationResolver } from 'react-hook-form';
 import Ajv from 'ajv';
 
 import { Save as SaveIcon } from '@material-ui/icons';
@@ -32,7 +32,7 @@ const caseSchemaValidator = new Ajv({
     required: ['case'],
   });
 
-const validationResolver: Resolver<{ case: Case }> = (rawValues) => {
+const validationResolver: ValidationResolver<{ case: Case }> = (rawValues) => {
   // todo: replace by a flexible and efficient solution
   const values = extendWithModelInformationFromIds(rawValues);
   if (values.case.metaData?.description?.length === 0) {
@@ -74,12 +74,12 @@ const CaseEditorComponent: React.FC<CaseSetEditorProps> = ({ caseData }) => {
   const defaultValues = { case: { ...caseData.data } };
   // console.log('defaultValues', defaultValues);
   const { errors, handleSubmit, ...formMethods } = useForm({
-    resolver: validationResolver,
+    validationResolver: validationResolver,
     defaultValues: defaultValues,
   });
 
   return (
-    <FormProvider errors={errors} handleSubmit={handleSubmit} {...formMethods}>
+    <FormContext errors={errors} handleSubmit={handleSubmit} {...formMethods}>
       <form
       // onSubmit={handleSubmit((data: FormValues): void => {
       //   // saveCase({ ...caseData, data: data.case });
@@ -96,7 +96,7 @@ const CaseEditorComponent: React.FC<CaseSetEditorProps> = ({ caseData }) => {
           <CaseEditor />
         </AutoPrefix>
       </form>
-    </FormProvider>
+    </FormContext>
   );
 };
 

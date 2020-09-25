@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormProvider, useForm, Resolver } from 'react-hook-form';
+import { FormContext, useForm, ValidationResolver } from 'react-hook-form';
 import Ajv from 'ajv';
 import {
   Avatar,
@@ -31,7 +31,8 @@ const caseSetSchemaValidator = new Ajv({
   allErrors: true,
 }).compile(berlinModelSchema);
 
-const validationResolver: Resolver<CaseSetInfo> = (values) => validateAgainstSchema(values, caseSetSchemaValidator);
+const validationResolver: ValidationResolver<CaseSetInfo> = (values) =>
+  validateAgainstSchema(values, caseSetSchemaValidator);
 
 export interface CaseSetEditorProps {
   caseSet: any;
@@ -42,12 +43,12 @@ export interface CaseSetEditorProps {
 const CaseSetEditor: React.FC<CaseSetEditorProps> = ({ caseSet, saveCaseSet, deleteCase }) => {
   const { handleSubmit, errors, ...formMethods } = useForm<CaseSetInfo>({
     defaultValues: caseSet,
-    resolver: validationResolver,
-    context: caseSet,
+    validationResolver: validationResolver,
+    validationContext: caseSet,
   });
 
   return (
-    <FormProvider handleSubmit={handleSubmit} errors={errors} {...formMethods}>
+    <FormContext handleSubmit={handleSubmit} errors={errors} {...formMethods}>
       <form onSubmit={handleSubmit((data) => saveCaseSet({ ...caseSet, ...data }))}>
         <Fab label="Save" type="submit">
           <SaveIcon />
@@ -114,7 +115,7 @@ const CaseSetEditor: React.FC<CaseSetEditorProps> = ({ caseSet, saveCaseSet, del
           </LinkWrapper>
         </Box>
       </form>
-    </FormProvider>
+    </FormContext>
   );
 };
 

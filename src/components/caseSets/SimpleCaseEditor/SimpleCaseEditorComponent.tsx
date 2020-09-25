@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 
-import { useForm, FormProvider } from 'react-hook-form';
+import { useForm, FormContext } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { Box, Button } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
@@ -74,7 +74,7 @@ const CaseEditorComponent: React.FC<any> = ({ case_ }) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <FormProvider {...methods}>
+      <FormContext {...methods}>
         <MetaDataSection case_={aCase} errors={errors} />
 
         <CaseDataSection case_={aCase} possibleClinicalFindings={possibleClinicalFindings} />
@@ -86,7 +86,7 @@ const CaseEditorComponent: React.FC<any> = ({ case_ }) => {
             Submit
           </Button>
         </Box>
-      </FormProvider>
+      </FormContext>
     </form>
   );
 };
