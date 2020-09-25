@@ -56,8 +56,6 @@ const CaseSetEditor: React.FC<CaseSetEditorProps> = ({ caseSet, saveCaseSet, del
 
         <Box margin={2}>
           <AllErrors />
-
-          {/* <AutoTextField name="name" label="Case set name" type="text" autoComplete="off" /> */}
         </Box>
 
         <List>

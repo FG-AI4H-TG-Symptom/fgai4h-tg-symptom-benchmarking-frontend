@@ -6,11 +6,11 @@ import { Box, Button } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 
 import berlinModelSchema from '../../../data/caseSets/berlinModel.schema.json';
-import { refToConcept } from '../CaseEditor/utils';
+
 import MetaDataSection from './MetaDataSection';
 import CaseDataSection from './CaseDataSection';
 import ValuesToPredictSection from './ValuesToPredictSection';
-import { formatCaseForBackend } from './utility';
+import { formatCaseForBackend, refToConcept } from './utility';
 import { saveCase } from '../../../data/datasetDuck';
 
 // const defaultCase = {
