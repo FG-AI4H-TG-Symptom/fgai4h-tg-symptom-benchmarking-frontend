@@ -15,18 +15,18 @@ const BenchmarkEvaluatorComponent: React.FC<AiImplementationManagerComponentProp
   aiImplementations,
   datasets,
 }) => {
+  const datasetName = datasets.find((set) => set.id === evaluation.caseSet)?.name;
   return (
     <>
       <TableContainer component={Paper}>
         <Table>
           <caption>
-            {evaluation.aiImplementations.length} AI implementations, {evaluation.responses.length} cases,{' '}
-            {evaluation.metrics.length} metrics
+            {evaluation.aiImplementations.length} AI implementations, {datasetName} ({evaluation.responses.length}{' '}
+            cases), {evaluation.metrics.length} metrics
           </caption>
           <TableHead>
             <TableRow>
               <TableCell>AI implementation</TableCell>
-              <TableCell>Dataset</TableCell>
               {evaluation.metrics.map(({ id, name }) => (
                 <CommonStyled.CenteredTableCell key={id}>{name}</CommonStyled.CenteredTableCell>
               ))}
@@ -36,7 +36,6 @@ const BenchmarkEvaluatorComponent: React.FC<AiImplementationManagerComponentProp
             {evaluation.aiImplementations.map((aiImplementationId) => (
               <TableRow key={aiImplementationId}>
                 <TableCell>{aiImplementations.find((ai) => ai.id === aiImplementationId)?.name}</TableCell>
-                <TableCell>{datasets.find((set) => set.id === evaluation.caseSet)?.name}</TableCell>
                 {evaluation.metrics.map(({ id, aggregatedValues }) => (
                   <CommonStyled.CenteredTableCell key={id}>
                     {`${(aggregatedValues[aiImplementationId] * 100).toFixed(2)} %`}
