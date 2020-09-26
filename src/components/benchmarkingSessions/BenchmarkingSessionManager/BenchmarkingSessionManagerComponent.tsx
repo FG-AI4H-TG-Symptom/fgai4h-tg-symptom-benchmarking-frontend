@@ -25,6 +25,7 @@ import * as Styled from './BenchmarkingSessionManagerComponent.style';
 import * as CommonStyled from '../../common/CommonStyles';
 import BenchmarkingSessionStatusIcon from './BenchmarkingSessionStatusIcon';
 import ConfirmationIconButton from '../../common/ConfirmationIconButton';
+import formatDate from '../../../util/formatDate';
 
 const rowsPerPageOptions = [10, 20, 50, 100];
 
@@ -89,12 +90,12 @@ const BenchmarkingSessionManagerComponent: React.FC<any> = ({
                         {aiImplementations.length} AI implementations
                       </CommonStyled.SecondaryTextInCell>
                     </TableCell>
-                    <TableCell>{date.toLocaleDateString()}</TableCell>
+                    <TableCell>{formatDate(date)}</TableCell>
 
                     <TableCell>
                       <ul>
                         {aiImplementations.map((aiID) => (
-                          <li key={aiID}>{AIs.find((ai_) => ai_.id === aiID).name}</li>
+                          <li key={aiID}>{AIs.find((ai_) => ai_.id === aiID)?.name}</li>
                         ))}
                       </ul>
                     </TableCell>

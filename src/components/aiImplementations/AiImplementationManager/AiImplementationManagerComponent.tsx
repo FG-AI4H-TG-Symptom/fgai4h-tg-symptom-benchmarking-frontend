@@ -18,6 +18,7 @@ import ConfirmationIconButton from '../../common/ConfirmationIconButton';
 import AiImplementationHealthComponent from './AiImplementationHealthComponent';
 import { paths } from '../../../routes';
 import LinkWrapper from '../../common/LinkWrapper';
+import formatDate from '../../../util/formatDate';
 
 interface AiImplementationManagerComponentProps {
   aiImplementations: any[];
@@ -58,7 +59,7 @@ const AiImplementationManagerComponent: React.FC<AiImplementationManagerComponen
                       </Typography>
                     </div>
                   </TableCell>
-                  <TableCell>{date.toLocaleDateString()}</TableCell>
+                  <TableCell>{formatDate(date)}</TableCell>
                   <TableCell>
                     <AiImplementationHealthComponent health={health} />
                   </TableCell>
