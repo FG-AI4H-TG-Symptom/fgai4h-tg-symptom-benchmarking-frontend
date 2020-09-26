@@ -34,7 +34,11 @@ const BenchmarkEvaluatorContainer: React.FC = () => {
   return (
     <BasicPageLayout title="Benchmark evaluation">
       {evaluation && (
-        <BenchmarkEvaluatorComponent evaluation={evaluation} aiImplementations={AIs.list} datasets={datasets} />
+        <BenchmarkEvaluatorComponent
+          evaluation={evaluation}
+          aiImplementations={AIs.list.slice().sort((a, b) => a.name.localeCompare(b.name))}
+          datasets={datasets}
+        />
       )}
 
       <Box display="flex" justifyContent="flex-end" marginTop={4}>
