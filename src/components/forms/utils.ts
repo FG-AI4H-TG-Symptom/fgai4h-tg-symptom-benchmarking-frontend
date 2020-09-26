@@ -1,4 +1,4 @@
-import { FieldErrors, ValidationResolver } from 'react-hook-form';
+import { FieldErrors, Resolver } from 'react-hook-form';
 import { ValidateFunction } from 'ajv';
 
 export const errorsInChildren = <FormValuesType>(
@@ -33,7 +33,7 @@ export const sanitizeForId = (prefix: string): string => prefix.replace(/[.[\]'"
 export const validateAgainstSchema = <FormValues>(
   values,
   schemaValidator: ValidateFunction,
-): ReturnType<ValidationResolver<FormValues>> => {
+): ReturnType<Resolver<FormValues>> => {
   const valid = schemaValidator(values);
   if (valid) {
     return { values, errors: {} };
