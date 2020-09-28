@@ -101,7 +101,7 @@ const MiniDrawer: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             <MenuIcon />
           </IconButton>
           <Styled.Title id="app-title">{title}</Styled.Title>
-          &quot;Symptom assessment&quot; FG MMVB for AI4H (WHO/ITU)
+          &quot;Symptom assessment&quot; FG MMVB for AI4H (ITU/WHO)
           <Styled.Logo src={logo} alt="FG AI4H logo" />
         </Toolbar>
       </AppBar>

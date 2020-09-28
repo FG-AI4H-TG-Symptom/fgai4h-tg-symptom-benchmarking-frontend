@@ -18,6 +18,7 @@ import ConfirmationIconButton from '../../common/ConfirmationIconButton';
 import AiImplementationHealthComponent from './AiImplementationHealthComponent';
 import { paths } from '../../../routes';
 import LinkWrapper from '../../common/LinkWrapper';
+import formatDate from '../../../util/formatDate';
 
 interface AiImplementationManagerComponentProps {
   aiImplementations: any[];
@@ -39,15 +40,17 @@ const AiImplementationManagerComponent: React.FC<AiImplementationManagerComponen
             <TableRow>
               <TableCell>AI Implementation</TableCell>
               <TableCell>Created On</TableCell>
+              <TableCell>Modified On</TableCell>
               <TableCell>Health</TableCell>
               <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {aiImplementations.map(({ id, name, createdOn }) => {
+            {aiImplementations.map(({ id, name, createdOn, modifiedOn }) => {
               const health = aisHealth ? aisHealth[id] : null;
 
-              const date = new Date(createdOn);
+              const createdOnStr = formatDate(new Date(createdOn));
+              const modifiedOnStr = formatDate(new Date(modifiedOn));
               return (
                 <TableRow key={id}>
                   <TableCell>
@@ -58,7 +61,8 @@ const AiImplementationManagerComponent: React.FC<AiImplementationManagerComponen
                       </Typography>
                     </div>
                   </TableCell>
-                  <TableCell>{date.toLocaleDateString()}</TableCell>
+                  <TableCell>{createdOnStr}</TableCell>
+                  <TableCell>{modifiedOnStr}</TableCell>
                   <TableCell>
                     <AiImplementationHealthComponent health={health} />
                   </TableCell>

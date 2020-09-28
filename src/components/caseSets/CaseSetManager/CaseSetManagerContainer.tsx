@@ -43,7 +43,10 @@ const CaseSetManagerContainer: React.FC = () => {
 
   return (
     <BasicPageLayout title="Case sets">
-      <CaseSetManagerComponent datasetsList={datasetsList} deleteCaseSet={deleteCaseSet} />
+      <CaseSetManagerComponent
+        datasetsList={datasetsList.slice().sort((a, b) => a.name.localeCompare(b.name))}
+        deleteCaseSet={deleteCaseSet}
+      />
 
       <Box display="flex" justifyContent="flex-end" mt={2}>
         <Box>

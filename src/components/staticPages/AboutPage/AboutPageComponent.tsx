@@ -15,7 +15,7 @@ const AboutPageComponent: React.FC = () => {
       </Styled.LogoWrapper>
 
       <Typography variant="h1" align="center">
-        &quot;Symptom assessment&quot; FG MMVB for AI4H (WHO/ITU)
+        &quot;Symptom assessment&quot; FG MMVB for AI4H (ITU/WHO)
       </Typography>
       <Box marginTop={2} marginBottom={2}>
         <Typography gutterBottom align="center">

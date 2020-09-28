@@ -103,7 +103,9 @@ const slice = createSlice({
     },
     // Create CaseSet
     createCaseSet: (datasets, action) => {},
-    createCaseSetSuccess: (datasets, action) => {},
+    createCaseSetSuccess: (datasets, action) => {
+      datasets.list.push(action.payload);
+    },
     createCaseSetFailure: (datasets, action) => {
       datasets.error = action.payload;
     },

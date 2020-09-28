@@ -26,7 +26,7 @@ const AiImplementationManagerContainer: React.FC = () => {
   return (
     <BasicPageLayout title="AI implementations">
       <AiImplementationManagerComponent
-        aiImplementations={aisList}
+        aiImplementations={aisList.slice().sort((a, b) => a.name.localeCompare(b.name))}
         aisHealth={aisHealth}
         deleteAiImplementation={deleteAiImplementation}
       />

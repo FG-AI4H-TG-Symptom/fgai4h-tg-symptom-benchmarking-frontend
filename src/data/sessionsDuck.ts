@@ -33,7 +33,9 @@ const slice = createSlice({
     },
     // Add Session
     addSession: (sessions, action) => {},
-    addSessionSuccess: (sessions, action) => {},
+    addSessionSuccess: (sessions, action) => {
+      sessions.list.push(action.payload);
+    },
     addSessionFailure: (sessions, action) => {
       sessions.error = action.payload;
     },

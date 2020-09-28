@@ -44,6 +44,9 @@ const slice = createSlice({
       AIs.loading = true;
     },
     updateAISuccess: (AIs, action) => {
+      const { updatedAI } = action.payload;
+      const foundIndex = AIs.list.findIndex((x) => x.id === updatedAI.id);
+      AIs.list[foundIndex] = updatedAI;
       AIs.error = null;
       AIs.loading = false;
     },
@@ -61,7 +64,9 @@ const slice = createSlice({
     },
     // add AI
     addAI: (AIs, action) => {},
-    addAISuccess: (AIs, action) => {},
+    addAISuccess: (AIs, action) => {
+      AIs.list.push(action.payload);
+    },
     addAIFailure: (AIs, action) => {
       AIs.error = action.payload;
     },
