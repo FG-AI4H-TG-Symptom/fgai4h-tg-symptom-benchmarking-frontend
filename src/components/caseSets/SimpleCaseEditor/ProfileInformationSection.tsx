@@ -10,7 +10,7 @@ import berlinModelSchema from '../../../data/caseSets/berlinModel.schema.json';
 import { getPlainOptions } from './utility';
 
 const ProfileInformationSection: React.FC<any> = ({ case_ }) => {
-  const { register } = useFormContext();
+  const { register, errors } = useFormContext();
 
   return (
     <FormBlock color="#a6a6f7" title="Profile information">
@@ -18,19 +18,14 @@ const ProfileInformationSection: React.FC<any> = ({ case_ }) => {
         <Grid item xs={3} md={2} lg={1}>
           <TextField
             inputRef={register({
-              // required: "Name is required",
-              // minLength: {
-              //   value: 6,
-              //   message: "Name should be longer than 6 characters",
-              // },
+              required: 'This field is required',
             })}
-            defaultValue={case_.data.caseData.profileInformation.age}
+            defaultValue={case_?.data?.caseData?.profileInformation?.age || ''}
             name="caseData.profileInformation.age"
             label="Age"
             type="number"
-            // error={Boolean(errors.caseCreator)}
-            // helperText={errors.caseCreator && errors.caseCreator.message}
-            // fullWidth
+            error={!!errors?.caseData?.profileInformation?.age}
+            helperText={errors?.caseData?.profileInformation?.age?.message}
           />
         </Grid>
 
@@ -41,7 +36,7 @@ const ProfileInformationSection: React.FC<any> = ({ case_ }) => {
             name="caseData.profileInformation.biologicalSex"
             label="Biological sex"
             options={getPlainOptions(berlinModelSchema.definitions.biologicalSex.enum)}
-            defaultValue={case_.data.caseData.profileInformation.biologicalSex}
+            defaultValue={case_?.data?.caseData?.profileInformation?.biologicalSex || ''}
           />
         </Grid>
       </Grid>

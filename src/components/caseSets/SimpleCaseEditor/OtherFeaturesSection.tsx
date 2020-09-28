@@ -33,8 +33,6 @@ const selectFinding = (newId, sectionState, fieldId, possibleClinicalFindings) =
 };
 
 const OtherFeaturesSection: React.FC<any> = ({ case_, possibleClinicalFindings }) => {
-  const { otherFeatures } = case_.data.caseData;
-
   const [sectionState, setSectionState] = useState({
     otherFeatures: [],
     availableFindings: [],
@@ -42,11 +40,19 @@ const OtherFeaturesSection: React.FC<any> = ({ case_, possibleClinicalFindings }
 
   // initial state set up
   useEffect(() => {
-    let preselectedOtherFeatures = case_.data.caseData.otherFeatures;
+    const otherFeatures = case_?.data?.caseData?.otherFeatures;
 
     if (!otherFeatures) {
+      // set initial for empty case
+      const initialState = {
+        otherFeatures: [],
+        availableFindings: possibleClinicalFindings,
+      };
+      setSectionState(initialState);
       return;
     }
+
+    let preselectedOtherFeatures = otherFeatures || [];
 
     const preselectedFindingIds = preselectedOtherFeatures.map((finding) => finding.id);
     const nonTakenFindings = possibleClinicalFindings.filter((finding) => !preselectedFindingIds.includes(finding.id));
@@ -102,6 +108,8 @@ const OtherFeaturesSection: React.FC<any> = ({ case_, possibleClinicalFindings }
   return (
     <FormBlock color="#e491e8" title="Other Features">
       {sectionState.otherFeatures.map((clinicalFinding, index) => {
+        console.log('sectionState', sectionState);
+
         const magicName = `caseData.otherFeatures[${index}]`;
 
         let possibleFindings = [...sectionState.availableFindings];

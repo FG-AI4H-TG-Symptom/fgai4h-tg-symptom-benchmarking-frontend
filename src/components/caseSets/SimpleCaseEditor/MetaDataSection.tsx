@@ -2,8 +2,16 @@ import { Card, CardHeader, CardContent, TextField } from '@material-ui/core';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
-const MetaDataSection: React.FC<any> = ({ case_, errors }) => {
-  const { register } = useFormContext();
+const caseCreatorValidation = {
+  required: 'Creator Name is required',
+  minLength: {
+    value: 6,
+    message: 'Creator Name should at least 6 characters',
+  },
+};
+
+const MetaDataSection: React.FC<any> = ({ case_ }) => {
+  const { register, errors } = useFormContext();
 
   return (
     <Card>
@@ -11,36 +19,24 @@ const MetaDataSection: React.FC<any> = ({ case_, errors }) => {
       <CardContent>
         <TextField
           style={{ marginBottom: '10px' }}
-          inputRef={register({
-            required: 'Name is required',
-            minLength: {
-              value: 6,
-              message: 'Name should be longer than 6 characters',
-            },
-          })}
-          defaultValue={case_.data.metaData.name}
+          inputRef={register()}
+          defaultValue={case_?.data?.metaData?.name || ''}
           name="metaData.name"
           label="Case Name"
           type="text"
-          error={Boolean(errors.name)}
-          helperText={errors.name && errors.name.message}
+          error={Boolean(errors.metaData?.name)}
+          helperText={errors.metaData?.name && errors.metaData.name.message}
           fullWidth
         />
 
         <TextField
-          inputRef={register({
-            required: 'Name is required',
-            minLength: {
-              value: 6,
-              message: 'Name should be longer than 6 characters',
-            },
-          })}
-          defaultValue={case_.data.metaData.caseCreator}
+          inputRef={register(caseCreatorValidation)}
+          defaultValue={case_?.data?.metaData?.caseCreator || ''}
           name="metaData.caseCreator"
           label="Case creator"
           type="text"
-          error={Boolean(errors.caseCreator)}
-          helperText={errors.caseCreator && errors.caseCreator.message}
+          error={Boolean(errors.metaData?.caseCreator)}
+          helperText={errors.metaData?.caseCreator && errors.metaData.caseCreator.message}
           fullWidth
         />
       </CardContent>

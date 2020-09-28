@@ -8,8 +8,14 @@ const PresentingComplaintSection: React.FC<any> = ({ case_, possibleClinicalFind
   const [clinicalFinding, setClinicalFinding] = useState(null);
 
   useEffect(() => {
-    setClinicalFinding(case_.data.caseData.presentingComplaints[0]);
-  }, []);
+    let initialFinding = { id: '', state: '' };
+
+    if (case_) {
+      initialFinding = case_.data.caseData.presentingComplaints[0];
+    }
+
+    setClinicalFinding(initialFinding);
+  }, [case_]);
 
   return (
     <FormBlock name="presentingComplaints" color="#67c567" title="Presenting complaint">

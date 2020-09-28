@@ -13,7 +13,8 @@ const ValuesToPredictSection: React.FC<any> = ({ case_, possibleConditions }) =>
 
   // fill chosen conditionds according to preselected ones
   useEffect(() => {
-    const { otherRelevantDifferentials, impossibleConditions } = case_.data.valuesToPredict;
+    const otherRelevantDifferentials = case_?.data.valuesToPredict.otherRelevantDifferentials || [];
+    const impossibleConditions = case_?.data.valuesToPredict.impossibleConditions || [];
 
     const impossibleIds = impossibleConditions.map((cond) => cond.id);
     const otherRelevantIds = otherRelevantDifferentials.map((cond) => cond.id);
@@ -54,7 +55,7 @@ const ValuesToPredictSection: React.FC<any> = ({ case_, possibleConditions }) =>
           name={`valuesToPredict.expectedTriageLevel`}
           label="Triage Level"
           options={triageOptions}
-          defaultValue={case_.data.valuesToPredict.expectedTriageLevel}
+          defaultValue={case_?.data.valuesToPredict.expectedTriageLevel || ''}
         />
 
         <div style={{ marginTop: '30px' }}>
@@ -65,7 +66,7 @@ const ValuesToPredictSection: React.FC<any> = ({ case_, possibleConditions }) =>
               name={`valuesToPredict.expectedCondition.id`}
               label="Condition"
               options={getSelectOptions(possibleConditions)}
-              defaultValue={case_.data.valuesToPredict.expectedCondition.id}
+              defaultValue={case_?.data.valuesToPredict.expectedCondition.id || ''}
             />
           </FormBlock>
         </div>
@@ -78,7 +79,7 @@ const ValuesToPredictSection: React.FC<any> = ({ case_, possibleConditions }) =>
               name={`valuesToPredict.correctCondition.id`}
               label="Condition"
               options={getSelectOptions(possibleConditions)}
-              defaultValue={case_.data.valuesToPredict.correctCondition.id}
+              defaultValue={case_?.data.valuesToPredict.correctCondition.id || ''}
             />
           </FormBlock>
         </div>
@@ -87,7 +88,7 @@ const ValuesToPredictSection: React.FC<any> = ({ case_, possibleConditions }) =>
           <FormBlock color="#67c567" title={`Other Relevant Differentials ${counterText}`}>
             <MultiFieldSelect
               availableItems={availableConditions}
-              preselectedItems={case_.data.valuesToPredict.otherRelevantDifferentials}
+              preselectedItems={case_?.data.valuesToPredict.otherRelevantDifferentials || []}
               magicName={'valuesToPredict.otherRelevantDifferentials'}
               onChange={onConditionSelected}
               possibleItems={possibleConditions}
@@ -101,7 +102,7 @@ const ValuesToPredictSection: React.FC<any> = ({ case_, possibleConditions }) =>
           <FormBlock color="#67c567" title={`Impossible Conditions ${counterText}`}>
             <MultiFieldSelect
               availableItems={availableConditions}
-              preselectedItems={case_.data.valuesToPredict.impossibleConditions}
+              preselectedItems={case_?.data.valuesToPredict.impossibleConditions || []}
               magicName={'valuesToPredict.impossibleConditions'}
               onChange={onConditionSelected}
               possibleItems={possibleConditions}

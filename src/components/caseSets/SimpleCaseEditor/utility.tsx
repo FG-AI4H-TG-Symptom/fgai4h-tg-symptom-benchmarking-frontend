@@ -197,3 +197,32 @@ export const formatCaseForBackend = (data, possibleConditions, caseSets, possibl
 
   return result;
 };
+
+export const getErrorMessage = (name, errors) => {
+  const names = name.split('.');
+
+  let result = errors;
+
+  for (let i = 0; i < names.length; i++) {
+    const aName = names[i];
+    const isArray = aName.includes('[');
+
+    if (!result) {
+      return null;
+    }
+    if (!result[aName] && !isArray) {
+      return null;
+    }
+
+    if (isArray) {
+      const arrayName = aName.split('[')[0];
+      let index = aName.substring(aName.lastIndexOf('[') + 1, aName.lastIndexOf(']'));
+      index = Number(index);
+      result = result[arrayName] ? result[arrayName][index] : null;
+    } else {
+      result = result[aName];
+    }
+  }
+
+  return result.message;
+};
