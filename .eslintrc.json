@@ -32,6 +32,9 @@
     "ServiceWorkerRegistration": true
   },
   "rules": {
+    "no-plusplus": "off",
+    "no-unused-vars": "warn",
+    "prefer-destructuring" : "off",
     "operator-assignment": "off",
     "no-shadow": "off",
     "import/extensions": "off",

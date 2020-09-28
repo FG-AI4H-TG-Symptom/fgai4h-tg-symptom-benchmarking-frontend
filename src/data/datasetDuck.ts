@@ -262,42 +262,42 @@ function* saveDatasetWorker(action) {
 }
 
 function* saveCaseWorker(action) {
-  const { caseData, metaData, valuesToPredict } = action.payload.data;
-  const { caseSetId } = action.payload;
+  const aCase = action.payload;
+  // const { caseData, metaData, valuesToPredict } = action.payload.data;
+  // const { caseSetId } = action.payload;
 
-  console.log('action.payload.data', action.payload.data);
-  yield;
-  // replace once berlin model is supported everywhere
-  //   const requestBody = {
-  //     data: {
-  //       caseData: { ...caseData, metaData: metaData },
-  //       valuesToPredict: {
-  //         ...valuesToPredict,
-  //         condition: valuesToPredict.correctCondition,
-  //       },
-  //     },
-  //     caseSets: [caseSetId],
-  //   };
+  console.log('aCase', aCase);
 
-  //   try {
-  //     const response: Response = yield fetch(urlBuilder("cases"), {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(requestBody),
-  //     });
+  const requestBody = aCase;
 
-  //     if (!response.ok) {
-  //       throw new Error(httpResponseErrorMessage(response));
-  //     }
+  let url = urlBuilder(`cases/${aCase.id}`);
+  let method = 'PUT';
 
-  //     const savedCase = yield response.json();
+  // if case has no id then this is a new case
+  if (aCase.id === 'new') {
+    url = urlBuilder(`cases`);
+    method = 'POST';
+  }
 
-  //     yield put(saveCaseSuccess(savedCase));
-  //   } catch (error) {
-  //     yield put(saveCaseFailure(`Failed to create case set: ${error.message}`));
-  //   }
+  try {
+    const response: Response = yield fetch(url, {
+      method: method,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestBody),
+    });
+
+    if (!response.ok) {
+      throw new Error(httpResponseErrorMessage(response));
+    }
+
+    const savedCase = yield response.json();
+
+    yield put(saveCaseSuccess(savedCase));
+  } catch (error) {
+    yield put(saveCaseFailure(`Failed to create case set: ${error.message}`));
+  }
 }
 
 function* deleteCaseWorker(action) {

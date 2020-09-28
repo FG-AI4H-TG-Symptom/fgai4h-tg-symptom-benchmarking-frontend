@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core';
 import { Check as CheckIcon, Clear as ClearIcon } from '@material-ui/icons';
 
-import { CaseSetInfo } from '../../../data/caseSets/caseSetDataType';
+// import { CaseSetInfo } from '../../../data/caseSets/caseSetDataType';
 import { ClinicalFindingState } from '../../../data/caseSets/berlinModelTypes';
 import TextWithTooltipSelf from '../../common/TextWithTooltipSelf';
 
@@ -24,7 +24,7 @@ const PresenceIcon: React.FC<{ presence: ClinicalFindingState }> = ({ presence }
 const rowsPerPageOptions = [10, 20, 50, 100];
 
 export interface CaseSetComponentProps {
-  caseSet: CaseSetInfo;
+  caseSet: any;
 }
 
 const CaseSetViewerTable: React.FC<CaseSetComponentProps> = ({ caseSet: { cases } }) => {
@@ -54,8 +54,8 @@ const CaseSetViewerTable: React.FC<CaseSetComponentProps> = ({ caseSet: { cases 
             <TableRow>
               <Styled.CaseIdCell>Case ID</Styled.CaseIdCell>
               <TableCell>Case creator</TableCell>
-              <TableCell>Description</TableCell>
-              <TableCell>Spreadsheet case ID</TableCell>
+              {/* <TableCell>Description</TableCell> */}
+              {/* <TableCell>Spreadsheet case ID</TableCell> */}
               <TableCell>Age</TableCell>
               <TableCell>Biological sex</TableCell>
               <TableCell>Presenting complaints</TableCell>
@@ -78,9 +78,11 @@ const CaseSetViewerTable: React.FC<CaseSetComponentProps> = ({ caseSet: { cases 
                     {/* {metaData.caseCreator} */}
                   </TableCell>
 
-                  <Styled.CaseDescriptionCell>
-                    <TextWithTooltipSelf>{metaData?.description}</TextWithTooltipSelf>
-                  </Styled.CaseDescriptionCell>
+                  {/* <Styled.CaseDescriptionCell>
+                      <TextWithTooltipSelf>
+                        {metaData?.description}
+                      </TextWithTooltipSelf>
+                    </Styled.CaseDescriptionCell> */}
 
                   <TableCell>{metaData?.spreadsheetCaseId}</TableCell>
                   <TableCell>{caseData.profileInformation.age}</TableCell>

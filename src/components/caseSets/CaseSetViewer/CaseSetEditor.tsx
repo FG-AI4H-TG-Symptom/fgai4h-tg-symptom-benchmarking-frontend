@@ -1,10 +1,10 @@
 import React from 'react';
-import { FormProvider, useForm, Resolver } from 'react-hook-form';
+import { FormContext, useForm, ValidationResolver } from 'react-hook-form';
 import Ajv from 'ajv';
 import {
   Avatar,
   Box,
-  // Button,
+  Button,
   IconButton,
   List,
   ListItem,
@@ -14,17 +14,14 @@ import {
 } from '@material-ui/core';
 import { Delete as DeleteIcon, Edit as EditIcon, LinkOff as UnlinkIcon, Save as SaveIcon } from '@material-ui/icons';
 
-// import AdbIcon from '@material-ui/icons/Adb';
-
 import berlinModelSchema from '../../../data/caseSets/berlinModel.schema.json';
 import { CaseSetInfo } from '../../../data/caseSets/caseSetDataType';
-// import { paths } from "../../../routes";
+import { paths } from '../../../routes';
 import AllErrors from '../../forms/AllErrors';
-import AutoTextField from '../../forms/AutoTextField';
 import { validateAgainstSchema } from '../../forms/utils';
 import ConfirmationIconButton from '../../common/ConfirmationIconButton';
 import Fab from '../../common/Fab';
-// import LinkWrapper from "../../common/LinkWrapper";
+import LinkWrapper from '../../common/LinkWrapper';
 
 // we're not editing the cases in this form, so it's easiest to remove them from the schema
 delete berlinModelSchema.properties.cases;
@@ -34,7 +31,8 @@ const caseSetSchemaValidator = new Ajv({
   allErrors: true,
 }).compile(berlinModelSchema);
 
-const validationResolver: Resolver<CaseSetInfo> = (values) => validateAgainstSchema(values, caseSetSchemaValidator);
+const validationResolver: ValidationResolver<CaseSetInfo> = (values) =>
+  validateAgainstSchema(values, caseSetSchemaValidator);
 
 export interface CaseSetEditorProps {
   caseSet: any;
@@ -45,12 +43,12 @@ export interface CaseSetEditorProps {
 const CaseSetEditor: React.FC<CaseSetEditorProps> = ({ caseSet, saveCaseSet, deleteCase }) => {
   const { handleSubmit, errors, ...formMethods } = useForm<CaseSetInfo>({
     defaultValues: caseSet,
-    resolver: validationResolver,
-    context: caseSet,
+    validationResolver: validationResolver,
+    validationContext: caseSet,
   });
 
   return (
-    <FormProvider handleSubmit={handleSubmit} errors={errors} {...formMethods}>
+    <FormContext handleSubmit={handleSubmit} errors={errors} {...formMethods}>
       <form onSubmit={handleSubmit((data) => saveCaseSet({ ...caseSet, ...data }))}>
         <Fab label="Save" type="submit">
           <SaveIcon />
@@ -58,8 +56,6 @@ const CaseSetEditor: React.FC<CaseSetEditorProps> = ({ caseSet, saveCaseSet, del
 
         <Box margin={2}>
           <AllErrors />
-
-          <AutoTextField name="name" label="Case set name" type="text" autoComplete="off" />
         </Box>
 
         <List>
@@ -82,7 +78,6 @@ const CaseSetEditor: React.FC<CaseSetEditorProps> = ({ caseSet, saveCaseSet, del
                   <>
                     <ConfirmationIconButton
                       onConfirmed={(): void => {
-                        // todo: implement deleting cases
                         deleteCase(case_);
                       }}
                       color="darkred"
@@ -101,30 +96,24 @@ const CaseSetEditor: React.FC<CaseSetEditorProps> = ({ caseSet, saveCaseSet, del
                       <UnlinkIcon />
                     </ConfirmationIconButton>
 
-                    {/* <LinkWrapper to={paths.caseEditor(caseSet.id, case_.id)}> */}
-                    <IconButton disabled>
-                      <EditIcon />
-                    </IconButton>
-                    {/* </LinkWrapper> */}
-
-                    {/* <LinkWrapper to={paths.simpleCaseEditor(caseSet.id, case_.id)}>
+                    <LinkWrapper to={paths.simpleCaseEditor(caseSet.id, case_.id)}>
                       <IconButton>
-                        <AdbIcon/>
+                        <EditIcon />
                       </IconButton>
-                    </LinkWrapper> */}
+                    </LinkWrapper>
                   </>
                 </ListItemSecondaryAction>
               </ListItem>
             );
           })}
         </List>
-        {/* <Box padding={2}>
-          <LinkWrapper to={paths.addCase(caseSet.id)}>
+        <Box padding={2}>
+          <LinkWrapper to={paths.simpleCaseEditor(caseSet.id, 'new')}>
             <Button>Add case</Button>
           </LinkWrapper>
-        </Box> */}
+        </Box>
       </form>
-    </FormProvider>
+    </FormContext>
   );
 };
 

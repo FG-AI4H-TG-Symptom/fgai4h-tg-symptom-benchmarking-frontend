@@ -20,8 +20,7 @@ import BenchmarkRunner from './components/benchmarkingSessions/BenchmarkRunner';
 import BenchmarkCreator from './components/benchmarkingSessions/BenchmarkCreator';
 import BenchmarkEvaluator from './components/benchmarkingSessions/BenchmarkEvaluator';
 import BenchmarkingSessionManager from './components/benchmarkingSessions/BenchmarkingSessionManager';
-import CaseEditor from './components/caseSets/CaseEditor';
-import AddCase from './components/caseSets/addCase';
+import SimpleCaseEditor from './components/caseSets/SimpleCaseEditor';
 
 const AI_IMPLEMENTATIONS_PATH = 'ai-implementations';
 const CASE_SETS_PATH = 'case-sets';
@@ -37,8 +36,10 @@ export const paths = {
     `/${AI_IMPLEMENTATIONS_PATH}/edit/${aiImplementationId}`,
   caseSetManager: (): string => `/${CASE_SETS_PATH}`,
   caseSetViewer: (caseSetId: string): string => `/${CASE_SETS_PATH}/${caseSetId}`, // /cases/:caseSetId
-  caseEditor: (caseSetId: string, caseId: string): string => `/${CASE_SETS_PATH}/${caseSetId}/edit/${caseId}`, // /cases/:caseSetId/edit/:caseId
-  addCase: (caseSetId: string): string => `/${CASE_SETS_PATH}/${caseSetId}/add`, // /cases/:caseSetId/add,
+
+  simpleCaseEditor: (caseSetId: string, caseId: string): string =>
+    `/${CASE_SETS_PATH}/${caseSetId}/simple_edit/${caseId}`, // /cases/:caseSetId/edit/:caseId
+
   caseSetGenerator: (): string => `/${CASE_SETS_PATH}/generate`,
   datasetCreator: (): string => `/${CASE_SETS_PATH}/create`,
   benchmarkingSessions: (): string => `/${BENCHMARKING_SESSIONS_PATH}`,
@@ -141,22 +142,16 @@ export const routes: Array<Route> = [
     exact: true,
     visibleInMenu: false,
   },
+
   {
-    id: 'case-set-case-editor',
-    displayName: 'Case editor',
-    path: paths.caseEditor(':caseSetId', ':caseId'),
-    component: CaseEditor,
+    id: 'simple-case-editor',
+    displayName: 'Simple Case editor',
+    path: paths.simpleCaseEditor(':caseSetId', ':caseId'),
+    component: SimpleCaseEditor,
     exact: true,
     visibleInMenu: false,
   },
-  {
-    id: 'add-case',
-    displayName: 'Add Case',
-    path: paths.addCase(':caseSetId'),
-    component: AddCase,
-    exact: true,
-    visibleInMenu: false,
-  },
+
   {
     id: 'benchmarking-sessions-manager',
     displayName: 'Benchmarking sessions manager',

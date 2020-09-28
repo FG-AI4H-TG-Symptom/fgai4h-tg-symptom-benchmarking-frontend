@@ -1,20 +1,19 @@
-import { applyMiddleware, createStore, Store } from "redux";
-import createSagaMiddleware from "redux-saga";
-import logger from "redux-logger";
-import { composeWithDevTools } from "redux-devtools-extension";
+import { applyMiddleware, createStore, Store } from 'redux';
+import createSagaMiddleware from 'redux-saga';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
-import reducers from "./data/rootReducer";
+import reducers from './data/rootReducer';
 
-import { rootAiSaga } from "./data/aiDuck";
-import { rootDatasetsSaga } from "./data/datasetDuck";
-import { rootSessionsSaga } from "./data/sessionsDuck";
+import { rootAiSaga } from './data/aiDuck';
+import { rootDatasetsSaga } from './data/datasetDuck';
+import { rootSessionsSaga } from './data/sessionsDuck';
 
 export default function configureStore(): Store {
   const sagaMiddleware = createSagaMiddleware();
   const middlewares = [sagaMiddleware];
 
-  if (process.env.NODE_ENV === "development") {
-    middlewares.push(logger);
+  if (process.env.NODE_ENV === 'development') {
+    // middlewares.push(logger);
   }
 
   const composeEnhancers = composeWithDevTools({
@@ -24,9 +23,9 @@ export default function configureStore(): Store {
   const store = createStore(
     reducers,
     /* preloadedState, */ composeEnhancers(
-      applyMiddleware(...middlewares)
+      applyMiddleware(...middlewares),
       // other store enhancers if any
-    )
+    ),
   );
 
   sagaMiddleware.run(rootAiSaga);
