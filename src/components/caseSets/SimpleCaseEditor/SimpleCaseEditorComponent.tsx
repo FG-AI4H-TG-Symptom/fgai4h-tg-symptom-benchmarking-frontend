@@ -1,48 +1,16 @@
 import React, { useMemo } from 'react';
 
 import { useForm, FormContext } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
 import { Box, Button } from '@material-ui/core';
-import { useHistory } from 'react-router-dom';
 
 import berlinModelSchema from '../../../data/caseSets/berlinModel.schema.json';
 
 import MetaDataSection from './MetaDataSection';
 import CaseDataSection from './CaseDataSection';
 import ValuesToPredictSection from './ValuesToPredictSection';
-import { formatCaseForBackend, refToConcept } from './utility';
-import { saveCase } from '../../../data/datasetDuck';
+import { refToConcept } from './utility';
 
-// const defaultCase = {
-//   id: '',
-//   data: {
-//     caseData: {
-//       otherFeatures: [],
-//       profileInformation: {
-//         age: 0,
-//         biologicalSex: '',
-//       },
-//       presentingComplaints: [],
-//     },
-//     metaData: {
-//       name: '',
-//       caseCreator: '',
-//     },
-//     valuesToPredict: {
-//       correctCondition: {},
-//       expectedCondition: {},
-//       expectedTriageLevel: '',
-//       impossibleConditions: [],
-//       otherRelevantDifferentials: [],
-//     },
-//   },
-//   caseSets: [],
-// };
-
-const CaseEditorComponent: React.FC<any> = ({ case_ }) => {
-  const dispatch = useDispatch();
-  const history = useHistory();
-
+const SimpleCaseEditorComponent: React.FC<any> = ({ case_, onSaveCase }) => {
   const possibleClinicalFindings = useMemo(
     () => berlinModelSchema.definitions.clinicalFinding.oneOf.map(({ $ref }) => refToConcept($ref)),
     [],
@@ -53,33 +21,21 @@ const CaseEditorComponent: React.FC<any> = ({ case_ }) => {
     [],
   );
 
-  const aCase = case_;
-  // if (!aCase) {
-  //   aCase = defaultCase;
-  // }
-  console.log('case_', aCase);
-
   const methods = useForm();
   const { handleSubmit, errors } = methods;
 
   const onSubmit = (data) => {
-    const { caseSets, id } = aCase;
-
-    const formattedCase = formatCaseForBackend(data, possibleConditions, caseSets, possibleClinicalFindings, id);
-
-    dispatch(saveCase(formattedCase));
-    history.goBack();
-    console.log('####submitted', formattedCase);
+    onSaveCase(data, case_);
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <FormContext {...methods}>
-        <MetaDataSection case_={aCase} errors={errors} />
+        <MetaDataSection case_={case_} errors={errors} />
 
-        <CaseDataSection case_={aCase} possibleClinicalFindings={possibleClinicalFindings} />
+        <CaseDataSection case_={case_} possibleClinicalFindings={possibleClinicalFindings} />
 
-        <ValuesToPredictSection case_={aCase} possibleConditions={possibleConditions} />
+        <ValuesToPredictSection case_={case_} possibleConditions={possibleConditions} />
 
         <Box display="flex" justifyContent="flex-end" mt={2}>
           <Button type={'submit'} variant="contained" color="primary">
@@ -91,4 +47,4 @@ const CaseEditorComponent: React.FC<any> = ({ case_ }) => {
   );
 };
 
-export default CaseEditorComponent;
+export default SimpleCaseEditorComponent;

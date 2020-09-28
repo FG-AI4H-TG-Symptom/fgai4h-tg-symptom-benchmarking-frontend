@@ -193,7 +193,11 @@ export const formatCaseForBackend = (data, possibleConditions, caseSets, possibl
     trasformClinicalFinding(cf, possibleClinicalFindings),
   );
 
-  caseData.otherFeatures = caseData.otherFeatures.map((cf) => trasformClinicalFinding(cf, possibleClinicalFindings));
+  if (caseData.otherFeatures) {
+    caseData.otherFeatures = caseData.otherFeatures.map((cf) => trasformClinicalFinding(cf, possibleClinicalFindings));
+  } else {
+    caseData.otherFeatures = [];
+  }
 
   return result;
 };

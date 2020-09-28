@@ -264,7 +264,7 @@ function* saveCaseWorker(action) {
   // const { caseData, metaData, valuesToPredict } = action.payload.data;
   // const { caseSetId } = action.payload;
 
-  console.log('action.payload', action.payload);
+  console.log('aCase', aCase);
 
   const requestBody = aCase;
 
@@ -272,7 +272,7 @@ function* saveCaseWorker(action) {
   let method = 'PUT';
 
   // if case has no id then this is a new case
-  if (!aCase.id) {
+  if (aCase.id === 'new') {
     url = urlBuilder(`cases`);
     method = 'POST';
   }
