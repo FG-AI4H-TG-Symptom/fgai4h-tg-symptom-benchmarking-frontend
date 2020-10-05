@@ -12,7 +12,7 @@ import {
   ListItemSecondaryAction,
   ListItemText,
 } from '@material-ui/core';
-import { Delete as DeleteIcon, Edit as EditIcon, LinkOff as UnlinkIcon, Save as SaveIcon } from '@material-ui/icons';
+import { Delete as DeleteIcon, Edit as EditIcon, LinkOff as UnlinkIcon } from '@material-ui/icons';
 
 import berlinModelSchema from '../../../data/caseSets/berlinModel.schema.json';
 import { CaseSetInfo } from '../../../data/caseSets/caseSetDataType';
@@ -20,7 +20,6 @@ import { paths } from '../../../routes';
 import AllErrors from '../../forms/AllErrors';
 import { validateAgainstSchema } from '../../forms/utils';
 import ConfirmationIconButton from '../../common/ConfirmationIconButton';
-import Fab from '../../common/Fab';
 import LinkWrapper from '../../common/LinkWrapper';
 
 // we're not editing the cases in this form, so it's easiest to remove them from the schema
@@ -50,10 +49,6 @@ const CaseSetEditor: React.FC<CaseSetEditorProps> = ({ caseSet, saveCaseSet, del
   return (
     <FormContext handleSubmit={handleSubmit} errors={errors} {...formMethods}>
       <form onSubmit={handleSubmit((data) => saveCaseSet({ ...caseSet, ...data }))}>
-        <Fab label="Save" type="submit">
-          <SaveIcon />
-        </Fab>
-
         <Box margin={2}>
           <AllErrors />
         </Box>
