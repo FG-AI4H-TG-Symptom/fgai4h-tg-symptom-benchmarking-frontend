@@ -1,19 +1,13 @@
 import React from 'react';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
 
-import { BenchmarkResultStatus, BenchmarkStepError } from '../../../data/benchmarks/benchmarkInfoDataType';
-
 import * as Styled from './BenchmarkRunnerComponent.style';
 
-const BenchmarkRunnerComponent: React.FC<any> = ({ benchmarkingSession, report, AIs }) => {
-  const responses = report ? report.responses : [];
-
+const BenchmarkRunnerComponent: React.FC<any> = ({ benchmarkingSession, AIs, statsTable }) => {
   return (
     <TableContainer component={Paper}>
       <Table>
-        <caption>
-          {benchmarkingSession.aiImplementations.length} AI implementations, {responses.length} cases
-        </caption>
+        <caption>{benchmarkingSession.aiImplementations.length} AI implementations</caption>
         <TableHead>
           <Styled.GroupingTableRow>
             <TableCell />
@@ -33,51 +27,11 @@ const BenchmarkRunnerComponent: React.FC<any> = ({ benchmarkingSession, report, 
             <TableRow key={aiImplementationId}>
               <TableCell>{AIs.find((ai) => ai.id === aiImplementationId)?.name}</TableCell>
 
-              <TableCell>
-                {
-                  responses.filter((caseReport) => {
-                    const response = caseReport.responses[aiImplementationId];
+              <TableCell>{statsTable[aiImplementationId].errors}</TableCell>
 
-                    if (!response) {
-                      return false;
-                    }
+              <TableCell>{statsTable[aiImplementationId].completed}</TableCell>
 
-                    return (
-                      response.status === BenchmarkResultStatus.ERRORED && response.error !== BenchmarkStepError.TIMEOUT
-                    );
-                  }).length
-                }
-              </TableCell>
-
-              <TableCell>
-                {
-                  responses.filter((caseReport) => {
-                    const response = caseReport.responses[aiImplementationId];
-
-                    if (!response) {
-                      return false;
-                    }
-
-                    return response.status === BenchmarkResultStatus.COMPLETED;
-                  }).length
-                }
-              </TableCell>
-
-              <TableCell>
-                {
-                  responses.filter((caseReport) => {
-                    const response = caseReport.responses[aiImplementationId];
-
-                    if (!response) {
-                      return false;
-                    }
-
-                    return (
-                      response.status === BenchmarkResultStatus.ERRORED && response.error === BenchmarkStepError.TIMEOUT
-                    );
-                  }).length
-                }
-              </TableCell>
+              <TableCell>{statsTable[aiImplementationId].timeouts}</TableCell>
             </TableRow>
           ))}
         </TableBody>

@@ -21,8 +21,7 @@ const BenchmarkEvaluatorComponent: React.FC<AiImplementationManagerComponentProp
       <TableContainer component={Paper}>
         <Table>
           <caption>
-            {evaluation.aiImplementations.length} AI implementations, {datasetName} ({evaluation.responses.length}{' '}
-            cases), {evaluation.metrics.length} metrics
+            {evaluation.aiImplementations.length} AI implementations, {datasetName}, {evaluation.metrics.length} metrics
           </caption>
           <TableHead>
             <TableRow>

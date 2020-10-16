@@ -18,17 +18,18 @@ type Params = {
 const BenchmarkRunnerContainer: React.FC = () => {
   const { benchmarkId } = useParams<Params>();
   const history = useHistory();
+
   const AIs = useSelector((state: any) => state.AIs);
   const sessions = useSelector((state: any) => state.sessions);
+  const runningStatistics = useSelector((state: any) => state.sessions.runningStatistics);
 
   const runningSession = sessions.list.find((session) => session.id === benchmarkId);
 
   if (!runningSession) {
     return <div />;
   }
-  let progress = sessions.report.statistics
-    ? (sessions.report.statistics.currentCaseIndex / sessions.report.statistics.totalCaseCount) * 100
-    : 0;
+
+  let progress = (runningStatistics.currentCaseIndex / runningStatistics.totalCaseCount) * 100;
 
   if (runningSession.status === BenchmarkingSessionStatus.FINISHED) {
     progress = 100;
@@ -38,7 +39,13 @@ const BenchmarkRunnerContainer: React.FC = () => {
     <BasicPageLayout title={<>Running benchmark {runningSession.id}</>}>
       <LinearProgress variant="determinate" value={progress} />
 
-      <BenchmarkRunnerComponent benchmarkingSession={runningSession} report={sessions.report} AIs={AIs.list} />
+      {runningStatistics.table && (
+        <BenchmarkRunnerComponent
+          benchmarkingSession={runningSession}
+          AIs={AIs.list}
+          statsTable={runningStatistics.table}
+        />
+      )}
 
       {runningSession.status === BenchmarkingSessionStatus.FINISHED && (
         <Box display="flex" justifyContent="flex-end" marginTop={4}>

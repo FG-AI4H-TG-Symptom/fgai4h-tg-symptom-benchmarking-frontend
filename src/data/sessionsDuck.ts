@@ -13,8 +13,13 @@ const initialState = {
   list: [],
   loading: false,
   error: null,
-  report: { responses: [] },
+
   evaluation: null,
+  runningStatistics: {
+    currentCaseIndex: 0,
+    totalCaseCount: 100,
+    table: null,
+  },
 };
 
 const slice = createSlice({
@@ -51,7 +56,7 @@ const slice = createSlice({
     fetchEvaluation: (sessions, action) => {},
     fetchEvaluationSuccess: (sessions, action) => {
       sessions.evaluation = action.payload;
-      sessions.report.responses = action.payload.responses;
+      sessions.runningStatistics.table = action.payload.statsTable;
     },
     fetchEvaluationFailure: (sessions, action) => {
       sessions.error = action.payload;
@@ -71,9 +76,10 @@ const slice = createSlice({
     observeSessionStatusFailure: (sessions, action) => {
       sessions.error = action.payload;
     },
-    // Report
-    saveReport: (sessions, action) => {
-      sessions.report = action.payload;
+
+    // Running session statistics
+    saveStatistics: (sessions, action) => {
+      sessions.runningStatistics = action.payload;
     },
   },
 });
@@ -84,7 +90,6 @@ export default slice.reducer;
 const {
   fetchEvaluationSuccess,
   fetchEvaluationFailure,
-  saveReport,
   fetchSessionsSuccess,
   fetchSessionsFailure,
   addSessionSuccess,
@@ -95,6 +100,7 @@ const {
   observeSessionStatus,
   observeSessionStatusFailure,
   runSessionFailure,
+  saveStatistics,
 } = slice.actions;
 
 // SAGAS /////////////////////////
@@ -199,7 +205,7 @@ function* observeSessionStatusWorker(action) {
       );
 
       if (benchmarkInfo.status === BenchmarkingSessionStatus.RUNNING) {
-        yield put(saveReport(benchmarkInfo.report));
+        yield put(saveStatistics(benchmarkInfo.statistics));
       } else if (benchmarkInfo.status === BenchmarkingSessionStatus.FINISHED) {
         yield put(fetchEvaluation(benchmarkId));
         break;
