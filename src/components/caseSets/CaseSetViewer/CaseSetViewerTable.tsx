@@ -53,9 +53,7 @@ const CaseSetViewerTable: React.FC<CaseSetComponentProps> = ({ caseSet: { cases 
           <TableHead>
             <TableRow>
               <Styled.CaseIdCell>Case ID</Styled.CaseIdCell>
-              <TableCell>Case creator</TableCell>
-              {/* <TableCell>Description</TableCell> */}
-              {/* <TableCell>Spreadsheet case ID</TableCell> */}
+
               <TableCell>Age</TableCell>
               <TableCell>Biological sex</TableCell>
               <TableCell>Presenting complaints</TableCell>
@@ -66,25 +64,13 @@ const CaseSetViewerTable: React.FC<CaseSetComponentProps> = ({ caseSet: { cases 
           </TableHead>
           <TableBody>
             {cases.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((case_) => {
-              const { metaData, caseData } = case_.data;
+              const { caseData } = case_.data;
               return (
                 <TableRow key={case_.id}>
                   <Styled.CaseIdCell>
                     <TextWithTooltipSelf>{case_.id}</TextWithTooltipSelf>
                   </Styled.CaseIdCell>
 
-                  <TableCell>
-                    WhatIsCaseCreator?
-                    {/* {metaData.caseCreator} */}
-                  </TableCell>
-
-                  {/* <Styled.CaseDescriptionCell>
-                      <TextWithTooltipSelf>
-                        {metaData?.description}
-                      </TextWithTooltipSelf>
-                    </Styled.CaseDescriptionCell> */}
-
-                  <TableCell>{metaData?.spreadsheetCaseId}</TableCell>
                   <TableCell>{caseData.profileInformation.age}</TableCell>
                   <TableCell>{caseData.profileInformation.biologicalSex}</TableCell>
                   <TableCell>
