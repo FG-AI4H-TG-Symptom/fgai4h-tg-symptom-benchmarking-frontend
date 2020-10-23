@@ -1,9 +1,6 @@
-import { Card, CardHeader, CardContent } from '@material-ui/core';
+import { Card, CardContent, Grid } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 
-import ReactHookFormSelect from './ReactHookFormSelect';
-import { getSelectOptions, getPlainOptions } from './utility';
-import berlinModelSchema from '../../../data/caseSets/berlinModel.schema.json';
 import { FormBlock } from './FormElements';
 import MultiFieldSelect from './MultiFieldSelect';
 
@@ -22,9 +19,6 @@ const ValuesToPredictSection: React.FC<any> = ({ case_, possibleConditions }) =>
 
     setTakenConditionIds(preselectedIds);
   }, []);
-
-  const triageLevels = berlinModelSchema.definitions.expectedTriageLevel.enum;
-  const triageOptions = getPlainOptions(triageLevels);
 
   const numberOfSelected = takenConditionIds.length;
   const totalNumber = possibleConditions.length;
@@ -46,71 +40,36 @@ const ValuesToPredictSection: React.FC<any> = ({ case_, possibleConditions }) =>
   const counterText = `\u00A0\u00A0${numberOfSelected}/${totalNumber}`;
 
   return (
-    <Card style={{ marginTop: '10px' }}>
-      <CardHeader title={'Values to Predict'} />
+    <Card>
       <CardContent>
-        <ReactHookFormSelect
-          fullWidth
-          id="expectedTriageLevel"
-          name={`valuesToPredict.expectedTriageLevel`}
-          label="Triage Level"
-          options={triageOptions}
-          defaultValue={case_?.data.valuesToPredict.expectedTriageLevel || ''}
-        />
-
-        <div style={{ marginTop: '30px' }}>
-          <FormBlock color="#a6a6f7" title="Expected condition">
-            <ReactHookFormSelect
-              fullWidth
-              id="expectedCondition"
-              name={`valuesToPredict.expectedCondition.id`}
-              label="Condition"
-              options={getSelectOptions(possibleConditions)}
-              defaultValue={case_?.data.valuesToPredict.expectedCondition.id || ''}
-            />
-          </FormBlock>
-        </div>
-
-        <div style={{ marginTop: '30px' }}>
-          <FormBlock color="#e491e8" title="Correct condition">
-            <ReactHookFormSelect
-              fullWidth
-              id="correctCondition"
-              name={`valuesToPredict.correctCondition.id`}
-              label="Condition"
-              options={getSelectOptions(possibleConditions)}
-              defaultValue={case_?.data.valuesToPredict.correctCondition.id || ''}
-            />
-          </FormBlock>
-        </div>
-
-        <div style={{ marginTop: '30px' }}>
-          <FormBlock color="#67c567" title={`Other Relevant Differentials ${counterText}`}>
-            <MultiFieldSelect
-              availableItems={availableConditions}
-              preselectedItems={case_?.data.valuesToPredict.otherRelevantDifferentials || []}
-              magicName={'valuesToPredict.otherRelevantDifferentials'}
-              onChange={onConditionSelected}
-              possibleItems={possibleConditions}
-              onConditionDeleted={onConditionDeleted}
-              addDisabled={addDisabled}
-            />
-          </FormBlock>
-        </div>
-
-        <div style={{ marginTop: '30px' }}>
-          <FormBlock color="#67c567" title={`Impossible Conditions ${counterText}`}>
-            <MultiFieldSelect
-              availableItems={availableConditions}
-              preselectedItems={case_?.data.valuesToPredict.impossibleConditions || []}
-              magicName={'valuesToPredict.impossibleConditions'}
-              onChange={onConditionSelected}
-              possibleItems={possibleConditions}
-              onConditionDeleted={onConditionDeleted}
-              addDisabled={addDisabled}
-            />
-          </FormBlock>
-        </div>
+        <Grid container direction={'row'} spacing={4}>
+          <Grid item xs={6}>
+            <FormBlock color="#ff80ab" title={`Relevant Differentials ${counterText}`}>
+              <MultiFieldSelect
+                availableItems={availableConditions}
+                preselectedItems={case_?.data.valuesToPredict.otherRelevantDifferentials || []}
+                magicName={'valuesToPredict.otherRelevantDifferentials'}
+                onChange={onConditionSelected}
+                possibleItems={possibleConditions}
+                onConditionDeleted={onConditionDeleted}
+                addDisabled={addDisabled}
+              />
+            </FormBlock>
+          </Grid>
+          <Grid item xs={6}>
+            <FormBlock color="#ff80ab" title={`Impossible Conditions ${counterText}`}>
+              <MultiFieldSelect
+                availableItems={availableConditions}
+                preselectedItems={case_?.data.valuesToPredict.impossibleConditions || []}
+                magicName={'valuesToPredict.impossibleConditions'}
+                onChange={onConditionSelected}
+                possibleItems={possibleConditions}
+                onConditionDeleted={onConditionDeleted}
+                addDisabled={addDisabled}
+              />
+            </FormBlock>
+          </Grid>
+        </Grid>
       </CardContent>
     </Card>
   );

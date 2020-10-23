@@ -1,11 +1,11 @@
 import React, { useMemo } from 'react';
 
 import { useForm, FormContext } from 'react-hook-form';
-import { Box, Button } from '@material-ui/core';
+import { Box, Button, Grid } from '@material-ui/core';
 
 import berlinModelSchema from '../../../data/caseSets/berlinModel.schema.json';
 
-import MetaDataSection from './MetaDataSection';
+import TopSection from './TopSection';
 import CaseDataSection from './CaseDataSection';
 import ValuesToPredictSection from './ValuesToPredictSection';
 import { refToConcept } from './utility';
@@ -31,11 +31,21 @@ const SimpleCaseEditorComponent: React.FC<any> = ({ case_, onSaveCase }) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <FormContext {...methods}>
-        <MetaDataSection case_={case_} errors={errors} />
+        <Grid container direction={'column'}>
+          <Grid item xs={12}>
+            <TopSection case_={case_} errors={errors} possibleConditions={possibleConditions} />
+          </Grid>
 
-        <CaseDataSection case_={case_} possibleClinicalFindings={possibleClinicalFindings} />
+          <Grid item container spacing={1} direction={'row'} alignItems="flex-start">
+            <Grid item xs={12}>
+              <CaseDataSection case_={case_} possibleClinicalFindings={possibleClinicalFindings} />
+            </Grid>
 
-        <ValuesToPredictSection case_={case_} possibleConditions={possibleConditions} />
+            <Grid item xs={12}>
+              <ValuesToPredictSection case_={case_} possibleConditions={possibleConditions} />
+            </Grid>
+          </Grid>
+        </Grid>
 
         <Box display="flex" justifyContent="flex-end" mt={2}>
           <Button type={'submit'} variant="contained" color="primary">

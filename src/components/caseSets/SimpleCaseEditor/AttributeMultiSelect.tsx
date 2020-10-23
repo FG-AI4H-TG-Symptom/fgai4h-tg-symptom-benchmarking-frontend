@@ -1,7 +1,6 @@
-import { Box, Chip, FormControl, makeStyles, Select } from '@material-ui/core';
+import { Box, Chip, FormControl, Grid, makeStyles, Select } from '@material-ui/core';
 import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { FormBlock } from './FormElements';
 import ReactHookFormSelect from './ReactHookFormSelect';
 
 const AttributeMultiSelect: React.FC<any> = ({
@@ -37,49 +36,40 @@ const AttributeMultiSelect: React.FC<any> = ({
             return <span key={valueId} />;
           }
 
-          return <Chip key={valueId} label={value.name} className={classes.chip} />;
+          return <Chip key={valueId} size="small" label={value.name} className={classes.chip} />;
         })}
       </div>
     );
   };
 
   return (
-    <>
-      <ReactHookFormSelect
-        fullWidth
-        id="attribute"
-        name={`${magicName}.id`}
-        label="Multi-Select Attribute"
-        options={attributesOptions}
-        defaultValue={selectedAttribute}
-        onChange={onAttributeChange}
-      />
-
-      <div style={{ marginTop: '10px' }}>
-        <FormBlock color={'#ffc400'} title={'Values'}>
-          <Box display="flex" key={`box-values`}>
-            <FormControl fullWidth>
-              <Controller
-                fullWidth
-                as={<Select multiple>{valuesOptions}</Select>}
-                name={`${magicName}.value`}
-                control={control}
-                defaultValue={selectedValue || []}
-                renderValue={(selected: any) => renderOptions(selected)}
-              />
-            </FormControl>
-          </Box>
-        </FormBlock>
-
-        {/* <Button
-          onClick={() => {
-            console.log("getValues", getValues());
-          }}
-        >
-          Show values
-        </Button> */}
-      </div>
-    </>
+    <Grid container spacing={1}>
+      <Grid item xs={6}>
+        <ReactHookFormSelect
+          fullWidth
+          id="attribute"
+          name={`${magicName}.id`}
+          label="Multi-Select Attribute"
+          options={attributesOptions}
+          defaultValue={selectedAttribute}
+          onChange={onAttributeChange}
+        />
+      </Grid>
+      <Grid item xs={6}>
+        <Box display="flex" key={`box-values`}>
+          <FormControl fullWidth>
+            <Controller
+              fullWidth
+              as={<Select multiple>{valuesOptions}</Select>}
+              name={`${magicName}.value`}
+              control={control}
+              defaultValue={selectedValue || []}
+              renderValue={(selected: any) => renderOptions(selected)}
+            />
+          </FormControl>
+        </Box>
+      </Grid>
+    </Grid>
   );
 };
 

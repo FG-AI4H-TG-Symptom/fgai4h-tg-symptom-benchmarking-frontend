@@ -116,7 +116,7 @@ const AttributeSection: React.FC<any> = ({ clinicalFinding, nameInObject }) => {
   return (
     <FormBlock
       name="attributesFormBlock"
-      color="#4cb8da"
+      color="#42a5f5"
       title={`Attributes ${numOfAttributes}/${totalNumOfAttributes}`}
     >
       {state.attributes.map((attribute, index) => {
@@ -154,47 +154,48 @@ const AttributeSection: React.FC<any> = ({ clinicalFinding, nameInObject }) => {
         const attributesOptions = getSelectOptions(availableOptions);
         const valuesOptions = getSelectOptions(possibleValues);
 
+        const marginTop = index === 0 ? 0 : 30;
+
         return (
-          <FormBlock name={`formBlock${index}`} key={attribute.fieldId} color="#4cb8da">
-            <Grid container spacing={2}>
-              <Grid item xs={11}>
-                <AttributeSelect
-                  possibleValues={possibleValues}
-                  selectedValue={preselectedVal}
-                  valuesOptions={valuesOptions}
-                  attributesOptions={attributesOptions}
-                  attributeId={attributeId}
-                  isMulti={isMulti}
-                  magicName={attributeMagicName}
-                  selectAttr={(newId) => {
-                    const newState = selectAttr(newId, state, attribute.fieldId, possibleAttributes);
-                    console.log('newState', newState);
-                    setState({ ...newState });
-                  }}
-                />
-              </Grid>
-              <Grid item xs={1}>
-                <IconButton
-                  onClick={() => {
-                    removeAttribute(attribute.fieldId);
-                  }}
-                >
-                  <DeleteIcon />
-                </IconButton>
-              </Grid>
+          <Grid container spacing={2} style={{ marginTop: marginTop }}>
+            <Grid item xs={11}>
+              <AttributeSelect
+                possibleValues={possibleValues}
+                selectedValue={preselectedVal}
+                valuesOptions={valuesOptions}
+                attributesOptions={attributesOptions}
+                attributeId={attributeId}
+                isMulti={isMulti}
+                magicName={attributeMagicName}
+                selectAttr={(newId) => {
+                  const newState = selectAttr(newId, state, attribute.fieldId, possibleAttributes);
+                  setState({ ...newState });
+                }}
+              />
             </Grid>
-          </FormBlock>
+            <Grid item xs={1}>
+              <IconButton
+                onClick={() => {
+                  removeAttribute(attribute.fieldId);
+                }}
+              >
+                <DeleteIcon style={{ fill: '#42a5f5' }} />
+              </IconButton>
+            </Grid>
+          </Grid>
         );
       })}
-
-      <Button
-        onClick={() => {
-          addAttribute();
-        }}
-        disabled={numOfAttributes >= totalNumOfAttributes}
-      >
-        Add Attribute
-      </Button>
+      {numOfAttributes < totalNumOfAttributes && (
+        <Button
+          style={{ marginTop: 20 }}
+          onClick={() => {
+            addAttribute();
+          }}
+          disabled={numOfAttributes >= totalNumOfAttributes}
+        >
+          Add Attribute
+        </Button>
+      )}
     </FormBlock>
   );
 };

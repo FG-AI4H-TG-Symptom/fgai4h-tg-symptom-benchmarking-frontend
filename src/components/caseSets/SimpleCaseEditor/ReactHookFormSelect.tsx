@@ -22,11 +22,22 @@ const ReactHookFormSelect: React.FC<any> = (props) => {
     };
   }
 
+  let labelStyle = {};
+
+  if (restProps.labelFontSize) {
+    labelStyle = { ...labelStyle, fontSize: restProps.labelFontSize };
+  }
+  if (restProps.labelColor) {
+    labelStyle = { ...labelStyle, color: restProps.labelColor };
+  }
+
   const errorMessage = getErrorMessage(name, errors);
 
   return (
     <FormControl {...restProps}>
-      <InputLabel id={labelId}>{label}</InputLabel>
+      <InputLabel id={labelId} style={labelStyle}>
+        {label}
+      </InputLabel>
       <Controller
         onChange={onSelectChange}
         as={

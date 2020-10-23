@@ -15,8 +15,6 @@ const AttributeSelect: React.FC<any> = ({
   const onAttributeChange = (e) => {
     // const oldId = attributeId;
     const newId = e[0].target.value;
-
-    // selectAttr(oldId, newId);
     selectAttr(newId);
   };
 

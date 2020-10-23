@@ -17,19 +17,19 @@ const ClinicalFindingComponent: React.FC<any> = (props) => {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12} sm={8} lg={3}>
+      <Grid item xs={6}>
         <ReactHookFormSelect
           fullWidth
           id="clinicalFinding"
           name={`${nameInObject}.id`}
-          label="Clinical finding"
+          label="Clinical Finding Name"
           options={getSelectOptions(possibleClinicalFindings)}
           defaultValue={clinicalFinding.id}
           onChange={onFindingChange}
         />
       </Grid>
 
-      <Grid item xs={12} sm={4} lg={2}>
+      <Grid item xs={6}>
         <Box display="flex">
           <ReactHookFormSelect
             fullWidth
@@ -42,7 +42,7 @@ const ClinicalFindingComponent: React.FC<any> = (props) => {
         </Box>
       </Grid>
 
-      <Grid item xs={12} lg={7}>
+      <Grid item xs={12}>
         <AttributeSection clinicalFinding={clinicalFinding} nameInObject={nameInObject} />
       </Grid>
     </Grid>

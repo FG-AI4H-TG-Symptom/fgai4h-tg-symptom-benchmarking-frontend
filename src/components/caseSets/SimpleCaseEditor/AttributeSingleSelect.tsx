@@ -1,5 +1,5 @@
+import { Grid } from '@material-ui/core';
 import React from 'react';
-import { FormBlock } from './FormElements';
 import ReactHookFormSelect from './ReactHookFormSelect';
 
 const AttributeSingleSelect: React.FC<any> = ({
@@ -11,32 +11,32 @@ const AttributeSingleSelect: React.FC<any> = ({
   valuesOptions,
 }) => {
   return (
-    <>
-      <ReactHookFormSelect
-        fullWidth
-        id="attribute"
-        name={`${magicName}.id`}
-        label="Attribute"
-        options={attributesOptions}
-        defaultValue={selectedAttribute}
-        onChange={onAttributeChange}
-      />
+    <Grid container spacing={2}>
+      <Grid item xs={6}>
+        <ReactHookFormSelect
+          fullWidth
+          id="attribute"
+          name={`${magicName}.id`}
+          label="Attribute"
+          options={attributesOptions}
+          defaultValue={selectedAttribute}
+          onChange={onAttributeChange}
+        />
+      </Grid>
 
-      {valuesOptions.length > 0 && (
-        <div style={{ marginTop: '10px' }}>
-          <FormBlock color={'#ffc400'} title={'Value'}>
-            <ReactHookFormSelect
-              fullWidth
-              id="value"
-              name={`${magicName}.value`}
-              label="Value"
-              options={valuesOptions}
-              defaultValue={selectedValue}
-            />
-          </FormBlock>
-        </div>
-      )}
-    </>
+      <Grid item xs={6}>
+        {valuesOptions.length > 0 && (
+          <ReactHookFormSelect
+            fullWidth
+            id="value"
+            name={`${magicName}.value`}
+            label="Value"
+            options={valuesOptions}
+            defaultValue={selectedValue}
+          />
+        )}
+      </Grid>
+    </Grid>
   );
 };
 

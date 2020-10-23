@@ -106,7 +106,7 @@ const OtherFeaturesSection: React.FC<any> = ({ case_, possibleClinicalFindings }
   const totalNumOfFindings = possibleClinicalFindings.length;
 
   return (
-    <FormBlock color="#e491e8" title="Other Features">
+    <FormBlock color="#b388ff" title="Other Features">
       {sectionState.otherFeatures.map((clinicalFinding, index) => {
         const magicName = `caseData.otherFeatures[${index}]`;
 

@@ -18,7 +18,7 @@ const PresentingComplaintSection: React.FC<any> = ({ case_, possibleClinicalFind
   }, [case_]);
 
   return (
-    <FormBlock name="presentingComplaints" color="#67c567" title="Presenting complaint">
+    <FormBlock name="presentingComplaints" color="#b388ff" title="Presenting complaint">
       {clinicalFinding && (
         <ClinicalFindingComponent
           clinicalFinding={clinicalFinding}

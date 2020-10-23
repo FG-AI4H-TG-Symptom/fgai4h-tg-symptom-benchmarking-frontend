@@ -4,7 +4,6 @@ import { Button, Grid, IconButton } from '@material-ui/core';
 import { Delete as DeleteIcon } from '@material-ui/icons';
 
 import ReactHookFormSelect from './ReactHookFormSelect';
-import { FormBlock } from './FormElements';
 import { getSelectOptions } from './utility';
 
 const MultiFieldSelect: React.FC<any> = ({
@@ -41,7 +40,7 @@ const MultiFieldSelect: React.FC<any> = ({
   };
 
   return (
-    <FormBlock color="#ff8a65" title="">
+    <div>
       {items.map((item, index) => {
         let newAvailableItems = availableItems;
         if (item.id !== '') {
@@ -53,7 +52,7 @@ const MultiFieldSelect: React.FC<any> = ({
 
         return (
           <Grid container spacing={2} key={item.fieldId}>
-            <Grid item xs={11}>
+            <Grid item xs={10}>
               <div style={{ marginBottom: '30px' }} key={`div${item.fieldId}`}>
                 <ReactHookFormSelect
                   fullWidth
@@ -100,7 +99,7 @@ const MultiFieldSelect: React.FC<any> = ({
       >
         Add
       </Button>
-    </FormBlock>
+    </div>
   );
 };
 
