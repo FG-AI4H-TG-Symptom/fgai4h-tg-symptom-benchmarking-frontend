@@ -21,11 +21,14 @@ const BenchmarkRunnerContainer: React.FC = () => {
 
   const AIs = useSelector((state: any) => state.AIs);
   const sessions = useSelector((state: any) => state.sessions);
-  const runningStatistics = useSelector((state: any) => state.sessions.runningStatistics);
+
+  const runningStatistics = useSelector((state: any) => {
+    return state.sessions.list.find((s) => s.id === benchmarkId).statistics;
+  });
 
   const runningSession = sessions.list.find((session) => session.id === benchmarkId);
 
-  if (!runningSession) {
+  if (!runningSession || !runningStatistics) {
     return <div />;
   }
 

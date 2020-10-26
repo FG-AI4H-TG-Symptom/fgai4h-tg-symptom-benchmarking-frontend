@@ -15,11 +15,6 @@ const initialState = {
   error: null,
 
   evaluation: null,
-  runningStatistics: {
-    currentCaseIndex: 0,
-    totalCaseCount: 100,
-    table: null,
-  },
 };
 
 const slice = createSlice({
@@ -55,8 +50,12 @@ const slice = createSlice({
     // Fetch Evaluation
     fetchEvaluation: (sessions, action) => {},
     fetchEvaluationSuccess: (sessions, action) => {
-      sessions.evaluation = action.payload;
-      sessions.runningStatistics.table = action.payload.statsTable;
+      const { evaluation, sessionId } = action.payload;
+
+      let session = sessions.list.find((s) => s.id === sessionId);
+
+      session.evaluation = evaluation;
+      session.statistics = { ...session.statistics, table: evaluation.statsTable };
     },
     fetchEvaluationFailure: (sessions, action) => {
       sessions.error = action.payload;
@@ -79,7 +78,10 @@ const slice = createSlice({
 
     // Running session statistics
     saveStatistics: (sessions, action) => {
-      sessions.runningStatistics = action.payload;
+      const { statistics, benchmarkId } = action.payload;
+
+      let session = sessions.list.find((s) => s.id === benchmarkId);
+      session.statistics = statistics;
     },
   },
 });
@@ -127,8 +129,6 @@ function* addSessionWorker(action) {
   try {
     const { caseSetId, aiImplementationIds } = action.payload.benchmarkParameters;
 
-    const { history } = action.payload;
-    // todo: adapt to new endpoint
     const response = yield fetch(urlBuilder('benchmarking-sessions'), {
       method: 'POST',
       headers: {
@@ -205,7 +205,7 @@ function* observeSessionStatusWorker(action) {
       );
 
       if (benchmarkInfo.status === BenchmarkingSessionStatus.RUNNING) {
-        yield put(saveStatistics(benchmarkInfo.statistics));
+        yield put(saveStatistics({ statistics: benchmarkInfo.statistics, benchmarkId: benchmarkId }));
       } else if (benchmarkInfo.status === BenchmarkingSessionStatus.FINISHED) {
         yield put(fetchEvaluation(benchmarkId));
         break;
@@ -252,7 +252,7 @@ function* fetchEvaluationWorker(action) {
 
     const results = yield response.json();
 
-    yield put(fetchEvaluationSuccess(results));
+    yield put(fetchEvaluationSuccess({ evaluation: results, sessionId: benchmarkingSessionId }));
   } catch (error) {
     const errorMessage = `Errored while running benchmark on case set: ${error.message}`;
     yield put(fetchEvaluationFailure(errorMessage));

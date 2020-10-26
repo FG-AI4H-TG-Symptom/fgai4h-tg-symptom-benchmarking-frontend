@@ -20,7 +20,6 @@ const BenchmarkEvaluatorContainer: React.FC = () => {
 
   const { benchmarkId: benchmarkingSessionId } = useParams<Params>();
 
-  // fetch evaluation once, when the component is mounted
   useEffect(() => {
     dispatch(fetchAIs());
     dispatch(fetchDatasets());
@@ -28,7 +27,11 @@ const BenchmarkEvaluatorContainer: React.FC = () => {
   }, []);
 
   const AIs = useSelector((state: any) => state.AIs);
-  const evaluation = useSelector((state: any) => state.sessions.evaluation);
+
+  const evaluation = useSelector((state: any) => {
+    return state.sessions.list.find((s) => s.id === benchmarkingSessionId).evaluation;
+  });
+
   const datasets = useSelector((state: any) => state.datasets.list);
 
   return (
