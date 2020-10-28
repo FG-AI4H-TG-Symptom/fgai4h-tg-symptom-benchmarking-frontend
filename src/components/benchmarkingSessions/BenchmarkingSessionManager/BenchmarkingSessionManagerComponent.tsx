@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {
   IconButton,
+  LinearProgress,
   Paper,
   Table,
   TableBody,
@@ -10,6 +11,7 @@ import {
   TablePagination,
   TableRow,
   Tooltip,
+  Typography,
 } from '@material-ui/core';
 import {
   Delete as DeleteIcon,
@@ -21,8 +23,6 @@ import { BenchmarkingSessionStatus } from '../../../data/benchmarks/benchmarkMan
 import LinkWrapper from '../../common/LinkWrapper';
 import { paths } from '../../../routes';
 
-import * as Styled from './BenchmarkingSessionManagerComponent.style';
-import * as CommonStyled from '../../common/CommonStyles';
 import BenchmarkingSessionStatusIcon from './BenchmarkingSessionStatusIcon';
 import ConfirmationIconButton from '../../common/ConfirmationIconButton';
 import formatDate from '../../../util/formatDate';
@@ -67,46 +67,71 @@ const BenchmarkingSessionManagerComponent: React.FC<any> = ({
 
               <TableCell>Created On</TableCell>
 
-              <CommonStyled.CenteredTableCell>AIs</CommonStyled.CenteredTableCell>
+              <TableCell>AIs</TableCell>
 
               <TableCell>Dataset</TableCell>
 
               <TableCell>Status</TableCell>
 
-              <Styled.ActionHeaderTableCell>Actions</Styled.ActionHeaderTableCell>
+              <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
+
           <TableBody>
             {benchmarkingSessions
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map(({ id, aiImplementations, status, caseSet, createdOn }) => {
+              .map((benchmarkingSession) => {
+                const { id, aiImplementations, status, caseSet, createdOn } = benchmarkingSession;
+
                 const date = new Date(createdOn);
+
+                let progress = 0;
+                if (benchmarkingSession.statistics) {
+                  progress =
+                    (benchmarkingSession.statistics.currentCaseIndex / benchmarkingSession.statistics.totalCaseCount) *
+                    100;
+                }
 
                 return (
                   <TableRow key={id}>
                     <TableCell>
                       {id}
-                      <CommonStyled.SecondaryTextInCell>
+                      {/* <CommonStyled.SecondaryTextInCell>
                         {aiImplementations.length} AI implementations
-                      </CommonStyled.SecondaryTextInCell>
+                      </CommonStyled.SecondaryTextInCell> */}
                     </TableCell>
+
                     <TableCell>{formatDate(date)}</TableCell>
 
                     <TableCell>
-                      <ul>
+                      <ul style={{ paddingLeft: 0 }}>
                         {aiImplementations.map((aiID) => (
                           <li key={aiID}>{AIs.find((ai_) => ai_.id === aiID)?.name}</li>
                         ))}
                       </ul>
                     </TableCell>
 
-                    <TableCell>{datasets.find((dataset) => dataset.id === caseSet)?.name}</TableCell>
-
                     <TableCell>
-                      <BenchmarkingSessionStatusIcon status={status} />
+                      <div>
+                        <Typography variant="subtitle1">
+                          {' '}
+                          {datasets.find((dataset) => dataset.id === caseSet)?.name}
+                        </Typography>
+                        <Typography variant="caption" color="secondary">
+                          {datasets.find((dataset) => dataset.id === caseSet)?.cases.length} cases
+                        </Typography>
+                      </div>
                     </TableCell>
 
-                    <CommonStyled.CenteredTableCell>
+                    <TableCell>
+                      {status === BenchmarkingSessionStatus.RUNNING ? (
+                        <LinearProgress variant="determinate" value={progress} />
+                      ) : (
+                        <BenchmarkingSessionStatusIcon status={status} />
+                      )}
+                    </TableCell>
+
+                    <TableCell>
                       <Tooltip title="Start benchmarking session">
                         <span>
                           <LinkWrapper
@@ -150,7 +175,7 @@ const BenchmarkingSessionManagerComponent: React.FC<any> = ({
                       >
                         <DeleteIcon />
                       </ConfirmationIconButton>
-                    </CommonStyled.CenteredTableCell>
+                    </TableCell>
                   </TableRow>
                 );
               })}
