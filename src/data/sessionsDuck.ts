@@ -118,6 +118,11 @@ function* fetchSessionsWorker() {
     const benchmarkingSessions = yield response.json();
 
     yield put(fetchSessionsSuccess(benchmarkingSessions));
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const session of benchmarkingSessions) {
+      yield put(observeSessionStatus(session.id));
+    }
   } catch (error) {
     const errorMessage = `Errored while fetching benchmark sessions list: ${error.message}`;
     yield put(fetchSessionsFailure(errorMessage));
@@ -211,7 +216,7 @@ function* observeSessionStatusWorker(action) {
         break;
       }
 
-      yield sleep(500);
+      yield sleep(1000);
     }
   } catch (error) {
     const errorMessage = `Errored while running benchmark on case set: ${error.message}`;
