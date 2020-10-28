@@ -37,7 +37,7 @@ const BenchmarkingSessionManagerContainer: React.FC = () => {
   const aisList = useSelector((state: any) => state.AIs.list);
 
   return (
-    <BasicPageLayout title="Benchmarking sessions">
+    <BasicPageLayout title="Benchmarking sessionsS">
       {datasetsList && (
         <>
           <BenchmarkingSessionManagerComponent
