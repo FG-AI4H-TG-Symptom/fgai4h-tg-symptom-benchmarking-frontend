@@ -121,10 +121,12 @@ function* fetchSessionsWorker() {
 
     // eslint-disable-next-line no-restricted-syntax
     for (const session of benchmarkingSessions) {
-      yield put(observeSessionStatus(session.id));
+      if (session.status === BenchmarkingSessionStatus.RUNNING) {
+        yield put(observeSessionStatus(session.id));
+      }
     }
   } catch (error) {
-    const errorMessage = `Errored while fetching benchmark sessions list: ${error.message}`;
+    const errorMessage = `fetchSessions: Errored while fetching benchmark sessions list: ${error.message}`;
     yield put(fetchSessionsFailure(errorMessage));
     yield put(queueNotification({ message: errorMessage, type: 'error' }));
   }
@@ -152,7 +154,7 @@ function* addSessionWorker(action) {
     const benchmarkingSession = yield response.json();
     yield put(addSessionSuccess(benchmarkingSession));
   } catch (error) {
-    const errorMessage = `Failed to run benchmark on case set: ${error.message}`;
+    const errorMessage = `addSession: Failed to run benchmark on case set: ${error.message}`;
     yield put(addSessionFailure(errorMessage));
     yield put(queueNotification({ message: errorMessage, type: 'error' }));
   }
@@ -184,7 +186,7 @@ function* runSessionWorker(action) {
 
     yield put(observeSessionStatus(session.id));
   } catch (error) {
-    const errorMessage = `Error running benchmark sessions: ${error.message}`;
+    const errorMessage = `runSession: Error running benchmark sessions: ${error.message}`;
     yield put(runSessionFailure(errorMessage));
     yield put(queueNotification({ message: errorMessage, type: 'error' }));
   }
@@ -219,7 +221,7 @@ function* observeSessionStatusWorker(action) {
       yield sleep(1000);
     }
   } catch (error) {
-    const errorMessage = `Errored while running benchmark on case set: ${error.message}`;
+    const errorMessage = `ObserveSessionStatus: Errored while running benchmark on case set: ${error.message}`;
     yield put(observeSessionStatusFailure(errorMessage));
     yield put(queueNotification({ message: errorMessage, type: 'error' }));
   }
@@ -239,7 +241,7 @@ function* deleteSessionWorker(action) {
 
     yield put(deleteSessionSuccess({ id: sessionId }));
   } catch (error) {
-    const errorMessage = `Errored while deleting benchmarking session: ${error.message}`;
+    const errorMessage = `deleteSession: Errored while deleting benchmarking session: ${error.message}`;
     yield put(deleteSessionFailure(errorMessage));
     yield put(queueNotification({ message: errorMessage, type: 'error' }));
   }
@@ -259,7 +261,7 @@ function* fetchEvaluationWorker(action) {
 
     yield put(fetchEvaluationSuccess({ evaluation: results, sessionId: benchmarkingSessionId }));
   } catch (error) {
-    const errorMessage = `Errored while running benchmark on case set: ${error.message}`;
+    const errorMessage = `fetchEvaluation: Errored while running benchmark on case set: ${error.message}`;
     yield put(fetchEvaluationFailure(errorMessage));
     yield put(queueNotification({ message: errorMessage, type: 'error' }));
   }
