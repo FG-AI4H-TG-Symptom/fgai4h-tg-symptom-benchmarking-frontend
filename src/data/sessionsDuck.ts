@@ -34,7 +34,13 @@ const slice = createSlice({
     // Add Session
     addSession: (sessions, action) => {},
     addSessionSuccess: (sessions, action) => {
-      sessions.list.push(action.payload);
+      const updatedSession = action.payload;
+      let sessionInRedux = sessions.list.find((session) => session.id === updatedSession.id);
+      if (sessionInRedux) {
+        sessionInRedux = { ...updatedSession };
+      } else {
+        sessions.list.push(action.payload);
+      }
     },
     addSessionFailure: (sessions, action) => {
       sessions.error = action.payload;
