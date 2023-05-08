@@ -21,7 +21,7 @@
     "echarts": "^4.9.0",
     "echarts-for-react": "^2.0.16",
     "lodash.merge": "^4.6.2",
-    "qs": "^6.9.4",
+    "qs": "^6.9.7",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-hook-form": "^5.4.2",
